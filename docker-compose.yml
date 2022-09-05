@@ -1,0 +1,46 @@
+networks:
+  irisnetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: ${subnet_prefix}0/24
+services:
+  iris:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    container_name: ${iris_container_name}
+    hostname: ${iris_container_name}
+    ports:
+      - 1972
+      - ${iris_port}:52773
+      - 53773
+    command: --check-caps false
+    # environment:
+    #   - ISC_DATA_DIRECTORY=/irisdata
+    volumes:
+      - ./data:/data
+      # - ./irisdata:/irisdata
+    networks:
+      irisnetwork:
+        ipv4_address: ${subnet_prefix}10
+  webgateway:
+    hostname: ${web_container_name}
+    container_name: ${web_container_name}
+    depends_on:
+      - iris
+    image: containers.intersystems.com/intersystems/webgateway:2022.1.0.131.0
+    ports:
+    - ${web_port_https}:443
+    - ${web_port_http}:80
+    environment:
+      - ISC_DATA_DIRECTORY=/webgateway
+      - IRIS_USER=CSPsystem
+      - IRIS_PASSWORD=SYS
+    networks:
+      irisnetwork:
+        ipv4_address: ${subnet_prefix}200
+    volumes:
+      - "./webgateway:/webgateway"
+

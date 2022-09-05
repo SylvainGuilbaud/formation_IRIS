@@ -1,0 +1,1 @@
+pip install --target $ISC_PACKAGE_INSTALLDIR/mgr/python $1

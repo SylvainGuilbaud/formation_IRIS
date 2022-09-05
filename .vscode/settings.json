@@ -1,0 +1,38 @@
+{
+    "files.associations": {
+        "Dockerfile*": "dockerfile",
+        "iris.script": "objectscript"
+      },
+    "objectscript.conn" :{
+      "ns": "IRISAPP",
+      "username": "_SYSTEM",
+      "password": "SYS",
+      "host": "127.0.0.1",
+      "port": 12775,
+      "active": true,
+      "links": {
+        "terminal": "http://${host}/terminal/",
+        "version": "http://${host}/common/",
+        "atelier": "http://${host}:/api/atelier/",
+        "terminal-pws": "http://${host}:${port}/terminal/",
+        "version-pws": "http://${host}:${port}/common/",
+        "atelier-pws": "http://${host}:${port}/api/atelier/"
+      }
+    },
+    "sqltools.connections": [
+      {
+        "namespace": "IRISAPP",
+        "connectionMethod": "Server and Port",
+        "showSystem": false,
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 12775,
+        "askForPassword": false,
+        "driver": "InterSystems IRIS",
+        "name": "IRISAPP",
+        "username": "_SYSTEM",
+        "password": "SYS"
+      }
+    ]
+
+}

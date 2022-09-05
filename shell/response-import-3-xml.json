@@ -1,0 +1,12 @@
+{"system":"testcase-json-import:IRIS","ts":"2022-08-29 07:36:43.844507","parseError":[],"saveError":[{"error":"ERROR #5805: ID key not unique for extent 'data.test' : '^data.testD(\"IRIS.pdf\")' exists. Id counter location = '\"^data.testD\"' (String:IRIS.pdf)"},{"error":"ERROR #5805: ID key not unique for extent 'data.test' : '^data.testD(\"InterSystems IRIS Migration Guide-V2.87-2022_06_10.pdf\")' exists. Id counter location = '\"^data.testD\"' (String:InterSystems IRIS Migration Guide-V2.87-2022_06_10.pdf)"},{"error":"ERROR #5805: ID key not unique for extent 'data.test' : '^data.testD(\"logo-topl-intersystems.gif\")' exists. Id counter location = '\"^data.testD\"' (String:logo-topl-intersystems.gif)"}],"firstNode":"tablename-data.test","classname":"data.test","imported":0,"elapse":2.499608}{
+	"errors":[ {
+			"code":5805,
+			"domain":"%ObjectErrors",
+			"error":"ERROR #5805: ID key not unique for extent 'data.test' : '^data.testD(\"logo-topl-intersystems.gif\")' exists. Id counter location = '\"^data.testD\"'",
+			"id":"IDKeyNotUnique",
+			"params":["data.test","^data.testD(\"logo-topl-intersystems.gif\")","\"^data.testD\""
+			]
+		}
+	],
+	"summary":"ERROR #5805: ID key not unique for extent 'data.test' : '^data.testD(\"logo-topl-intersystems.gif\")' exists. Id counter location = '\"^data.testD\"'"
+}

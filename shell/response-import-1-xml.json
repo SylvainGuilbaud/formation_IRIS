@@ -1,0 +1,12 @@
+{
+	"errors":[ {
+			"code":5002,
+			"domain":"%ObjectErrors",
+			"error":"ERROR #5002: ObjectScript error: <PARAMETER>zlog^common.trace.1",
+			"id":"ObjectScriptError",
+			"params":["<PARAMETER>zlog^common.trace.1"
+			]
+		}
+	],
+	"summary":"ERROR #5002: ObjectScript error: <PARAMETER>zlog^common.trace.1"
+}

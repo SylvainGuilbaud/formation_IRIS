@@ -1,0 +1,22 @@
+ set r=##class(%Net.HttpRequest).%New(),r.Server="pm.community.intersystems.com",r.SSLConfiguration="ISC.FeatureTracker.SSL.Config" d r.Get("/packages/zpm/latest/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
+ zpm "install webterminal"
+ write "INSTALLING IRISAPP"
+ do $SYSTEM.OBJ.Load("/app/Installer.cls", "ck")
+ set sc = ##class(App.Installer).setup() 
+ zn "%SYS"
+ do ##class(Security.Users).UnExpireUserPasswords("*")
+
+ write "Create web application ..."
+ set webName = "/common"
+ set webProperties("DispatchClass") = "common.REST"
+ set webProperties("NameSpace") = "IRISAPP"
+ set webProperties("Enabled") = 1
+ set webProperties("AutheEnabled") = 32
+ set sc = ##class(Security.Applications).Create(webName, .webProperties)
+ write sc
+ write "Web application "_webName_" has been created!"
+
+ zn "IRISAPP" 
+ do $System.OBJ.LoadDir("/app/src","ck",,1)
+
+halt
