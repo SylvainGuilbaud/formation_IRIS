@@ -11,6 +11,7 @@ COPY src src
 COPY iris.script /tmp/iris.script
 COPY pdf /tmp/.
 COPY requirements.txt .
+COPY jdbc /jdbc
 
 USER ${ISC_PACKAGE_MGRUSER}
 
