@@ -3,7 +3,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: ${subnet_prefix}0/24
+        - subnet: 172.0.0.0/24
 services:
   iris:
     build: 
@@ -24,7 +24,7 @@ services:
       # - ./irisdata:/irisdata
     networks:
       irisnetwork:
-        ipv4_address: ${subnet_prefix}10
+        ipv4_address: 172.0.0.10
   webgateway:
     hostname: ${web_container_name}
     container_name: ${web_container_name}
@@ -40,11 +40,11 @@ services:
       - IRIS_PASSWORD=SYS
     networks:
       irisnetwork:
-        ipv4_address: ${subnet_prefix}200
+        ipv4_address: 172.0.0.200
     volumes:
       - "./webgateway:/webgateway"
   mysql: 
-    image: mysql:8.0.18
+    image: mysql:8.0.30
     command: --default-authentication-plugin=mysql_native_password
     hostname: mysql
     init: true
@@ -53,4 +53,14 @@ services:
       - MYSQL_ROOT_PASSWORD=mysqlpass
     ports:
       - 3306:3306
+  smtp:
+    image: namshi/smtp
+    hostname: smtp
+    container_name: smtp
+    ports:
+      - 25:25
+    networks:
+      irisnetwork:
+        ipv4_address: 172.0.0.100
+
 

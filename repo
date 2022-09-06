@@ -1,0 +1,1 @@
+docker-ls repositories --registry https://containers.intersystems.com --user $USER --password $PASSWORD

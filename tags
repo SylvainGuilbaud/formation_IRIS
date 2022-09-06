@@ -1,0 +1,1 @@
+docker-ls tags --registry https://containers.intersystems.com --user $USER --password $PASSWORD $1

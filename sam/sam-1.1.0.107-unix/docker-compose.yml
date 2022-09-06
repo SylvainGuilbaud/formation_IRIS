@@ -39,10 +39,10 @@ services:
     image: containers.intersystems.com/intersystems/sam:1.1.0.107
     init: true
     restart: on-failure
+    command: --check-caps false
     volumes:
       - irisdata:/dur
       - ./config:/config
-    command: --check-caps false
   iris-init:
     command: 'chown -R 51773:51773 /dur'
     image: busybox

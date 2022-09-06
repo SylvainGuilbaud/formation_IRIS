@@ -18,11 +18,12 @@ scrape_configs:
   scheme: http
   static_configs:
   - labels:
-      cluster: "3"
+      cluster: "1"
+    targets:
+    - host.docker.internal:52775
+    - host.docker.internal:12775
+  - labels:
+      cluster: "2"
     targets:
     - host.docker.internal:8080
-  - labels:
-      cluster: "4"
-    targets:
-    - host.docker.internal:52001
 
