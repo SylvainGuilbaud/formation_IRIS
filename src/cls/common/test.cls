@@ -92,18 +92,18 @@ ClassMethod run(nb As %Integer = 1) As %Status [ Language = python ]
     test.post2("/data/data-import-3.xml","data.test",nb)
 }
 
-ClassMethod pop(nb As %Integer = 1) As %Status [ Language = python ]
+ClassMethod pop(nb As %Integer = 1, classname As %String = "data.test") As %Status [ Language = python ]
 {
     import iris
-    c = iris.cls('data.test')
+    c = iris.cls(classname)
     print(c.Populate(nb))
 }
 
-ClassMethod kill() As %Status [ Language = python ]
+ClassMethod kill(classname As %String = "data.test") As %Status [ Language = python ]
 {
     import iris
     for x in ["D","I","S"]:
-        g = iris.gref("^data.test" + x)
+        g = iris.gref("^" + classname + x)
         g.kill([])
 }
 

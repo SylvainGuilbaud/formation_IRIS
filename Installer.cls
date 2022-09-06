@@ -18,6 +18,11 @@ XData setup
        
     />
   </Namespace>
+  <Namespace Name="%ALL" Code="USER" Data="USER" Create="no" Ensemble="0">
+    <Configuration>
+      <ClassMapping From="${Namespace}-DATA" Package="common" />
+    </Configuration>
+  </Namespace>
 
 </Manifest>
 }

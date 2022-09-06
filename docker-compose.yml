@@ -13,8 +13,8 @@ services:
     container_name: ${iris_container_name}
     hostname: ${iris_container_name}
     ports:
-      - 1972
-      - ${iris_port}:52773
+      - 12772:1972
+      - 12775:52773
       - 53773
     command: --check-caps false
     # environment:
