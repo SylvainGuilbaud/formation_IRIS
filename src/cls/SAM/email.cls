@@ -87,8 +87,6 @@ ClassMethod getAlert() As %String [ Language = objectscript ]
 
         set json = [].%FromJSON(data)
 
-        #; set text = [].%FromJSON()
-
     }
 
     return json.%ToJSON()
@@ -120,7 +118,7 @@ ClassMethod read() As %String [ Language = objectscript ]
     return 1
 }
 
-ClassMethod a1(a... As %String) As %String [ Language = objectscript ]
+ClassMethod a(a... As %String) As %String [ Language = objectscript ]
 {
 
     write a,!

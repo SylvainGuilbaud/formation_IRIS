@@ -15,7 +15,7 @@ Index initIndex On init [ Type = bitmap ];
 
 Property name As %String(MAXLEN = 250);
 
-Property type As %String(MAXLEN = 250)  ;
+Property type As %String(MAXLEN = 250);
 
 Property ts As %TimeStamp [ InitialExpression = {$zdt($now(),3,,6)} ];
 

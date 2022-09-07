@@ -13,6 +13,8 @@ Parameter CONTENTTYPEGIF = "image/gif";
 
 Parameter CONTENTTYPEOCTETSTREAM = "application/octet-stream";
 
+Parameter CONTENTTYPESVG = "image/svg+xml";
+
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
@@ -26,6 +28,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/importxml" Method="POST" Call="importXML"/>
 <Route Url="/nb/:classname" Method="GET" Call="nb"/>
 <Route Url="/kill/:classname" Method="DELETE" Call="kill"/>
+<Route Url="/kill/:classname" Method="GET" Call="kill"/>
 <Route Url="/exportbyid/:classname/:format/:id" Method="GET" Call="exportById"/>
 <Route Url="/list/:classname/:format" Method="GET" Call="list"/>
 <Route Url="/list/:classname/:format/:min/:max" Method="GET" Call="listTop"/>
@@ -623,6 +626,9 @@ ClassMethod stream(classname As %String, property As %String, id As %Integer) As
             if classname = "data.test" {
                 if property = "BStream" {
                     set extension = $PROPERTY(data,"extension") 
+                    if extension = "svg" {
+                        set %response.ContentType = ..#CONTENTTYPESVG 
+                    } 
                     if extension = "pdf" {
                         set %response.ContentType = ..#CONTENTTYPEPDF 
                     } 

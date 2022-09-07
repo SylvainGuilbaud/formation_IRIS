@@ -23,7 +23,7 @@ Property Timestamp As %TimeStamp;
 
 Property Boolean As %Boolean;
 
-Property extension As %String [ InitialExpression = "pdf" ];
+Property extension As %String [ InitialExpression = "svg" ];
 
 Property created As %TimeStamp [ InitialExpression = {$zdt($now(),3,,6)} ];
 
@@ -83,7 +83,8 @@ ClassMethod add(filename As %String = "") As %Status
 ClassMethod BStreamPop() As %Stream.GlobalBinary
 {
     set file=##class(%Stream.FileBinary).%New()
-    set filename=$system.Util.DataDirectory()_"docs/copyright.pdf"
+    #; set filename=$system.Util.DataDirectory()_"docs/copyright.pdf"
+    set filename=$system.Util.DataDirectory()_"docs/images/classroom2.svg"
 	set sc=file.LinkToFile(filename)
     set stream=##class(%Stream.GlobalBinary).%New()
     do stream.CopyFrom(file)
@@ -93,7 +94,7 @@ ClassMethod BStreamPop() As %Stream.GlobalBinary
 ClassMethod CStreamPop() As %Stream.GlobalCharacter
 {
     set file=##class(%Stream.FileCharacter).%New()
-    set filename=$system.Util.ManagerDirectory()_"messages.log"
+    set filename=$system.Util.InstallDirectory()_"iris.cpf"
 	set sc=file.LinkToFile(filename)
     set stream=##class(%Stream.GlobalCharacter).%New()
     do stream.CopyFrom(file)

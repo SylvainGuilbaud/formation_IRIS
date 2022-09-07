@@ -1,0 +1,12 @@
+{"system":"formation-iris:IRIS","ts":"2022-09-07 16:01:05.046845","classname":"data.teste","id":"11","msg":"error while deleting 11 of data.teste : ERROR #5001: data.teste doesn't exist","elapse":0.001365}{
+	"errors":[ {
+			"code":5001,
+			"domain":"%ObjectErrors",
+			"error":"ERROR #5001: data.teste doesn't exist",
+			"id":"GeneralError",
+			"params":["data.teste doesn't exist"
+			]
+		}
+	],
+	"summary":"ERROR #5001: data.teste doesn't exist"
+}

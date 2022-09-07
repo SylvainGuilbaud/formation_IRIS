@@ -53,14 +53,5 @@ services:
       - MYSQL_ROOT_PASSWORD=mysqlpass
     ports:
       - 3306:3306
-  smtp:
-    image: namshi/smtp
-    hostname: smtp
-    container_name: smtp
-    ports:
-      - 25:25
-    networks:
-      irisnetwork:
-        ipv4_address: 172.0.0.100
 
 

@@ -1,0 +1,201 @@
+Include common
+
+Class REST.crud Extends %CSP.REST
+{
+
+XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
+{
+<Routes>
+<Route Url="/" Method="GET" Call="version"/>
+
+<Route Url="/:classname" Method="POST" Call="create"/>
+<Route Url="/:classname/:id" Method="GET" Call="read"/>
+<Route Url="/:classname/:id" Method="UPDATE" Call="update"/>
+<Route Url="/:classname/:id" Method="DELETE" Call="delete"/>
+
+<Route Url="/:classname" Method="GET" Call="readAll"/>
+
+</Routes>
+}
+
+ClassMethod create(classname) As %Status
+{
+    Try {
+        set start = $zh 
+        set sc = $$$OK
+        set %response.ContentType = ..#CONTENTTYPEJSON
+        set json = {} 
+        set json.system = $SYSTEM
+        set json.ts = $zdt($now(),3,,6)
+        set json.classname = (classname)
+        set payload = {}.%FromJSON(%request.Content) 
+        set id ="" 
+        
+        if ##class(%Dictionary.ClassDefinition).%ExistsId(classname) {
+            set a = $CLASSMETHOD(classname,"%New")
+            set sc = a.%JSONImport(payload)
+            if sc {
+                set sc = a.%Save()
+                if sc {
+                    set id = a.%Id()
+                }
+            }
+        } else {
+            set sc = $SYSTEM.Status.Error(5001,classname _ " doesn't exist")
+        }
+        if sc {
+            set msg = "create " _ id _ " in " _ classname _ " successful"
+            $$$log($this _ " create","ok",msg)
+        } else {
+            set msg = "error while creating " _ id _ " in " _ classname _ " : " _ $system.Status.GetErrorText(sc)
+            $$$log($this _ " create","error",msg)
+        }
+        set json.id = (id)
+        set json.msg = (msg)
+        set json.elapse = $zh - start 
+        do json.%ToJSON() 
+    }
+    Catch ex {
+        set sc = ex.AsStatus()
+    }
+    return sc
+}
+
+ClassMethod read(classname, id) As %Status
+{
+    Try {
+        set start = $zh 
+        set sc = $$$OK
+        set %response.ContentType = ..#CONTENTTYPEJSON
+        set json = {}
+        if ##class(%Dictionary.ClassDefinition).%ExistsId(classname) {
+            if $CLASSMETHOD(classname,"%ExistsId",id) {
+                set a = $CLASSMETHOD(classname,"%OpenId",id)
+                if $IsObject(a) {
+                    set sc = a.%JSONExportToStream(.str)
+                    set json = {}.%FromJSON(str)
+                }
+            } else {
+                set sc = $SYSTEM.Status.Error(5001, id _ " doesn't exist in " _ classname)
+            }
+        } else {
+            set sc = $SYSTEM.Status.Error(5001,classname _ " doesn't exist")
+        }
+        if sc {
+            set msg = "read " _ id _ " in " _ classname _ " successful"
+            $$$log($this _ " read","ok",msg)
+        } else {
+            set msg = "error while deleting " _ id _ " of " _ classname _ " : " _ $system.Status.GetErrorText(sc)
+            $$$log($this _ " read","error",msg)
+            set json.msg = (msg)
+        }
+
+        do json.%ToJSON() 
+    }
+    Catch ex {
+        set sc = ex.AsStatus()
+    }
+    return sc
+}
+
+ClassMethod update(classname, id) As %Status
+{
+    Try {
+        set start = $zh 
+        set sc = $$$OK
+        set %response.ContentType = ..#CONTENTTYPEJSON
+        set json = {} 
+        set json.system = $SYSTEM
+        set json.ts = $zdt($now(),3,,6)
+        set json.classname = (classname)
+        set payload = {}.%FromJSON(%request.Content) 
+        
+        if ##class(%Dictionary.ClassDefinition).%ExistsId(classname) {
+            if $CLASSMETHOD(classname,"%ExistsId",id) {
+                set a = $CLASSMETHOD(classname,"%OpenId",id)
+                set sc = a.%JSONImport(payload)
+                if sc {
+                    set sc = a.%Save()
+                }
+            } else {
+                set sc = $SYSTEM.Status.Error(5001, id _ " doesn't exist in " _ classname)
+            }
+        } else {
+            set sc = $SYSTEM.Status.Error(5001,classname _ " doesn't exist")
+        }
+        if sc {
+            set msg = "update " _ id _ " in " _ classname _ " successful"
+            $$$log($this _ " update","ok",msg)
+        } else {
+            set msg = "error while updating " _ id _ " of " _ classname _ " : " _ $system.Status.GetErrorText(sc)
+            $$$log($this _ " update","error",msg)
+        }
+        set json.id = id
+        set json.msg = (msg)
+        set json.elapse = $zh - start 
+        do json.%ToJSON() 
+    }
+    Catch ex {
+        set sc = ex.AsStatus()
+    }
+    return sc
+}
+
+ClassMethod delete(classname, id) As %Status
+{
+    Try {
+        set start = $zh 
+        set sc = $$$OK
+        set %response.ContentType = ..#CONTENTTYPEJSON
+        set json = {} 
+        set json.system = $SYSTEM
+        set json.ts = $zdt($now(),3,,6)
+        set json.classname = (classname)
+        if ##class(%Dictionary.ClassDefinition).%ExistsId(classname) {
+            if $CLASSMETHOD(classname,"%ExistsId",id) {
+                set sc = $CLASSMETHOD(classname,"%DeleteId",id)
+            } else {
+                set sc = $SYSTEM.Status.Error(5001, id _ " doesn't exist in " _ classname)
+            }
+        } else {
+            set sc = $SYSTEM.Status.Error(5001,classname _ " doesn't exist")
+        }
+        if sc {
+            set msg = "delete " _ id _ " in " _ classname _ " successful"
+            $$$log($this _ " delete","ok",msg)
+        } else {
+            set msg = "error while deleting " _ id _ " of " _ classname _ " : " _ $system.Status.GetErrorText(sc)
+            $$$log($this _ " delete","error",msg)
+        }
+        set json.id = id
+        set json.msg = (msg)
+        set json.elapse = $zh - start 
+        do json.%ToJSON() 
+    }
+    Catch ex {
+        set sc = ex.AsStatus()
+    }
+    return sc
+}
+
+ClassMethod version() As %Status
+{
+    set sc = $$$OK
+    set %response.ContentType = ..#CONTENTTYPEJSON
+    set json = {}
+    set json.version = ($zv)
+    set json.date = ($zdt($h,3))
+    set json.system = ($System)
+    set json.username = ($Username)
+    set json.roles = ($Roles)
+    set json.namespace = ($Namespace)
+    set nls = ##class(%SYS.NLS.Locale).GetLanguage()
+    set json.country = ($listget(nls,1))
+    set json.lang = ($listget(nls,2))
+    set json.JavaHomeDirectory = $SYSTEM.Util.JavaHomeDirectory()
+    set json.JavaExe = $SYSTEM.Util.JavaExe()
+    do json.%ToJSON()
+    return sc
+}
+
+}
