@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<!-- type: formation.msg.Patient.Record  id: 1 -->
+<Record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:s="http://www.w3.org/2001/XMLSchema">
+    <Nom>Hendrix</Nom>
+    <Prenom>Jimi</Prenom>
+    <DateNaissance>1942-11-27</DateNaissance>
+    <Sexe>M</Sexe>
+</Record>

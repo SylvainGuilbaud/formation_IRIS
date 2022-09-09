@@ -53,5 +53,7 @@ services:
       - MYSQL_ROOT_PASSWORD=mysqlpass
     ports:
       - 3306:3306
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
 
 

@@ -5,6 +5,10 @@
  set sc = ##class(App.Installer).setup() 
  zn "%SYS"
  do ##class(Security.Users).UnExpireUserPasswords("*")
+ set ^%SYS("sql","ODBCCONNECTION","DATA")	=	1
+ set ^%SYS("sql","ODBCCONNECTION","DATA",1)	=	$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/app/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+ set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MYSQL",1)	=	""
+ set ^SYS("Security","SSLConfigsD","API")	=	$lb("","","","","ALL:!aNULL:!eNULL:!EXP:!SSLv2","",1,"API","","",2,"",0,9,0,"","",32,16,"TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256",0,"","","",0,2,0,1)
 
  write "Create web application ..."
  set webName = "/common"

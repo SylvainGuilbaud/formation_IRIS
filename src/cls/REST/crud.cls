@@ -7,15 +7,50 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
 <Route Url="/" Method="GET" Call="version"/>
-
+<Route Url="/:classname" Method="GET" Call="readAll"/>
 <Route Url="/:classname" Method="POST" Call="create"/>
 <Route Url="/:classname/:id" Method="GET" Call="read"/>
 <Route Url="/:classname/:id" Method="UPDATE" Call="update"/>
 <Route Url="/:classname/:id" Method="DELETE" Call="delete"/>
-
-<Route Url="/:classname" Method="GET" Call="readAll"/>
-
 </Routes>
+}
+
+ClassMethod readAll(classname As %String) As %Status
+{
+    set sc = $$$OK
+    set %response.ContentType = ..#CONTENTTYPEJSON
+    set json = {}
+    Try {
+        if ##class(%Dictionary.ClassDefinition).%ExistsId(classname) {
+            set class = ##class(%Dictionary.ClassDefinition).%OpenId(classname)
+            set tableName = class.SqlTableName
+            set:tableName="" tableName = classname
+            set sql = "select ID from " _ tableName
+            set result = ##class(%SQL.Statement).%ExecDirect(,sql)
+            if result.%SQLCODE = 0 {
+                set json = []
+                while result.%Next() { 
+                    set a = $CLASSMETHOD(classname,"%OpenId",result.%GetData(1))
+                    if $ISOBJECT(a) {
+                        set sc = a.%JSONExportToStream(.str)
+                        do json.%Push({}.%FromJSON(str))
+                    }
+                }
+            } else {
+                set json.SQLCODE = (result.%SQLCODE) 
+                set json.Message = (result.%Message) 
+                do json.%ToJSON()
+            }
+        } else {
+            set json.error = classname _ " doesn't exist"
+            do json.%ToJSON()
+        }
+        do json.%ToJSON()
+    }
+    Catch ex {
+        Set sc=ex.AsStatus()
+    }
+    return sc
 }
 
 ClassMethod create(classname) As %Status
@@ -180,6 +215,7 @@ ClassMethod delete(classname, id) As %Status
 
 ClassMethod version() As %Status
 {
+
     set sc = $$$OK
     set %response.ContentType = ..#CONTENTTYPEJSON
     set json = {}
