@@ -7,11 +7,12 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
 <Route Url="/" Method="GET" Call="version"/>
-<Route Url="/:classname" Method="GET" Call="readAll"/>
-<Route Url="/:classname" Method="POST" Call="create"/>
-<Route Url="/:classname/:id" Method="GET" Call="read"/>
-<Route Url="/:classname/:id" Method="UPDATE" Call="update"/>
-<Route Url="/:classname/:id" Method="DELETE" Call="delete"/>
+<Route Url="/api/:classname" Method="GET" Call="readAll"/>
+<Route Url="/api/:classname" Method="POST" Call="create"/>
+<Route Url="/api/:classname/:id" Method="GET" Call="read"/>
+<Route Url="/api/:classname/:id" Method="PUT" Call="update"/>
+<Route Url="/api/:classname/:id" Method="DELETE" Call="delete"/>
+<Route Url="/_spec" Method="GET" Call="spec" />
 </Routes>
 }
 
@@ -232,6 +233,24 @@ ClassMethod version() As %Status
     set json.JavaExe = $SYSTEM.Util.JavaExe()
     do json.%ToJSON()
     return sc
+}
+
+ClassMethod spec() As %Status
+{
+ try {
+	set sc=$$$OK
+	set %response.ContentType=..#CONTENTTYPEJSON
+
+    set file = ##class(%File).%New("/data/swagger-crud.json")
+    
+    do file.Open("RS")
+    while 'file.AtEnd{
+        w file.ReadLine()
+    }
+	} catch e {
+		throw e
+	}
+	return sc
 }
 
 }

@@ -34,6 +34,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/list/:classname/:format/:min/:max" Method="GET" Call="listTop"/>
 <Route Url="/stream/:classname/:property/:id" Method="GET" Call="stream" />
 <Route Url="/request/:classname/:property/:id/:full" Method="GET" Call="Request" />
+<Route Url="/_spec" Method="GET" Call="spec" />
 </Routes>
 }
 
@@ -579,7 +580,6 @@ ClassMethod listTop(classname As %String, format As %String, min As %Integer, ma
             set writer=##class(%XML.Writer).%New()
             set writer.Charset="UTF-8"
             set sc=writer.RootElement("tablename-"_classname)
-            set tStatement = ##class(%SQL.Statement).%New() 
             while i <= max { 
                 if $CLASSMETHOD(classname,"%ExistsId",i) {
                     set a = $CLASSMETHOD(classname,"%OpenId",i)
@@ -590,6 +590,42 @@ ClassMethod listTop(classname As %String, format As %String, min As %Integer, ma
                 do $INCREMENT(i)
             }
             set sc = writer.EndRootElement()
+        }
+        if format = "csv" {
+            set %response.ContentType = ..#CONTENTTYPETEXT
+            set class = ##class(%Dictionary.ClassDefinition).%OpenId(classname)
+
+            set header = "ID;"
+            for h = 1 : 1 : class.Properties.Count() {
+                set propertyName = class.Properties.GetAt(h).Name 
+                set header = header _ propertyName
+                if h < class.Properties.Count() {
+                        set header = header _ ";"
+                    }
+            }
+            write header,!
+            while i <= max { 
+                if $CLASSMETHOD(classname,"%ExistsId",i) {
+                    set a = $CLASSMETHOD(classname,"%OpenId",i)
+                    set line = i _ ";"
+                    if $ISOBJECT(a) {
+                        for l = 1 : 1 : class.Properties.Count() {
+                            set propertyName = class.Properties.GetAt(l).Name
+                            if class.Properties.GetAt(l).Type = "%Date"  {
+                                set line = line _ $zd($PROPERTY(a,propertyName),4)
+                            } else {
+                                set line = line _ $PROPERTY(a,propertyName) 
+                            }
+                            if l < class.Properties.Count() {
+                                set line = line _ ";"
+                            }
+                            
+                        }
+                    write line,!
+                    }
+                }
+                do $INCREMENT(i)
+            }
         }
     }
     return $$$OK
@@ -647,6 +683,48 @@ ClassMethod stream(classname As %String, property As %String, id As %Integer) As
     }
     set %response.Status=200
     return sc
+}
+
+ClassMethod service() As %Status
+{
+ try {
+	set sc=$$$OK
+	set %response.ContentType="application/json"
+
+	set payload=%request.Content
+
+	set tSC=##class(Ens.Director).CreateBusinessService("training.service.REST",.tService)
+
+	set request=##class(Ens.StringRequest).%New()
+	set request.StringValue=payload.Read()
+
+	set sc=tService.ProcessInput(request,.response)
+	set retour={}
+	set retour.data=response.StringValue
+	write retour.%ToJSON()
+	} catch e {
+		throw e
+	}
+	return sc
+}
+
+ClassMethod spec() As %Status
+{
+ try {
+	set sc=$$$OK
+	set %response.ContentType=..#CONTENTTYPEJSON
+
+	set file = ##class(%File).%New("/data/swagger-common.yaml")
+    set file = ##class(%File).%New("/data/swagger-common.json")
+    
+    do file.Open("RS")
+    while 'file.AtEnd{
+        w file.ReadLine()
+    }
+	} catch e {
+		throw e
+	}
+	return sc
 }
 
 }

@@ -8,10 +8,10 @@ ClassMethod DDL() As %Status [ Language = python ]
     from mysql.connector import errorcode
 
     config = {
-    'user': 'root',
-    'password': 'mysqlpass',
+    'user': 'formation',
+    'password': 'formation',
     'host': '127.0.0.1',
-    'database': 'mysql',
+    'database': 'formation',
     'raise_on_warnings': True
     }
 

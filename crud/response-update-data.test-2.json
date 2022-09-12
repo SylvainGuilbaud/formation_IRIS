@@ -1,0 +1,12 @@
+{
+	"errors":[ {
+			"code":5035,
+			"domain":"%ObjectErrors",
+			"error":"ERROR #5035: General exception Name 'Premature end of data' Code '12' Data ''",
+			"id":"GeneralException",
+			"params":["Premature end of data",12,""
+			]
+		}
+	],
+	"summary":"ERROR #5035: General exception Name 'Premature end of data' Code '12' Data ''"
+}

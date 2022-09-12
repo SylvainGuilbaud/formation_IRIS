@@ -8,5 +8,7 @@ CREATE TABLE formation.patient (
     FirstName varchar(255),
     DOB date,
     Sex varchar(10),
+    FirstAction varchar(255),
+    LastAction varchar(255),
     PRIMARY KEY (id)
 );

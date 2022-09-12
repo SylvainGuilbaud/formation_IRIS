@@ -1,0 +1,12 @@
+{"system":"formation-iris:IRIS","ts":"2022-09-09 15:45:56.575792","classname":"data.patient","id":"","msg":"error while creating  in data.patient : ERROR #9404: Unexpected field in input, String, using class base mapping.","elapse":0.008141}{
+	"errors":[ {
+			"code":9404,
+			"domain":"%ObjectErrors",
+			"error":"ERROR #9404: Unexpected field in input, String, using class base mapping.",
+			"id":"JSONImportBadField",
+			"params":["String","class base"
+			]
+		}
+	],
+	"summary":"ERROR #9404: Unexpected field in input, String, using class base mapping."
+}

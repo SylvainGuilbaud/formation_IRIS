@@ -48,12 +48,14 @@ services:
     command: --default-authentication-plugin=mysql_native_password
     hostname: mysql
     init: true
-    container_name: mysql
+    container_name: formation-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mysqlpass
     ports:
       - 3306:3306
     volumes:
       - ./mysql:/docker-entrypoint-initdb.d
+
+
 
 

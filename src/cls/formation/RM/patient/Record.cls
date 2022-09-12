@@ -1,22 +1,22 @@
 /// RECORDMAP: Generated from RecordMap 'formation.RM.patient'
-/// on 2022-09-09 at 11:11:14.849 [2022-09-09 11:11:14.849 UTC]
+/// on 2022-09-09 at 13:16:19.829 [2022-09-09 13:16:19.829 UTC]
 /// by user _SYSTEM
 Class formation.RM.patient.Record Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Base) [ Inheritance = right, ProcedureBlock ]
 {
 
+Relationship Records As formation.RM.patient.Batch [ Cardinality = one, Inverse = Records ];
+
 Parameter INCLUDETOPFIELDS = 1;
 
-Property ID As %String [ SqlColumnNumber = 2 ];
+Property ID As %Integer [ SqlColumnNumber = 2 ];
 
-Property Nom As %String [ SqlColumnNumber = 3 ];
+Property DateNaissance As %Date(FORMAT = 4) [ SqlColumnNumber = 3 ];
 
-Property Prenom As %String [ SqlColumnNumber = 4 ];
+Property Nom As %String(MAXLEN = 255) [ SqlColumnNumber = 4 ];
 
-Property DateNaissance As %String [ SqlColumnNumber = 5 ];
+Property Prenom As %String(MAXLEN = 255) [ SqlColumnNumber = 5 ];
 
 Property Sexe As %String [ SqlColumnNumber = 6 ];
-
-Parameter RECORDMAPGENERATED = 1;
 
 Storage Default
 {
@@ -42,6 +42,9 @@ Storage Default
 <Value name="7">
 <Value>Nom</Value>
 </Value>
+<Value name="8">
+<Value>Records</Value>
+</Value>
 </Data>
 <DataLocation>^formation.RM.patient.RecordD</DataLocation>
 <DefaultData>RecordDefaultData</DefaultData>
@@ -51,5 +54,7 @@ Storage Default
 <StreamLocation>^formation.RM.patient.RecordS</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }
+
+Parameter RECORDMAPGENERATED = 1;
 
 }

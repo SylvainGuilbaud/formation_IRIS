@@ -1,0 +1,446 @@
+{
+  "info": {
+    "title": "",
+    "description": "",
+    "version": "",
+    "x-ISC_Namespace": "IRISAPP"
+  },
+  "host": "localhost",
+  "basePath": "/common",
+  "schemes": ["http", "https"],
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "version",
+        "x-ISC_ServiceMethod": "version",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/pop/{classname}/{nb}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "nb",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "pop",
+        "x-ISC_ServiceMethod": "pop",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/add": {
+      "post": {
+        "parameters": [
+          {
+            "name": "payloadBody",
+            "in": "body",
+            "description": "Request body contents",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "add",
+        "x-ISC_ServiceMethod": "add",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/initdb": {
+      "post": {
+        "operationId": "initdb ",
+        "parameters": [
+          {
+            "name": "payloadBody",
+            "in": "body",
+            "description": "Request body contents",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "x-ISC_ServiceMethod": "initdb ",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/import": {
+      "post": {
+        "parameters": [
+          {
+            "name": "payloadBody",
+            "in": "body",
+            "description": "Request body contents",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "importXML",
+        "x-ISC_ServiceMethod": "importXML",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/delete": {
+      "post": {
+        "parameters": [
+          {
+            "name": "payloadBody",
+            "in": "body",
+            "description": "Request body contents",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "delete",
+        "x-ISC_ServiceMethod": "delete",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/importjson": {
+      "post": {
+        "parameters": [
+          {
+            "name": "payloadBody",
+            "in": "body",
+            "description": "Request body contents",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "importJSON",
+        "x-ISC_ServiceMethod": "importJSON",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/importxml": {
+      "post": {
+        "parameters": [
+          {
+            "name": "payloadBody",
+            "in": "body",
+            "description": "Request body contents",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "operationId": "importXML01",
+        "x-ISC_ServiceMethod": "importXML",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/nb/{classname}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "nb",
+        "x-ISC_ServiceMethod": "nb",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/kill/{classname}": {
+      "delete": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "kill",
+        "x-ISC_ServiceMethod": "kill",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "kill01",
+        "x-ISC_ServiceMethod": "kill",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/exportbyid/{classname}/{format}/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "format",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "exportById",
+        "x-ISC_ServiceMethod": "exportById",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/list/{classname}/{format}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "format",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "list",
+        "x-ISC_ServiceMethod": "list",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/list/{classname}/{format}/{min}/{max}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "format",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "min",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "max",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "listTop",
+        "x-ISC_ServiceMethod": "listTop",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/stream/{classname}/{property}/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "property",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "stream",
+        "x-ISC_ServiceMethod": "stream",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    },
+    "/request/{classname}/{property}/{id}/{full}": {
+      "get": {
+        "parameters": [
+          {
+            "name": "classname",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "property",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "full",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "operationId": "Request",
+        "x-ISC_ServiceMethod": "Request",
+        "responses": {
+          "200": {
+            "description": "(Expected Result)"
+          },
+          "default": {
+            "description": "(Unexpected Error)"
+          }
+        }
+      }
+    }
+  },
+  "swagger": "2.0"
+}

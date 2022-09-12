@@ -1,9 +1,5 @@
-Class HTTP.operation Extends Ens.BusinessOperation
+Class HTTP.operation Extends EnsLib.REST.Operation
 {
-
-Parameter ADAPTER = "EnsLib.HTTP.OutboundAdapter";
-
-Property Adapter As EnsLib.HTTP.OutboundAdapter;
 
 Parameter INVOCATION = "Queue";
 
@@ -28,18 +24,15 @@ Method gender(pRequest As HTTP.msg.genderRequest, Output pResponse As HTTP.msg.g
         
         #; $$$ThrowOnError(..Adapter.GetURL(..Adapter.HTTPServer,.pHttpResponse))
         $$$ThrowOnError(..Adapter.SendFormDataArray(.httpResponse,"GET",httpRequest,,,url))
-        set data = ""
-        while ('httpResponse.Data.AtEnd) {
-            set data = data _ httpResponse.Data.Read()
-        }
-        set json={}.%FromJSON(data)
+        set sc = ..JSONStreamToObject(httpResponse.Data, .json)
+       
         set pResponse.name=json.name
         set pResponse.gender=json.gender
         set pResponse.probability=json.probability
         set pResponse.count=json.count
 
         $$$TRACE(json.%ToJSON())
-        $$$TRACE("gender:"_pResponse.gender)
+        $$$TRACE("gender of :" _ pRequest.firstName _ " is " _ pResponse.gender)
 
 	} catch exp{
 		set sc = exp.AsStatus()

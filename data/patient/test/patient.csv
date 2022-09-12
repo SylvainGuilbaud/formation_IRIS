@@ -1,5 +1,5 @@
-ID;Nom;Prenom;DateNaissance;Sexe
-1;Hendrix;Jimi;27/11/1942;M
-2;Serf Barbara;Monique Andrée;9/6/1930;F
-3;Brassens;Georges;21/10/1921;M
-4;Oberlinger;Dorothee;2/9/1969;F
+ID;DateNaissance;Nom;Prenom;Sexe
+1;27/11/1942;Hendrix;Jimi;M
+2;9/6/1930;Serf Barbara;Monique Andrée;F
+3;21/10/1921;Brassens;Georges;M
+4;2/9/1969;Oberlinger;Dorothee;F

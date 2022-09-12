@@ -1,9 +1,10 @@
 <?xml version="1.0" ?>
-<!-- type: formation.msg.Patient.Record  id: 1 -->
+<!-- type: formation.RM.patient.Record  id: 1 -->
 <Record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:s="http://www.w3.org/2001/XMLSchema">
+    <ID>1</ID>
     <Nom>Hendrix</Nom>
     <Prenom>Jimi</Prenom>
-    <DateNaissance>1942-11-27</DateNaissance>
+    <DateNaissance>27/11/1942</DateNaissance>
     <Sexe>M</Sexe>
 </Record>

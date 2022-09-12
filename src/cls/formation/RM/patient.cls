@@ -1,5 +1,5 @@
 /// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.patient'
-/// on 2022-09-09 at 11:11:14.894 [2022-09-09 11:11:14.894 UTC]
+/// on 2022-09-09 at 13:16:19.839 [2022-09-09 13:16:19.839 UTC]
 /// by user _SYSTEM
 Class formation.RM.patient Extends EnsLib.RecordMap.RecordMap
 {
@@ -96,7 +96,14 @@ ClassMethod GetRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 	}
 	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
 	If pGetTopFields {
-		Set pObject.ID = tCurrString
+		Set pObject.ID =  pObject.IDDisplayToLogical(tCurrString)
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.DateNaissance =  pObject.DateNaissanceDisplayToLogical(tCurrString)
 	}
 	If '$data(tRecordData(tCurrChunk, "block")) {
 		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
@@ -117,13 +124,6 @@ ClassMethod GetRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 	}
 	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
 	If pGetTopFields {
-		Set pObject.DateNaissance = tCurrString
-	}
-	If '$data(tRecordData(tCurrChunk, "block")) {
-		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
-	}
-	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
-	If pGetTopFields {
 		Set pObject.Sexe = tCurrString
 	}
 	Quit tStatus
@@ -134,10 +134,10 @@ ClassMethod PutRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 {
 	Set tStatus = $$$OK
 	Set tmpStream=##class(%Stream.TmpBinary).%New()
-	Do tmpStream.Write($select(pHasTopFields: ..Escape(pObject.ID, $lb($char(59)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($select(pHasTopFields: ..Escape(pObject.IDLogicalToDisplay(pObject.ID), $lb($char(59)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.DateNaissanceLogicalToDisplay(pObject.DateNaissance), $lb($char(59)),"quote",$char(34)),1: ""))
 	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.Nom, $lb($char(59)),"quote",$char(34)),1: ""))
 	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.Prenom, $lb($char(59)),"quote",$char(34)),1: ""))
-	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.DateNaissance, $lb($char(59)),"quote",$char(34)),1: ""))
 	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.Sexe, $lb($char(59)),"quote",$char(34)),1: ""))
 	Set tStatus = tmpStream.Write($char(10))
 	If $$$ISERR(tStatus) Quit tStatus
@@ -169,13 +169,13 @@ XData RecordMap [ XMLNamespace = "http://www.intersystems.com/Ensemble/RecordMap
   <Separators>
     <Separator>;</Separator>
   </Separators>
-  <Field name="ID" datatype="%String" sqlColumn="2">
+  <Field name="ID" required="0" ignored="0" datatype="%Integer" sqlColumn="2" repeating="0">
   </Field>
-  <Field name="Nom" datatype="%String" sqlColumn="3">
+  <Field name="DateNaissance" required="0" ignored="0" datatype="%Date" params="FORMAT=4" sqlColumn="5" repeating="0">
   </Field>
-  <Field name="Prenom" datatype="%String" sqlColumn="4">
+  <Field name="Nom" required="0" ignored="0" datatype="%String" params="MAXLEN=255" sqlColumn="3" repeating="0">
   </Field>
-  <Field name="DateNaissance" datatype="%String" sqlColumn="5">
+  <Field name="Prenom" required="0" ignored="0" datatype="%String" params="MAXLEN=255" sqlColumn="4" repeating="0">
   </Field>
   <Field name="Sexe" datatype="%String" sqlColumn="6">
   </Field>
