@@ -1,0 +1,38 @@
+{
+    "files.associations": {
+        "Dockerfile*": "dockerfile",
+        "iris.script": "objectscript"
+      },
+    "objectscript.conn" :{
+      "ns": "SS_FORMATION",
+      "username": "Sebastien",
+      "host": "10.30.254.1",
+      "port": 52773,
+      "active": true,
+      "links": {
+        "terminal": "http://${host}/terminal/",
+        "version": "http://${host}/common/",
+        "atelier": "http://${host}:/api/atelier/",
+        "terminal-pws": "http://${host}:${port}/terminal/",
+        "version-pws": "http://${host}:${port}/common/",
+        "atelier-pws": "http://${host}:${port}/api/atelier/",
+        "SOAP Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.SOAPWizard.cls?Namespace=${namespace}${serverAuth}"
+      }
+    },
+    "sqltools.connections": [
+      {
+        "namespace": "IRISAPP",
+        "connectionMethod": "Server and Port",
+        "showSystem": false,
+        "previewLimit": 50,
+        "server": "localhost",
+        "port": 12775,
+        "askForPassword": false,
+        "driver": "InterSystems IRIS",
+        "name": "IRISAPP",
+        "username": "_SYSTEM",
+        "password": "SYS"
+      }
+    ]
+
+}
