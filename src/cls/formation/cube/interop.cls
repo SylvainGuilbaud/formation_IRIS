@@ -52,11 +52,19 @@ XData Cube [ XMLNamespace = "http://www.intersystems.com/deepsee" ]
     <hierarchy name="H1" disabled="false" hidden="false">
       <level name="TimeCreated" disabled="false" timeFunction="DayMonthYear" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="9">
       </level>
+      <level name="hourCreated" disabled="false" timeFunction="HourNumber" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="12">
+      </level>
+      <level name="MinuteCreated" disabled="false" timeFunction="MinuteNumber" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="13">
+      </level>
     </hierarchy>
   </dimension>
   <dimension name="TimeProcessed" disabled="false" hasAll="false" allCaption="All TimeProcessed" allDisplayName="TimeProcessed" sourceProperty="TimeProcessed" type="time" calendar="gregorian" hidden="false" showHierarchies="default">
     <hierarchy name="H1" disabled="false" hidden="false">
       <level name="TimeProcessed" disabled="false" timeFunction="DayMonthYear" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="10">
+      </level>
+      <level name="HourProcessed" disabled="false" timeFunction="HourNumber" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="14">
+      </level>
+      <level name="MinuteProcessed" disabled="false" timeFunction="MinuteNumber" list="false" useDisplayValue="true" useAsFilter="true" hidden="false" factNumber="15">
       </level>
     </hierarchy>
   </dimension>

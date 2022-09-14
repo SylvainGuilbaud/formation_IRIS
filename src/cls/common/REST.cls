@@ -34,6 +34,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/list/:classname/:format/:min/:max" Method="GET" Call="listTop"/>
 <Route Url="/stream/:classname/:property/:id" Method="GET" Call="stream" />
 <Route Url="/request/:classname/:property/:id/:full" Method="GET" Call="Request" />
+<Route Url="/file/:filename" Method="POST" Call="file"/>
 <Route Url="/_spec" Method="GET" Call="spec" />
 </Routes>
 }
@@ -706,6 +707,34 @@ ClassMethod service() As %Status
 		throw e
 	}
 	return sc
+}
+
+ClassMethod file(filename As %String) As %Status
+{
+    Try {
+        set start = $zh 
+        set sc = $$$OK
+        set %response.ContentType = ..#CONTENTTYPEJSON
+        set json = {} 
+        set json.system = ($SYSTEM)
+        set json.filename = (filename)
+        set json.ts = ($zdt($now(),3,,6))
+        set payload = %request.Content
+
+        set directory = "/data/patient/test/"
+        set file = ##class(%File).%New(directory _ filename)
+        set sc = file.Open("WSN")
+        do file.CopyFrom(payload)
+
+        do file.Close()
+
+
+        do json.%ToJSON() 
+    }
+    Catch ex {
+        set sc = ex.AsStatus()
+    }
+    return sc
 }
 
 ClassMethod spec() As %Status

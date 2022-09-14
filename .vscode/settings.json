@@ -16,7 +16,8 @@
         "atelier": "http://${host}:/api/atelier/",
         "terminal-pws": "http://${host}:${port}/terminal/",
         "version-pws": "http://${host}:${port}/common/",
-        "atelier-pws": "http://${host}:${port}/api/atelier/"
+        "atelier-pws": "http://${host}:${port}/api/atelier/",
+        "SOAP Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.SOAPWizard.cls?Namespace=${namespace}${serverAuth}"
       }
     },
     "sqltools.connections": [
