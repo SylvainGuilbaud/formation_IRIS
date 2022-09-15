@@ -30,7 +30,7 @@ services:
     container_name: ${web_container_name}
     depends_on:
       - iris
-    image: containers.intersystems.com/intersystems/webgateway:2022.1.0.131.0
+    image: containers.intersystems.com/intersystems/webgateway:2022.1.0.209.0
     ports:
     - ${web_port_https}:443
     - ${web_port_http}:80
