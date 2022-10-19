@@ -5,4 +5,4 @@ curl -v -d "@../data/data.test-post.json" \
 -H "Content-Type: application/json" \
 -X POST http://127.0.0.1/crud/api/$1 \
 -o $filename \
---user "_system:SYS"
+--user "CRUD:CRUD"

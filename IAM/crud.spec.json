@@ -1,0 +1,181 @@
+{
+    "info": {
+        "title": "iris-crud",
+        "description": "",
+        "version": "1.0",
+        "x-ISC_Namespace": "IRISAPP"
+    },
+    "basePath": "/crud",
+    "host":"172.20.10.13:8000",
+    "paths": {
+        "/": {
+            "get": {
+                "operationId": "version",
+                "x-ISC_ServiceMethod": "version",
+                "responses": {
+                    "200": {
+                        "description": "(Expected Result)"
+                    },
+                    "default": {
+                        "description": "(Unexpected Error)"
+                    }
+                }
+            }
+        },
+        "/api/{classname}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "classname",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "operationId": "readAll",
+                "x-ISC_ServiceMethod": "readAll",
+                "responses": {
+                    "200": {
+                        "description": "(Expected Result)"
+                    },
+                    "default": {
+                        "description": "(Unexpected Error)"
+                    }
+                }
+            },
+            "post": {
+                "parameters": [
+                    {
+                        "name": "classname",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "payloadBody",
+                        "in": "body",
+                        "description": "Request body contents",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "operationId": "create",
+                "x-ISC_ServiceMethod": "create",
+                "responses": {
+                    "200": {
+                        "description": "(Expected Result)"
+                    },
+                    "default": {
+                        "description": "(Unexpected Error)"
+                    }
+                }
+            }
+        },
+        "/api/{classname}/{id}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "classname",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "operationId": "read",
+                "x-ISC_ServiceMethod": "read",
+                "responses": {
+                    "200": {
+                        "description": "(Expected Result)"
+                    },
+                    "default": {
+                        "description": "(Unexpected Error)"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "classname",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "payloadBody",
+                        "in": "body",
+                        "description": "Request body contents",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "operationId": "update",
+                "x-ISC_ServiceMethod": "update",
+                "responses": {
+                    "200": {
+                        "description": "(Expected Result)"
+                    },
+                    "default": {
+                        "description": "(Unexpected Error)"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "classname",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "operationId": "delete",
+                "x-ISC_ServiceMethod": "delete",
+                "responses": {
+                    "200": {
+                        "description": "(Expected Result)"
+                    },
+                    "default": {
+                        "description": "(Unexpected Error)"
+                    }
+                }
+            }
+        },
+        "/_spec": {
+            "get": {
+                "operationId": "spec",
+                "x-ISC_ServiceMethod": "spec",
+                "responses": {
+                    "200": {
+                        "description": "(Expected Result)"
+                    },
+                    "default": {
+                        "description": "(Unexpected Error)"
+                    }
+                }
+            }
+        }
+    },
+    "swagger": "2.0"
+}
