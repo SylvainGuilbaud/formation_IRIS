@@ -1,10 +1,10 @@
-/// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.patient'
-/// on 2022-10-25 at 14:27:10.247 [2022-10-25 14:27:10.247 UTC]
+/// RECORDMAP: Modified during compilation of RecordMap 'data.RM.customer'
+/// on 2021-08-31 at 13:35:49.973 [2021-08-31 13:35:49.973 UTC]
 /// by user _SYSTEM
-Class formation.RM.patient Extends EnsLib.RecordMap.RecordMap
+Class data.RM.customer Extends EnsLib.RecordMap.RecordMap
 {
 
-Parameter OBJECTNAME = "formation.RM.patient.Record";
+Parameter OBJECTNAME = "data.RM.customer.Record";
 
 /// Method to retrieve a record from a stream or device. This method will be generated based on the
 /// structure of the RecordMap. For testing purposes, a file name may be passed in the pStream argument.
@@ -86,45 +86,59 @@ ClassMethod GetRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 	Set tCurrSep = 1
 	Set tStrings = 1
 	Set tCurrString = ""
-	Set tSeps = $listbuild($char(59))
+	Set tSeps = $listbuild($char(44))
 	If '$data(tRecordData(tCurrChunk, "block")) {
-		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
 	}
 	Else {
 		Set tCurrString = tRecordData(tCurrChunk)
 		Set tCurrPiece = 1
 	}
-	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
 	If pGetTopFields {
-		Set pObject.ID =  pObject.IDDisplayToLogical(tCurrString)
+		Set pObject.id = tCurrString
 	}
 	If '$data(tRecordData(tCurrChunk, "block")) {
-		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
 	}
-	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
 	If pGetTopFields {
-		Set pObject.DateNaissance =  pObject.DateNaissanceDisplayToLogical(tCurrString)
+		Set pObject.active = tCurrString
 	}
 	If '$data(tRecordData(tCurrChunk, "block")) {
-		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
 	}
-	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
 	If pGetTopFields {
-		Set pObject.Nom = tCurrString
+		Set pObject.category = tCurrString
 	}
 	If '$data(tRecordData(tCurrChunk, "block")) {
-		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
 	}
-	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
 	If pGetTopFields {
-		Set pObject.Prenom = tCurrString
+		Set pObject.city = tCurrString
 	}
 	If '$data(tRecordData(tCurrChunk, "block")) {
-		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
 	}
-	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
 	If pGetTopFields {
-		Set pObject.Sexe = tCurrString
+		Set pObject.created = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.firstName = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.lastName = tCurrString
 	}
 	Quit tStatus
 }
@@ -134,11 +148,13 @@ ClassMethod PutRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 {
 	Set tStatus = $$$OK
 	Set tmpStream=##class(%Stream.TmpBinary).%New()
-	Do tmpStream.Write($select(pHasTopFields: ..Escape(pObject.IDLogicalToDisplay(pObject.ID), $lb($char(59)),"quote",$char(34)),1: ""))
-	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.DateNaissanceLogicalToDisplay(pObject.DateNaissance), $lb($char(59)),"quote",$char(34)),1: ""))
-	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.Nom, $lb($char(59)),"quote",$char(34)),1: ""))
-	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.Prenom, $lb($char(59)),"quote",$char(34)),1: ""))
-	Do tmpStream.Write($char(59) _ $select(pHasTopFields: ..Escape(pObject.Sexe, $lb($char(59)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($select(pHasTopFields: ..Escape(pObject.id, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.active, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.category, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.city, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.created, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.firstName, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.lastName, $lb($char(44)),"quote",$char(34)),1: ""))
 	Set tStatus = tmpStream.Write($char(10))
 	If $$$ISERR(tStatus) Quit tStatus
 	Do pStream.CopyFrom(tmpStream,,0,.tStatus)
@@ -148,8 +164,7 @@ ClassMethod PutRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 ClassMethod GetGeneratedClasses(Output pClasses As %String) As %Status
 {
 	Kill pClasses
-	Set pClasses("formation.RM.patient.Batch")=""
-	Set pClasses("formation.RM.patient.Record")=""
+	Set pClasses("data.RM.customer.Record")=""
 	Set pClasses($classname())=""
 	Quit $$$OK
 }
@@ -166,19 +181,23 @@ ClassMethod getType() As EnsLib.RecordMap.Model.DataType.RecordType [ CodeMode =
 
 XData RecordMap [ XMLNamespace = "http://www.intersystems.com/Ensemble/RecordMap" ]
 {
-<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="formation.RM.patient" type="delimited" char_encoding="UTF-8" targetClassname="formation.RM.patient.Record" batchClass="formation.RM.patient.Batch" complexBatchManaged="0" padFromLeft="0" recordTerminator="\x0a" escaping="quote" escapeSequence="&quot;" allowEarlyTerminator="0">
+<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="data.RM.customer" type="delimited" char_encoding="UTF-8" targetClassname="data.RM.customer.Record" recordTerminator="\x0a" escaping="quote" escapeSequence="&quot;">
   <Separators>
-    <Separator>;</Separator>
+    <Separator>,</Separator>
   </Separators>
-  <Field name="ID" required="0" ignored="0" datatype="%Integer" sqlColumn="2" repeating="0">
+  <Field name="id" datatype="%String" sqlColumn="2">
   </Field>
-  <Field name="DateNaissance" required="0" ignored="0" datatype="%Date" params="FORMAT=4" sqlColumn="5" repeating="0">
+  <Field name="active" datatype="%Boolean" sqlColumn="3">
   </Field>
-  <Field name="Nom" required="0" ignored="0" datatype="%String" params="MAXLEN=255" sqlColumn="3" repeating="0">
+  <Field name="category" datatype="%Integer" sqlColumn="4">
   </Field>
-  <Field name="Prenom" required="0" ignored="0" datatype="%String" params="MAXLEN=255" sqlColumn="4" repeating="0">
+  <Field name="city" datatype="%String" sqlColumn="5">
   </Field>
-  <Field name="Sexe" datatype="%String" sqlColumn="6">
+  <Field name="created" datatype="%TimeStamp" sqlColumn="6">
+  </Field>
+  <Field name="firstName" datatype="%String" sqlColumn="7">
+  </Field>
+  <Field name="lastName" datatype="%String" sqlColumn="8">
   </Field>
 </Record>
 }

@@ -36,7 +36,7 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="JGService">JG</Setting>
     <Setting Target="Adapter" Name="StayConnected">10</Setting>
     <Setting Target="Adapter" Name="DSN">jdbc:postgresql://postgres:5432/postgres</Setting>
-    <Setting Target="Adapter" Name="JDBCClasspath">/opt/postgresql-42.2.23.jar</Setting>
+    <Setting Target="Adapter" Name="JDBCClasspath">/app/jdbc/postgresql-42.2.23.jar</Setting>
     <Setting Target="Adapter" Name="JDBCDriver">org.postgresql.Driver</Setting>
     <Setting Target="Adapter" Name="Credentials">PostgreSQL</Setting>
     <Setting Target="Host" Name="batchSize">1000</Setting>
@@ -45,7 +45,7 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="JGService">JG</Setting>
     <Setting Target="Adapter" Name="StayConnected">10</Setting>
     <Setting Target="Adapter" Name="DSN">jdbc:postgresql://postgres:5432/postgres</Setting>
-    <Setting Target="Adapter" Name="JDBCClasspath">/opt/postgresql-42.2.23.jar</Setting>
+    <Setting Target="Adapter" Name="JDBCClasspath">/app/jdbc/postgresql-42.2.23.jar</Setting>
     <Setting Target="Adapter" Name="JDBCDriver">org.postgresql.Driver</Setting>
     <Setting Target="Adapter" Name="Credentials">PostgreSQL</Setting>
     <Setting Target="Host" Name="batchSize">10</Setting>

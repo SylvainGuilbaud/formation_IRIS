@@ -1,18 +1,20 @@
 /// RECORDMAP: Generated from RecordMap 'formation.RM.patient'
-/// on 2022-10-25 at 14:27:10.212 [2022-10-25 14:27:10.212 UTC]
+/// on 2022-09-09 at 13:16:19.829 [2022-09-09 13:16:19.829 UTC]
 /// by user _SYSTEM
 Class formation.RM.patient.Record Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Base) [ Inheritance = right, ProcedureBlock ]
 {
+
+Relationship Records As formation.RM.patient.Batch [ Cardinality = one, Inverse = Records ];
 
 Parameter INCLUDETOPFIELDS = 1;
 
 Property ID As %Integer [ SqlColumnNumber = 2 ];
 
-Property DateNaissance As %Date(FORMAT = 4) [ SqlColumnNumber = 5 ];
+Property DateNaissance As %Date(FORMAT = 4) [ SqlColumnNumber = 3 ];
 
-Property Nom As %String(MAXLEN = 255) [ SqlColumnNumber = 3 ];
+Property Nom As %String(MAXLEN = 255) [ SqlColumnNumber = 4 ];
 
-Property Prenom As %String(MAXLEN = 255) [ SqlColumnNumber = 4 ];
+Property Prenom As %String(MAXLEN = 255) [ SqlColumnNumber = 5 ];
 
 Property Sexe As %String [ SqlColumnNumber = 6 ];
 
@@ -43,9 +45,6 @@ Storage Default
 <Value name="8">
 <Value>Records</Value>
 </Value>
-<Value name="9">
-<Value>%ParentBatch</Value>
-</Value>
 </Data>
 <DataLocation>^formation.RM.patient.RecordD</DataLocation>
 <DefaultData>RecordDefaultData</DefaultData>
@@ -57,9 +56,5 @@ Storage Default
 }
 
 Parameter RECORDMAPGENERATED = 1;
-
-Relationship %ParentBatch As formation.RM.patient.Batch [ Cardinality = one, Inverse = Records ];
-
-Index %ParentBatchIdx On %ParentBatch;
 
 }

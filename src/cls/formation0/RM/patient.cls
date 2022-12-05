@@ -1,5 +1,5 @@
 /// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.patient'
-/// on 2022-10-25 at 14:27:10.247 [2022-10-25 14:27:10.247 UTC]
+/// on 2022-09-09 at 13:16:19.839 [2022-09-09 13:16:19.839 UTC]
 /// by user _SYSTEM
 Class formation.RM.patient Extends EnsLib.RecordMap.RecordMap
 {
@@ -148,7 +148,6 @@ ClassMethod PutRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 ClassMethod GetGeneratedClasses(Output pClasses As %String) As %Status
 {
 	Kill pClasses
-	Set pClasses("formation.RM.patient.Batch")=""
 	Set pClasses("formation.RM.patient.Record")=""
 	Set pClasses($classname())=""
 	Quit $$$OK
@@ -166,7 +165,7 @@ ClassMethod getType() As EnsLib.RecordMap.Model.DataType.RecordType [ CodeMode =
 
 XData RecordMap [ XMLNamespace = "http://www.intersystems.com/Ensemble/RecordMap" ]
 {
-<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="formation.RM.patient" type="delimited" char_encoding="UTF-8" targetClassname="formation.RM.patient.Record" batchClass="formation.RM.patient.Batch" complexBatchManaged="0" padFromLeft="0" recordTerminator="\x0a" escaping="quote" escapeSequence="&quot;" allowEarlyTerminator="0">
+<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="formation.RM.patient" type="delimited" char_encoding="UTF-8" targetClassname="formation.RM.patient.Record" recordTerminator="\x0a" escaping="quote" escapeSequence="&quot;">
   <Separators>
     <Separator>;</Separator>
   </Separators>

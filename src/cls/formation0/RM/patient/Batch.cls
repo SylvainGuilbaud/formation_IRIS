@@ -1,5 +1,5 @@
-/// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.patient'
-/// on 2022-10-25 at 14:27:10.232 [2022-10-25 14:27:10.232 UTC]
+/// RECORDMAP: Modified during compilation of RecordMap 'RM.salaire1'
+/// on 2022-08-19 at 16:11:04.895 [2022-08-19 16:11:04.895 UTC]
 /// by user _SYSTEM
 Class formation.RM.patient.Batch Extends (%Library.Persistent, EnsLib.RecordMap.SimpleBatch) [ Inheritance = right, ProcedureBlock ]
 {
