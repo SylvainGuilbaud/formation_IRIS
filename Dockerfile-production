@@ -1,10 +1,15 @@
-ARG IMAGE=intersystemsdc/irishealth-community:latest
+# ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:2022.1.0.209.0
+ARG IMAGE=localhost/intersystems/irishealth-ml-arm64:2022.1.1.374.0
+ARG IMAGE=localhost/intersystems/irishealth-arm64:2022.2.0.368.0
+ARG IMAGE=localhost/intersystems/iris-ml-arm64:2022.2.0.368.0
+# ARG IMAGE=intersystemsdc/irishealth-community:latest
 FROM $IMAGE
 USER root
 WORKDIR /app
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /app
 USER ${ISC_PACKAGE_MGRUSER}
 
+COPY key/iris.key /usr/irissys/mgr/iris.key
 COPY Installer.cls .
 COPY src src
 COPY iris.script /tmp/iris.script
