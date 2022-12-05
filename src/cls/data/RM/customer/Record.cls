@@ -1,7 +1,7 @@
 /// RECORDMAP: Generated from RecordMap 'data.RM.customer'
 /// on 2021-08-31 at 14:51:25.762 [2021-08-31 14:51:25.762 UTC]
 /// by user _SYSTEM
-Class data.RM.customer.Record Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Base) [ Inheritance = right, ProcedureBlock ]
+Class data.RM.customer.Record Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Base, %JSON.Adaptor) [ Inheritance = right, ProcedureBlock ]
 {
 
 Parameter INCLUDETOPFIELDS = 1;

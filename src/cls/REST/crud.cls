@@ -3,6 +3,8 @@ Include common
 Class REST.crud Extends %CSP.REST
 {
 
+Parameter HandleCorsRequest = 1;
+
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>

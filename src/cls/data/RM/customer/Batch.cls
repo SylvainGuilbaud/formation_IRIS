@@ -1,4 +1,4 @@
-Class data.RM.customer.Batch Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Batch) [ Inheritance = right, ProcedureBlock ]
+Class data.RM.customer.Batch Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Batch, %JSON.Adaptor) [ Inheritance = right, ProcedureBlock ]
 {
 
 Parameter RECORDMAPGENERATED = 1;
