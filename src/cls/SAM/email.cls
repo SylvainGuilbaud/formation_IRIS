@@ -24,7 +24,7 @@ ClassMethod send(text As %String) As %Status [ Language = python ]
 
     smtp.ehlo()  
     smtp.starttls()
-    smtp.login('bigdata', 'BigData4Good.')  
+    smtp.login('bigdata', 'xxxxxxxx')  
 
     resp = smtp.sendmail('bigdata@free.fr',
                 ['sylvain.guilbaud@me.com','sylvain.guilbaud@intersystems.com'],
@@ -61,7 +61,7 @@ ClassMethod email(text As %String) As %Status [ Language = objectscript ]
     set s.port = 587
     set auth=##class(%Net.Authenticator).%New() 
 	set auth.UserName="bigdata"
-	set auth.Password="BigData4Good."
+	set auth.Password="xxxxxxxx"
 	set s.authenticator=auth 
     set sc=s.Send(m)
 
