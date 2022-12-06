@@ -1,4 +1,4 @@
-Class formation.msg.mysql.response.patient Extends Ens.Response
+Class formation.msg.mysql.response.patient Extends (Ens.Response, %JSON.Adaptor)
 {
 
 Property inserted As %Integer;

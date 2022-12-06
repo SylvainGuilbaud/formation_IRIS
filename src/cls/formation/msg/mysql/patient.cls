@@ -1,4 +1,4 @@
-Class formation.msg.mysql.patient Extends Ens.Request
+Class formation.msg.mysql.patient Extends (Ens.Request, %JSON.Adaptor)
 {
 
 Property id As %Integer;

@@ -35,6 +35,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/stream/:classname/:property/:id" Method="GET" Call="stream" />
 <Route Url="/request/:classname/:property/:id/:full" Method="GET" Call="Request" />
 <Route Url="/file/:filename" Method="POST" Call="file"/>
+<Route Url="/service" Method="POST" Call="service" />
 <Route Url="/_spec" Method="GET" Call="spec" />
 </Routes>
 }
@@ -694,7 +695,7 @@ ClassMethod service() As %Status
 
 	set payload=%request.Content
 
-	set tSC=##class(Ens.Director).CreateBusinessService("training.service.REST",.tService)
+	set tSC=##class(Ens.Director).CreateBusinessService("from Patients REST",.tService)
 
 	set request=##class(Ens.StringRequest).%New()
 	set request.StringValue=payload.Read()

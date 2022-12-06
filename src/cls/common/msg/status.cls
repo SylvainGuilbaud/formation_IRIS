@@ -1,4 +1,4 @@
-Class common.msg.status Extends (%SerialObject, %XML.Adaptor)
+Class common.msg.status Extends (%SerialObject, %XML.Adaptor, %JSON.Adaptor)
 {
 
 Property status As %Status(XMLPROJECTION = "none");
