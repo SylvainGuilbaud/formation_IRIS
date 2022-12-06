@@ -18,11 +18,11 @@ services:
       - 13773:53773
     command: --check-caps false
     # command: --key /key/iris.key
-    environment:
-      - ISC_DATA_DIRECTORY=/irisdata
+    # environment:
+    #   - ISC_DATA_DIRECTORY=/irisdata
     volumes:
       - ./data:/data
-      - ./volumes/irisdata:/irisdata
+      # - ./volumes/irisdata:/irisdata
       # - ./key/iris.key:/key/iris.key
     networks:
       irisnetwork:
