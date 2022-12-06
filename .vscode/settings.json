@@ -3,6 +3,20 @@
       "Dockerfile*": "dockerfile",
       "iris.script": "objectscript"
     },
+   "objectscript.export": {
+    "folder": "src",
+    "addCategory": false,
+    "map": {},
+    "atelier": true,
+    "generated": false,
+    "filter": "",
+    "exactFilter": "",
+    "category": "*",
+    "noStorage": false,
+    "dontExportIfNoChanges": false,
+    "maxConcurrentConnections": 0,
+    "mapped": true
+   }, 
   "objectscript.conn" :{
     "ns": "IRISAPP",
     "username": "_SYSTEM",
