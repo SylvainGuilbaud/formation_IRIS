@@ -23,6 +23,14 @@ XData RuleDefinition [ XMLNamespace = "http://www.intersystems.com/rule" ]
 <return></return>
 </when>
 </rule>
+<rule name="fichiers locaux BATCH" disabled="false">
+<constraint name="source" value="from Patients BATCH"></constraint>
+<constraint name="msgClass" value="formation.RM.patient.Batch"></constraint>
+<when condition="1">
+<send transform="formation.transfo.patientBatch" target="to patient SQL"></send>
+<return></return>
+</when>
+</rule>
 <rule name="fichiers FTP BATCH" disabled="false">
 <constraint name="source" value="from Patients FTP BATCH"></constraint>
 <constraint name="msgClass" value="formation.RM.patient.Batch"></constraint>
