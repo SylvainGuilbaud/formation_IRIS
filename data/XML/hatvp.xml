@@ -1,0 +1,28 @@
+<Record xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:s="http://www.w3.org/2001/XMLSchema">
+    <civilite>M.</civilite>
+    <prenom>Abdallah</prenom>
+    <nom>HASSANI</nom>
+    <classement>HASSANI Abdallah13338</classement>
+    <typemandat>senateur</typemandat>
+    <qualite>SÃ©nateur de Mayotte</qualite>
+    <typedocument>dia</typedocument>
+    <departement>976</departement>
+    <datepublication>2017-12-20</datepublication>
+    <datedepot>2017-11-22</datedepot>
+    <nomfichier>hassani-abdallah-dia5105-senateur-976.pdf</nomfichier>
+    <urldossier>/pages_nominatives/hassani-abdallah</urldossier>
+    <opendata>hassani-abdallah-dia5105-senateur-976.xml</opendata>
+    <statutpublication>LivrÃ©e</statutpublication>
+    <idorigine>19329S</idorigine>
+    <urlphoto>
+        <NewField1>http:</NewField1>
+        <domaine>
+            <www>www</www>
+            <chambre>senat</chambre>
+            <fr>fr</fr>
+        </domaine>
+        <NewField4>senimg</NewField4>
+        <NewField5>hassani_abdallah19329s.jpg</NewField5>
+    </urlphoto>
+</Record>
