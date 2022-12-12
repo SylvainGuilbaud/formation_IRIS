@@ -61,6 +61,32 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.12
+  mssql:
+    container_name: mssql
+    image: 'mcr.microsoft.com/mssql/server:2022-latest' 
+    ports:
+        - '50007:1433'
+    environment:
+        - ACCEPT_EULA=Y
+        - SA_PASSWORD=Secret1234
+    volumes:
+        - './volumes/mssql:/var/opt/mssql'
+    networks:
+      irisnetwork:
+        ipv4_address: 172.0.0.13
+  oracle:
+    container_name: oracle
+    image: oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
+    ports:    
+      - 1521:1521
+      - 5500:5500
+    environment:
+      - ORACLE_PDB=orcl
+      - ORACLE_PWD=password
+      - INIT_SGA_SIZE=3000
+      - INIT_PGA_SIZE=1000
+    volumes:
+      - ./volumes/oracle:/opt/oracle/oradata
   ftp_server:
     image: delfer/alpine-ftp-server:latest
     container_name: ftp-server
