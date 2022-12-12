@@ -7,9 +7,9 @@ Property LastName As %String;
 
 Property FirstName As %String;
 
-Property DOB As %Date;
+Property DOB As %Date(FORMAT = 4);
 
-Property Sex As %String;
+Property Sex As %String(DISPLAYLIST = ",male,female", VALUELIST = ",M,F");
 
 Storage Default
 {
