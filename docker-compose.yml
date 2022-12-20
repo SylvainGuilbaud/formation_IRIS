@@ -87,6 +87,9 @@ services:
       - INIT_PGA_SIZE=1000
     volumes:
       - ./volumes/oracle:/opt/oracle/oradata
+    networks:
+      irisnetwork:
+        ipv4_address: 172.0.0.14
   ftp_server:
     image: delfer/alpine-ftp-server:latest
     container_name: ftp-server
