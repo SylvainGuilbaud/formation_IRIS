@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="22" zv="Cache for Windows (x86-32) 2008.1 (Build 261)" ts="2007-12-11 09:05:32">
+<Class name="Mapping.BitMapExample">
+<Description><![CDATA[
+This class is an example of how to setup a Bit Map index with CacheSQLStorage.
+
+To use Bit Maps with CacheSQLStorage you need to have an IDKey that is based on a single integer value.
+
+In addition to creating the indexes you want you need to create an Extent Bit Map Index.  
+This is used for Count(*) queries and for some internal processing for queries.  
+The Extent Bit Map only has a constant for the subscript.  
+In this example the Data Map is in one Global and the Index Maps are in a different one.
+
+Data Map:
+
+^Mapping("BitMap",214)=Lee,Bart H.^34009^M                                                                    
+^Mapping("BitMap",2299)=Campos,Lydia B.^51815^F
+^Mapping("BitMap",3481)=LaRocca,Dick R.^52782^F
+^Mapping("BitMap",3923)=Nichols,Olga Z.^43485^F
+^Mapping("BitMap",5085)=White,Zeke R.^49396^F
+^Mapping("BitMap",5124)=Page,Debra D.^41947^F
+^Mapping("BitMap",6499)=Ramsay,Dmitry X.^54743^F
+^Mapping("BitMap",7314)=Zimmerman,Stuart H.^33686^M
+^Mapping("BitMap",8446)=Eagleman,Janice O.^40041^F
+^Mapping("BitMap",9093)=Yeats,Phyllis E.^33504^M
+
+Index Map:
+
+^BitMap("DOB",33504,1)=<<$C(146,1)_"q"_$C(4,133)_"#">>
+^BitMap("DOB",33686,1)=<<$C(149,1,147,3,146,28)>>
+^BitMap("DOB",34009,1)=<<$C(145,1,27,0)_"Ö"_$C(0)>>
+^BitMap("DOB",40041,1)=<<$C(145,1)_" "_$C(4)_"þ ">>
+^BitMap("DOB",41947,1)=<<$C(147,1,129,2,4,20)>>
+^BitMap("DOB",43485,1)=<<$C(148,1)_"ë"_$C(1)_"S"_$C(15)>>
+^BitMap("DOB",49396,1)=<<$C(146,1)_"|"_$C(2)_"Ý"_$C(19)>>
+^BitMap("DOB",51815,1)=<<$C(148,1)_" "_$C(1)_"û"_$C(8)>>
+^BitMap("DOB",52782,1)=<<$C(150,1)_"´"_$C(1,153,13)>>
+^BitMap("DOB",54743,1)=<<$C(148,1)_"-"_$C(3)_"c"_$C(25)>>
+
+^BitMap("Extent",1)=<<$C(146,1)_"q"_$C(4)_"Ö"_$C(0)_"û"_$C(8,153,13)_"S"_$C(15)_"Ý"_$C(19,4,20)_"c"_$C(25,146,28)_"þ "_$C(133)_"#">>
+
+^BitMap("Name","Campos,Lydia B.",2299)=
+^BitMap("Name","Eagleman,Janice O.",8446)=
+^BitMap("Name","LaRocca,Dick R.",3481)=
+^BitMap("Name","Lee,Bart H.",214)=
+^BitMap("Name","Nichols,Olga Z.",3923)=
+^BitMap("Name","Page,Debra D.",5124)=
+^BitMap("Name","Ramsay,Dmitry X.",6499)=
+^BitMap("Name","White,Zeke R.",5085)=
+^BitMap("Name","Yeats,Phyllis E.",9093)=
+^BitMap("Name","Zimmerman,Stuart H.",7314)=
+
+^BitMap("Sex","F",1)=<<$C(145,1)_" "_$C(4)_"û"_$C(8,153,13)_"S"_$C(15)_"Ý"_$C(19,4,20)_"c"_$C(25)_"þ ">>
+^BitMap("Sex","M",1)=<<$C(146,1)_"q"_$C(4)_"Ö"_$C(0,146,28,133)_"#">>
+
+Data Map:
+
+^Mapping("BitMap",214)=Lee,Bart H.^34009^M                                                                    
+^Mapping("BitMap",2299)=Campos,Lydia B.^51815^F
+^Mapping("BitMap",3481)=LaRocca,Dick R.^52782^F
+^Mapping("BitMap",3923)=Nichols,Olga Z.^43485^F
+^Mapping("BitMap",5085)=White,Zeke R.^49396^F
+^Mapping("BitMap",5124)=Page,Debra D.^41947^F
+^Mapping("BitMap",6499)=Ramsay,Dmitry X.^54743^F
+^Mapping("BitMap",7314)=Zimmerman,Stuart H.^33686^M
+^Mapping("BitMap",8446)=Eagleman,Janice O.^40041^F
+^Mapping("BitMap",9093)=Yeats,Phyllis E.^33504^M
+]]></Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent,%Populate</Super>
+<TimeCreated>59634,57153.608015</TimeCreated>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Sex">
+<Type>%String</Type>
+<Parameter name="DISPLAYLIST" value=",Female,Male,Unknown"/>
+<Parameter name="TRUNCATE" value="1"/>
+<Parameter name="VALUELIST" value=",F,M,U"/>
+</Property>
+
+<Property name="Sub">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="DOBIndex">
+<Type>bitmap</Type>
+<Properties>DOB</Properties>
+</Index>
+
+<Index name="NameIndex">
+<Properties>Name</Properties>
+</Index>
+
+<Index name="SexIndex">
+<Type>bitmap</Type>
+<Properties>Sex</Properties>
+</Index>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Name">
+<Type>%Name</Type>
+</Property>
+
+<Method name="BitMapDelete">
+<Description>
+This code needs to be called when ever a row has been deleted from the table/class.
+
+It will update the two bit maps plus the extent.
+
+All values should be in logical format.
+</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Integer,dob:%Date,sex:%String</FormalSpec>
+<Implementation><![CDATA[
+ 
+ s chunk=id\64000+1
+ s position=id#64000+1 
+ s $bit(^BitMap("Extent",chunk),position)=0
+ s sn(1)=dob s:sn(1)="" sn(1)=-1E14 s $bit(^BitMap("DOB",sn(1),chunk),position)=0
+ s sn(1)=sex s:sn(1)="" sn(1)=-1E14 s $bit(^BitMap("Sex",sn(1),chunk),position)=0
+]]></Implementation>
+</Method>
+
+<Method name="BitMapInsert">
+<Description>
+This code needs to be called when ever a row has been deleted from the table/class.
+
+It will update the two bit maps plus the extent.
+
+All values should be in logical format.
+</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Integer,dob:%Date,sex:%String</FormalSpec>
+<Implementation><![CDATA[
+ s chunk=id\64000+1
+ s position=id#64000+1 
+ s $bit(^BitMap("Extent",chunk),position)=1
+ s sn(1)=dob s:sn(1)="" sn(1)=-1E14 s $bit(^BitMap("DOB",sn(1),chunk),position)=1
+ s sn(1)=sex s:sn(1)="" sn(1)=-1E14 s $bit(^BitMap("Sex",sn(1),chunk),position)=1
+]]></Implementation>
+</Method>
+
+<Method name="BitMapUpdate">
+<Description>
+This code needs to be called when ever a row has been deleted from the table/class.
+
+It will update the two bit maps plus the extent.
+
+All values should be in logical format.
+</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>id:%Integer,dobOld:%Date,dobNew:%Date,sexOld:%String,sexNew:%String</FormalSpec>
+<Implementation><![CDATA[
+ s chunk=id\64000+1
+ s position=id#64000+1 
+ s sn(1)=dobOld s:sn(1)="" sn(1)=-1E14 s $bit(^BitMap("DOB",sn(1),chunk),position)=0
+ s sn(1)=dobNew s:sn(1)="" sn(1)=-1E14 s $bit(^BitMap("DOB",sn(1),chunk),position)=1
+ s sn(1)=sexOld s:sn(1)="" sn(1)=-1E14 s $bit(^BitMap("Sex",sn(1),chunk),position)=0
+ s sn(1)=sexNew s:sn(1)="" sn(1)=-1E14 s $bit(^BitMap("Sex",sn(1),chunk),position)=1
+]]></Implementation>
+</Method>
+
+<Method name="PopulateBitMaps">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	s sub=""
+	f  {
+		s sub=$O(^Mapping("BitMap",sub)) q:sub="" 
+		s node=^Mapping("BitMap",sub)
+		s date=$P(node,"^",2)
+		s gender=$P(node,"^",3)
+		d ##class(Mapping.BitMapExample).BitMapInsert(sub,date,gender) 
+	}
+]]></Implementation>
+</Method>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.BitMapExampleS</StreamLocation>
+<SQLMap name="DOBIndex">
+<Type>bitmap</Type>
+<ConditionalWithHostVars/>
+<Global>^BitMap</Global>
+<Subscript name="1">
+<Expression>"DOB"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{DOB}</Expression>
+</Subscript>
+</SQLMap>
+<SQLMap name="Extent">
+<Type>bitmapextent</Type>
+<ConditionalWithHostVars/>
+<Global>^BitMap</Global>
+<Subscript name="1">
+<Expression>"Extent"</Expression>
+</Subscript>
+</SQLMap>
+<SQLMap name="Master">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping</Global>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>"BitMap"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub}</Expression>
+</Subscript>
+<Data name="DOB">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Sex">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="NameIndex">
+<Type>index</Type>
+<ConditionalWithHostVars/>
+<Global>^BitMap</Global>
+<Subscript name="1">
+<Expression>"Name"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Name}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Sub}</Expression>
+</Subscript>
+</SQLMap>
+<SQLMap name="SexIndex">
+<Type>bitmap</Type>
+<ConditionalWithHostVars/>
+<Global>^BitMap</Global>
+<Subscript name="1">
+<Expression>"Sex"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sex}</Expression>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

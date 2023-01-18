@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="9" zv="Cache for Windows NT (Intel) 5.0.12 (Build 5504)" ts="2005-08-31 15:28:14">
+<Class name="Mapping.TwoGlobals">
+<Description>
+This class takes data from two different globals one after the other.
+
+The global data looks like this:
+
+^Member(1,"08/24/2005 11:39",4)=One Memorial Drive
+                             5)=3rd Floor
+                             7)=Cambridge
+                             8)=MA
+                             9)=02142
+ 
+Array: ^Provider
+^Provider(1,"08/24/2005 11:43",10)=
+                               11)=15 Cliff Dr
+                               12)=
+                               13)=
+                               14)=Plainville
+                               15)=MA
+                               16)=02762</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60143,55608.77005</TimeChanged>
+<TimeCreated>59820,31009.077447</TimeCreated>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="Address1">
+<Type>%String</Type>
+</Property>
+
+<Property name="Address2">
+<Type>%String</Type>
+</Property>
+
+<Property name="Address3">
+<Type>%String</Type>
+</Property>
+
+<Property name="City">
+<Type>%String</Type>
+</Property>
+
+<Property name="State">
+<Type>%String</Type>
+</Property>
+
+<Property name="ZipCode">
+<Type>%String</Type>
+</Property>
+
+<Property name="GloType">
+<Type>%String</Type>
+</Property>
+
+<Property name="ID">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="timestamp">
+<Type>%String</Type>
+</Property>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>GloType,ID,timestamp</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoGlobalsS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^*</Global>
+<Subscript name="1">
+<AccessType>Global</AccessType>
+<Expression>{GloType}</Expression>
+<NextCode> i {L1}="" s {L1}="Member" QUIT
+ i {L1}="Member" s {L1}="Provider" QUIT
+ s {L1}=""
+ </NextCode>
+</Subscript>
+<Subscript name="2">
+<Expression>{ID}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{timestamp}</Expression>
+</Subscript>
+<Subscript name="4">
+<AccessType>Sub</AccessType>
+<Expression>$s({GloType}="Member":3,1:10)</Expression>
+<NextCode> i {L4}="" s {L4}=$s({L1}="Member":3,1:10) QUIT
+ s {L4}=""
+ </NextCode>
+</Subscript>
+<Data name="Address1">
+<Node>+1</Node>
+</Data>
+<Data name="Address2">
+<Node>+2</Node>
+</Data>
+<Data name="Address3">
+<Node>+3</Node>
+</Data>
+<Data name="City">
+<Node>+4</Node>
+</Data>
+<Data name="State">
+<Node>+5</Node>
+</Data>
+<Data name="ZipCode">
+<Node>+6</Node>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Checksum value="2049501750"/>
+</Export>

@@ -3,6 +3,8 @@ Class data.test Extends (%Persistent, %XML.Adaptor, %JSON.Adaptor, %Populate) [ 
 
 Parameter IDPROPERTY = "String";
 
+Property MT As %String;
+
 Property String As %String(MAXLEN = "", POPSPEC = "Mission()");
 
 Property BStream As %Stream.GlobalBinary(POPSPEC = "##class(data.test).BStreamPop()");
@@ -180,6 +182,9 @@ Storage Default
 </Value>
 <Value name="13">
 <Value>created</Value>
+</Value>
+<Value name="14">
+<Value>MT</Value>
 </Value>
 </Data>
 <DataLocation>^data.testD</DataLocation>

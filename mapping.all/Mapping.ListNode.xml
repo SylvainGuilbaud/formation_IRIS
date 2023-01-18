@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="20" zv="Cache for Windows (Intel) 5.2.3 (Build 710)" ts="2007-06-05 07:28:51">
+<Class name="Mapping.ListNode">
+<Description>
+This table give an example of how you can create a list property for CacheSQLStorage
+
+The mapped global looks like
+
+^mapping("ListNode",1)="Brnedan Bannon"
+^mapping("ListNode",1,"Kids",1)="Kaitlin Bannon"
+^mapping("ListNode",1,"Kids",2)="Melissa Bannon"
+^mapping("ListNode",1,"Kids",3)="Robin Bannon"
+^mapping("ListNode",1,"Kids",4)="Kieran Bannon"
+
+
+
+The problem with this structure is the compiler is looking for a zero node that contains the counter of list.  
+Because this is missing we need to use Retrieval code for the list Property.
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy>SQLStorage</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>60786,25924.306434</TimeCreated>
+
+<Index name="RowIDBasedIDKeyIndex">
+<IdKey>1</IdKey>
+<PrimaryKey>1</PrimaryKey>
+<Properties>sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Name">
+<Description>
+Name</Description>
+<Type>%Name</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>2</SqlColumnNumber>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="25"/>
+</Property>
+
+<Property name="Children">
+<Description>
+Children</Description>
+<Type>%Name</Type>
+<Collection>list</Collection>
+<Relationship>0</Relationship>
+<SqlColumnNumber>3</SqlColumnNumber>
+<SqlListType>SUBNODE</SqlListType>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="25"/>
+</Property>
+
+<Property name="sub1">
+<Description>
+sub1</Description>
+<Type>%Float</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>4</SqlColumnNumber>
+</Property>
+
+<Storage name="SQLStorage">
+<Type>%CacheSQLStorage</Type>
+<SqlRowIdName>ListNode</SqlRowIdName>
+<StreamLocation>^User.ListNodeS</StreamLocation>
+<SQLMap name="master">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^mapping</Global>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>"ListNode"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{sub1}</Expression>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>sub1</Field>
+</RowIdSpec>
+<Data name="Children">
+<RetrievalCode> n sub2,data
+ s sub2=""
+ f  s sub2=$o(^mapping("ListNode",{L2},"Kids",sub2),1,data) Q:sub2=""  s $li({*},sub2)=data</RetrievalCode>
+</Data>
+<Data name="Name">
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

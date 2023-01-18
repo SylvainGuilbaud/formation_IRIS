@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="21" zv="Cache for Windows (Intel) 2007.1 (Build 369)" ts="2007-08-22 11:32:28">
+<Class name="Mapping.TwoFieldsOneSubscript">
+<Description>
+THis class maps a global in the following format.  The tricky part is the second subscript is made up of two fields instead of one.
+
+One other solution to this would be to have an one field be Subscript2 and then have two computed fields based on that.
+
+This mapping uses special next code to get the values of the two fields without using computed fields.
+
+^Mapping("TwoFieldsOneSubscript","test1.1",1)=Row 1
+^Mapping("TwoFieldsOneSubscript","test1.2",1)=Row 2
+^Mapping("TwoFieldsOneSubscript","test1.3",1)=Row 3
+^Mapping("TwoFieldsOneSubscript","test2.1",1)=Row 4
+^Mapping("TwoFieldsOneSubscript","test2.2",1)=Row 5
+^Mapping("TwoFieldsOneSubscript","test3.1",1)=Row 6
+^Mapping("TwoFieldsOneSubscript","test4.1",1)=Row 7
+^Mapping("TwoFieldsOneSubscript","test4.3",1)=Row 8
+^Mapping("TwoFieldsOneSubscript","test5.1",1)=Row 9
+^Mapping("TwoFieldsOneSubscript","test7.7",1)=Row 10
+
+The keys to mapping this are.  Next code of Subscript 2 you need to concatinate a string that colates after all the possible JobNumber values.
+
+If Both JobType and JobNumber can be integers then the first line of the next code for JobNumber needs to be changed from ..._"" to ..._0  If jobnumber can be 0 then maybe something like _".01", or what ever will make sure this colates before any value of JobType_"."_JobNumber
+
+</Description>
+<ClassType>persistent</ClassType>
+<Owner>_SYSTEM</Owner>
+<ProcedureBlock>0</ProcedureBlock>
+<SqlRowIdName>TwoFieldsOneSubscript</SqlRowIdName>
+<SqlTableName>TwoFieldsOneSubscript</SqlTableName>
+<StorageStrategy>SQLStorage</StorageStrategy>
+<Super>%Library.Persistent</Super>
+<TimeCreated>59838,55575.11637</TimeCreated>
+
+<Parameter name="EXTENTSIZE">
+<Default>250</Default>
+</Parameter>
+
+<Index name="RowIDBasedIDKeyIndex">
+<IdKey>1</IdKey>
+<PrimaryKey>1</PrimaryKey>
+<Properties>JobType,JobNumber,Sub2</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="JobType">
+<Description>
+JobType</Description>
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>2</SqlColumnNumber>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="0"/>
+</Property>
+
+<Property name="JobNumber">
+<Description>
+JobNumber</Description>
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>3</SqlColumnNumber>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="0"/>
+</Property>
+
+<Property name="Sub2">
+<Description>
+Sub2</Description>
+<Type>%Library.Float</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>4</SqlColumnNumber>
+</Property>
+
+<Property name="data">
+<Description>
+data</Description>
+<Type>%Library.String</Type>
+<Collection/>
+<Relationship>0</Relationship>
+<SqlColumnNumber>5</SqlColumnNumber>
+<Parameter name="COLLATION" value="Exact"/>
+<Parameter name="MAXLEN" value="30"/>
+<Parameter name="TRUNCATE" value="0"/>
+</Property>
+
+<Storage name="SQLStorage">
+<Type>%Library.CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoFieldsOneSubscriptS</StreamLocation>
+<SQLMap name="Master">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping</Global>
+<RowReference>^Mapping({L1},{L2}_"."_{L3},{L4})</RowReference>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<AccessType>Other</AccessType>
+<Expression>"TwoFieldsOneSubscript"</Expression>
+</Subscript>
+<Subscript name="2">
+<AccessType>Other</AccessType>
+<Expression>{JobType}</Expression>
+<NextCode> i {L2}'="" S {L2}={L2}_"."_"zzzzzzzz"       ; this need to colate  after the last JobNumber
+ s {L2}=$O(^Mapping({L1},{L2}))
+ s {L2}=$P({L2},".",1)
+</NextCode>
+</Subscript>
+<Subscript name="3">
+<AccessType>Other</AccessType>
+<Expression>{JobNumber}</Expression>
+<NextCode> s {L3}={L2}_"."_{L3}
+ s {L3}=$O(^Mapping({L1},{L3}))
+ i {L3}="" QUIT
+ i $P({L3},".",1)'={L2} s {L3}="" QUIT
+ s {L3}=$P({L3},".",2)
+</NextCode>
+</Subscript>
+<Subscript name="4">
+<AccessType>Other</AccessType>
+<DataAccess>^Mapping({L1},{L2}_"."_{L3})</DataAccess>
+<Expression>{Sub2}</Expression>
+<NextCode> s {L4}=$O(^Mapping({L1},{L2}_"."_{L3},{L4}))
+</NextCode>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>JobType</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L3}</Expression>
+<Field>JobNumber</Field>
+</RowIdSpec>
+<RowIdSpec name="3">
+<Expression>{L4}</Expression>
+<Field>Sub2</Field>
+</RowIdSpec>
+<Data name="data">
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

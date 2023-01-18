@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:08:21">
+<Class name="Mapping.ComputedListIndex">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64152,57764.825205</TimeChanged>
+<TimeCreated>60758,54340.814</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="EXTENTSIZE">
+<Default>10000000</Default>
+</Parameter>
+
+<Property name="Zkey">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="DateAdded">
+<Type>%Date</Type>
+</Property>
+
+<Property name="ProvNum">
+<Type>%Integer</Type>
+<Collection>list</Collection>
+<SqlComputeCode> s counter=""
+ f counter=1:1:$L(^LSC({ZKEY},2),"^") {
+	s node=$P(^LSC({ZKEY},2),"^",counter)
+	s num=$P(node,",",1)
+	s {ProvNum}=$LB({ProvNum},num) 
+ }</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+<Transient>1</Transient>
+</Property>
+
+<Index name="ProvNumIndex">
+<Properties>ProvNum(ELEMENTS),DateAdded</Properties>
+</Index>
+
+<Index name="IDKey">
+<IdKey>1</IdKey>
+<Properties>Zkey</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ComputedListIndexS</StreamLocation>
+<ExtentSize>10000000</ExtentSize>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^LSC</Global>
+<Subscript name="1">
+<Expression>{Zkey}</Expression>
+</Subscript>
+<Data name="DateAdded">
+<Delimiter>"^"</Delimiter>
+<Node>1</Node>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="Map2">
+<Type>index</Type>
+<Global>^LSI</Global>
+<Subscript name="1">
+<Expression>{ProvNum(ELEMENTS)}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{DateAdded}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Zkey}</Expression>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2014.2 (Build 214U)" ts="2014-03-05 11:17:24">
+<Class name="Mapping.ListDataNested">
+<Description><![CDATA[
+USER>s ^Mapping("ListDataNested",1)=$LB("Brendan",50000,"Support",$LB(4,5,6))
+ 
+USER>s ^Mapping("ListDataNested",2)=$LB("David",55000,"Customer",$LB(1,2,3))
+ 
+USER>d $SYSTEM.SQL.Shell()
+SQL Command Line Shell
+----------------------------------------------------
+ 
+The command prefix is currently set to: <<nothing>>.
+Enter q to quit, ? for help.
+USER>>SELECT * FROM Mapping.ListDataNested
+1.      SELECT * FROM Mapping.ListDataNested
+ 
+ID      DOB     Name    Sub1    Title          list1   list2   list3
+1       50000   Brendan 1       Support         4       5       6
+2       55000   David   2       Customer        1       2       3
+ 
+2 Rows(s) Affected
+statement prepare time: 0.4444s, elapsed execute time: 0.0064s.
+---------------------------------------------------------------------------]]></Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63251,40612.790196</TimeChanged>
+<TimeCreated>63250,34730.556697</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Title">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="list1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="list2">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="list3">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ListDataS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"ListDataNested"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="DOB">
+<Piece>2</Piece>
+</Data>
+<Data name="Name">
+<Piece>1</Piece>
+</Data>
+<Data name="Title">
+<Piece>3</Piece>
+</Data>
+<Data name="list1">
+<Piece>4,1</Piece>
+</Data>
+<Data name="list2">
+<Piece>4,2</Piece>
+</Data>
+<Data name="list3">
+<Piece>4,3</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

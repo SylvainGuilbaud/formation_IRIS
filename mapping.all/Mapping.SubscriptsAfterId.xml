@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:15:55">
+<Class name="Mapping.SubscriptAfterId">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62496,52114.789425</TimeChanged>
+<TimeCreated>62496,51557.067292</TimeCreated>
+
+<Property name="Id">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Data">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<Type>key</Type>
+<IdKey>1</IdKey>
+<Properties>Id</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.SubscriptAfterIdS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^glo</Global>
+<RowReference>^glo({L1},$o(^glo({L1},"")))</RowReference>
+<Subscript name="1">
+<Expression>{Id}</Expression>
+<NextCode> s {L1}=$O(^glo({L1}))
+ </NextCode>
+<Invalidcondition name="1">
+<Expression>'$D(^glo({L1},$o(^glo({L1},""))))</Expression>
+</Invalidcondition>
+</Subscript>
+<Data name="Data">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

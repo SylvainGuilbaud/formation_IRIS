@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="21" zv="Cache for Windows (Intel) 2007.1 (Build 307U)" ts="2007-06-28 13:02:39">
+<Class name="Mapping.TextProperty">
+<Description>
+This class maps a global that looks like:
+
+^HELP=2
+^HELP(1)="60809^46765^Brendan"
+^HELP(1,"U")="Help Text"
+^HELP(2)="60809^46788^Sharon"
+^HELP(2,"U")="Summer Camp"
+
+it had an index on a text field UserHelp that looks like:
+
+^HELP("KEYS","#doclen",1)=""
+                       2)=""
+^HELP("KEYS","#norm",1)=""
+                     2)=""
+^HELP("KEYS","camp",2)=""
+^HELP("KEYS","help",1)=""
+^HELP("KEYS","help text",1)=""
+^HELP("KEYS","summer",2)=""
+^HELP("KEYS","summer camp",2)=""
+^HELP("KEYS","text",1)=""
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>0</ProcedureBlock>
+<StorageStrategy>DBMSStorage</StorageStrategy>
+<Super>%Persistent,%XML.Adaptor</Super>
+<TimeCreated>60455,61037</TimeCreated>
+
+<Property name="Code">
+<Type>%Integer</Type>
+<InitialExpression>$I(^HELP)</InitialExpression>
+</Property>
+
+<Property name="CreatedBy">
+<Type>%String</Type>
+</Property>
+
+<Property name="CreatedDate">
+<Type>%Date</Type>
+<Final>1</Final>
+<InitialExpression>+$H</InitialExpression>
+<Parameter name="CAPTION" value="Create Date"/>
+</Property>
+
+<Property name="CreatedTime">
+<Type>%Time</Type>
+<Final>1</Final>
+<InitialExpression>$p($h,",",2)</InitialExpression>
+<Parameter name="CAPTION" value="Create Time"/>
+<Parameter name="FORMAT" value="4"/>
+</Property>
+
+<Property name="UserHelp">
+<Type>%Text</Type>
+<SqlColumnNumber/>
+<Parameter name="CAPTION" value="User Help"/>
+<Parameter name="COLLATION" value="EXACT"/>
+<Parameter name="LANGUAGECLASS" value="%Text.English"/>
+<Parameter name="MAXLEN" value="32000"/>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>Code</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="UserHelp">
+<Properties>UserHelp(KEYS)</Properties>
+</Index>
+
+<Storage name="DBMSStorage">
+<Type>%CacheSQLStorage</Type>
+<SqlIdExpression/>
+<StreamLocation>^DBMS.HelpS</StreamLocation>
+<Property name="Code"/>
+<Property name="CreBy"/>
+<Property name="CreDt"/>
+<Property name="CreTm"/>
+<Property name="EditBy"/>
+<Property name="EditDt"/>
+<Property name="EditTm"/>
+<Property name="ExtendedHelp"/>
+<Property name="IdxHelp"/>
+<Property name="UserHelp"/>
+<SQLMap name="DBMSMaster">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^HELP</Global>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>{Code}</Expression>
+</Subscript>
+<Data name="CreatedBy">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="CreatedDate">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="CreatedTime">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="UserHelp">
+<Node>"U"</Node>
+</Data>
+</SQLMap>
+<SQLMap name="zUserKeys">
+<Type>index</Type>
+<ConditionalWithHostVars/>
+<Global>^HELP</Global>
+<Subscript name="1">
+<Expression>"KEYS"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{UserHelp(KEYS)}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Code}</Expression>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

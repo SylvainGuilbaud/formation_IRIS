@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="21" zv="Cache for Windows (x86-32) 2007.1.6 (Build 902U)" ts="2010-02-03 16:39:59">
+<Class name="Mapping.PersonSameDelimiter">
+<Description>
+
+The data for this class looks like
+
+^Mapping("PersonSameDelimeter",1)="Brendan Bannon^Cambridge^MA^15 Cliff Dr^02125^45956"
+^Mapping("PersonSameDelimeter",2)="Sharon Bannon^Plainville^MA^15 Cliff Dr^02125^45956"
+</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>61760,58498.948</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Address">
+<Type>Mapping.Address</Type>
+</Property>
+
+<Property name="ID">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>ID</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.PersonSameDelimiterS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"PersonSameDelimiter"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{ID}</Expression>
+</Subscript>
+<Data name="Address">
+<RetrievalCode> s {*}=$P(^Mapping({L1},{L2}),"^",2,5)</RetrievalCode>
+</Data>
+<Data name="Address_City">
+<RetrievalCode> s {*}=$P(^Mapping({L1},{L2}),"^",2)</RetrievalCode>
+</Data>
+<Data name="Address_State">
+<RetrievalCode> s {*}=$P(^Mapping({L1},{L2}),"^",3)</RetrievalCode>
+</Data>
+<Data name="Address_Street">
+<RetrievalCode> s {*}=$P(^Mapping({L1},{L2}),"^",4)</RetrievalCode>
+</Data>
+<Data name="Address_ZipCode">
+<RetrievalCode> s {*}=$P(^Mapping({L1},{L2}),"^",5)</RetrievalCode>
+</Data>
+<Data name="DOB">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="22" zv="Cache for Windows (x86-64) 2008.2.6 (Build 964U)" ts="2011-01-13 14:44:15">
+<Class name="Mapping.TwoNamespacesOneGlobal">
+<Description><![CDATA[
+This class looks at one global that has data in 2 different namespaces, USER and SAMPLES
+
+USER>zw ^Facility
+^Facility(1)="Row 1"
+^Facility(2)="Row 2"
+ 
+USER>zw ^|"SAMPLES"|Facility
+^|"SAMPLES"|Facility(1)="Row 3"
+^|"SAMPLES"|Facility(2)="Row 4"
+^|"SAMPLES"|Facility(3)="Row 5"
+]]></Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62104,53029.715635</TimeChanged>
+<TimeCreated>62104,49320.813223</TimeCreated>
+
+<Property name="NS">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>NS,Sub1</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoNamespac6F37S</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Facility</Global>
+<RowReference>^|{L1}|Facility({L2})</RowReference>
+<Subscript name="1">
+<AccessType>Other</AccessType>
+<Expression>{NS}</Expression>
+<NextCode> if {L1}="SAMPLES" s {L1}="" QUIT
+ if {L1}="USER" s {L1}="SAMPLES" QUIT
+ if {L1}="" s {L1}="USER" QUIT</NextCode>
+<Invalidcondition name="1">
+<Expression>",USER,SAMPLES,"'[(","_{L1}_",")</Expression>
+</Invalidcondition>
+</Subscript>
+<Subscript name="2">
+<DataAccess>^|{L1}|Facility</DataAccess>
+<Expression>{Sub1}</Expression>
+<NextCode>s {L2}=$O(^|{L1}|Facility({L2}))</NextCode>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L1}</Expression>
+<Field>NS</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L2}</Expression>
+<Field>Sub1</Field>
+</RowIdSpec>
+<Data name="Data">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

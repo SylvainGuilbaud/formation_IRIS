@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="9" zv="Cache for Windows NT (Intel) 5.0.12 (Build 5504)" ts="2005-10-28 11:25:33">
+<Class name="Mapping.DateIDKey">
+<Description>
+This class maps a global that has a date as the subscript, but the date is not in $H format.
+
+The global looks like:
+
+^DateID(20051028)="This is row 1"
+^DateID(20051029)="This is the next row"
+^DateID(20051031)="Trick or Treate!"
+
+THe problem here is we expect the Logical Value to always be $H for a date and for Subscripts we do not call LogicalToStorage or StorageToLogical code.
+
+You need to Write next code that will translate $H to the correct format for the global, do the $ORDER() and then change back to $H.
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60201,41101.092464</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="Sub1">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Data">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.SpaceIdKeyS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^glo</Global>
+<RowReference>^DateID($ZD({L1},8))</RowReference>
+<Subscript name="1">
+<AccessType>Other</AccessType>
+<Expression>{Sub1}</Expression>
+<NextCode> s {L1}=$ZD({L1},8)
+                                     s {L1}=$O(^DateID({L1}))
+                                     Q:{L1}=""
+                                      s {L1}=$ZDH({L1},8)</NextCode>
+</Subscript>
+<Data name="Data">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Checksum value="88825722"/>
+</Export>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2 (Build 454U)" ts="2011-01-14 16:17:07">
+<Class name="Mapping.OneNodeTwoDelimiters">
+<Description>
+This class gives an example of mapping a global that uses 2 different delimiters in one global node.
+
+The global looks like:
+
+^Mapping("OneNodeTwoDelimiters",1)="Brendan Bannon^50000^15 Cliff Dr/Cambridge/MA/02762^Manager"
+^Mapping("OneNodeTwoDelimiters",2)="Sharon Bannon^50000^15 Cliff Dr/Cambridge/MA/02762^PT"
+
+</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62105,58575.247008</TimeChanged>
+<TimeCreated>62105,58304.349459</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Street">
+<Type>%String</Type>
+</Property>
+
+<Property name="City">
+<Type>%String</Type>
+</Property>
+
+<Property name="State">
+<Type>%String</Type>
+</Property>
+
+<Property name="Zip">
+<Type>%String</Type>
+</Property>
+
+<Property name="Title">
+<Type>%String</Type>
+</Property>
+
+<Property name="ID">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ID</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.OneNodeTwoDelimitersS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"OneNodeTwoDelimiters"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{ID}</Expression>
+</Subscript>
+<Data name="City">
+<Delimiter>"^","/"</Delimiter>
+<Piece>3,2</Piece>
+</Data>
+<Data name="DOB">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="State">
+<Delimiter>"^","/"</Delimiter>
+<Piece>3,3</Piece>
+</Data>
+<Data name="Street">
+<Delimiter>"^","/"</Delimiter>
+<Piece>3,1</Piece>
+</Data>
+<Data name="Title">
+<Delimiter>"^"</Delimiter>
+<Piece>4</Piece>
+</Data>
+<Data name="Zip">
+<Delimiter>"^","/"</Delimiter>
+<Piece>3,4</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

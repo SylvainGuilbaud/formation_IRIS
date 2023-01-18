@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:09:27">
+<Class name="Mapping.ConditionalIndex">
+<Description>
+most older applications do not have null subscript markers so the only fields you can index are fields that are required.
+
+Cache SQL Storage support Conditional indexes.  In a conditional index you can provide an expression that describes when a value will not be part of the index.  THe Query optimizer then uses this info to deside if it is safe to use the index in a query.
+
+If this is the master map and you want to have an idex on the third value, D, the Row 3 will not be part of the index because the third piece is NULL
+^GLO(1)="1^2^3"
+^GLO(2)="A^B^C"
+^GLO(3)="E^F"
+^GLO(4)="X^Y^Z"
+
+The index on D would look like this:
+
+^GLOin1(3,1)=""
+^GLOin1("C",2)=""
+^GLOin1("Z",4)=""
+
+THe Query Optimizer would only be able to use the index above if it knew at compile time that field D could not be NULL
+
+SELECT A FROM Mapping.ConditionalIndex WHERE D %STARTSWITH "A"
+
+would use the index
+
+SELECT D FROM Mapping.ConditionalIndex
+
+would NOT use the index.
+
+</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63106,72377.711906</TimeChanged>
+<TimeCreated>63106,71474.220514</TimeCreated>
+
+<Property name="A">
+<Type>%String</Type>
+</Property>
+
+<Property name="B">
+<Type>%String</Type>
+</Property>
+
+<Property name="C">
+<Type>%String</Type>
+</Property>
+
+<Property name="D">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>A</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ConditionalIndexS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars>0</ConditionalWithHostVars>
+<Global>^GLO</Global>
+<Subscript name="1">
+<Expression>{A}</Expression>
+</Subscript>
+<Data name="B">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="C">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="D">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="Map2">
+<Type>index</Type>
+<Condition>{D}'=""</Condition>
+<ConditionalWithHostVars>0</ConditionalWithHostVars>
+<ConditionFields>D</ConditionFields>
+<Global>^GLOin1</Global>
+<PopulationType>conditional</PopulationType>
+<Subscript name="1">
+<Expression>{D}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{A}</Expression>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

@@ -64,6 +64,9 @@ XData ProductionDefinition
     <Setting Target="Host" Name="TargetConfigNames">patients</Setting>
     <Setting Target="Host" Name="HeaderCount">1</Setting>
   </Item>
+  <Item Name="from Patients REST" Category="" ClassName="REST.service" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">to patient SQL</Setting>
+  </Item>
 </Production>
 }
 

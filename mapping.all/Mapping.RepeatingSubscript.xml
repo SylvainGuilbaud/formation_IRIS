@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 112U)" ts="2014-04-16 06:47:32">
+<Class name="Mapping.RepeatingSubscript">
+<Description><![CDATA[
+In this class the index global has the same value in Subscripts 2 and 4 {Sub1}
+
+You need to define the Data Access value in Subscript Level 4 to be:  
+
+The Subscript Level Mapping only defines the level you need to $ORDER() on so the index only has 4 subscript level even though the global has 5.
+
+USER>zw ^Mapping
+^Mapping(1,2,3)="Gerd^Male"
+^Mapping(4,5,6)="Brendan^Male"
+^Mapping(7,8,9)="?^?"
+ 
+USER>zw ^MappingI
+^MappingI("?",7,8,7,9)=""
+^MappingI("Brendan",4,5,4,6)=""
+^MappingI("Gerd",1,2,1,3)=""
+]]></Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63293,24252.200215</TimeChanged>
+<TimeCreated>63293,22643.585948</TimeCreated>
+
+<Property name="name">
+<Type>%String</Type>
+<Parameter name="COLLATION" value="EXACT"/>
+</Property>
+
+<Property name="Gender">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Sub2">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Sub3">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1,Sub2,Sub3</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.RepeatingSubscriptS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub2}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Sub3}</Expression>
+</Subscript>
+<Data name="Gender">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="Map2">
+<Type>index</Type>
+<Global>^MappingI</Global>
+<RowReference>^MappingI({L1},{L2},{L3},{L2},{L4})</RowReference>
+<Subscript name="1">
+<Expression>{name}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Sub2}</Expression>
+</Subscript>
+<Subscript name="4">
+<DataAccess>^MappingI({L1},{L2},{L3},{L2})</DataAccess>
+<Expression>{Sub3}</Expression>
+<Invalidcondition name="1">
+<Expression>$D(^MappingI({L1},{L2},{L3},{L2},{L4}))=0</Expression>
+</Invalidcondition>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

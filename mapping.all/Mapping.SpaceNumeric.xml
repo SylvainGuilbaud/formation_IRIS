@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="9" zv="Cache for Windows NT (Intel) 5.0.17 (Build 6006)" ts="2006-05-01 14:14:17">
+<Class name="Mapping.SpaceNumeric">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60386,51209.928061</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="PersonName">
+<Type>%String</Type>
+</Property>
+
+<Property name="PersonNum">
+<Type>%Numeric</Type>
+</Property>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>PersonNum</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.SpaceNumericS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^TR0</Global>
+<RowReference>^TR0(" "_{L1})</RowReference>
+<Subscript name="1">
+<AccessType>Other</AccessType>
+<Expression>{PersonNum}</Expression>
+<NextCode> s {L1}=" "_{L1}
+ s {L1}=$o(^TR0({L1}))
+ QUIT:{L1}=""
+ s {L1}=$e({L1},2,999)
+ </NextCode>
+</Subscript>
+<Data name="PersonName">
+<Delimiter>"|"</Delimiter>
+<Node>1</Node>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Checksum value="2091594497"/>
+</Export>

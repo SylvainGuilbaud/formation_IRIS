@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:13:01">
+<Class name="Mapping.ChildPiece2">
+<Description>
+^MyGlobal(123,3)="a!b!c!7!stuff 1;stuff 2;stuff 3;stuff 4"
+^MyGlobal(123,4)="stuff 5;stuff 6;stuff 7;"
+^MyGlobal(124,3)="a!b!c!10!stuff 1;stuff 2;stuff 3;stuff 4"
+^MyGlobal(124,4)="stuff 5;stuff 6;stuff 7;stuff 8"
+^MyGlobal(124,5)="stuff 9;stuff 10"</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63084,35146.573821</TimeChanged>
+<TimeCreated>63084,33848.646315</TimeCreated>
+
+<Property name="ParentPointer">
+<Type>Mapping.ParentPiece2</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ChildPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="data">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub2">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="PieceCounter">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="StuffCounter">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub2,PieceCounter</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ChildPiece2S</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^MyGlobal</Global>
+<Subscript name="1">
+<Expression>{Mapping.ParentPiece2.Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<AccessType>Sub</AccessType>
+<Expression>{Sub2}</Expression>
+</Subscript>
+<Subscript name="3">
+<AccessType>Piece</AccessType>
+<Delimiter>";"</Delimiter>
+<Expression>{PieceCounter}</Expression>
+</Subscript>
+<Data name="StuffCounter">
+<RetrievalCode> s {*}=({L2}-3)*4+{L3}</RetrievalCode>
+</Data>
+<Data name="data">
+<RetrievalCode> s {*}=$P(^MyGlobal({L1},{L2}),";",{L3})
+ s {*}=$P({*},"!",*)</RetrievalCode>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.ParentPiece2">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63084,32734.907702</TimeChanged>
+<TimeCreated>63084,32624.744129</TimeCreated>
+
+<Property name="a">
+<Type>%String</Type>
+</Property>
+
+<Property name="b">
+<Type>%String</Type>
+</Property>
+
+<Property name="c">
+<Type>%String</Type>
+</Property>
+
+<Property name="counter">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+</Index>
+
+<Property name="ChildPointer">
+<Type>Mapping.ChildPiece2</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ParentPiece2S</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars>0</ConditionalWithHostVars>
+<Global>^MyGlobal</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="a">
+<Delimiter>"!"</Delimiter>
+<Node>3</Node>
+<Piece>1</Piece>
+</Data>
+<Data name="b">
+<Delimiter>"!"</Delimiter>
+<Node>3</Node>
+<Piece>2</Piece>
+</Data>
+<Data name="c">
+<Delimiter>"!"</Delimiter>
+<Node>3</Node>
+<Piece>3</Piece>
+</Data>
+<Data name="counter">
+<Delimiter>"!"</Delimiter>
+<Node>3</Node>
+<Piece>4</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

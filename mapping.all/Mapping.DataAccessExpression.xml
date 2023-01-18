@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:19:14">
+<Class name="Mapping.DataAccessExpression">
+<Description>
+This global uses a Data Access Expression {2D} to get the family name from a high level subscript to be included in the row.
+
+Given a glboal like this:
+
+^Mapping("DEA",1)="Bannon"
+^Mapping("DEA",1,1)="Brendan^56000"
+^Mapping("DEA",1,2)="Sharon^56500"
+^Mapping("DEA",2)="Baxter"
+^Mapping("DEA",2,1)="Kyle^56900"
+^Mapping("DEA",3)="Smith"
+^Mapping("DEA",3,1)="Dick^50000"
+^Mapping("DEA",3,2)="Jane^50400"
+^Mapping("DEA",3,3)="John^59400"
+
+Then the rows look like:
+
+1.      SELECT FamilyName, FirstName, DOB FROM Mapping.DataAccessExpression
+ 
+FamilyName      FirstName       DOB
+Bannon              Brendan         56000
+Bannon              Sharon          56500
+Baxter                Kyle          56900
+Smith                 Dick          50000
+Smith                 Jane          50400
+Smith                 John          59400
+</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63369,33162.060634</TimeChanged>
+<TimeCreated>63369,32481.245953</TimeCreated>
+
+<Property name="FirstName">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Property name="FamilyName">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Sub2">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="master">
+<IdKey>1</IdKey>
+<Properties>Sub1,Sub2</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.DataAccessExpressionS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"DEA"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Subscript name="3">
+<DataAccess>^Mapping({L1},{L2})</DataAccess>
+<Expression>{Sub2}</Expression>
+</Subscript>
+<Data name="DOB">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="FamilyName">
+<Node>{3D}</Node>
+</Data>
+<Data name="FirstName">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

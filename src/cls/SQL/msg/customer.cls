@@ -1,0 +1,3 @@
+Class SQL.msg.customer
+{
+}

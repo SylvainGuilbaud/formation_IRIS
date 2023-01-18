@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.4 (Build 506U JAVAINTEG)" ts="2016-08-29 13:33:30">
+<Class name="Mapping.RowIdSpec">
+<Description>
+Given a global that looks like this:
+
+^Mapping("RowIdSpec",1)="Introduction to Mapping Globals"
+^Mapping("RowIdSpec",1.01)="COS Programming"
+^Mapping("RowIdSpec",1.02)="Getting Started with Cache Objects"
+^Mapping("RowIdSpec",2.02)="Don't forget about SQL"
+^Mapping("RowIdSpec",2.03)="CSP Primer"
+^Mapping("RowIdSpec",3.01)="CSP Advanced"
+^Mapping("RowIdSpec",3.02)="JSON"
+
+But a desire for the output to look like this:
+
+ClassNumber	ClassName
+100	                  Introduction to Mapping Globals
+101	                  COS Programming
+102	                  Getting Started with Cache Objects
+202	                  Don't forget about SQL
+203	                  CSP Primer
+301	                  CSP Advanced
+302	                  JSON
+
+
+you will need to include some code in the mapping to translate the subscript values to what you want.  
+The RowId Spec. gives you a place where you can use a COS expression to modify the value that is taken from the global before it is used in any comparisons or displayed.  
+The opposite expression is used in the Subscripts code to change the display / logical value to the format of the subscripts.  
+Any transformations needs to maps 1 to 1 and maintain the same sort order.  
+If you don't maintain the same sort order you might end up in an infinite loop.
+ 
+In this case the transformation is very simple.  
+When we take a value out of the global we multiply by 100, before we use a value as a subscript we divided by 100.
+ </Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>64159,48743.976474</TimeChanged>
+<TimeCreated>64159,41710.345201</TimeCreated>
+
+<Property name="ClassNumber">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ClassName">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ClassNumber</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.RowIdSpecS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"RowIdSpec"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{ClassNumber}/100</Expression>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}*100</Expression>
+<Field>ClassNumber</Field>
+</RowIdSpec>
+<Data name="ClassName">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

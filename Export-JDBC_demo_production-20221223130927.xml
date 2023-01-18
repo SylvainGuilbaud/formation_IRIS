@@ -1,0 +1,3652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for UNIX (Ubuntu Server LTS for ARM64 Containers) 2022.2 (Build 368U)" ts="2022-12-23 13:09:40">
+<Project name="EnsExportProduction_2022-12-23 13-09-26_982+0" LastModified="2022-12-23 13:09:40.404271045">
+  <ProjectDescription>Studio Project generated from Production 'JDBC.demo.production' at 2022-12-23 13:09:26.982 UTC</ProjectDescription>
+  <Items>
+    <ProjectItem name="HTTP.msg.genderRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="HTTP.msg.genderResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="HTTP.operation" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.SQL.GatewayResultSet" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.SQL.OutboundAdapter" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.INSERT.operation" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.SELECT.operation" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.msg.customerRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.msg.customerResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.msg.init" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.msg.test" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.msg.testBatch" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.process.customers" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.production" type="CLS"></ProjectItem>
+    <ProjectItem name="JDBC.demo.routage.clients" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Operation.SOAPDemoSoap" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.AddIntegerRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.DivideIntegerRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.FindPersonRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.GetByNameRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.GetDataSetByNameRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.GetListByNameRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.LookupCityRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.MissionRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Request.QueryByNameRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.AddIntegerResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.DivideIntegerResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.FindPersonResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.GetByNameResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.GetDataSetByNameResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.GetListByNameResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.LookupCityResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.MissionResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.Response.QueryByNameResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.s0.Address" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.s0.ByNameDataSet" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.s0.Person" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.s0.PersonIdentification" type="CLS"></ProjectItem>
+    <ProjectItem name="crcind.s0.QueryByNameDataSet" type="CLS"></ProjectItem>
+    <ProjectItem name="data.EXTERNAL.customer.Batch" type="CLS"></ProjectItem>
+    <ProjectItem name="data.EXTERNAL.customer.Record" type="CLS"></ProjectItem>
+    <ProjectItem name="data.RM.customer" type="CLS"></ProjectItem>
+    <ProjectItem name="data.RM.customer.Batch" type="CLS"></ProjectItem>
+    <ProjectItem name="data.RM.customer.Record" type="CLS"></ProjectItem>
+    <ProjectItem name="data.transfo.ajoutHashtag" type="CLS"></ProjectItem>
+    <ProjectItem name="w3schools.Operation.TempConvertSoap" type="CLS"></ProjectItem>
+    <ProjectItem name="w3schools.Request.CelsiusToFahrenheitRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="w3schools.Request.FahrenheitToCelsiusRequest" type="CLS"></ProjectItem>
+    <ProjectItem name="w3schools.Response.CelsiusToFahrenheitResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="w3schools.Response.FahrenheitToCelsiusResponse" type="CLS"></ProjectItem>
+    <ProjectItem name="EnsExportNotes.EnsExportProduction_2022-12-23 13-09-26_982+0.PTD" type="PTD"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Class name="HTTP.msg.genderRequest">
+<Super>Ens.Request</Super>
+<TimeChanged>66448,68445.760319179</TimeChanged>
+<TimeCreated>66448,68445.760319179</TimeCreated>
+
+<Property name="firstName">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>genderRequestDefaultData</DefaultData>
+<Data name="genderRequestDefaultData">
+<Subscript>"genderRequest"</Subscript>
+<Value name="1">
+<Value>firstName</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="HTTP.msg.genderResponse">
+<Super>Ens.Response</Super>
+<TimeChanged>66448,68445.770982763</TimeChanged>
+<TimeCreated>66448,68445.770982763</TimeCreated>
+
+<Property name="name">
+<Type>%String</Type>
+</Property>
+
+<Property name="gender">
+<Type>%String</Type>
+</Property>
+
+<Property name="probability">
+<Type>%Numeric</Type>
+</Property>
+
+<Property name="count">
+<Type>%Integer</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>genderResponseDefaultData</DefaultData>
+<Data name="genderResponseDefaultData">
+<Subscript>"genderResponse"</Subscript>
+<Value name="1">
+<Value>name</Value>
+</Value>
+<Value name="2">
+<Value>gender</Value>
+</Value>
+<Value name="3">
+<Value>probability</Value>
+</Value>
+<Value name="4">
+<Value>count</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="HTTP.operation">
+<Super>EnsLib.REST.Operation</Super>
+<TimeChanged>66448,68445.755380804</TimeChanged>
+<TimeCreated>66448,68445.755380804</TimeCreated>
+
+<Parameter name="INVOCATION">
+<Default>Queue</Default>
+</Parameter>
+
+<Property name="Code">
+<Description>
+Code département (sur 3 caractères)</Description>
+<Type>%String</Type>
+<InitialExpression>"059"</InitialExpression>
+<Required>1</Required>
+<Parameter name="DISPLAYLIST" value=",AIN,AISNE,ALLIER,ALPES-DE-HAUTE-PROVENCE,HAUTES-ALPES,ALPES-MARITIMES,ARDÈCHE,ARDENNES,ARIÈGE,AUBE,AUDE,AVEYRON,BOUCHES-DU-RHÔNE,CALVADOS,CANTAL,CHARENTE,CHARENTE-MARITIME,CHER,CORRÈZE,CÔTE-D&apos;OR,CÔTES-D&apos;ARMOR,CREUSE,DORDOGNE,DOUBS,DRÔME,EURE,EURE-ET-LOIR,FINISTÈRE,GARD,HAUTE-GARONNE,GERS,GIRONDE,HÉRAULT,ILE-ET-VILAINE,INDRE,INDRE-ET-LOIRE,ISÈRE,JURA,LANDES,LOIR-ET-CHER,LOIRE,HAUTE-LOIRE,LOIRE-ATLANTIQUE,LOIRET,LOT,LOT-ET-GARONNE,LOZÈRE,MAINE-ET-LOIRE,MANCHE,MARNE,HAUTE-MARNE,MAYENNE,MEURTHE-ET-MOSELLE,MEUSE,MORBIHAN,MOSELLE,NIÈVRE,NORD,OISE,ORNE,PAS-DE-CALAIS,PUY-DE-DÔME,PYRÉNÉES-ATLANTIQUES,HAUTES-PYRÉNÉES,PYRÉNÉES-ORIENTALES,BAS-RHIN,HAUT-RHIN,RHÔNE,HAUTE-SAÔNE,SAÔNE-ET-LOIRE,SARTHE,SAVOIE,HAUTE-SAVOIE,PARIS,SEINE-MARITIME,SEINE-ET-MARNE,YVELINES,DEUX-SÈVRES,SOMME,TARN,TARN-ET-GARONNE,VAR,VAUCLUSE,VENDÉE,VIENNE,HAUTE-VIENNE,VOSGES,YONNE,TERRITOIRE DE BELFORT,ESSONNE,HAUTS-DE-SEINE,SEINE-SAINT-DENIS,VAL-DE-MARNE,VAL-D&apos;OISE,GUADELOUPE,MARTINIQUE,GUYANE,RÉUNION,MAYOTTE,CORSE-DU-SUD,HAUTE-CORSE"/>
+<Parameter name="VALUELIST" value=",001,002,003,004,005,006,007,008,009,010,011,012,013,014,015,016,017,018,019,021,022,023,024,025,026,027,028,029,030,031,032,033,034,035,036,037,038,039,040,041,042,043,044,045,046,047,048,049,050,051,052,053,054,055,056,057,058,059,060,061,062,063,064,065,066,067,068,069,070,071,072,073,074,075,076,077,078,079,080,081,082,083,084,085,086,087,088,089,090,091,092,093,094,095,971,972,973,974,976,02a,02b"/>
+</Property>
+
+<Property name="ContentType">
+<Description>
+Content-Type = "application/json"</Description>
+<Type>%String</Type>
+<InitialExpression>"application/json"</InitialExpression>
+<Required>1</Required>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>Code:app,ContentType:app</Default>
+</Parameter>
+
+<Method name="gender">
+<FormalSpec>pRequest:HTTP.msg.genderRequest,*pResponse:HTTP.msg.genderResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+    try{
+	
+		set sc = $$$OK
+								
+		set pResponse = ##class(HTTP.msg.genderResponse).%New()
+        set httpRequest = ##class(%Net.HttpRequest).%New()
+        set httpResponse = ##class(%Net.HttpRequest).%New()
+        set url = ..Adapter.URL_"?name="_pRequest.firstName
+        
+        #; $$$ThrowOnError(..Adapter.GetURL(..Adapter.HTTPServer,.pHttpResponse))
+        $$$ThrowOnError(..Adapter.SendFormDataArray(.httpResponse,"GET",httpRequest,,,url))
+        set sc = ..JSONStreamToObject(httpResponse.Data, .json)
+       
+        set pResponse.name=json.name
+        set pResponse.gender=json.gender
+        set pResponse.probability=json.probability
+        set pResponse.count=json.count
+
+        $$$TRACE(json.%ToJSON())
+        $$$TRACE("gender of :" _ pRequest.firstName _ " is " _ pResponse.gender)
+
+	} catch exp{
+		set sc = exp.AsStatus()
+	}
+	
+ return sc
+]]></Implementation>
+</Method>
+
+<Method name="test">
+<FormalSpec>pRequest:Ens.StringContainer,*pResponse:Ens.StringContainer</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+    try{
+	
+		set sc = $$$OK
+								
+		set pResponse = ##class(Ens.StringContainer).%New()
+        
+        $$$ThrowOnError(..Adapter.GetURL(..Adapter.URL,.pHttpResponse))
+        
+        set data = ""
+        while ('httpResponse.Data.AtEnd) {
+            set data = data _ httpResponse.Data.Read()
+        }
+
+        set pResponse.StringValue=data
+        
+        $$$TRACE("data:"_pResponse.StringValue)
+
+	} catch exp{
+		set sc = exp.AsStatus()
+	}
+	
+ return sc
+]]></Implementation>
+</Method>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+    <MapItem MessageType="Ens.StringContainer">
+        <Method>test</Method>
+    </MapItem>
+    <MapItem MessageType="HTTP.msg.genderRequest">
+        <Method>gender</Method>
+    </MapItem>
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="JDBC.SQL.GatewayResultSet">
+<Super>EnsLib.SQL.GatewayResultSet</Super>
+<TimeChanged>66448,68445.784206596</TimeChanged>
+<TimeCreated>66448,68445.784206596</TimeCreated>
+
+<UDLText name="T">
+<Content><![CDATA[
+/*
+		 *****************************************************
+		 *                 ** N O T I C E **                 *
+		 *               - TEST/DEMO SOFTWARE -              *
+		 * This and related items are not supported by       *
+		 * InterSystems as part of any released product.     *
+		 * It is supplied by InterSystems as a demo/test     *
+		 * tool for a specific product and version.          *
+		 * The customer or partner is fully responsible for  *
+		 * the maintenance of this software after delivery,  *
+		 * and InterSystems shall bear no responsibility nor *
+		 * liabilities for errors or misuse of this item.    *
+		 *                                                   *
+		 *****************************************************
+*/
+]]></Content>
+</UDLText>
+
+<Property name="CurRow">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="RowInBatch">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="cJGProxy">
+<Type>%Net.Remote.Java.JDBCGateway</Type>
+</Property>
+
+<Property name="BatchSize">
+<Type>%Integer</Type>
+<InitialExpression>1000</InitialExpression>
+</Property>
+
+<Property name="BaseSubscript">
+<Type>%Integer</Type>
+</Property>
+
+<Method name="%OnNew">
+<FormalSpec>pBatchSize:%Integer</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	If pBatchSize="" set pBatchSize = 1000
+    Set ..BatchSize=pBatchSize
+    Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Next">
+<FormalSpec><![CDATA[&pSC:%Status]]></FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[
+	s tCnt=$I(^zlog("Custom Next()"))
+	if ('$D(%JCACHE(..%HS)) || (..RowInBatch=%JCACHE(..%HS))) {
+		if ($G(%JCACHE(..%HS),0) && (%JCACHE(..%HS)<..BatchSize)) {
+			// We've reached the end of the result set
+			quit 0
+		}
+
+		set ..RowInBatch=0
+		s tSC=..cJGProxy.getNRows(..%HS,..BatchSize)
+
+		if (%JCACHE(..%HS)=0) {
+			//No more rows to fetch
+			quit 0
+		}
+	}
+
+	set ..RowInBatch=..RowInBatch+1
+	set ..CurRow=..CurRow+1
+	set ..BaseSubscript=(..RowInBatch-1) * %JCACHE(..%HS,"n")
+
+	quit 1
+]]></Implementation>
+</Method>
+
+<Method name="Get">
+<CodeMode>expression</CodeMode>
+<FormalSpec>pColName:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[$Get(%JCACHE(..%HS,(..BaseSubscript +($Get(..ColID($ZCVT(pColName,"L")),0)))))
+]]></Implementation>
+</Method>
+
+<Method name="GetData">
+<CodeMode>expression</CodeMode>
+<FormalSpec>pCol:%Integer</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[$Get(%JCACHE(..%HS,(..BaseSubscript +($Get(pCol)))))
+]]></Implementation>
+</Method>
+
+<Method name="GetSnapshot">
+<Description>
+Populate an EnsLib.SQL.Snapshot object. If you pass one in, it will be populated using the values in its
+FirstRow and MaxRowsToGet properties. Otherwise, GetSnapshot will construct a new one and use its default
+values for FirstRow and MaxRowsToGet.</Description>
+<FormalSpec><![CDATA[&pSnap:EnsLib.SQL.Snapshot,pFetchAll:%Boolean=0]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set $ZT="Trap", tSC=$$$OK, tNetDone=0
+	Do {
+		If '$$$IsdefObject(pSnap) { Set pSnap = ##class(EnsLib.SQL.Snapshot).%New()  $$$ASSERT($IsObject(pSnap)) }
+		Else {
+			$$$ASSERT(pSnap.%IsA("EnsLib.SQL.Snapshot"))
+			Do pSnap.Clean()
+		}
+		Set tMaxRows = pSnap.MaxRowsToGet, tFirstRow = pSnap.FirstRow
+		
+		Set tGblRef = pSnap.%GblRef
+		Merge @tGblRef@("ColNames") = ..ColName
+		Merge @tGblRef@("ColIDs") = ..ColID
+		Merge @tGblRef@("ColTypes") = ..ColType
+		Merge @tGblRef@("ColSizes") = ..ColSize
+		Do pSnap.GenerateIResultSetMetadata()
+
+		#; Fast SkipNext() loop
+		If tFirstRow>1 {
+			For i=1:1:tFirstRow-1 {
+				Set tSC=..%Connection.Fetch(..%HS)  If 100=..%Connection.sqlcode Set tSC=$$$OK Quit
+				Quit:$$$ISERR(tSC)
+			}
+			Quit:100=..%Connection.sqlcode||$$$ISERR(tSC) 
+		}
+		
+		#; Old Loop
+		#; Next()/GetData() loop
+		/*For i=1:1 { Quit:tMaxRows>=0&&(i>tMaxRows)
+			Set tNetDone='..Next(.tSC)  Quit:tNetDone
+			Merge @tGblRef@(i)=..Data
+			Set nCols=..ColCount  For c=1:1:nCols { Set:$D(i%Data(c,"ref")) i%Data(c,"got")=1 }
+			Set @tGblRef = $G(@tGblRef)+1
+		} Quit:tNetDone*/
+		
+		#; Loop with new get
+		#; Save data
+		Set nCols=..ColCount
+		Set r=0  While ..Next(.tSC) { 
+			Set r=r+1 For c = 1:1:nCols { Set @tGblRef@(r,c) = $Get(%JCACHE(..%HS,(..BaseSubscript +($Get(c))))) } 
+		} 
+		Set @tGblRef=r
+
+		#; Fast SkipNext() loop for remainder (in case of multi-RS SP calls)
+		If tMaxRows>=0&&pFetchAll {
+			For {
+				Set tSC=..%Connection.Fetch(..%HS)  If 100=..%Connection.sqlcode Set tSC=$$$OK Quit
+				Quit:$$$ISERR(tSC)
+			}
+		}
+	} While 0
+Exit
+	If 'tNetDone&&$$$ISERR(tSC) {
+		Set tNetErr=..%Adapter.isNetErr($$$StatusText(tSC))
+		Set:..%HS'="" tSC=..%Adapter.addErrorList(tSC,..%HS,.tNetErr)
+		Do:tNetErr ..%Adapter.Disconnect()
+	}
+	Quit tSC
+Trap
+	Set $ZT="",tSC=$$$EnsSystemError
+	Goto Exit
+]]></Implementation>
+</Method>
+
+<Method name="Initialize">
+<FormalSpec>pQueryStatement:%String,pAdapter:EnsLib.SQL.OutboundAdapter,pHS:%String,pFinal:%Boolean,pMoreIndex:%Integer</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set tSC=##super(.pQueryStatement, .pAdapter, .pHS, .pFinal, .pMoreIndex)
+
+	set ..cJGProxy=..%Connection.%JGProxy
+	set ..CurRow=0
+
+	kill %JCACHE(..%HS)
+
+	quit tSC
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="JDBC.SQL.OutboundAdapter">
+<IncludeCode>EnsSQLTypes</IncludeCode>
+<Super>Ens.OutboundAdapter,JDBC.SQL.Common</Super>
+<TimeChanged>66448,68445.796187096</TimeChanged>
+<TimeCreated>66448,68445.796187096</TimeCreated>
+
+<UDLText name="T">
+<Content><![CDATA[
+/*
+		 *****************************************************
+		 *                 ** N O T I C E **                 *
+		 *               - TEST/DEMO SOFTWARE -              *
+		 * This and related items are not supported by       *
+		 * InterSystems as part of any released product.     *
+		 * It is supplied by InterSystems as a demo/test     *
+		 * tool for a specific product and version.          *
+		 * The customer or partner is fully responsible for  *
+		 * the maintenance of this software after delivery,  *
+		 * and InterSystems shall bear no responsibility nor *
+		 * liabilities for errors or misuse of this item.    *
+		 *                                                   *
+		 *****************************************************
+*/
+]]></Content>
+</UDLText>
+
+<Method name="OnInit">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	
+	//Pour rétro compactibilité vers 2016.2 à supprimer à paritr de 2017.2.2
+	set ..JGClientEnsClassname = "JDBC.SQL.JDBCGateway"
+	
+	#; Create an instance of the SQLGateway object
+	Set tSC=##super() Quit:$$$ISERR(tSC) tSC
+	Set tSC=..init()  Quit:$$$ISERR(tSC) tSC
+	Set:..StayConnected>0 ..KeepaliveInterval=..StayConnected
+	If ..StayConnected<0 { Set tSC=..Connect(..ConnectTimeout)  If $$$ISERR(tSC) $$$LOGWARNING($$$StatusDisplayString(tSC)) } // timeout is not fatal at this point, but do log it
+	Else { $$$SetJobMonitor(..BusinessHost.%ConfigName,$$$SystemName_":"_$Job,$$$eMonitorConnected,"0|"_$$$timeUTC) }
+	// Comment this for Ensemble 2016.2
+	// Do ..deleteRuntimeAppData()
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteQueryBatch">
+<Description>
+Execute a query. A variable number of parameters may be passed in addition to the
+query string. Results are returned as a new EnsLib.SQL.GatewayResultSet object in the pRS output argument, unless
+you pass in a EnsLib.SQL.Snapshot object for the pRS argument. In that case, ExecuteQuery will populate the Snapshot
+object instead, using the values of its FirstRow and MaxRowsToGet properties to choose the set of rows it will represent.</Description>
+<FormalSpec><![CDATA[&pRS:EnsLib.SQL.GatewayResultSet,pQueryStatement:%String,pBatchSize:%Integer,pParms...]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[	Quit ..ExecuteQueryBatchParmArray(.pRS,pQueryStatement,pBatchSize,.pParms)
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteQueryBatchParmArray">
+<FormalSpec><![CDATA[&pRS:JDBC.SQL.GatewayResultSet,pQueryStatement:%String,pBatchSize:%Integer,&pParms]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	If '$$$IsdefObject(pRS) || 'pRS.%IsA("EnsLib.SQL.Snapshot") Kill pRS  Set pRS=$$$NULLOREF
+	Set $ZT="Trap", tHS="", tSC=$$$OK, tNetErr=0
+	Do {
+		#; Connect if not already connected
+		Set tSC=..Connect(..ConnectTimeout) If $$$ISERR(tSC) Set:$$$StatusEquals(tSC,$$$EnsErrOutConnectExpired,$$$EnsErrOutConnectFailed)&&..BusinessHost.%Extends("Ens.BusinessOperation") ..BusinessHost.Retry=1  Quit
+
+		#; Execute the statement
+		If '..%Connection.%Extends("EnsLib.SQL.CommonJ") {
+			Set tSC=..privPrepare(.tHS,pQueryStatement,.pParms,,,.tNetErr)  Quit:$$$ISERR(tSC)
+			$$$sysTRACE("Executing...")
+			Set tSC=..%Connection.Execute(tHS)
+		} Else {
+			Set tSC=..privPrepareJ(.tHS,pQueryStatement,.pParms,,,.tNetErr)  Quit:$$$ISERR(tSC)
+			$$$sysTRACE("Executing...")
+			Set tSC=..%Connection.execQuery(tHS)
+		}
+		Set:$$$SQLCODENeedData=..%Connection.sqlcode tSC=..putLOBStreams(tHS,.pParms)
+		Quit:$$$ISERR(tSC)
+
+		#; Succeeded, construct the custom result set
+		Set tRS=##class(JDBC.SQL.GatewayResultSet).%New(pBatchSize)  $$$ASSERT($IsObject(tRS))
+		Set tSC=tRS.Initialize(pQueryStatement,$this,tHS,1,"")  Quit:$$$ISERR(tSC)
+
+		If $IsObject(pRS) { Set tSC=tRS.GetSnapshot(pRS) Quit:$$$ISERR(tSC) }
+		Else { Set pRS = tRS }
+
+	} While 0
+Exit
+	If $$$ISERR(tSC) {
+		If 'tNetErr {
+			#; if privPrepare() returned tNetErr already, we came direct and tSC is already decorated
+			Set tNetErr=..isNetErr($$$StatusText(tSC))
+			If tHS'=""&&'tNetErr {
+				#; Add SQL detailed errors
+				Set tSC=..addErrorList(tSC,tHS,.tNetErr)
+				If 'tNetErr {
+					#; Drop the statement; If the drop fails, record that error status too
+					Set tSC1=..%Connection.DropStatement(tHS)
+					If $$$ISERR(tSC1) {
+						Set:'tNetErr tNetErr=..isNetErr($$$StatusText(tSC1))
+						Set tSC=$$$ADDSC(tSC,tSC1)
+					}
+				}
+			}
+		}
+		If tNetErr Do ..Disconnect()  Set:..BusinessHost.%Extends("Ens.BusinessOperation") ..BusinessHost.Retry=1
+	}
+	Do:'..StayConnected&&'$IsObject(pRS) ..Disconnect()
+	Quit tSC
+Trap
+	Set $ZT="",tSC=$$$EnsSystemError
+	Goto Exit
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteUpdateBatchParamArray">
+<Description>
+Structure of pParms is Caché Multidimensional Array
+Where :
+pParms indicate the number of row in batch
+pParms(integer) indicate the number of parameters in the row
+pParms(integer,integerParam) indicate the value of the parameter whose position is integerParam.</Description>
+<FormalSpec>*pNumRowsAffected:%Integer,pUpdateStatement:%String,pParms...</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	
+	set tStatus = $$$OK
+	
+	try{
+		#; kill ^pParms
+		#; merge ^pParms=pParms
+		#; $$$LOGINFO("pUpdateStatement:"_pUpdateStatement_" nbParam:"_pParms(1,1)_" nbBatch:"_pParms(1))
+		
+		set pSQLStatement=pUpdateStatement
+		
+		// JDBCGwy is an instance of the JDBC Gateway object. EnsLib.SQL.OutboundAdapter instantiates this automatically and stores a reference to it in ..%Connection.%JGProxy
+
+		// Prepare the SQL statement
+		Set pHS=..%JGProxy.prepareStatement(..%ConnHandle,pSQLStatement)
+		
+		// executeParametersBatch expects tArgs to be a $LIST, with the following format:
+		//     ParamCount, ParamSets, Type1, Param1, Type2, Param2, Type3, Param3, Type11,Param11 TypeNN,ParamNN
+		// 
+		// ParamCount is the number of parameters the query expects (in this example 2) 
+		// ParamSets is the number of rows we will be inserting in this batch
+		// Type1, Type2, ..., TypeN is an integer indicating the JDBC data type for the corresponding Param value (e.g. Param1, Param2, ..., ParamN)
+		// Param1, Param2, ..., ParamN is the value for the query parameter
+		
+		set nbParam = pParms(1,1)
+		set nbBatch = pParms(1)
+		
+
+		set $LIST(tArgs,1)=nbParam // How many parameters ("?") in it
+		set $LIST(tArgs,2)=nbBatch // We will insert nbBatch rows in this batch
+		
+		set i = 2
+		
+		for k=1:1:nbBatch {
+			
+			
+			for l=1:1:pParms(1,k){	
+				//Set the SqlType
+				set i = i +1
+				set $LIST(tArgs,i)=+$G(pParms(1,k,l,"SqlType"),+$G(pParms(1,k,l,"CType"),$$$SqlVarchar))
+				
+				//Set the value
+				set i = i +1
+				set $LIST(tArgs,i)=pParms(1,k,l) 
+
+			}
+			
+		}
+
+		
+		// Perform the batch insert
+		// tResultCodes is a $LIST of integers indicating success/failure for each row in the batch
+		set tResultCodes = ..%JGProxy.executeParametersBatch(pHS,.tArgs)
+
+
+		set tNbUpdate=0
+		//Todo, Read list set pNumRowsAffected = $LISTLENGTH(tResultCodes)
+		if $LISTVALID(tResultCodes){
+			for i=1:1:$LISTLENGTH(tResultCodes)
+			{
+				//$$$LOGINFO($LG(tResultCodes,i))
+				if ($LG(tResultCodes,i)'=-3){
+					set tNbUpdate = tNbUpdate +1
+				} Else {
+					set tStatus = $$$ADDSC(tStatus, $$$ERROR($$$GeneralError,"One row not inserted"))
+				}
+				
+			}
+			set pNumRowsAffected = tNbUpdate
+		} else {
+			set tStatus = $$$ERROR($$$GeneralError,"No row inserted")
+		}
+
+		
+		
+		// Remove Statement to avoid CURSOR Leaks
+		set sc = ..%JGProxy.removeStatement(pHS)
+		
+		k tArgs
+		
+	}
+				
+	catch exp{
+
+		Set tStatus = exp.AsStatus()
+	}
+	
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteSelectStatement">
+<FormalSpec><![CDATA[&pRS:EnsLib.SQL.GatewayResultSet,pObject:%SerialObject]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set tStatus = $$$OK
+	
+	set tObject = pObject
+	set tSqlStatement = ""
+	set tClassName = $CLASSNAME(tObject)
+	
+	set tProperties = ##class(%Dictionary.CompiledClass).%OpenId(tClassName).Properties
+	
+	set key = ""
+	set tQueryTableName = $PARAMETER(tClassName,"EXTERNALTABLENAME")
+	set tQueryFiltres = ""
+	set tQuerySelect = ""
+	set tColumnQuery = ""
+	
+	set i = 0
+			
+	do {
+		set tProperty = tProperties.GetNext(.key)
+		
+		if ($ISOBJECT($get(tProperty)) && ("%%OID" '= tProperty.Name )&& ("%Filtre" '= tProperty.Name)) {
+
+			set tColumnName = tProperty.Parameters.GetAt("EXTERNALSQLNAME")
+			set tColumnValue = $Property(tObject,tProperty.Name)
+			set tColumnParameter = tProperty.Parameters.GetAt("XMLLISTPARAMETER")
+			
+			set tColumnQuery = $s(tColumnParameter'="":tColumnParameter,1:tColumnName )
+			set tQuerySelect = $s(tQuerySelect'="":tQuerySelect_", ",1:tQuerySelect)_tColumnQuery
+			
+			if ( tColumnValue  '=  "" )  {
+			/* Filtre */	
+				set i = i+1					
+				set tParms(i) = tColumnValue
+				set tParms(i,"SqlType") =  tProperty.Parameters.GetAt("EXTERNALSQLTYPE")
+				
+				set tColumnQuery = $s(tColumnParameter'="":tColumnParameter,1:tColumnName _ " = ?")
+				set tQueryFiltres = $s(tQueryFiltres'="":tQueryFiltres_" AND ",1:tQueryFiltres)_tColumnQuery
+						
+			} 
+		}
+	} while key '= ""
+	
+	set tParms = i
+
+	set tQueryStatement = "SELECT "_tQuerySelect_" FROM "_tQueryTableName_$s(tQueryFiltres'="":" WHERE "_tQueryFiltres,1:"")
+
+	$$$TRACE(tQueryStatement)
+	
+	set tStatus = ..ExecuteQueryParmArray(.pRS,tQueryStatement,.tParms)
+
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteInsertStatement">
+<FormalSpec>*pNumRowsAffected:%Integer,pSqlObject:%SerialObject</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set tStatus = $$$OK
+	
+	try{
+		//$$$TRACE("OK")
+		
+		set tObject = pSqlObject
+		set tSqlStatement = ""
+		set tClassName = $CLASSNAME(tObject)
+		
+		//$$$TRACE("ClassName: "_tClassName)
+
+		
+		set tProperties = ##class(%Dictionary.CompiledClass).%OpenId(tClassName).Properties
+		
+		set key = ""
+		set tQueryTableName = $PARAMETER(tClassName,"EXTERNALTABLENAME")
+		set tQueryValues = ""
+		set tQueryColumns = ""
+		
+		set i = 0
+				
+		do {
+			set tProperty = tProperties.GetNext(.key)
+			
+			if ($ISOBJECT($get(tProperty)) && ("%%OID" '= tProperty.Name ) ) {
+
+				set tColumnName = tProperty.Parameters.GetAt("EXTERNALSQLNAME")
+				
+				set tColumnQuery = tProperty.Parameters.GetAt("XMLLISTPARAMETER")
+				
+				set:(tColumnQuery="") tColumnQuery="?"
+				
+				set tColumnValue = $Property(tObject,tProperty.Name)
+				
+				if ( tColumnValue  '=  "" )  {
+					
+					set i = i+1					
+					
+					set tParms(i) = tColumnValue
+					set tParms(i,"SqlType") =  tProperty.Parameters.GetAt("EXTERNALSQLTYPE")
+					
+					if (tQueryValues '= "") {
+					
+						set tQueryValues = tQueryValues_","_tColumnQuery
+						set tQueryColumns = tQueryColumns_","_tColumnName
+						
+					}	
+					else {
+						set tQueryValues = tColumnQuery
+						set tQueryColumns = tColumnName
+						
+					}		
+				}
+			}
+		} while key '= ""
+		
+		set tParms = i
+		//TODO001//
+		set tSqlStatement = "INSERT INTO "_tQueryTableName_" ( "_tQueryColumns_" ) VALUES ( "_tQueryValues_" )"
+		//tSqlStatement
+		//$$$TRACE(tSqlStatement)
+		
+		$$$ThrowOnError( ..ExecuteUpdateParmArray(.pNumRowsAffected,tSqlStatement,.tParms))
+
+		}
+				
+	catch exp{
+		//$$$TRACE(tSqlStatement)
+		Set tStatus = exp.AsStatus()
+	}
+	
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteUpdateStatement">
+<Description>
+Execute an Update. A variable number of parameters may be passed in addition to the
+query string. The pNumRowsAffected output value is the number of rows affected.</Description>
+<FormalSpec>*pNumRowsAffected:%Integer,pUpdateStatement:%String,pParms...</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[///	Quit ..ExecuteUpdateParmArray(.pNumRowsAffected,pUpdateStatement,.pParms)
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteDeleteStatement">
+<Description>
+Execute an Delete. A variable number of parameters may be passed in addition to the
+query string. The pNumRowsAffected output value is the number of rows affected.</Description>
+<FormalSpec>*pNumRowsAffected:%Integer,pUpdateStatement:%String,pParms...</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[///	Quit ..ExecuteUpdateParmArray(.pNumRowsAffected,pUpdateStatement,.pParms)
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteMergeStatement">
+<Description>
+Execute an Merge (Update OR Insert). A variable number of parameters may be passed in addition to the
+query string. The pNumRowsAffected output value is the number of rows affected.</Description>
+<FormalSpec>*pNumRowsAffected:%Integer,pUpdateStatement:%String,pParms...</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[///	Quit ..ExecuteUpdateParmArray(.pNumRowsAffected,pUpdateStatement,.pParms)
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteDropStorageStatement">
+<Description>
+Execute an Truncate (drop storage). A variable number of parameters may be passed in addition to the
+query string. The pNumRowsAffected output value is the number of rows affected.
+Specify DROP STORAGE to deallocate all space from the deleted rows from the table 
+except the space allocated by the MINEXTENTS parameter of the table or cluster. 
+This space can subsequently be used by other objects in the tablespace.</Description>
+<FormalSpec>*pNumRowsAffected:%Integer,pUpdateStatement:%String,pParms...</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[///	Quit ..ExecuteUpdateParmArray(.pNumRowsAffected,pUpdateStatement,.pParms)
+]]></Implementation>
+</Method>
+
+<Method name="ExecuteReuseStorageStatement">
+<Description>
+Execute an Truncate (Reuse storage). A variable number of parameters may be passed in addition to the
+query string. The pNumRowsAffected output value is the number of rows affected.
+Specify REUSE STORAGE to retain the space from the deleted rows allocated to the table. 
+Storage values are not reset to the values when the table or cluster was created. 
+This space can subsequently be used only by new data in the table or cluster resulting 
+from insert or update operations. 
+This clause leaves storage parameters at their current settings.</Description>
+<FormalSpec>*pNumRowsAffected:%Integer,pUpdateStatement:%String,pParms...</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[///	Quit ..ExecuteUpdateParmArray(.pNumRowsAffected,pUpdateStatement,.pParms)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="JDBC.demo.INSERT.operation">
+<IncludeCode>EnsSQLTypes</IncludeCode>
+<Super>Ens.BusinessOperation</Super>
+<TimeChanged>66448,68445.807659596</TimeChanged>
+<TimeCreated>66448,68445.807659596</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>JDBC.SQL.OutboundAdapter</Default>
+</Parameter>
+
+<Property name="Adapter">
+<Type>JDBC.SQL.OutboundAdapter</Type>
+</Property>
+
+<Property name="batchSize">
+<Type>%Integer</Type>
+<InitialExpression>1000</InitialExpression>
+</Property>
+
+<Property name="SCHEMA">
+<Type>%String</Type>
+<InitialExpression>"app"</InitialExpression>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>batchSize:JDBC,SCHEMA:app</Default>
+</Parameter>
+
+<Parameter name="INVOCATION">
+<Default>Queue</Default>
+</Parameter>
+
+<Method name="OnInit">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	do ##super()
+	set $ZSTORAGE=2147483647
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="testBatch">
+<FormalSpec>pRequest:JDBC.demo.msg.testBatch,*pResponse:Ens.StringResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set tStatus = $$$OK
+	
+	try{
+					
+		set nbInserted = 0
+		set pResponse = ##class(Ens.StringResponse).%New()
+		
+		Set TimeStampStart = ##class(%Library.PosixTime).LogicalToUnixTime(##class(%Library.PosixTime).CurrentTimeStamp())
+
+		$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,"DROP TABLE IF EXISTS app.test"))
+
+		$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,"CREATE TABLE app.test (id integer,name varchar,ts timestamp)"))		
+
+		set insertQuery = "INSERT into app.test (id,name,ts) values (?,?,?)"
+
+		$$$TRACE(insertQuery)
+		
+		set batch = ..batchSize
+				
+		set end =""
+		set i=0
+		while i<pRequest.nb{
+			
+			set param = ""
+			
+			for k=1:1:..batchSize {
+				
+				do $INCREMENT(i)
+
+				set param(k,1) = i
+				set param(k,1,"SqlType")=$$$SqlInteger
+
+				set param(k,2) = ##class(%PopulateUtils).Name()
+				set param(k,2,"SqlType")=$$$SqlVarchar
+			
+				set param(k,3) = $ZDATETIME($h,3)
+				set param(k,3,"SqlType")=$$$SqlTypeTimestamp
+
+				set param(k) = 3
+
+				q:(i=pRequest.nb)
+							
+				}	
+		     
+			set param = k
+			
+			set sc = ..Adapter.ExecuteUpdateBatchParamArray(.nrows,insertQuery,.param)
+
+			if sc {
+				set nbInserted = nbInserted + nrows
+			} else {
+				$$$LOGWARNING("ERROR WHILE INSERTING : "_$system.Status.GetErrorText(sc))
+			}
+
+			k param
+				
+	}
+
+	Set TimeStampEnd = ##class(%Library.PosixTime).LogicalToUnixTime(##class(%Library.PosixTime).CurrentTimeStamp())
+
+	Set Delta = TimeStampEnd - TimeStampStart
+
+	set pResponse.StringValue = nbInserted_" in "_Delta
+		
+	}
+	catch exp
+	{
+		Set tStatus = exp.AsStatus()
+	}
+
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="init">
+<FormalSpec>pRequest:JDBC.demo.msg.init,*pResponse:Ens.StringResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set sc = $$$OK
+	
+	try{
+		set pResponse = ##class(Ens.StringResponse).%New()
+		$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,"TRUNCATE "_ ..SCHEMA _".customer"))
+
+		Set TimeStampStart = ##class(%Library.PosixTime).LogicalToUnixTime(##class(%Library.PosixTime).CurrentTimeStamp())
+		
+		set insertQuery = "INSERT into "_ ..SCHEMA _".customer (id,first_name,last_name,city,category,active,created,hashtag) values (?,?,?,?,?,?,?,?::bytea)"
+		#; set insertQuery = "INSERT into "_ ..SCHEMA _".customer (id,first_name,last_name,city,category,active,created) values (?,?,?,?,?,?,?)"
+
+		$$$TRACE(insertQuery_" batchSize:"_..batchSize)
+				
+		set nbInserted=0,inserts=0
+		while inserts<pRequest.nb{
+			
+			set param = ""
+			
+			for i=1:1:..batchSize {
+				
+				do $INCREMENT(inserts)
+
+				set columnNumber=0
+				set firstName=##class(%PopulateUtils).FirstName()
+				set lastName=##class(%PopulateUtils).LastName()
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = inserts
+				set param(i,columnNumber,"SqlType")=$$$SqlInteger
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = firstName
+				set param(i,columnNumber,"SqlType")=$$$SqlVarchar
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = lastName
+				set param(i,columnNumber,"SqlType")=$$$SqlVarchar
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = ##class(%PopulateUtils).City()
+				set param(i,columnNumber,"SqlType")=$$$SqlVarchar
+			
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = $RANDOM(5)+1
+				set param(i,columnNumber,"SqlType")=$$$SqlInteger
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = $RANDOM(2)
+				set param(i,columnNumber,"SqlType")=$$$SqlBit
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = $zdt($h-$RANDOM(1000)_","_$random(86400),3)
+				set param(i,columnNumber,"SqlType")=$$$SqlTypeTimestamp
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = $system.Encryption.SHA1Hash(firstName_" "_lastName)
+				set param(i,columnNumber,"SqlType")=$$$SqlBinary
+
+				set param(i) = columnNumber
+
+				q:(inserts=pRequest.nb)
+
+			}	
+		     
+			set param = i
+			set sc = ..Adapter.ExecuteUpdateBatchParamArray(.nrows,insertQuery,.param)
+			if sc {
+				set nbInserted = nbInserted + nrows
+			} else {
+				$$$LOGWARNING("ERROR WHILE INSERTING : "_$system.Status.GetErrorText(sc))
+			}
+
+			kill param		
+	}
+
+	Set TimeStampEnd = ##class(%Library.PosixTime).LogicalToUnixTime(##class(%Library.PosixTime).CurrentTimeStamp())
+
+	Set Delta = TimeStampEnd - TimeStampStart
+
+	set pResponse.StringValue = nbInserted_" in "_Delta
+		
+	}
+	catch exp
+	{
+		set sc = exp.AsStatus()
+	}
+	return sc
+]]></Implementation>
+</Method>
+
+<Method name="customers">
+<FormalSpec>pRequest:data.RM.customer.Batch,*pResponse:Ens.StringResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set sc = $$$OK
+	
+	try{
+		set pResponse = ##class(Ens.StringResponse).%New()
+		#; $$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,"TRUNCATE "_ ..SCHEMA _".customer"))
+
+		set nbInserted=0
+		for i=1:1:pRequest.Records.Count() {
+			set customer = ##class(JDBC.demo.msg.customerRequest).%New()
+			set customer.id = pRequest.Records.GetAt(i).id
+			set customer.active	 = pRequest.Records.GetAt(i).active
+			set customer.category	 = pRequest.Records.GetAt(i).category
+			set customer.city	= pRequest.Records.GetAt(i).city
+			set customer.created	= pRequest.Records.GetAt(i).created
+			set customer.firstName	= pRequest.Records.GetAt(i).firstName
+			set customer.lastName	= pRequest.Records.GetAt(i).lastName
+			set sc = ..insertUpdate(customer)
+			if sc {
+				do $INCREMENT(nbInserted) 
+			} else {
+				$$$LOGERROR("ERROR WHILE INSERTING CUSTOMER "_$system.Status.GetErrorText(sc))
+			}	
+		} 
+
+	set pResponse.StringValue = nbInserted_" successfully inserted"
+		
+	}
+	catch exp
+	{
+		set sc = exp.AsStatus()
+	}
+	return sc
+]]></Implementation>
+</Method>
+
+<Method name="customersTransformed">
+<FormalSpec>pRequest:data.EXTERNAL.customer.Batch,*pResponse:Ens.StringResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set sc = $$$OK
+	
+	try{
+		set pResponse = ##class(Ens.StringResponse).%New()
+		#; $$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,"TRUNCATE "_ ..SCHEMA _".customer"))
+
+		set nbInserted=0
+		for i=1:1:pRequest.records.Count() {
+			set customer = ##class(JDBC.demo.msg.customerRequest).%New()
+			set customer.id = pRequest.records.GetAt(i).id
+			set customer.active	 = pRequest.records.GetAt(i).active
+			set customer.category	 = pRequest.records.GetAt(i).category
+			set customer.city	= pRequest.records.GetAt(i).city
+			set customer.created	= pRequest.records.GetAt(i).created
+			set customer.firstName	= pRequest.records.GetAt(i).firstName
+			set customer.lastName	= pRequest.records.GetAt(i).lastName
+			set customer.hashtag = pRequest.records.GetAt(i).hashtag
+			set customer.gender = pRequest.records.GetAt(i).gender
+			set sc = ..insertUpdate(customer)
+			if sc {
+				do $INCREMENT(nbInserted) 
+			} else {
+				$$$LOGERROR("ERROR WHILE INSERTING CUSTOMER "_$system.Status.GetErrorText(sc))
+			}	
+		} 
+
+	set pResponse.StringValue = nbInserted_" successfully inserted"
+		
+	}
+	catch exp
+	{
+		set sc = exp.AsStatus()
+	}
+	return sc
+]]></Implementation>
+</Method>
+
+<Method name="insertUpdate">
+<FormalSpec>pRequest:JDBC.demo.msg.customerRequest,*pResponse:JDBC.demo.msg.customerResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set sc = $$$OK
+	
+	try{
+		set pResponse = ##class(JDBC.demo.msg.customerResponse).%New()
+		
+		set insertQuery = ""
+		set insertQuery = insertQuery_"INSERT into "_ ..SCHEMA _".customer "
+		set insertQuery = insertQuery_" ("
+		set insertQuery = insertQuery_" id"
+		set insertQuery = insertQuery_" ,active"
+		set insertQuery = insertQuery_" ,category"
+		set insertQuery = insertQuery_" ,city"
+		set insertQuery = insertQuery_" ,created"
+		set insertQuery = insertQuery_" ,first_name"
+		set insertQuery = insertQuery_" ,last_name "
+		set insertQuery = insertQuery_" ,gender "
+		set:pRequest.hashtag'="" insertQuery = insertQuery_" ,hashtag "
+		set insertQuery = insertQuery_" ) " 
+		set insertQuery = insertQuery_" values ("
+		set insertQuery = insertQuery_"  ?"
+		set insertQuery = insertQuery_" ,?"
+		set insertQuery = insertQuery_" ,?"
+		set insertQuery = insertQuery_" ,?"
+		set insertQuery = insertQuery_" ,?"
+		set insertQuery = insertQuery_" ,?"
+		set insertQuery = insertQuery_" ,?"
+		set insertQuery = insertQuery_" ,?"
+		set:pRequest.hashtag'="" insertQuery = insertQuery_" ,?::bytea"
+		set insertQuery = insertQuery_")"
+
+		set updateQuery = ""
+		set updateQuery = updateQuery_"UPDATE "_ ..SCHEMA _".customer "
+		set updateQuery = updateQuery_" SET "
+		set updateQuery = updateQuery_"  active = ?"
+		set updateQuery = updateQuery_" ,category = ?"
+		set updateQuery = updateQuery_" ,city = ?"
+		set updateQuery = updateQuery_" ,created = ?"
+		set updateQuery = updateQuery_" ,first_name = ?"
+		set updateQuery = updateQuery_" ,last_name = ?"
+		set updateQuery = updateQuery_" ,gender = ?"
+		set:pRequest.hashtag'="" updateQuery = updateQuery_" ,hashtag = ?::bytea"
+		set updateQuery = updateQuery_" ,lastUpdate = '"_$zdt($h,3)_"'" 
+		set updateQuery = updateQuery_" WHERE "
+		set updateQuery = updateQuery_"  id = "_pRequest.id
+
+		$$$TRACE(insertQuery)
+		$$$TRACE(updateQuery)
+
+		set id=pRequest.id
+		set active=pRequest.active
+		set category=pRequest.category
+		set city=pRequest.city
+		set created=pRequest.created
+		set firstName=pRequest.firstName
+		set lastName=pRequest.lastName
+		set hashtag=pRequest.hashtag
+		set gender=pRequest.gender
+
+		if ..customerExists(pRequest.id) { // UPDATE
+			if pRequest.hashtag'="" {
+				$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,updateQuery,active,category,city,created,firstName,lastName,gender,hashtag))
+			} else {
+				$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,updateQuery,active,category,city,created,firstName,lastName,gender))
+			}		
+		} else { // INSERT
+			if hashtag'="" {
+				$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,insertQuery,id,active,category,city,created,firstName,lastName,gender,hashtag))
+			} else {
+				$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,insertQuery,id,active,category,city,created,firstName,lastName,gender))
+			}
+		}
+		if sc {
+			$$$TRACE(nrows_" inserted")
+			set pResponse.result=nrows_" successfully inserted"
+		} else {
+			set pResponse.result="ERROR WHILE INSERTING "_pRequest.id_"("_$system.Status.GetErrorText(sc)_")"
+		}
+	}
+	catch exp
+	{
+		set sc = exp.AsStatus()
+	}
+	return sc
+]]></Implementation>
+</Method>
+
+<Method name="customerExists">
+<FormalSpec>id:%Integer</FormalSpec>
+<ReturnType>%Boolean</ReturnType>
+<Implementation><![CDATA[
+	set sc = $$$OK
+	
+	try{
+		set query = "",exist=0
+		set query = query_"SELECT 1 FROM "_ ..SCHEMA_".customer"
+		set query = query_" WHERE id = ?"
+		$$$TRACE(query)
+
+		$$$ThrowOnError(..Adapter.ExecuteQuery(.rs,query,id))
+
+		if rs.%Next() {
+			set exist = rs.%GetData(1)
+			$$$LOGINFO(id_" already exists:" _ exist)
+		} else {
+			$$$LOGINFO("NO DATA FOUND FOR ID "_id)
+		}
+	}
+	catch exp
+	{
+		set sc = exp.AsStatus()
+	}
+	return exist
+]]></Implementation>
+</Method>
+
+<Method name="customersBatch">
+<FormalSpec>pRequest:data.RM.customer.Batch,*pResponse:Ens.StringResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set sc = $$$OK
+	
+	try{
+		set pResponse = ##class(Ens.StringResponse).%New()
+		$$$ThrowOnError(..Adapter.ExecuteUpdate(.nrows,"TRUNCATE "_ ..SCHEMA _".customer"))
+
+		Set TimeStampStart = ##class(%Library.PosixTime).LogicalToUnixTime(##class(%Library.PosixTime).CurrentTimeStamp())
+		
+		set insertQuery = ""
+		set insertQuery = insertQuery_"INSERT into "_ ..SCHEMA _".customer "
+		#; set insertQuery = insertQuery_" (id,active,category,city,created,first_name,last_name) " 
+		#; set insertQuery = insertQuery_" values (?,?,?,?,?,?,?)"
+		#; set insertQuery = insertQuery_" (id,active,category,city,first_name,last_name) " 
+		#; set insertQuery = insertQuery_" values (?,?,?,?,?,?)"
+		set insertQuery = insertQuery_" (id,category,city,first_name,last_name) " 
+		set insertQuery = insertQuery_" values (?,?,?,?,?)"
+		$$$TRACE(insertQuery_" batchSize:"_..batchSize)
+				
+		set nbInserted=0,inserts=1
+		do {
+			set param = ""
+			set columnNumber = 0
+			for i=1:1:..batchSize {
+
+				do $INCREMENT(inserts)
+				q:(inserts>pRequest.Records.Count())
+
+				#; ID,active,category,city,created,firstName,lastName
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = pRequest.Records.GetAt(inserts).ID
+				set param(i,columnNumber,"SqlType")=$$$SqlInteger
+
+				#; do $INCREMENT(columnNumber)
+				#; set param(i,columnNumber) = pRequest.Records.GetAt(inserts).active
+				#; set param(i,columnNumber,"SqlType")=$$$SqlBit
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = pRequest.Records.GetAt(inserts).category
+				set param(i,columnNumber,"SqlType")=$$$SqlInteger
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = pRequest.Records.GetAt(inserts).city
+				set param(i,columnNumber,"SqlType")=$$$SqlVarchar
+
+				#; do $INCREMENT(columnNumber)
+				#; set param(i,columnNumber) = pRequest.Records.GetAt(inserts).created
+				#; set param(i,columnNumber,"SqlType")=$$$SqlTypeTimestamp
+			
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = pRequest.Records.GetAt(inserts).firstName
+				set param(i,columnNumber,"SqlType")=$$$SqlVarchar
+
+				do $INCREMENT(columnNumber)
+				set param(i,columnNumber) = pRequest.Records.GetAt(inserts).lastName
+				set param(i,columnNumber,"SqlType")=$$$SqlVarchar
+
+				set param(i) = columnNumber
+			}	
+		     
+			set param = i
+			kill ^DEBUG
+			merge ^DEBUG("params")=param
+			set sc = ..Adapter.ExecuteUpdateBatchParamArray(.nrows,insertQuery,.param)
+			if sc {
+				set nbInserted = nbInserted + nrows
+			} else {
+				$$$LOGWARNING("ERROR WHILE INSERTING : "_$system.Status.GetErrorText(sc))
+			}
+
+			kill param		
+		} while inserts<pRequest.Records.Count()
+
+	Set TimeStampEnd = ##class(%Library.PosixTime).LogicalToUnixTime(##class(%Library.PosixTime).CurrentTimeStamp())
+
+	Set Delta = TimeStampEnd - TimeStampStart
+
+	set pResponse.StringValue = nbInserted_" in "_Delta
+		
+	}
+	catch exp
+	{
+		set sc = exp.AsStatus()
+	}
+	return sc
+]]></Implementation>
+</Method>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+	<MapItem MessageType="JDBC.demo.msg.init"> 
+		<Method>init</Method>
+	</MapItem>
+	<MapItem MessageType="JDBC.demo.msg.testBatch"> 
+		<Method>testBatch</Method>
+	</MapItem>
+	<MapItem MessageType="JDBC.demo.msg.customerRequest"> 
+		<Method>insertUpdate</Method>
+	</MapItem>
+	<MapItem MessageType="data.RM.customer.Batch"> 
+		<Method>customers</Method>
+	</MapItem>
+	<MapItem MessageType="data.EXTERNAL.customer.Batch"> 
+		<Method>customersTransformed</Method>
+	</MapItem>
+	
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="JDBC.demo.SELECT.operation">
+<Super>Ens.BusinessOperation</Super>
+<TimeChanged>66448,68445.807556679</TimeChanged>
+<TimeCreated>66448,68445.807556679</TimeCreated>
+
+<Parameter name="ADAPTER">
+<Default>JDBC.SQL.OutboundAdapter</Default>
+</Parameter>
+
+<Property name="Adapter">
+<Type>JDBC.SQL.OutboundAdapter</Type>
+</Property>
+
+<Parameter name="INVOCATION">
+<Default>Queue</Default>
+</Parameter>
+
+<Property name="batchSize">
+<Type>%Integer</Type>
+<InitialExpression>500</InitialExpression>
+</Property>
+
+<Property name="SCHEMA">
+<Type>%String</Type>
+<InitialExpression>"app"</InitialExpression>
+</Property>
+
+<Parameter name="SETTINGS">
+<Default>batchSize:JDBC,SCHEMA:app</Default>
+</Parameter>
+
+<Method name="OnInit">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	do ##super()
+	set $ZSTORAGE=2147483647
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="SELECT">
+<FormalSpec>pRequest:Ens.StringRequest,*pResponse:Ens.StringResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	
+	set sc = $$$OK
+	
+	try{
+		set pResponse = ##class(Ens.StringResponse).%New()
+		set query = ""
+		set query = query_"SELECT "
+		set query = query_" id"
+		set query = query_",last_name"
+		set query = query_",first_name"
+		set query = query_",city"
+		set query = query_",active"
+    	set query = query_",category"
+		set query = query_",created" 
+		set query = query_",gender"
+		set query = query_",hashtag" 
+		set query = query_" FROM "_ ..SCHEMA _".customer"
+		set query = query_" ORDER BY ID"
+		
+		Set start = $zh
+
+		$$$TRACE(query)
+			
+		$$$ThrowOnError(..Adapter.ExecuteQueryBatch(.rs,query,..batchSize))
+		
+		while rs.%Next(){
+
+			set id = rs.%Get("id")
+			$$$TRACE(id)
+			set customer = ##class(data.customer).getRecord(id)
+			set customer.lastName = rs.%Get("last_name")
+			set customer.firstName = rs.%Get("first_name")
+			set customer.city = rs.%Get("city")
+			set customer.category = rs.%Get("category")
+			set customer.active = $SELECT(rs.%Get("active")="t":1,1:0)
+			set customer.gender = rs.%Get("gender")
+			set customer.hashtag = rs.%Get("hashtag")
+			$$$ThrowOnError(customer.%Save())
+
+			do $INCREMENT(records)
+		}
+		
+		set elapse = $zh-start
+
+		set pResponse.StringValue = records_" ("_elapse_" seconds)"
+	}
+	catch exp
+	{
+		set sc = exp.AsStatus()
+	}
+	return sc
+]]></Implementation>
+</Method>
+
+<Method name="test">
+<FormalSpec>pRequest:JDBC.demo.msg.test,*pResponse:Ens.StringResponse</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	
+	set sc = $$$OK
+	
+	try{
+		set pResponse = ##class(Ens.StringResponse).%New()
+		set query = "",hasNext=""
+		set query = query_"SELECT count(*) as nb FROM "_ ..SCHEMA_"."_pRequest.tablename
+
+		$$$TRACE(query)
+
+		$$$ThrowOnError(..Adapter.ExecuteQuery(.rs,query))
+
+		if rs.%Next() {
+			set nb = rs.%Get("nb")
+			$$$LOGINFO("nb:" _ nb)
+		} else {
+			$$$LOGINFO("NO DATA FOUND")
+		}
+		
+		set pResponse.StringValue = nb
+	}
+	catch exp
+	{
+		set sc = exp.AsStatus()
+	}
+	return sc
+]]></Implementation>
+</Method>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+	<MapItem MessageType="Ens.StringRequest"> 
+		<Method>SELECT</Method>
+	</MapItem>
+	<MapItem MessageType="JDBC.demo.msg.test"> 
+		<Method>test</Method>
+	</MapItem>
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="JDBC.demo.msg.customerRequest">
+<Super>Ens.Request</Super>
+<TimeChanged>66448,68445.819530721</TimeChanged>
+<TimeCreated>66448,68445.819530721</TimeCreated>
+
+<Property name="id">
+<Type>%Integer</Type>
+<InitialExpression>$random(1000)+1</InitialExpression>
+</Property>
+
+<Property name="active">
+<Type>%Boolean</Type>
+<InitialExpression>$random(2)</InitialExpression>
+</Property>
+
+<Property name="firstName">
+<Type>%String</Type>
+<InitialExpression>##class(%PopulateUtils).FirstName()</InitialExpression>
+</Property>
+
+<Property name="lastName">
+<Type>%String</Type>
+<InitialExpression>##class(%PopulateUtils).LastName()</InitialExpression>
+</Property>
+
+<Property name="city">
+<Type>%String</Type>
+<InitialExpression>##class(%PopulateUtils).City()</InitialExpression>
+</Property>
+
+<Property name="category">
+<Type>%Integer</Type>
+<InitialExpression>$RANDOM(5)+1</InitialExpression>
+</Property>
+
+<Property name="created">
+<Type>%TimeStamp</Type>
+<InitialExpression>$zdt($h-$RANDOM(1000)_","_$random(86400),3)</InitialExpression>
+</Property>
+
+<Property name="hashtag">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="gender">
+<Type>%String</Type>
+</Property>
+
+<Property name="country">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>customerRequestDefaultData</DefaultData>
+<Data name="customerRequestDefaultData">
+<Subscript>"customerRequest"</Subscript>
+<Value name="1">
+<Value>id</Value>
+</Value>
+<Value name="2">
+<Value>active</Value>
+</Value>
+<Value name="3">
+<Value>firstName</Value>
+</Value>
+<Value name="4">
+<Value>lastName</Value>
+</Value>
+<Value name="5">
+<Value>city</Value>
+</Value>
+<Value name="6">
+<Value>category</Value>
+</Value>
+<Value name="7">
+<Value>created</Value>
+</Value>
+<Value name="8">
+<Value>hashtag</Value>
+</Value>
+<Value name="9">
+<Value>gender</Value>
+</Value>
+<Value name="10">
+<Value>country</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="JDBC.demo.msg.customerResponse">
+<Super>Ens.Response</Super>
+<TimeChanged>66448,68445.821125596</TimeChanged>
+<TimeCreated>66448,68445.821125596</TimeCreated>
+
+<Property name="result">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>customerResponseDefaultData</DefaultData>
+<Data name="customerResponseDefaultData">
+<Subscript>"customerResponse"</Subscript>
+<Value name="1">
+<Value>result</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="JDBC.demo.msg.init">
+<Super>Ens.Request</Super>
+<TimeChanged>66448,68445.833168929</TimeChanged>
+<TimeCreated>66448,68445.833168929</TimeCreated>
+
+<Property name="nb">
+<Type>%Integer</Type>
+<InitialExpression>50</InitialExpression>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>initDefaultData</DefaultData>
+<Data name="initDefaultData">
+<Subscript>"init"</Subscript>
+<Value name="1">
+<Value>nb</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="JDBC.demo.msg.test">
+<Super>Ens.Request</Super>
+<TimeChanged>66448,68445.831921513</TimeChanged>
+<TimeCreated>66448,68445.831921513</TimeCreated>
+
+<Property name="tablename">
+<Type>%String</Type>
+<InitialExpression>"customer"</InitialExpression>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>testDefaultData</DefaultData>
+<Data name="testDefaultData">
+<Subscript>"test"</Subscript>
+<Value name="1">
+<Value>tablename</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="JDBC.demo.msg.testBatch">
+<Super>Ens.Request</Super>
+<TimeChanged>66448,68445.833664679</TimeChanged>
+<TimeCreated>66448,68445.833664679</TimeCreated>
+
+<Property name="nb">
+<Type>%Integer</Type>
+<InitialExpression>50</InitialExpression>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>testBatchDefaultData</DefaultData>
+<Data name="testBatchDefaultData">
+<Subscript>"testBatch"</Subscript>
+<Value name="1">
+<Value>nb</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="JDBC.demo.process.customers">
+<Description>
+</Description>
+<Super>Ens.BusinessProcessBPL</Super>
+<TimeChanged>66448,68445.847546929</TimeChanged>
+<TimeCreated>66448,68445.847546929</TimeCreated>
+
+<XData name="BPL">
+<Description>
+BPL Definition</Description>
+<XMLNamespace>http://www.intersystems.com/bpl</XMLNamespace>
+<Data><![CDATA[
+<process language='objectscript' request='data.RM.customer.Batch' response='Ens.StringResponse' height='2000' width='2000' >
+<context>
+<property name='customersExternal' type='data.EXTERNAL.customer.Batch' instantiate='0' />
+<property name='customer' type='data.EXTERNAL.customer.Record' instantiate='0' />
+<property name='i' type='%Integer' instantiate='0' />
+<property name='MAJbaseExterne' type='Ens.StringResponse' instantiate='0' />
+</context>
+<sequence xend='200' yend='650' >
+<transform name='ajout hashtag' class='data.transfo.ajoutHashtag' source='request' target='context.customersExternal' xpos='200' ypos='250' />
+<foreach name='ajout genre clients ' property='context.customersExternal.records' key='context.i' xpos='200' ypos='350' xend='200' yend='650' >
+<trace name='id client' value='context.customersExternal.records.GetAt(context.i).id' xpos='200' ypos='250' />
+<assign name="client" property="context.customer" value="context.customersExternal.records.GetAt(context.i)" action="set" xpos='200' ypos='350' />
+<call name='recherche le genre' target='get gender' async='0' xpos='200' ypos='450' >
+<request type='HTTP.msg.genderRequest' >
+<assign property="callrequest.firstName" value="context.customer.firstName" action="set" />
+</request>
+<response type='HTTP.msg.genderResponse' >
+<assign property="context.customer.gender" value="callresponse.gender" action="set" />
+</response>
+</call>
+<code name='ajout genre' xpos='200' ypos='550' >
+<![CDATA[ do context.customersExternal.records.SetAt(context.customer,context.i)]]]]><![CDATA[>
+</code>
+</foreach>
+<call name='MAJ clients base externe' target='MAJ clients base externe' async='0' xpos='200' ypos='450' >
+<request type='data.EXTERNAL.customer.Batch' >
+<assign property="callrequest" value="context.customersExternal" action="set" />
+</request>
+<response type='Ens.StringResponse' >
+<assign property="context.MAJbaseExterne" value="callresponse" action="set" />
+</response>
+</call>
+<assign name="réponse" property="response.StringValue" value="&quot;process successfully executed&quot;" action="set" xpos='200' ypos='550' />
+</sequence>
+</process>
+]]></Data>
+</XData>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+</Storage>
+</Class>
+
+
+<Class name="JDBC.demo.production">
+<Super>Ens.Production</Super>
+<TimeChanged>66466,47126.433672927</TimeChanged>
+<TimeCreated>66448,68445.771154888</TimeCreated>
+
+<XData name="ProductionDefinition">
+<Data><![CDATA[
+<Production Name="JDBC.demo.production" TestingEnabled="true" LogGeneralTraceEvents="true">
+  <Description></Description>
+  <ActorPoolSize>2</ActorPoolSize>
+  <Item Name="JG" Category="" ClassName="EnsLib.JavaGateway.Service" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+  <Item Name="fichiers clients" Category="fichiers directs,archive" ClassName="EnsLib.RecordMap.Service.BatchFileService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="BatchClass">data.RM.customer.Batch</Setting>
+    <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">MAJ clients base externe,archive fichiers clients,archive fichiers clients ftp</Setting>
+    <Setting Target="Adapter" Name="FilePath">/data/in</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
+    <Setting Target="Host" Name="BatchHandling">Whole</Setting>
+  </Item>
+  <Item Name="fichiers clients + transfo" Category="transfo,archive" ClassName="EnsLib.RecordMap.Service.BatchFileService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="BatchClass">data.RM.customer.Batch</Setting>
+    <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">routage + transfo clients</Setting>
+    <Setting Target="Adapter" Name="FilePath">/data/in+transfo/</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
+    <Setting Target="Host" Name="BatchHandling">Whole</Setting>
+  </Item>
+  <Item Name="fichiers clients + transfo + traitements" Category="transfo + traitements,archive" ClassName="EnsLib.RecordMap.Service.BatchFileService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="BatchClass">data.RM.customer.Batch</Setting>
+    <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">transfo + traitements fichiers clients</Setting>
+    <Setting Target="Adapter" Name="FilePath">/data/in+transfo+traitements/</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
+    <Setting Target="Host" Name="BatchHandling">Whole</Setting>
+  </Item>
+  <Item Name="MAJ clients base interne" Category="" ClassName="JDBC.demo.SELECT.operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Adapter" Name="JGService">JG</Setting>
+    <Setting Target="Adapter" Name="StayConnected">10</Setting>
+    <Setting Target="Adapter" Name="DSN">jdbc:postgresql://postgres:5432/postgres</Setting>
+    <Setting Target="Adapter" Name="JDBCClasspath">/app/jdbc/postgresql-42.2.23.jar</Setting>
+    <Setting Target="Adapter" Name="JDBCDriver">org.postgresql.Driver</Setting>
+    <Setting Target="Adapter" Name="Credentials">PostgreSQL</Setting>
+    <Setting Target="Host" Name="batchSize">1000</Setting>
+  </Item>
+  <Item Name="MAJ clients base externe" Category="fichiers directs,transfo,transfo + traitements" ClassName="JDBC.demo.INSERT.operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Adapter" Name="JGService">JG</Setting>
+    <Setting Target="Adapter" Name="StayConnected">10</Setting>
+    <Setting Target="Adapter" Name="DSN">jdbc:postgresql://postgres:5432/postgres</Setting>
+    <Setting Target="Adapter" Name="JDBCClasspath">/app/jdbc/postgresql-42.2.23.jar</Setting>
+    <Setting Target="Adapter" Name="JDBCDriver">org.postgresql.Driver</Setting>
+    <Setting Target="Adapter" Name="Credentials">PostgreSQL</Setting>
+    <Setting Target="Host" Name="batchSize">10</Setting>
+  </Item>
+  <Item Name="routage + transfo clients" Category="transfo" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="BusinessRuleName">JDBC.demo.routage.clients</Setting>
+  </Item>
+  <Item Name="transfo + traitements fichiers clients" Category="transfo + traitements" ClassName="JDBC.demo.process.customers" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  </Item>
+  <Item Name="get gender" Category="transfo + traitements" ClassName="HTTP.operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Adapter" Name="HTTPServer">api.genderize.io</Setting>
+    <Setting Target="Adapter" Name="SSLConfig">API</Setting>
+    <Setting Target="Adapter" Name="URL">/</Setting>
+    <Setting Target="Adapter" Name="SSLCheckServerIdentity">1</Setting>
+    <Setting Target="Host" Name="ArchiveIO">1</Setting>
+  </Item>
+  <Item Name="archive fichiers clients" Category="archive" ClassName="EnsLib.RecordMap.Operation.BatchFileOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="Filename">%Q_%f</Setting>
+    <Setting Target="Adapter" Name="FilePath">/data/out/</Setting>
+    <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
+  </Item>
+  <Item Name="crcind.Operation.SOAPDemoSoap" Category="" ClassName="crcind.Operation.SOAPDemoSoap" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="SSLConfig">API</Setting>
+  </Item>
+  <Item Name="w3schools.Operation.TempConvertSoap" Category="" ClassName="w3schools.Operation.TempConvertSoap" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="SSLConfig">API</Setting>
+  </Item>
+  <Item Name="fichiers" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="BusinessRuleName">bastideRouteur.fichiers</Setting>
+  </Item>
+  <Item Name="GET DATA CLINICOM SQL" Category="fichiers directs,transfo,transfo + traitements" ClassName="JDBC.demo.INSERT.operation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Adapter" Name="JGService">JG</Setting>
+    <Setting Target="Adapter" Name="StayConnected">10</Setting>
+    <Setting Target="Adapter" Name="DSN">jdbc:IRIS://172.18.1.73:1972/DSA-CLA-PRD</Setting>
+    <Setting Target="Adapter" Name="JDBCClasspath">/app/jdbc/intersystems-jdbc-3.3.1.jar</Setting>
+    <Setting Target="Adapter" Name="JDBCDriver">com.intersystems.jdbc.IRISDriver</Setting>
+    <Setting Target="Adapter" Name="Credentials">CLINICOM</Setting>
+    <Setting Target="Host" Name="batchSize">10</Setting>
+  </Item>
+  <Item Name="from customer SQL" Category="" ClassName="EnsLib.SQL.Service.GenericService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">routage + transfo clients</Setting>
+    <Setting Target="Adapter" Name="Credentials">PostgreSQL</Setting>
+    <Setting Target="Adapter" Name="Query">select ID,
+    last_name lastname,
+    first_name firstname,
+    city,
+    active,
+    category,
+    gender,
+    created,
+    inserted,
+    lastupdate
+from app.customer</Setting>
+    <Setting Target="Adapter" Name="DSN">postgres</Setting>
+    <Setting Target="Adapter" Name="JGService">JG</Setting>
+    <Setting Target="Host" Name="MessageClass">SQL.msg.customerRequest</Setting>
+  </Item>
+  <Item Name="from IRIS SQL" Category="" ClassName="EnsLib.SQL.Service.GenericService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">routage + transfo clients</Setting>
+    <Setting Target="Adapter" Name="Credentials"></Setting>
+    <Setting Target="Adapter" Name="Query">SELECT 
+ID, BStream, Boolean, CStream, "Date", "Double", "Float", "Integer", MT, "Numeric", String, Timestamp, created, extension
+FROM data.test</Setting>
+    <Setting Target="Adapter" Name="DSN">iris</Setting>
+    <Setting Target="Adapter" Name="JGService">JG</Setting>
+    <Setting Target="Host" Name="MessageClass"></Setting>
+  </Item>
+  <Item Name="ftp clients" Category="fichiers directs,archive" ClassName="EnsLib.RecordMap.Service.BatchFTPService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="BatchClass">data.RM.customer.Batch</Setting>
+    <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">MAJ clients base externe,archive fichiers clients</Setting>
+    <Setting Target="Adapter" Name="FilePath">./ftp/in</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
+    <Setting Target="Host" Name="BatchHandling">Whole</Setting>
+    <Setting Target="Adapter" Name="Credentials">ftp</Setting>
+    <Setting Target="Adapter" Name="FTPPort">21</Setting>
+    <Setting Target="Adapter" Name="FTPServer">172.0.0.100</Setting>
+    <Setting Target="Adapter" Name="Protocol">FTP</Setting>
+    <Setting Target="Adapter" Name="SSLConfig"></Setting>
+  </Item>
+  <Item Name="ftp clients + transfo" Category="transfo,archive" ClassName="EnsLib.RecordMap.Service.BatchFTPService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="BatchClass">data.RM.customer.Batch</Setting>
+    <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">routage + transfo clients</Setting>
+    <Setting Target="Adapter" Name="FilePath">./ftp/in+transfo</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
+    <Setting Target="Host" Name="BatchHandling">Whole</Setting>
+    <Setting Target="Adapter" Name="Credentials">ftp</Setting>
+    <Setting Target="Adapter" Name="FTPPort">21</Setting>
+    <Setting Target="Adapter" Name="FTPServer">172.0.0.100</Setting>
+    <Setting Target="Adapter" Name="Protocol">FTP</Setting>
+  </Item>
+  <Item Name="ftp clients + transfo + traitements" Category="transfo + traitements,archive" ClassName="EnsLib.RecordMap.Service.BatchFTPService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="BatchClass">data.RM.customer.Batch</Setting>
+    <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">transfo + traitements fichiers clients</Setting>
+    <Setting Target="Adapter" Name="FilePath">./ftp/in+transfo+traitements</Setting>
+    <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
+    <Setting Target="Host" Name="BatchHandling">Whole</Setting>
+    <Setting Target="Adapter" Name="Credentials">ftp</Setting>
+    <Setting Target="Adapter" Name="FTPPort">21</Setting>
+    <Setting Target="Adapter" Name="FTPServer">172.0.0.100</Setting>
+    <Setting Target="Adapter" Name="Protocol">FTP</Setting>
+  </Item>
+  <Item Name="archive fichiers clients ftp" Category="archive" ClassName="EnsLib.RecordMap.Operation.BatchFTPOperation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="Filename">%Q_%f</Setting>
+    <Setting Target="Adapter" Name="FilePath">./ftp/out</Setting>
+    <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
+    <Setting Target="Adapter" Name="Credentials">ftp</Setting>
+    <Setting Target="Adapter" Name="FTPPort">21</Setting>
+    <Setting Target="Adapter" Name="FTPServer">172.0.0.100</Setting>
+    <Setting Target="Adapter" Name="Protocol">FTP</Setting>
+  </Item>
+</Production>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="JDBC.demo.routage.clients">
+<Description>
+</Description>
+<Super>Ens.Rule.Definition</Super>
+<TimeChanged>66449,55703.817686422</TimeChanged>
+<TimeCreated>66448,68445.841238929</TimeCreated>
+
+<Parameter name="RuleAssistClass">
+<Default>EnsLib.MsgRouter.RuleAssist</Default>
+</Parameter>
+
+<XData name="RuleDefinition">
+<XMLNamespace>http://www.intersystems.com/rule</XMLNamespace>
+<Data><![CDATA[
+<ruleDefinition alias="" context="EnsLib.MsgRouter.RoutingEngine" production="JDBC.demo.production">
+<ruleSet name="" effectiveBegin="" effectiveEnd="">
+<send transform="data.transfo.ajoutHashtag" target="MAJ clients base externe"></send>
+</ruleSet>
+</ruleDefinition>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="crcind.Operation.SOAPDemoSoap">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.BusinessOperation</Super>
+<TimeChanged>66449,5175.957391136</TimeChanged>
+<TimeCreated>66449,5175.947202344</TimeCreated>
+
+<Method name="AddInteger">
+<FormalSpec>pRequest:crcind.Request.AddIntegerRequest,*pResponse:crcind.Response.AddIntegerResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("AddInteger",.AddIntegerResult,pRequest.Arg1,pRequest.Arg2)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.AddIntegerResult=$get(AddIntegerResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="DivideInteger">
+<FormalSpec>pRequest:crcind.Request.DivideIntegerRequest,*pResponse:crcind.Response.DivideIntegerResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("DivideInteger",.DivideIntegerResult,pRequest.Arg1,pRequest.Arg2)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.DivideIntegerResult=$get(DivideIntegerResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FindPerson">
+<FormalSpec>pRequest:crcind.Request.FindPersonRequest,*pResponse:crcind.Response.FindPersonResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("FindPerson",.FindPersonResult,pRequest.id)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.FindPersonResult=$get(FindPersonResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetByName">
+<FormalSpec>pRequest:crcind.Request.GetByNameRequest,*pResponse:crcind.Response.GetByNameResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("GetByName",.GetByNameResult,pRequest.name)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.GetByNameResult=$get(GetByNameResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetDataSetByName">
+<FormalSpec>pRequest:crcind.Request.GetDataSetByNameRequest,*pResponse:crcind.Response.GetDataSetByNameResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("GetDataSetByName",.GetDataSetByNameResult,pRequest.name)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.GetDataSetByNameResult=$get(GetDataSetByNameResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetListByName">
+<FormalSpec>pRequest:crcind.Request.GetListByNameRequest,*pResponse:crcind.Response.GetListByNameResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("GetListByName",.GetListByNameResult,pRequest.name)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.GetListByNameResult=$get(GetListByNameResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LookupCity">
+<FormalSpec>pRequest:crcind.Request.LookupCityRequest,*pResponse:crcind.Response.LookupCityResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("LookupCity",.LookupCityResult,pRequest.zip)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.LookupCityResult=$get(LookupCityResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Mission">
+<FormalSpec>pRequest:crcind.Request.MissionRequest,*pResponse:crcind.Response.MissionResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("Mission",.MissionResult)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.MissionResult=$get(MissionResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="QueryByName">
+<FormalSpec>pRequest:crcind.Request.QueryByNameRequest,*pResponse:crcind.Response.QueryByNameResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "crcind.SOAPDemoSoap"
+ Set tSC = ..Adapter.InvokeMethod("QueryByName",.QueryByNameResult,pRequest.name)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.QueryByNameResult=$get(QueryByNameResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.SOAP.OutboundAdapter</Default>
+</Parameter>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+	<MapItem MessageType="crcind.Request.AddIntegerRequest">
+		<Method>AddInteger</Method>
+	</MapItem>
+	<MapItem MessageType="crcind.Request.DivideIntegerRequest">
+		<Method>DivideInteger</Method>
+	</MapItem>
+	<MapItem MessageType="crcind.Request.FindPersonRequest">
+		<Method>FindPerson</Method>
+	</MapItem>
+	<MapItem MessageType="crcind.Request.GetByNameRequest">
+		<Method>GetByName</Method>
+	</MapItem>
+	<MapItem MessageType="crcind.Request.GetDataSetByNameRequest">
+		<Method>GetDataSetByName</Method>
+	</MapItem>
+	<MapItem MessageType="crcind.Request.GetListByNameRequest">
+		<Method>GetListByName</Method>
+	</MapItem>
+	<MapItem MessageType="crcind.Request.LookupCityRequest">
+		<Method>LookupCity</Method>
+	</MapItem>
+	<MapItem MessageType="crcind.Request.MissionRequest">
+		<Method>Mission</Method>
+	</MapItem>
+	<MapItem MessageType="crcind.Request.QueryByNameRequest">
+		<Method>QueryByName</Method>
+	</MapItem>
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="crcind.Request.AddIntegerRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.898834335</TimeChanged>
+<TimeCreated>66449,5175.948220886</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.AddIntegerResponse</Default>
+</Parameter>
+
+<Property name="Arg1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Arg2">
+<Type>%Integer</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>AddIntegerRequestDefaultData</DefaultData>
+<Data name="AddIntegerRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"AddIntegerRequest"</Subscript>
+<Value name="1">
+<Value>Arg1</Value>
+</Value>
+<Value name="2">
+<Value>Arg2</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Request.DivideIntegerRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.885272418</TimeChanged>
+<TimeCreated>66449,5175.949370928</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.DivideIntegerResponse</Default>
+</Parameter>
+
+<Property name="Arg1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Arg2">
+<Type>%Integer</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>DivideIntegerRequestDefaultData</DefaultData>
+<Data name="DivideIntegerRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"DivideIntegerRequest"</Subscript>
+<Value name="1">
+<Value>Arg1</Value>
+</Value>
+<Value name="2">
+<Value>Arg2</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Request.FindPersonRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.879184877</TimeChanged>
+<TimeCreated>66449,5175.949924969</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.FindPersonResponse</Default>
+</Parameter>
+
+<Property name="id">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>FindPersonRequestDefaultData</DefaultData>
+<Data name="FindPersonRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"FindPersonRequest"</Subscript>
+<Value name="1">
+<Value>id</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Request.GetByNameRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.86948496</TimeChanged>
+<TimeCreated>66449,5175.950644678</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.GetByNameResponse</Default>
+</Parameter>
+
+<Property name="name">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>GetByNameRequestDefaultData</DefaultData>
+<Data name="GetByNameRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"GetByNameRequest"</Subscript>
+<Value name="1">
+<Value>name</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Request.GetDataSetByNameRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.899796627</TimeChanged>
+<TimeCreated>66449,5175.951225719</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.GetDataSetByNameResponse</Default>
+</Parameter>
+
+<Property name="name">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>GetDataSetByNameRequestDefaultData</DefaultData>
+<Data name="GetDataSetByNameRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"GetDataSetByNameRequest"</Subscript>
+<Value name="1">
+<Value>name</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Request.GetListByNameRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.913071752</TimeChanged>
+<TimeCreated>66449,5175.951925969</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.GetListByNameResponse</Default>
+</Parameter>
+
+<Property name="name">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>GetListByNameRequestDefaultData</DefaultData>
+<Data name="GetListByNameRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"GetListByNameRequest"</Subscript>
+<Value name="1">
+<Value>name</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Request.LookupCityRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.918927127</TimeChanged>
+<TimeCreated>66449,5175.952486469</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.LookupCityResponse</Default>
+</Parameter>
+
+<Property name="zip">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>LookupCityRequestDefaultData</DefaultData>
+<Data name="LookupCityRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"LookupCityRequest"</Subscript>
+<Value name="1">
+<Value>zip</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Request.MissionRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.921029793</TimeChanged>
+<TimeCreated>66449,5175.952982219</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.MissionResponse</Default>
+</Parameter>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Request.QueryByNameRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5305.926853085</TimeChanged>
+<TimeCreated>66449,5175.953535636</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>crcind.Response.QueryByNameResponse</Default>
+</Parameter>
+
+<Property name="name">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>QueryByNameRequestDefaultData</DefaultData>
+<Data name="QueryByNameRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"QueryByNameRequest"</Subscript>
+<Value name="1">
+<Value>name</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.AddIntegerResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5305.983257002</TimeChanged>
+<TimeCreated>66449,5175.948837594</TimeCreated>
+
+<Property name="AddIntegerResult">
+<Type>%Integer</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>AddIntegerResponseDefaultData</DefaultData>
+<Data name="AddIntegerResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"AddIntegerResponse"</Subscript>
+<Value name="1">
+<Value>AddIntegerResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.DivideIntegerResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5305.988846127</TimeChanged>
+<TimeCreated>66449,5175.949588511</TimeCreated>
+
+<Property name="DivideIntegerResult">
+<Type>%Integer</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>DivideIntegerResponseDefaultData</DefaultData>
+<Data name="DivideIntegerResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"DivideIntegerResponse"</Subscript>
+<Value name="1">
+<Value>DivideIntegerResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.FindPersonResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5306.196966252</TimeChanged>
+<TimeCreated>66449,5175.950106053</TimeCreated>
+
+<Property name="FindPersonResult">
+<Type>crcind.s0.Person</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>FindPersonResponseDefaultData</DefaultData>
+<Data name="FindPersonResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"FindPersonResponse"</Subscript>
+<Value name="1">
+<Value>FindPersonResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.GetByNameResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5306.016845877</TimeChanged>
+<TimeCreated>66449,5175.950837719</TimeCreated>
+
+<Property name="GetByNameResult">
+<Type>%XML.DataSet</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>GetByNameResponseDefaultData</DefaultData>
+<Data name="GetByNameResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"GetByNameResponse"</Subscript>
+<Value name="1">
+<Value>GetByNameResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.GetDataSetByNameResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5305.998393127</TimeChanged>
+<TimeCreated>66449,5175.951537261</TimeCreated>
+
+<Property name="GetDataSetByNameResult">
+<Type>crcind.s0.ByNameDataSet</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>GetDataSetByNameResponseDefaultData</DefaultData>
+<Data name="GetDataSetByNameResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"GetDataSetByNameResponse"</Subscript>
+<Value name="1">
+<Value>GetDataSetByNameResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.GetListByNameResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5306.170868877</TimeChanged>
+<TimeCreated>66449,5175.952120261</TimeCreated>
+
+<Property name="GetListByNameResult">
+<Type>crcind.s0.PersonIdentification</Type>
+<Collection>list</Collection>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>GetListByNameResponseDefaultData</DefaultData>
+<Data name="GetListByNameResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"GetListByNameResponse"</Subscript>
+<Value name="1">
+<Value>GetListByNameResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.LookupCityResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5306.169757252</TimeChanged>
+<TimeCreated>66449,5175.952668011</TimeCreated>
+
+<Property name="LookupCityResult">
+<Type>crcind.s0.Address</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>LookupCityResponseDefaultData</DefaultData>
+<Data name="LookupCityResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"LookupCityResponse"</Subscript>
+<Value name="1">
+<Value>LookupCityResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.MissionResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5305.987100002</TimeChanged>
+<TimeCreated>66449,5175.953109511</TimeCreated>
+
+<Property name="MissionResult">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>MissionResponseDefaultData</DefaultData>
+<Data name="MissionResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"MissionResponse"</Subscript>
+<Value name="1">
+<Value>MissionResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.Response.QueryByNameResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5306.027958043</TimeChanged>
+<TimeCreated>66449,5175.953692428</TimeCreated>
+
+<Property name="QueryByNameResult">
+<Type>crcind.s0.QueryByNameDataSet</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>QueryByNameResponseDefaultData</DefaultData>
+<Data name="QueryByNameResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"QueryByNameResponse"</Subscript>
+<Value name="1">
+<Value>QueryByNameResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.s0.Address">
+<Description>
+Created from: https://www.crcind.com/csp/samples/SOAP.Demo.CLS?WSDL=1</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeChanged>66449,5175.995668178</TimeChanged>
+<TimeCreated>66449,5175.965480178</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>Address</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="Street">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="80"/>
+<Parameter name="XMLNAME" value="Street"/>
+</Property>
+
+<Property name="City">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="80"/>
+<Parameter name="XMLNAME" value="City"/>
+</Property>
+
+<Property name="State">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="2"/>
+<Parameter name="XMLNAME" value="State"/>
+</Property>
+
+<Property name="Zip">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="5"/>
+<Parameter name="XMLNAME" value="Zip"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Serial</Type>
+<State>AddressState</State>
+<StreamLocation>^crcind.s0.AddressS</StreamLocation>
+<Data name="AddressState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>Street</Value>
+</Value>
+<Value name="2">
+<Value>City</Value>
+</Value>
+<Value name="3">
+<Value>State</Value>
+</Value>
+<Value name="4">
+<Value>Zip</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.s0.ByNameDataSet">
+<Description>
+Created from: https://www.crcind.com/csp/samples/SOAP.Demo.CLS?WSDL=1</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%XML.DataSet</Super>
+<TimeChanged>66449,5175.968717469</TimeChanged>
+<TimeCreated>66449,5175.966510969</TimeCreated>
+
+<Query name="ByName">
+<Description>
+Query for typed dataset</Description>
+<Type>%Library.Query</Type>
+<Parameter name="ROWSPEC" value="ID:%Integer,Name:%String,DOB:%Date,SSN:%String"/>
+</Query>
+
+<Parameter name="CLASSNAME">
+<Default>crcind.s0.ByNameDataSet</Default>
+</Parameter>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>http://tempuri.org/ByNameDataSet</Default>
+</Parameter>
+
+<Parameter name="QUERYNAME">
+<Default>ByName</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>ByNameDataSet</Default>
+</Parameter>
+</Class>
+
+
+<Class name="crcind.s0.Person">
+<Description>
+Created from: https://www.crcind.com/csp/samples/SOAP.Demo.CLS?WSDL=1</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeChanged>66449,5175.970592053</TimeChanged>
+<TimeCreated>66449,5175.969668469</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>Person</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="Name">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="Name"/>
+</Property>
+
+<Property name="SSN">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="SSN"/>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+<Parameter name="XMLNAME" value="DOB"/>
+</Property>
+
+<Property name="Home">
+<Type>crcind.s0.Address</Type>
+<Parameter name="XMLNAME" value="Home"/>
+</Property>
+
+<Property name="Office">
+<Type>crcind.s0.Address</Type>
+<Parameter name="XMLNAME" value="Office"/>
+</Property>
+
+<Property name="Spouse">
+<Type>crcind.s0.Person</Type>
+<Parameter name="CLASSNAME" value="1"/>
+<Parameter name="XMLNAME" value="Spouse"/>
+</Property>
+
+<Property name="FavoriteColors">
+<Type>%String</Type>
+<Collection>list</Collection>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLITEMNAME" value="FavoriteColorsItem"/>
+<Parameter name="XMLNAME" value="FavoriteColors"/>
+<Parameter name="XMLPROJECTION" value="COLLECTION"/>
+</Property>
+
+<Property name="Age">
+<Type>%Integer</Type>
+<Parameter name="XMLNAME" value="Age"/>
+</Property>
+</Class>
+
+
+<Class name="crcind.s0.PersonIdentification">
+<Description>
+Created from: https://www.crcind.com/csp/samples/SOAP.Demo.CLS?WSDL=1</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeChanged>66449,5175.999880136</TimeChanged>
+<TimeCreated>66449,5175.970723761</TimeCreated>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>http://tempuri.org</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>PersonIdentification</Default>
+</Parameter>
+
+<Parameter name="XMLSEQUENCE">
+<Default>1</Default>
+</Parameter>
+
+<Property name="ID">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="ID"/>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="Name"/>
+</Property>
+
+<Property name="SSN">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="MAXLEN"/>
+<Parameter name="XMLNAME" value="SSN"/>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+<Parameter name="XMLNAME" value="DOB"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Serial</Type>
+<State>PersonIdentificationState</State>
+<StreamLocation>^crcind.s0.PersonIdentEBDFS</StreamLocation>
+<Data name="PersonIdentificationState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>ID</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>SSN</Value>
+</Value>
+<Value name="4">
+<Value>DOB</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="crcind.s0.QueryByNameDataSet">
+<Description>
+Created from: https://www.crcind.com/csp/samples/SOAP.Demo.CLS?WSDL=1</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%XML.DataSet</Super>
+<TimeChanged>66449,5175.971933136</TimeChanged>
+<TimeCreated>66449,5175.971498803</TimeCreated>
+
+<Query name="QueryByName">
+<Description>
+Query for typed dataset</Description>
+<Type>%Library.Query</Type>
+<Parameter name="ROWSPEC" value="ID:%Integer,Name:%String,DOB:%Date,SSN:%String"/>
+</Query>
+
+<Parameter name="CLASSNAME">
+<Default>crcind.s0.QueryByNameDataSet</Default>
+</Parameter>
+
+<Parameter name="ELEMENTQUALIFIED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="NAMESPACE">
+<Default>http://tempuri.org/QueryByName_DataSet</Default>
+</Parameter>
+
+<Parameter name="QUERYNAME">
+<Default>QueryByName</Default>
+</Parameter>
+
+<Parameter name="XMLNAME">
+<Default>QueryByName_DataSet</Default>
+</Parameter>
+
+<Parameter name="XMLTYPE">
+<Default>QueryByName_DataSet</Default>
+</Parameter>
+</Class>
+
+
+<Class name="data.EXTERNAL.customer.Batch">
+<Super>Ens.Request</Super>
+<TimeChanged>66448,73150.915695343</TimeChanged>
+<TimeCreated>66448,73150.915695343</TimeCreated>
+
+<Property name="records">
+<Type>data.EXTERNAL.customer.Record</Type>
+<Collection>array</Collection>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<Data name="records">
+<Attribute>records</Attribute>
+<Structure>subnode</Structure>
+<Subscript>"data.EXTERNAL.customer.Batch.records"</Subscript>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="data.EXTERNAL.customer.Record">
+<Super>%SerialObject,%XML.Adaptor</Super>
+<TimeChanged>66448,73150.92026751</TimeChanged>
+<TimeCreated>66448,73150.92026751</TimeCreated>
+
+<Property name="id">
+<Type>%String</Type>
+</Property>
+
+<Property name="active">
+<Type>%Boolean</Type>
+</Property>
+
+<Property name="category">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="city">
+<Type>%String</Type>
+</Property>
+
+<Property name="created">
+<Type>%TimeStamp</Type>
+</Property>
+
+<Property name="firstName">
+<Type>%String</Type>
+</Property>
+
+<Property name="lastName">
+<Type>%String</Type>
+</Property>
+
+<Property name="hashtag">
+<Type>%String</Type>
+<Parameter name="MAXLEN" value="20"/>
+</Property>
+
+<Property name="gender">
+<Type>%String</Type>
+</Property>
+
+<Property name="country">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Serial</Type>
+<State>RecordState</State>
+<StreamLocation>^data.EXTERNAL.customer.RecordS</StreamLocation>
+<Data name="RecordState">
+<Value name="1">
+<Value>id</Value>
+</Value>
+<Value name="2">
+<Value>active</Value>
+</Value>
+<Value name="3">
+<Value>category</Value>
+</Value>
+<Value name="4">
+<Value>city</Value>
+</Value>
+<Value name="5">
+<Value>created</Value>
+</Value>
+<Value name="6">
+<Value>firstName</Value>
+</Value>
+<Value name="7">
+<Value>lastName</Value>
+</Value>
+<Value name="8">
+<Value>hashtag</Value>
+</Value>
+<Value name="9">
+<Value>gender</Value>
+</Value>
+<Value name="10">
+<Value>country</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="data.RM.customer.Batch">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Persistent,%XML.Adaptor,Ens.Request,EnsLib.RecordMap.Batch,%JSON.Adaptor</Super>
+<TimeChanged>66448,79271.751471927</TimeChanged>
+<TimeCreated>66448,73107.855037504</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="RECORDMAPGENERATED">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="BatchHeader">
+<Default>id,active,category,city,created,firstName,lastName</Default>
+</Parameter>
+
+<Parameter name="HeaderTerm">
+<Default>\x0a</Default>
+</Parameter>
+
+<Parameter name="BatchTrailer">
+</Parameter>
+
+<Parameter name="TrailerTerm">
+</Parameter>
+
+<Parameter name="IgnoreLeadingData">
+<Default>1</Default>
+</Parameter>
+
+<Property name="Records">
+<Type>data.RM.customer.Record</Type>
+<Cardinality>many</Cardinality>
+<Inverse>%ParentBatch</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Trigger name="OnDelete">
+<Code>	Set %ok = ..deleteRecords({ID})</Code>
+<Event>DELETE</Event>
+</Trigger>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^data.RM.customer.BatchD</DataLocation>
+<DefaultData>BatchDefaultData</DefaultData>
+<IdLocation>^data.RM.customer.BatchD</IdLocation>
+<IndexLocation>^data.RM.customer.BatchI</IndexLocation>
+<StreamLocation>^data.RM.customer.BatchS</StreamLocation>
+<ExtentSize>2000000</ExtentSize>
+<Data name="BatchDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>%Source</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="data.RM.customer">
+<Description>
+RECORDMAP: Modified during compilation of RecordMap 'data.RM.customer'
+on 2021-08-31 at 13:35:49.973 [2021-08-31 13:35:49.973 UTC]
+by user _SYSTEM</Description>
+<Super>EnsLib.RecordMap.RecordMap</Super>
+<TimeChanged>66448,73107.839447629</TimeChanged>
+<TimeCreated>66448,73107.839447629</TimeCreated>
+
+<Parameter name="OBJECTNAME">
+<Default>data.RM.customer.Record</Default>
+</Parameter>
+
+<Method name="GetObject">
+<Description>
+Method to retrieve a record from a stream or device. This method will be generated based on the
+structure of the RecordMap. For testing purposes, a file name may be passed in the pStream argument.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[pStream:%IO.DeviceStream,*pObject:%RegisteredObject,pTimeout:%Numeric=-1,&pLookAhead:%String="",pLabelFound:%Boolean=0]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Try {
+		Set tStatus = $$$OK
+		Set pObject = $$$NULLOREF
+		If '$IsObject(pStream) {
+			Set tFilename = pStream
+			Set pStream = ##class(%IO.FileStream).%New()
+			Do pStream.Open(tFilename,,pTimeout,"UTF-8", .tStatus)
+			If $$$ISERR(tStatus) Quit
+		}
+		Set tObjectName = $parameter($this,"OBJECTNAME")
+		Set tObject = $classmethod(tObjectName,"%New")
+		If '$IsObject(tObject) {
+			Set tStatus = $$$ERROR($$$CannotCreateObject,tObjectName)
+			Quit
+		}
+		Set tObject.%Source = pStream.Name
+		Set tGetTopFields = $parameter(tObject,"INCLUDETOPFIELDS")
+		If pStream.AtEnd && (""=pLookAhead) {
+			Set tStatus = $$$ERROR($$$EnsRecordMapErrStreamAtEnd, pStream.Name)
+			Quit
+		}
+		Set pStream.CharEncoding = "UTF-8"
+
+		#; Parse incoming stream
+		Set tStatus = ..GetRecord(pStream, tObject, tGetTopFields, pTimeout, .pLookAhead, pLabelFound)
+		If $$$ISERR(tStatus) Quit
+	}
+	Catch ex {
+		Set tStatus = ex.AsStatus()
+	}
+	If $$$ISERR(tStatus) { Set pObject = $$$NULLOREF }
+	Else { Set pObject = tObject }
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="PutObject">
+<Description>
+Method to write a record to a stream or device. This method will be generated based on the
+structure of the RecordMap. For testing purposes, a file name may be passed in the pStream argument.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[pStream:%IO.DeviceStream,pObject:%RegisteredObject,pFlush:%Boolean=1,&pPadArray:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Try {
+		Set tStatus = $$$OK
+		If '$IsObject(pStream) {
+			Set tFilename = pStream
+			Set pStream = ##class(%IO.FileStream).%New()
+			Do pStream.Open(tFilename,"WAE",,"UTF-8", .tStatus)
+			If $$$ISERR(tStatus) Quit
+		}
+		Set tHasTopFields = $parameter(pObject,"INCLUDETOPFIELDS")
+		Set pStream.CharEncoding = "UTF-8"
+
+		Set tStatus = ..PutRecord(pStream, pObject, tHasTopFields, .pPadArray)
+		If $$$ISERR(tStatus) Quit
+		If pFlush Do pStream.Flush(.tStatus)
+		If $$$ISERR(tStatus) Quit
+	}
+	Catch ex {
+		Set tStatus = ex.AsStatus()
+	}
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="GetRecord">
+<Description>
+Internal helper method to perform parse of incoming data</Description>
+<Internal>1</Internal>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[pStream:%IO.DeviceStream,pObject:%RegisteredObject,pGetTopFields:%Boolean,pTimeout:%Numeric,&pLookAhead:%String="",pLabelFound:%Boolean=0]]></FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tStatus = $$$OK
+	If pLabelFound { Set tRecLabel = "" } 
+	Else { Set tRecLabel = "" } 
+	Set tStatus = ..chunkRecord(pStream, .tRecordData, .tCharCount, "", pTimeout, $char(10), tRecLabel, .pLookAhead, $char(34))
+	If $$$ISERR(tStatus) Quit tStatus
+	Set tMaxLocal = $$$MaxLocalLength
+	Set tRecordData("charcount") = +$get(tCharCount)
+	Set tCurrChunk = 1
+	Set tTopPiece = 1
+	Set tCurrSep = 1
+	Set tStrings = 1
+	Set tCurrString = ""
+	Set tSeps = $listbuild($char(44))
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Else {
+		Set tCurrString = tRecordData(tCurrChunk)
+		Set tCurrPiece = 1
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.id = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.active = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.category = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.city = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.created = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.firstName = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(44), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(44), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.lastName = tCurrString
+	}
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="PutRecord">
+<Description>
+Internal helper method to output object to a stream</Description>
+<Internal>1</Internal>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[pStream:%IO.DeviceStream,pObject:%RegisteredObject,pHasTopFields:%Boolean,&pPadArray:%String]]></FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tStatus = $$$OK
+	Set tmpStream=##class(%Stream.TmpBinary).%New()
+	Do tmpStream.Write($select(pHasTopFields: ..Escape(pObject.id, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.active, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.category, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.city, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.created, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.firstName, $lb($char(44)),"quote",$char(34)),1: ""))
+	Do tmpStream.Write($char(44) _ $select(pHasTopFields: ..Escape(pObject.lastName, $lb($char(44)),"quote",$char(34)),1: ""))
+	Set tStatus = tmpStream.Write($char(10))
+	If $$$ISERR(tStatus) Quit tStatus
+	Do pStream.CopyFrom(tmpStream,,0,.tStatus)
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="GetGeneratedClasses">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>*pClasses:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Kill pClasses
+	Set pClasses("data.RM.customer.Record")=""
+	Set pClasses($classname())=""
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="getIdentifier">
+<ClassMethod>1</ClassMethod>
+<CodeMode>expression</CodeMode>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[""
+]]></Implementation>
+</Method>
+
+<Method name="getType">
+<ClassMethod>1</ClassMethod>
+<CodeMode>expression</CodeMode>
+<ReturnType>EnsLib.RecordMap.Model.DataType.RecordType</ReturnType>
+<Implementation><![CDATA["delimited"
+]]></Implementation>
+</Method>
+
+<XData name="RecordMap">
+<XMLNamespace>http://www.intersystems.com/Ensemble/RecordMap</XMLNamespace>
+<Data><![CDATA[
+<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="data.RM.customer" type="delimited" char_encoding="UTF-8" targetClassname="data.RM.customer.Record" recordTerminator="\x0a" escaping="quote" escapeSequence="&quot;">
+  <Separators>
+    <Separator>,</Separator>
+  </Separators>
+  <Field name="id" datatype="%String" sqlColumn="2">
+  </Field>
+  <Field name="active" datatype="%Boolean" sqlColumn="3">
+  </Field>
+  <Field name="category" datatype="%Integer" sqlColumn="4">
+  </Field>
+  <Field name="city" datatype="%String" sqlColumn="5">
+  </Field>
+  <Field name="created" datatype="%TimeStamp" sqlColumn="6">
+  </Field>
+  <Field name="firstName" datatype="%String" sqlColumn="7">
+  </Field>
+  <Field name="lastName" datatype="%String" sqlColumn="8">
+  </Field>
+</Record>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="data.RM.customer.Record">
+<Description>
+RECORDMAP: Generated from RecordMap 'data.RM.customer'
+on 2021-08-31 at 14:51:25.762 [2021-08-31 14:51:25.762 UTC]
+by user _SYSTEM</Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Persistent,%XML.Adaptor,Ens.Request,EnsLib.RecordMap.Base,%JSON.Adaptor</Super>
+<TimeChanged>66448,79281.908956292</TimeChanged>
+<TimeCreated>66448,73107.84392592</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="INCLUDETOPFIELDS">
+<Default>1</Default>
+</Parameter>
+
+<Property name="id">
+<Type>%String</Type>
+<SqlColumnNumber>2</SqlColumnNumber>
+</Property>
+
+<Property name="active">
+<Type>%Boolean</Type>
+<SqlColumnNumber>3</SqlColumnNumber>
+</Property>
+
+<Property name="category">
+<Type>%Integer</Type>
+<SqlColumnNumber>4</SqlColumnNumber>
+</Property>
+
+<Property name="city">
+<Type>%String</Type>
+<SqlColumnNumber>5</SqlColumnNumber>
+</Property>
+
+<Property name="created">
+<Type>%TimeStamp</Type>
+<SqlColumnNumber>6</SqlColumnNumber>
+</Property>
+
+<Property name="firstName">
+<Type>%String</Type>
+<SqlColumnNumber>7</SqlColumnNumber>
+</Property>
+
+<Property name="lastName">
+<Type>%String</Type>
+<SqlColumnNumber>8</SqlColumnNumber>
+</Property>
+
+<Parameter name="RECORDMAPGENERATED">
+<Default>1</Default>
+</Parameter>
+
+<Property name="%ParentBatch">
+<Type>data.RM.customer.Batch</Type>
+<Cardinality>one</Cardinality>
+<Inverse>Records</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="%ParentBatchIdx">
+<Properties>%ParentBatch</Properties>
+</Index>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^data.RM.customer.RecordD</DataLocation>
+<DefaultData>RecordDefaultData</DefaultData>
+<IdLocation>^data.RM.customer.RecordD</IdLocation>
+<IndexLocation>^data.RM.customer.RecordI</IndexLocation>
+<StreamLocation>^data.RM.customer.RecordS</StreamLocation>
+<ExtentSize>2000000</ExtentSize>
+<Data name="RecordDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>id</Value>
+</Value>
+<Value name="3">
+<Value>%Source</Value>
+</Value>
+<Value name="4">
+<Value>category</Value>
+</Value>
+<Value name="5">
+<Value>city</Value>
+</Value>
+<Value name="6">
+<Value>created</Value>
+</Value>
+<Value name="7">
+<Value>firstName</Value>
+</Value>
+<Value name="8">
+<Value>lastName</Value>
+</Value>
+<Value name="9">
+<Value>%ParentBatch</Value>
+</Value>
+<Value name="10">
+<Value>active</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="data.transfo.ajoutHashtag">
+<Super>Ens.DataTransformDTL</Super>
+<TimeChanged>66463,55658.193884667</TimeChanged>
+<TimeCreated>66448,73117.51985855</TimeCreated>
+<DependsOn>data.RM.customer.Batch,data.EXTERNAL.customer.Batch</DependsOn>
+
+<Parameter name="IGNOREMISSINGSOURCE">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="REPORTERRORS">
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="TREATEMPTYREPEATINGFIELDASNULL">
+<Default>0</Default>
+</Parameter>
+
+<XData name="DTL">
+<XMLNamespace>http://www.intersystems.com/dtl</XMLNamespace>
+<Data><![CDATA[
+<transform sourceClass='data.RM.customer.Batch' targetClass='data.EXTERNAL.customer.Batch' create='new' language='objectscript' >
+<foreach property='source.Records()' key='k1' >
+<assign value='source.Records.(k1).id' property='target.records.(k1).id' action='set' />
+<assign value='source.Records.(k1).active' property='target.records.(k1).active' action='set' />
+<assign value='source.Records.(k1).category' property='target.records.(k1).category' action='set' />
+<assign value='source.Records.(k1).city' property='target.records.(k1).city' action='set' />
+<assign value='source.Records.(k1).created' property='target.records.(k1).created' action='set' />
+<assign value='source.Records.(k1).firstName' property='target.records.(k1).firstName' action='set' />
+<assign value='source.Records.(k1).lastName' property='target.records.(k1).lastName' action='set' />
+<assign value='$system.Encryption.SHA1Hash(target.records.(k1).firstName_" "_target.records.(k1).lastName)' property='target.records.(k1).hashtag' action='set' />
+<assign value='source.Records.(k1).id' property='target.records.(k1).hashtag' action='set' disabled='1' />
+</foreach>
+</transform>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="w3schools.Operation.TempConvertSoap">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.BusinessOperation</Super>
+<TimeChanged>66449,5566.113547969</TimeChanged>
+<TimeCreated>66449,5566.107891094</TimeCreated>
+
+<Method name="CelsiusToFahrenheit">
+<FormalSpec>pRequest:w3schools.Request.CelsiusToFahrenheitRequest,*pResponse:w3schools.Response.CelsiusToFahrenheitResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "w3schools.TempConvertSoap"
+ Set tSC = ..Adapter.InvokeMethod("CelsiusToFahrenheit",.CelsiusToFahrenheitResult,pRequest.Celsius)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.CelsiusToFahrenheitResult=$get(CelsiusToFahrenheitResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="FahrenheitToCelsius">
+<FormalSpec>pRequest:w3schools.Request.FahrenheitToCelsiusRequest,*pResponse:w3schools.Response.FahrenheitToCelsiusResponse</FormalSpec>
+<ReturnType>%Library.Status</ReturnType>
+<Implementation><![CDATA[
+ Set ..Adapter.WebServiceClientClass = "w3schools.TempConvertSoap"
+ Set tSC = ..Adapter.InvokeMethod("FahrenheitToCelsius",.FahrenheitToCelsiusResult,pRequest.Fahrenheit)  Quit:$$$ISERR(tSC) tSC
+ Set tSC = pRequest.NewResponse(.pResponse)  Quit:$$$ISERR(tSC) tSC
+ Set pResponse.FahrenheitToCelsiusResult=$get(FahrenheitToCelsiusResult)
+ Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Parameter name="ADAPTER">
+<Default>EnsLib.SOAP.OutboundAdapter</Default>
+</Parameter>
+
+<XData name="MessageMap">
+<Data><![CDATA[
+<MapItems>
+	<MapItem MessageType="w3schools.Request.CelsiusToFahrenheitRequest">
+		<Method>CelsiusToFahrenheit</Method>
+	</MapItem>
+	<MapItem MessageType="w3schools.Request.FahrenheitToCelsiusRequest">
+		<Method>FahrenheitToCelsius</Method>
+	</MapItem>
+</MapItems>
+]]></Data>
+</XData>
+</Class>
+
+
+<Class name="w3schools.Request.CelsiusToFahrenheitRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5566.404042595</TimeChanged>
+<TimeCreated>66449,5566.108773594</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>w3schools.Response.CelsiusToFahrenheitResponse</Default>
+</Parameter>
+
+<Property name="Celsius">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>CelsiusToFahrenheitRequestDefaultData</DefaultData>
+<Data name="CelsiusToFahrenheitRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"CelsiusToFahrenheitRequest"</Subscript>
+<Value name="1">
+<Value>Celsius</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="w3schools.Request.FahrenheitToCelsiusRequest">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Request</Super>
+<TimeChanged>66449,5566.404708803</TimeChanged>
+<TimeCreated>66449,5566.109555261</TimeCreated>
+
+<Parameter name="RESPONSECLASSNAME">
+<Default>w3schools.Response.FahrenheitToCelsiusResponse</Default>
+</Parameter>
+
+<Property name="Fahrenheit">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>FahrenheitToCelsiusRequestDefaultData</DefaultData>
+<Data name="FahrenheitToCelsiusRequestDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"FahrenheitToCelsiusRequest"</Subscript>
+<Value name="1">
+<Value>Fahrenheit</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="w3schools.Response.CelsiusToFahrenheitResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5566.406930136</TimeChanged>
+<TimeCreated>66449,5566.109102219</TimeCreated>
+
+<Property name="CelsiusToFahrenheitResult">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>CelsiusToFahrenheitResponseDefaultData</DefaultData>
+<Data name="CelsiusToFahrenheitResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"CelsiusToFahrenheitResponse"</Subscript>
+<Value name="1">
+<Value>CelsiusToFahrenheitResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="w3schools.Response.FahrenheitToCelsiusResponse">
+<ProcedureBlock>1</ProcedureBlock>
+<Super>Ens.Response</Super>
+<TimeChanged>66449,5566.409812178</TimeChanged>
+<TimeCreated>66449,5566.109751428</TimeCreated>
+
+<Property name="FahrenheitToCelsiusResult">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DefaultData>FahrenheitToCelsiusResponseDefaultData</DefaultData>
+<Data name="FahrenheitToCelsiusResponseDefaultData">
+<Structure>listnode</Structure>
+<Subscript>"FahrenheitToCelsiusResponse"</Subscript>
+<Value name="1">
+<Value>FahrenheitToCelsiusResult</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Document name="EnsExportNotes.EnsExportProduction_2022-12-23 13-09-26_982+0.PTD"><ProjectTextDocument name="EnsExportNotes.EnsExportProduction_2022-12-23 13-09-26_982+0" description="Export Notes for export EnsExportProduction_2022-12-23 13-09-26_982+0">
+<![CDATA[<Deployment>
+<Creation>
+<Machine>FORMATION-IRIS</Machine>
+<Instance>IRIS</Instance>
+<Namespace>IRISAPP</Namespace>
+<SourceProduction>JDBC.demo.production</SourceProduction>
+<Username>_SYSTEM</Username>
+<UTC>2022-12-23 13:09:40.401</UTC>
+</Creation>
+<Notes>
+</Notes>
+<Contents>
+<ExportProject>EnsExportProduction_2022-12-23 13-09-26_982+0</ExportProject>
+<Item num="1">HTTP.msg.genderRequest.CLS</Item>
+<Item num="2">HTTP.msg.genderResponse.CLS</Item>
+<Item num="3">HTTP.operation.CLS</Item>
+<Item num="4">JDBC.SQL.GatewayResultSet.CLS</Item>
+<Item num="5">JDBC.SQL.OutboundAdapter.CLS</Item>
+<Item num="6">JDBC.demo.INSERT.operation.CLS</Item>
+<Item num="7">JDBC.demo.SELECT.operation.CLS</Item>
+<Item num="8">JDBC.demo.msg.customerRequest.CLS</Item>
+<Item num="9">JDBC.demo.msg.customerResponse.CLS</Item>
+<Item num="10">JDBC.demo.msg.init.CLS</Item>
+<Item num="11">JDBC.demo.msg.test.CLS</Item>
+<Item num="12">JDBC.demo.msg.testBatch.CLS</Item>
+<Item num="13">JDBC.demo.process.customers.CLS</Item>
+<Item num="14">JDBC.demo.production.CLS</Item>
+<Item num="15">JDBC.demo.routage.clients.CLS</Item>
+<Item num="16">crcind.Operation.SOAPDemoSoap.CLS</Item>
+<Item num="17">crcind.Request.AddIntegerRequest.CLS</Item>
+<Item num="18">crcind.Request.DivideIntegerRequest.CLS</Item>
+<Item num="19">crcind.Request.FindPersonRequest.CLS</Item>
+<Item num="20">crcind.Request.GetByNameRequest.CLS</Item>
+<Item num="21">crcind.Request.GetDataSetByNameRequest.CLS</Item>
+<Item num="22">crcind.Request.GetListByNameRequest.CLS</Item>
+<Item num="23">crcind.Request.LookupCityRequest.CLS</Item>
+<Item num="24">crcind.Request.MissionRequest.CLS</Item>
+<Item num="25">crcind.Request.QueryByNameRequest.CLS</Item>
+<Item num="26">crcind.Response.AddIntegerResponse.CLS</Item>
+<Item num="27">crcind.Response.DivideIntegerResponse.CLS</Item>
+<Item num="28">crcind.Response.FindPersonResponse.CLS</Item>
+<Item num="29">crcind.Response.GetByNameResponse.CLS</Item>
+<Item num="30">crcind.Response.GetDataSetByNameResponse.CLS</Item>
+<Item num="31">crcind.Response.GetListByNameResponse.CLS</Item>
+<Item num="32">crcind.Response.LookupCityResponse.CLS</Item>
+<Item num="33">crcind.Response.MissionResponse.CLS</Item>
+<Item num="34">crcind.Response.QueryByNameResponse.CLS</Item>
+<Item num="35">crcind.s0.Address.CLS</Item>
+<Item num="36">crcind.s0.ByNameDataSet.CLS</Item>
+<Item num="37">crcind.s0.Person.CLS</Item>
+<Item num="38">crcind.s0.PersonIdentification.CLS</Item>
+<Item num="39">crcind.s0.QueryByNameDataSet.CLS</Item>
+<Item num="40">data.EXTERNAL.customer.Batch.CLS</Item>
+<Item num="41">data.EXTERNAL.customer.Record.CLS</Item>
+<Item num="42">data.RM.customer.Batch.CLS</Item>
+<Item num="43">data.RM.customer.CLS</Item>
+<Item num="44">data.RM.customer.Record.CLS</Item>
+<Item num="45">data.transfo.ajoutHashtag.CLS</Item>
+<Item num="46">w3schools.Operation.TempConvertSoap.CLS</Item>
+<Item num="47">w3schools.Request.CelsiusToFahrenheitRequest.CLS</Item>
+<Item num="48">w3schools.Request.FahrenheitToCelsiusRequest.CLS</Item>
+<Item num="49">w3schools.Response.CelsiusToFahrenheitResponse.CLS</Item>
+<Item num="50">w3schools.Response.FahrenheitToCelsiusResponse.CLS</Item>
+</Contents>
+<ProductionClassInExport>JDBC.demo.production</ProductionClassInExport>
+</Deployment>
+
+]]></ProjectTextDocument>
+</Document></Export>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:14:40">
+<Class name="Mapping.SpaceIdKey">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60033,75383.016631</TimeChanged>
+<TimeCreated>60033,75351.322596</TimeCreated>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.SpaceIdKeyS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars>0</ConditionalWithHostVars>
+<Global>^glo</Global>
+<RowReference>^glo(" "_{L1})</RowReference>
+<Subscript name="1">
+<AccessType>Other</AccessType>
+<Expression>{Sub1}</Expression>
+<NextCode> s {L1}=$O(^glo(" "_{L1}))
+ Q:{L1}=""
+ s {L1}=$E({L1},2,999)</NextCode>
+</Subscript>
+<Data name="Data">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

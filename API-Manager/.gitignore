@@ -1,0 +1,8 @@
+.DS_Store
+**/.DS_Store
+/docs
+/volumes
+/webgateway
+/data/db
+*.gz
+**/*.tar

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:21:20">
+<Class name="Mapping.PercentChild">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63957,56881.670596</TimeChanged>
+<TimeCreated>63957,40662.753314</TimeCreated>
+
+<Property name="ParentPointer">
+<Type>Mapping.PercentParent</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ChildPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="LineNum">
+<Type>%Integer</Type>
+<SqlComputeCode> s {*}=$I(^Mapping("Percent Parent",{ParentPointer},"Child Data"))</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+</Property>
+
+<Property name="Item">
+<Type>%String</Type>
+</Property>
+
+<Property name="Quantity">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Price">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>LineNum</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.PercentChildS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"Percent Parent"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Mapping.PercentParent.InvoiceNum}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>"Child Data"</Expression>
+</Subscript>
+<Subscript name="4">
+<Expression>{LineNum}</Expression>
+</Subscript>
+<Data name="Item">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Price">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="Quantity">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.PercentParent">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63957,46132.483495</TimeChanged>
+<TimeCreated>63957,40346.908271</TimeCreated>
+
+<Property name="InvoiceNum">
+<Type>%Integer</Type>
+<InitialExpression>$I(^Mapping("Percent Parent"))</InitialExpression>
+</Property>
+
+<Property name="InvoiceDate">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Company">
+<Type>%String</Type>
+</Property>
+
+<Index name="master">
+<IdKey>1</IdKey>
+<Properties>InvoiceNum</Properties>
+</Index>
+
+<Property name="ChildPointer">
+<Type>Mapping.PercentChild</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<IdExpression>$I(^Mapping("Percent Parent"))</IdExpression>
+<IdLocation>^Mapping("Percent Parent")</IdLocation>
+<SqlIdExpression>$I(^Mapping("Percent Parent"))</SqlIdExpression>
+<SqlRowIdProperty>InvoiceNum</SqlRowIdProperty>
+<StreamLocation>^Mapping.PercentParentS</StreamLocation>
+<IdFunction>increment</IdFunction>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"Percent Parent"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{InvoiceNum}</Expression>
+</Subscript>
+<Data name="Company">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="InvoiceDate">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2012.1 (Build 106U)" ts="2011-02-07 13:44:50">
+<Class name="Mapping.TwoPieces">
+<Description>
+This class maps a global that has more than on delimiter on a single global node.
+
+The structure looks like ^CU({sub1})="{Data1}^{Data2}~{Data3}"</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62129,49350.845297</TimeChanged>
+<TimeCreated>59634,57153.657643</TimeCreated>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data1">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Data2">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Data3">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoPiecesS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^CU</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="Data1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Data2">
+<Delimiter>"^","~"</Delimiter>
+<Piece>2,1</Piece>
+</Data>
+<Data name="Data3">
+<Delimiter>"^","~"</Delimiter>
+<Piece>2,2</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

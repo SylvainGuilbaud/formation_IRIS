@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 516U)" ts="2016-12-12 15:53:32">
+<Class name="Mapping.Example3Child">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>64252,52298.645639</TimeChanged>
+<TimeCreated>64245,34582.455723</TimeCreated>
+
+<Property name="Hobby">
+<Type>%String</Type>
+</Property>
+
+<Property name="ChildId">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ParentRef">
+<Type>Mapping.Example3Parent</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>HobbyRef</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Seasons">
+<Type>Mapping.Example3GrandChild</Type>
+<Cardinality>children</Cardinality>
+<Inverse>HobbyRef</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ParentRef,ChildId</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.Example3ChildS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^ParentChild</Global>
+<Subscript name="1">
+<Expression>{Mapping.Example3Parent.ParentId}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>"Hobbies"</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{ChildId}</Expression>
+</Subscript>
+<Data name="Hobby"/>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.Example3GrandChild">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>64252,52310.563682</TimeChanged>
+<TimeCreated>64251,60244.549755</TimeCreated>
+
+<Property name="Season">
+<Type>%String</Type>
+</Property>
+
+<Property name="PieceCounter">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="HobbyRef">
+<Type>Mapping.Example3Child</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>Seasons</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>HobbyRef,PieceCounter</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.Example3GrandChildS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^ParentChild</Global>
+<Subscript name="1">
+<AccessType>Sub</AccessType>
+<Expression>{Mapping.Example3Parent.ParentId}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>"Hobbies"</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Mapping.Example3Child.ChildId}</Expression>
+</Subscript>
+<Subscript name="4">
+<Expression>"Seasons"</Expression>
+</Subscript>
+<Subscript name="5">
+<AccessType>Piece</AccessType>
+<Delimiter>"*"</Delimiter>
+<Expression>{PieceCounter}</Expression>
+</Subscript>
+<Data name="Season">
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.Example3Parent">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>64245,38310.151323</TimeChanged>
+<TimeCreated>64245,34212.111201</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="DateOfBirth">
+<Type>%Date</Type>
+</Property>
+
+<Property name="ParentId">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="HobbyRef">
+<Type>Mapping.Example3Child</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentRef</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ParentId</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.Example3ParentS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^ParentChild</Global>
+<Subscript name="1">
+<Expression>{ParentId}</Expression>
+</Subscript>
+<Data name="DateOfBirth">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

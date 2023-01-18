@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="9" zv="Cache for Windows NT (Intel) 5.0.12 (Build 5504)" ts="2005-07-26 14:52:05">
+<Class name="Mapping.ArrayChild">
+<Description>
+This is the child table for a Parent Child relationship based on the local array below
+
+array(1)="Brendan Bannon^Sharon Bannon"
+array(1,1)="Kaitlin"
+array(1,2)="Melissa"
+array(1,3)="Robin"
+array(1,4)="Kieran"
+
+
+Same rules as a normal Parent Child Mapping:
+
+The IDKey index only need the property that is the Subscript for this child table, in this case {Sub2}
+
+The Map needs both subscript levels defined.  The first coming from the parent, in this case {Mapping.ArrayParent.Sub1}</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60107,53496.463966</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="ChildName">
+<Type>%String</Type>
+</Property>
+
+<Property name="ParentPointer">
+<Type>Mapping.ArrayParent</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ChildPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Sub2">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub2</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ArrayChildS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^array</Global>
+<RowReference>^array({L1},{L2})</RowReference>
+<Subscript name="1">
+<AccessType>Other</AccessType>
+<Expression>{Mapping.ArrayParent.Sub1}</Expression>
+<NextCode> s {L1}=$ORDER(^array({L1}))</NextCode>
+</Subscript>
+<Subscript name="2">
+<AccessType>Other</AccessType>
+<DataAccess>array({L1})</DataAccess>
+<Expression>{Sub2}</Expression>
+<NextCode> s {L2}=$ORDER(^array({L1},{L2}))</NextCode>
+</Subscript>
+<Data name="ChildName">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Class name="Mapping.ArrayParent">
+<Description>
+This Class is the parent class that maps the following local array.
+
+array(1)="Brendan Bannon^Sharon Bannon"
+array(1,1)="Kaitlin"
+array(1,2)="Melissa"
+array(1,3)="Robin"
+array(1,4)="Kieran"
+
+In the mapping you need to leave the Global Name blank.
+The Subscript should have a type of Other.
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60107,53429.994675</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="ChildPointer">
+<Type>Mapping.ArrayChild</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Father">
+<Type>%String</Type>
+</Property>
+
+<Property name="Mother">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ArrayParentS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^array</Global>
+<RowReference>^array({L1})</RowReference>
+<Subscript name="1">
+<AccessType>Other</AccessType>
+<Expression>{Sub1}</Expression>
+<NextCode> s {L1}=$ORDER(^array({L1}))
+ </NextCode>
+<Invalidcondition name="1">
+<Expression>'$D(array({L1}))</Expression>
+</Invalidcondition>
+</Subscript>
+<Data name="Father">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Mother">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Checksum value="1301216789"/>
+</Export>

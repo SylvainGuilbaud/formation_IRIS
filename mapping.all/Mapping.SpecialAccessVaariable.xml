@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 516U)" ts="2016-12-09 13:25:25">
+<Class name="Mapping.SpecialAccessVariable">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>64034,47799.377109</TimeChanged>
+<TimeCreated>64029,68049.003437</TimeCreated>
+
+<Property name="A">
+<Type>%String</Type>
+</Property>
+
+<Property name="B">
+<Type>%String</Type>
+</Property>
+
+<Property name="C">
+<Type>%String</Type>
+</Property>
+
+<Method name="CLogicalToDisplay">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>%val</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	if %val="*" QUIT %val
+	QUIT $zd(%val,3)
+]]></Implementation>
+</Method>
+
+<Property name="D">
+<Type>%Date</Type>
+</Property>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<PrimaryKey>1</PrimaryKey>
+<Properties>A,B,C</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.SpecialAccessVariableS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<RowReference>^Mapping({L1},{L2},{2D1})</RowReference>
+<Subscript name="1">
+<Expression>{A}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{B}</Expression>
+<Accessvar name="1">
+<Code> s {2D1}=""</Code>
+<Variable>{2D1}</Variable>
+</Accessvar>
+</Subscript>
+<Subscript name="3">
+<Expression>{C}</Expression>
+<NextCode><![CDATA[ s {L3}={2D1}
+ s {L3}=$ORDER(^Ron({L1},{L2},{L3}))
+ QUIT:{L3}=""
+ s {2D1}={L3}
+ If {L3}<1 s {L3}="*"
+]]></NextCode>
+</Subscript>
+<Data name="D">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

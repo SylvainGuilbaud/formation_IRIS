@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="21" zv="Cache for Windows (x86-32) 2007.1.6 (Build 902U)" ts="2009-12-21 11:54:27">
+<Class name="Mapping.Address">
+<ClassType>serial</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject</Super>
+<TimeCreated>59820,30854.493773</TimeCreated>
+
+<Parameter name="SERIALDELIMITER">
+<Default>|</Default>
+</Parameter>
+
+<Property name="Street">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="City">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="State">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ZipCode">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>AddressState</State>
+<StreamLocation>^Mapping.AddressS</StreamLocation>
+<Data name="AddressState">
+<Structure>listnode</Structure>
+<Subscript>"Mapping.Address"</Subscript>
+<Value name="1">
+<Value>City</Value>
+</Value>
+<Value name="2">
+<Value>State</Value>
+</Value>
+<Value name="3">
+<Value>Street</Value>
+</Value>
+<Value name="4">
+<Value>Town</Value>
+</Value>
+<Value name="5">
+<Value>ZipCode</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

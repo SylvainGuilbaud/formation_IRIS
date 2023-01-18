@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2014.2 (Build 128U)" ts="2013-12-20 10:40:23">
+<Class name="Mapping.NullSubscript">
+<Description>
+This is an example of mapping a Simple Global using CacheSQLStorage.
+
+The global structure looks like:
+
+^Mapping("NullSubscript",1)=1^100
+^Mapping("NullSubscript",2)=2^200
+^Mapping("NullSubscript",3)=3^300
+^Mapping("NullSubscript",4)=4^500
+^Mapping("NullSubscript",5)=5^
+
+For this class we have defined 3 diffenert Properties
+
+sub1 is being used a the IDKey for this class and it is the only Subscript value.
+prop1 is the first $Piece of the global node
+prop2 is the second $Piece of the global node
+
+You need to define one index when using CacheSQLStorage, that is the IDKey.  
+Any other indexes you want to define can just be defined as Maps in the Storage.
+
+THis class has a second Map for Prop2.  Prop2 is not required so something needs to be done to handle NULL values, like Row 5
+For most CacheSQL Storage classes that means defining the index as Conditional and only rows that have a value for Prop2 are in the index.
+A second option is to define a NullSubscript for the subscript, in this case a "!"
+The generated code will translate NULL to "!" and back again when ever dealing with this index.
+This lets you have a full index even for NULL values.
+
+^MappingI("NullSubscript",100,1)=""
+^MappingI("NullSubscript",200,2)=""
+^MappingI("NullSubscript",300,3)=""
+^MappingI("NullSubscript",400,4)=""
+^MappingI("NullSubscript","!",5)=""
+
+If you use View Storage in the Studio or look at the storage in the XML you will see this class also has 
+selectivity define for the different Properties.
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63176,38256.393428</TimeChanged>
+<TimeCreated>59364,38633.863</TimeCreated>
+
+<Parameter name="EXTENTSIZE">
+<Default>100</Default>
+</Parameter>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="prop1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="prop2">
+<Type>%Integer</Type>
+</Property>
+
+<Method name="prop2OdbcToLogical">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>%val</FormalSpec>
+<ReturnType>%Integer</ReturnType>
+<Implementation><![CDATA[	QUIT $S(%val="":"!",1:%val)
+]]></Implementation>
+</Method>
+
+<Property name="sub1">
+<Type>%Integer</Type>
+<Private>1</Private>
+</Property>
+
+<Index name="Prop2Index">
+<Properties>prop2</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.NullSubscriptS</StreamLocation>
+<ExtentSize>100</ExtentSize>
+<Property name="prop1"/>
+<Property name="prop2"/>
+<Property name="sub1"/>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>"NullSubscript"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{sub1}</Expression>
+</Subscript>
+<Data name="prop1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="prop2">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="Map2">
+<Type>index</Type>
+<Global>^MappingI</Global>
+<Subscript name="1">
+<Expression>"NullSubscript"</Expression>
+</Subscript>
+<Subscript name="2">
+<AccessType>Other</AccessType>
+<DataAccess>^MappingI("NullSubscript")</DataAccess>
+<Expression>{prop2}</Expression>
+<NextCode> i {L2}="",($D(^MappingI("NullSubscript",{L2}))'=0) Set {L2}=-1E14 QUIT {L2}
+ s {L2}=$O(^MappingI("NullSubscript",{L2}))
+ QUIT {L2}</NextCode>
+<Invalidcondition name="1">
+<Expression>'$D(^MappingI({L1},$S({L2}=-1E14:"",1:{L2})))</Expression>
+</Invalidcondition>
+</Subscript>
+<Subscript name="3">
+<AccessType>Sub</AccessType>
+<Expression>{sub1}</Expression>
+<NextCode> s {L3}=$O(^MappingI({L1},$S({L2}=-1E14:"",1:{L2}),{L3}))
+ i {L3}="",({L2}="") S {L2}=-1E14
+</NextCode>
+<Invalidcondition name="1">
+<Expression>'$D(^MappingI({L1},$S({L2}=-1E14:"",1:{L2}),{L3}))</Expression>
+</Invalidcondition>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

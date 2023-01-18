@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 119U)" ts="2014-06-05 09:28:24">
+<Class name="Mapping.PieceCounter">
+<Description>
+This class maps a global that stores more that one Row of data in a node.
+
+The global structure looks like:
+
+ 
+^glo(1)=r1P1^r1P2~r2P1^r2P2
+^glo(2)=r3P1^r3P2~R4P1^r4P2~r5P1^r5P2
+
+Each row in this table has two properties.  The global above shows 5 rows of data, each row is delimited by the "~"
+
+The two data properties are delimited by "^"  
+
+The IDKey for the table is the subscript and the Piece location of the data.
+
+so the IDKey for the row r4P1^r4P2 would be 2||2
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63343,34070.693441</TimeChanged>
+<TimeCreated>60066,47746.969237</TimeCreated>
+
+<Index name="master">
+<IdKey>1</IdKey>
+<Properties>Sub1,PieceCounter</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="PieceCounter">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data1">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Data2">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.PieceCounterS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^glo</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<AccessType>Piece</AccessType>
+<Delimiter>"~"</Delimiter>
+<Expression>{PieceCounter}</Expression>
+</Subscript>
+<Data name="Data1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Data2">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2012.1.2 (Build 702U)" ts="2014-04-09 13:20:25">
+<Class name="Mapping.NoChildNode1">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63286,47451.513578</TimeChanged>
+<TimeCreated>63286,47256.336407</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="Id1">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Id1</Properties>
+</Index>
+
+<Property name="Pointer2">
+<Type>Mapping.NoChildNode2</Type>
+<Cardinality>children</Cardinality>
+<Inverse>Pointer1</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.NoChildNode1S</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^BD</Global>
+<Subscript name="1">
+<Expression>{Id1}</Expression>
+</Subscript>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.NoChildNode2">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63286,47595.620458</TimeChanged>
+<TimeCreated>63286,47319.663629</TimeCreated>
+
+<Property name="Account">
+<Type>%String</Type>
+</Property>
+
+<Property name="Pointer1">
+<Type>Mapping.NoChildNode1</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>Pointer2</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Pointer3">
+<Type>Mapping.NoChildNode3</Type>
+<Cardinality>children</Cardinality>
+<Inverse>Pointer2</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Account</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.NoChildNode2S</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^BD</Global>
+<Subscript name="1">
+<Expression>{Mapping.NoChildNode1.Id1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Account}</Expression>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.NoChildNode3">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63286,47703.522383</TimeChanged>
+<TimeCreated>63286,47319.490239</TimeCreated>
+
+<Property name="AccountLocation">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub3">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Pointer2">
+<Type>Mapping.NoChildNode2</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>Pointer3</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub3</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.NoChildNode3S</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^BD</Global>
+<Subscript name="1">
+<Expression>{Mapping.NoChildNode1.Id1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Mapping.NoChildNode2.Account}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Sub3}</Expression>
+</Subscript>
+<Data name="AccountLocation">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

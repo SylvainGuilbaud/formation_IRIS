@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="9" zv="Cache for Windows NT (Intel) 5.0.4 (Build 829)" ts="2003-10-16 16:55:26">
+<Class name="Mapping.test1">
+<Description>
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>59458,60795.803718</TimeChanged>
+
+<Property name="Prop1">
+<Type>%String</Type>
+</Property>
+
+<Property name="Prop2">
+<Type>%String</Type>
+</Property>
+
+<Property name="sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.test1S</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^test</Global>
+<Subscript name="1">
+<Expression>{sub1}</Expression>
+</Subscript>
+<Data name="Prop1">
+<Delimiter>$c(1)</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Prop2">
+<Delimiter>$c(1)</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Checksum value="1527172451"/>
+</Export>

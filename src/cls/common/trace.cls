@@ -41,7 +41,7 @@ Property exceptionPayloadOnError As %String(MAXLEN = "") [ Calculated, SqlComput
 
 Property init As %Integer;
 
-ClassMethod test() As %Status
+ClassMethod test() As %Status[Languge = python]
 {
     set content = ##class(%ArrayOfDataTypes).%New()
     set payload = ##class(%PopulateUtils).Mission()

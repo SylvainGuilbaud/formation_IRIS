@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="21" zv="Cache for Windows (Intel) 2007.1 (Build 267)" ts="2006-12-03 18:02:59">
+<Class name="Mapping.TwoConstants">
+<Description>
+</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>60602,64949.178</TimeCreated>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data">
+<Type>%String</Type>
+</Property>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoConstantsS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^X</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>"X"</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>"Y"</Expression>
+</Subscript>
+<Data name="Data">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

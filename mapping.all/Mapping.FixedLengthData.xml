@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="18" zv="Cache for Windows (Intel) 5.1 (Build 775)" ts="2005-10-12 14:01:17">
+<Class name="Mapping.FixedLengthData">
+<Description>
+This class maps the following global
+
+^glo(1)="1111222233334444"
+^glo(2)="5555666677778888"
+
+
+
+where the data contains 4 fields each one 4 char long</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>60185,50285.374588</TimeCreated>
+
+<Property name="Prop1">
+<Type>%String</Type>
+</Property>
+
+<Property name="Prop2">
+<Type>%String</Type>
+</Property>
+
+<Property name="Prop3">
+<Type>%String</Type>
+</Property>
+
+<Property name="Prop4">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.FixedLengthDataS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^glo</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="Prop1">
+<RetrievalCode> s {Prop1}=$e(^glo({L1}),1,4)</RetrievalCode>
+</Data>
+<Data name="Prop2">
+<RetrievalCode> s {Prop2}=$e(^glo({L1}),5,8)</RetrievalCode>
+</Data>
+<Data name="Prop3">
+<RetrievalCode> s {Prop3}=$e(^glo({L1}),9,12)</RetrievalCode>
+</Data>
+<Data name="Prop4">
+<RetrievalCode> s {Prop4}=$e(^glo({L1}),13,16)</RetrievalCode>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

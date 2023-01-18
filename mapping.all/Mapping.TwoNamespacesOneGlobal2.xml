@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.1 (Build 413U)" ts="2011-05-19 10:46:22">
+<Class name="Mapping.TwoNamespacesOneGlobal2">
+<Description><![CDATA[
+This class looks at one global that has data in 2 different namespaces, USER and SAMPLES
+
+USER>zw ^Facility
+^Facility(1)="Row 1"
+^Facility(2)="Row 2"
+ 
+USER>zw ^|"SAMPLES"|Facility
+^|"SAMPLES"|Facility(1)="Row 3"
+^|"SAMPLES"|Facility(2)="Row 4"
+^|"SAMPLES"|Facility(3)="Row 5"
+
+There is a second global that controls the list of Databases that we need to look in
+
+^NS("Claims","SAMPLES")=""
+^NS("Claims","USER")=""]]></Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62230,38693.233582</TimeChanged>
+<TimeCreated>62104,49320.813223</TimeCreated>
+
+<Property name="NS">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>NS,Sub1</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoNamespac6F37S</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^NS</Global>
+<RowReference>^|{L2}|Facility({L3})</RowReference>
+<Subscript name="1">
+<Expression>"Claims"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{NS}</Expression>
+</Subscript>
+<Subscript name="3">
+<DataAccess>^|{L2}|Facility</DataAccess>
+<Expression>{Sub1}</Expression>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L2}</Expression>
+<Field>NS</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L3}</Expression>
+<Field>Sub1</Field>
+</RowIdSpec>
+<Data name="Data">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

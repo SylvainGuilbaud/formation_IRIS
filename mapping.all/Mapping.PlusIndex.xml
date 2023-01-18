@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-32) 2011.1 (Build 195U)" ts="2010-05-18 13:47:50">
+<Class name="Mapping.PlusIndex">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>61864,49441.497705</TimeChanged>
+<TimeCreated>61864,49440.881508</TimeCreated>
+
+<Property name="Integer1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Name">
+<Type>%Name</Type>
+</Property>
+
+<Property name="Sub">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.PlusIndexS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"PLUSINDEX Master"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub}</Expression>
+</Subscript>
+<Data name="Integer1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="Map2">
+<Type>index</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"PlusIndex Index"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>+{Integer1}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Sub}</Expression>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

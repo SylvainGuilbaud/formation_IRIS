@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="20" zv="Cache for Windows (Intel) 5.2 (Build 329_suU)" ts="2007-06-27 13:59:17">
+<Class name="Mapping.Simple">
+<Description>
+This is an example of mapping a Simple Global using CacheSQLStorage.
+
+The global structure looks like:
+
+^Ont(1)=1^100
+^Ont(2)=2^200
+^Ont(3)=3^300
+^Ont(4)=4^500
+^Ont(5)=5^1000
+
+For this class we have defined 3 diffenert Properties
+
+sub1 is being used a the IDKey for this class and it is the only Subscript value.
+prop1 is the first $Piece of the global node
+prop2 is the second $Piece of the global node
+
+You need to define one index when using CacheSQLStorage, that is the IDKey.  Any other indexes you want to define can just be defined as Maps in the Storage.
+
+If you use View Storage in the Studio or look at the storage in the XML you will see this class also has selectivity define for the different Properties.</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>59364,38633.863</TimeCreated>
+
+<Parameter name="EXTENTSIZE">
+<Default>100</Default>
+</Parameter>
+
+<Index name="NewIndex1">
+<IdKey>1</IdKey>
+<Properties>sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="prop1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="prop2">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="sub1">
+<Type>%Integer</Type>
+<Private>1</Private>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.SimpleS</StreamLocation>
+<Property name="prop1">
+</Property>
+<Property name="prop2">
+</Property>
+<Property name="sub1">
+</Property>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Ont</Global>
+<Structure>delimited</Structure>
+<Subscript name="1">
+<Expression>{sub1}</Expression>
+</Subscript>
+<Data name="prop1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="prop2">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="9" zv="Cache for Windows NT (Intel) 5.0.12 (Build 5504)" ts="2005-06-16 06:41:28">
+<Class name="Mapping.ChildPiece">
+<Description><![CDATA[
+This is the child table of a parent child relationship where the child data is stored in the same node as the parent.
+
+You need to use the Subscript Type of $Piece() to get at the different child rows.
+
+The Data looks like:
+
+Array: ^Par
+Device:      Right margin: 80=>
+ 
+^Par(1)=Parent1\Child11#child12#child13
+     2)=Parent2\Child21#child22
+     3)=Parent3
+ 
+
+There are 3 rows in the parent table and 5 rows in the child table.]]></Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60067,24041.590548</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="ChildData">
+<Type>%String</Type>
+</Property>
+
+<Property name="ParentPointer">
+<Type>Mapping.ParentPiece</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ChildPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="PieceCounter">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>PieceCounter</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ChildPieceS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Par</Global>
+<RowReference>$P($P(^Par({L1}),"\",2),"#",{L2})</RowReference>
+<Subscript name="1">
+<Expression>{Mapping.ParentPiece.Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<AccessType>Piece</AccessType>
+<Delimiter>"#"</Delimiter>
+<Expression>{PieceCounter}</Expression>
+<Invalidcondition name="1">
+<Expression>$P(^Par({L1}),"\",2)=""</Expression>
+</Invalidcondition>
+</Subscript>
+<Data name="ChildData">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Class name="Mapping.ParentPiece">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60067,23477.011079</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="ChildPointer">
+<Type>Mapping.ChildPiece</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="ParentData">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ParentPieceS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Par</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="ParentData">
+<Delimiter>"\"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Checksum value="4025638864"/>
+</Export>

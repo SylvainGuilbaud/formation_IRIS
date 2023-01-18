@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-32) 2010.2 (Build 182U)" ts="2009-12-14 14:54:38">
+<Class name="Mapping.ListChild">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>61709,53607.539966</TimeChanged>
+<TimeCreated>61709,53407.377886</TimeCreated>
+
+<Property name="Hobies">
+<Description>
+	  This is an example of a Parent Child Relationship where the Child data is stored as a List in the Parent Data
+    ^Mapping("ChildList",1)=$LB("Dan",$LB("Hunting","Hockey","Photogragh"),"Development")
+    ^Mapping("ChildList",2)=$LB("Brendan",$LB("Wood Working","Skiing"),"Support")</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="ListLocation">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="ParentRef">
+<Type>Mapping.ListParent</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ChildRef</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ListLocation</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ListChildS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping</Global>
+<RowReference>$LG($LG(^Mapping({L1},{L2}),2),{L3})</RowReference>
+<Subscript name="1">
+<Expression>"ChildList"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Mapping.ListParent.Sub1}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{ListLocation}</Expression>
+<NextCode><![CDATA[ S {L3}=$i({L3})
+ if {L3}>$LL($LG(^Mapping({L1},{L2}),2)) s {L3}="" QUIT
+
+]]></NextCode>
+</Subscript>
+<Data name="Hobies">
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.ListParent">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>61709,53095.814466</TimeChanged>
+<TimeCreated>61709,52568.278967</TimeCreated>
+
+<Property name="Name">
+<Description>
+	  This is an example of a Parent Child Relationship where the Child data is stored as a List in the Parent Data
+    ^Mapping("ChildList",1)=$LB("Dan",$LB("Hunting","Hockey","Photogragh"),"Development")
+    ^Mapping("ChildList",2)=$LB("Brendan",$LB("Wood Working","Skiing"),"Support")</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="Department">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="ChildRef">
+<Type>Mapping.ListChild</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentRef</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ListParentS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"ChildList"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="Department">
+<Piece>3</Piece>
+</Data>
+<Data name="Name">
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

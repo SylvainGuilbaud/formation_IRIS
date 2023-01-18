@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-32) 2010.1 (Build 129U)" ts="2009-08-12 10:07:11">
+<Class name="Mapping.NoGlobalTable">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>61585,36389.894028</TimeChanged>
+<TimeCreated>61585,31321.703288</TimeCreated>
+
+<Property name="ID">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ID</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Method name="GetData">
+<Description>
+This method is designed to return one full row of a table
+The row is stored in ^||MyData(1) and it is in $LISTBUILD format
+The value of the last IdKey is passed in
+QUIT 1 for a valid row, QUIT 0 when all done.</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>counter</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	s counter=$I(counter)
+	QUIT:counter=11 0
+	s Name="Row "_counter
+	s DOB=$H-(counter*100)
+	s ^||MyData(1)=$LB(counter,Name,DOB)
+	QUIT 1
+]]></Implementation>
+</Method>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.NoGlobalTableS</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^||MyData</Global>
+<Subscript name="1">
+<Expression>{ID}</Expression>
+<NextCode> n Status
+ s status=##class(Mapping.NoGlobalTable).GetData({L1})
+ if status=0 s {L1}="" QUIT
+ s {L1}=$LG(^||MyData(1),1)
+ QUIT</NextCode>
+</Subscript>
+<Data name="DOB">
+<RetrievalCode> s {*}=$LG(^||MyData(1),3)</RetrievalCode>
+</Data>
+<Data name="Name">
+<RetrievalCode> s {*}=$LG(^||MyData(1),2)
+ </RetrievalCode>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

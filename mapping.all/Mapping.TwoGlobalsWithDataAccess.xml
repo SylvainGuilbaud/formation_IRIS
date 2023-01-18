@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 516U)" ts="2016-10-27 07:44:28">
+<Class name="Mapping.TwoGlobalsWithDataAccess">
+<Description><![CDATA[
+This class uses the subscripts of 2 different globals to get to the rows in a table.  ^Global1 is looped over on Subscript1 to get at the Data {1D1}
+
+{1D1} is then used as the first subscript in ^Global2 to get at the data.
+
+USER>zw ^Global1
+^Global1(1)="Sub1"
+^Global1(2)="Sub2"
+^Global1(3)="Sub5"
+ 
+USER>zw ^Global2
+^Global2("Sub1",1)="Row 1"
+^Global2("Sub1",2)="Row 2"
+^Global2("Sub1",3)="Row 3"
+^Global2("Sub2",4)="Row 4"
+^Global2("Sub2",5)="Row 5"
+^Global2("Sub3",1)="Not in the Table"
+^Global2("Sub4",1)="Not in the Table"
+^Global2("Sub4",3)="Not in the Table"
+^Global2("Sub5",3)="Row 6"
+^Global2("Sub5",10)="Row 7"
+
+this ia poor design as it is hard to validate "Sub4" is not part of the table.
+]]></Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>64218,27782.778712</TimeChanged>
+<TimeCreated>62178,33692.149275</TimeCreated>
+
+<Property name="Sub1">
+<Type>%String</Type>
+</Property>
+
+<Property name="Sub2">
+<Type>%String</Type>
+</Property>
+
+<Property name="Data">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1,Sub2</Properties>
+</Index>
+
+<Method name="TestSub1">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>TestKey</FormalSpec>
+<Implementation><![CDATA[
+	s invalid=1
+	s sub=""
+	f  s sub=$O(^Global1(sub),1,data) QUIT:sub=""  if TestKey=data set invalid=0 QUIT
+	quit invalid
+]]></Implementation>
+</Method>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoGlobalsWD87ES</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Global1</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+<Accessvar name="1">
+<Code> s {1D1}=^Global1({L1})</Code>
+<Variable>{1D1}</Variable>
+</Accessvar>
+</Subscript>
+<Subscript name="2">
+<DataAccess>^Global2({1D1})</DataAccess>
+<Expression>{Sub2}</Expression>
+<Invalidcondition name="1">
+<Expression>##class(Mapping.TwoGlobalsWithDataAccess).TestSub1({1D1})</Expression>
+</Invalidcondition>
+</Subscript>
+<Data name="Data">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

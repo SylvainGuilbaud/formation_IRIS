@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="21" zv="Cache for Windows (Intel) 2007.1 (Build 278)" ts="2006-12-15 17:08:13">
+<Class name="Mapping.SubscriptProblem">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>60614,60958.951</TimeCreated>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Sub2">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data2">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1,Sub2</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.SubscriptProblemS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^BJB</Global>
+<RowReference>^BJB({L1},{L2},{L3})</RowReference>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub2}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>0</Expression>
+</Subscript>
+<RowIdSpec name="1">
+<Expression>{L1}</Expression>
+<Field>Sub1</Field>
+</RowIdSpec>
+<RowIdSpec name="2">
+<Expression>{L2}</Expression>
+<Field>Sub2</Field>
+</RowIdSpec>
+<Data name="Data1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Data2">
+<Delimiter>"^"</Delimiter>
+<Node>+1</Node>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

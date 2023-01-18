@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2 (Build 516U)" ts="2016-10-25 13:56:39">
+<Class name="Mapping.NonBitmapExtent">
+<Description>
+This class has an IdKey that is a %String.  This means you can't define bitmaps for it.  
+That does not mean an extent map woudl not be helpful.
+
+This class has 2 maps:  the master map and a standard Extent map.
+OK so this class is tiny and there will not be a big savings in this case, but just pretend there are a lo of other Properties defined in here.</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>64216,50128.870188</TimeChanged>
+<TimeCreated>64216,50115.172451</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="SSN">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>SSN</Properties>
+</Index>
+
+<Index name="ExtentIndex">
+<Extent>1</Extent>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.NonBitmapExtentS</StreamLocation>
+<SQLMap name="ExtentIndex">
+<Type>index</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"nonBitmapExtentIndex"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{SSN}</Expression>
+</Subscript>
+</SQLMap>
+<SQLMap name="Master">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"nonBitmapExtent"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{SSN}</Expression>
+</Subscript>
+<Data name="DOB">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

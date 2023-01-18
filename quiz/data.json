@@ -1,0 +1,28 @@
+{
+    "question": [
+      "Quelle est la capitale de la France ?",
+      "Combien y a-t-il de départements en France ?",
+      "Quel est le plus grand pays du monde en termes de superficie ?"],
+    "answer": [
+      1,
+      4,
+      3
+    ],
+    "options": [[
+      "Paris",
+      "Londres",
+      "Berlin",
+      "Rome"
+    ],[
+      "52",
+      "75",
+      "97",
+      "101"
+    ],[
+      "Les États-Unis",
+      "La Chine",
+      "Russie",
+      "Canada"
+    ]
+  ]
+}

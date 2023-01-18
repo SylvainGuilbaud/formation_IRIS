@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:11:52">
+<Class name="Mapping.IDCounter">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<SqlRowIdName>RowId</SqlRowIdName>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62235,35859.951857</TimeChanged>
+<TimeCreated>59820,30854.644184</TimeCreated>
+
+<Property name="Data">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<SqlIdExpression>$i(^Clive("counter"))</SqlIdExpression>
+<StreamLocation>^Mapping.IDCounterS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Clive</Global>
+<Subscript name="1">
+<Expression>{RowId}</Expression>
+</Subscript>
+<Data name="Data">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

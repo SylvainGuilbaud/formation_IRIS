@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.2 (Build 502U)" ts="2015-11-19 15:08:15">
+<Class name="Mapping.ArrayCollection">
+<Description>
+Assuming this data should all be in one row.
+
+^SHRG("CLINICTE")="Clinic Test\test\\0"
+^SHRG("CLINICTE",10)="R\\\\ABRAMS\ALT"
+                 20)="AH\2\\YES\GSUR\1"
+^SHRG("CLINICTE",40,"BEN")="MED"
+                 "C11111")="GMED"
+                   "CAR5")="KNEE"
+                   "ECON")="SURG"
+                    "JCL")="OBS"
+                    "RRR")="AE"
+
+how do you map the data under 40?
+
+This can be done wtih an Array Collection with Custom Retrieval Code.</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63875,54410.582758</TimeChanged>
+<TimeCreated>63875,40473.900798</TimeCreated>
+
+<Property name="Title">
+<Type>%String</Type>
+</Property>
+
+<Property name="Desc">
+<Type>%String</Type>
+</Property>
+
+<Property name="Blank">
+<Type>%String</Type>
+</Property>
+
+<Property name="Counter">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Node20">
+<Type>%String</Type>
+</Property>
+
+<Property name="Node10">
+<Type>%String</Type>
+</Property>
+
+<Property name="Actions">
+<Type>%String</Type>
+<Collection>array</Collection>
+<Parameter name="CollectionOdbcDelimiter" value="&quot;*&quot;"/>
+</Property>
+
+<Method name="ActionsCollectionToOdbc">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>string</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s Odbc=$LISTTOSTRING($LG(string,1))
+	f i=2:1:$LL(string) {
+		s part=$LG(string,i)
+		s Odbc=Odbc_"*"_$LISTTOSTRING(part)
+	}
+	QUIT Odbc
+]]></Implementation>
+</Method>
+
+<Property name="Sub1">
+<Type>%String</Type>
+</Property>
+
+<Index name="master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ArrayCollectionS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^SHRG</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="Actions">
+<RetrievalCode> n sub2,data,array,counter
+ s sub2=""
+ f  {
+	 s sub2=$O(^SHRG({L1},40,sub2),1,data) 
+	 QUIT:sub2=""  
+	 s $LI({*},$i(counter))=$LB(sub2,data)
+ }
+ </RetrievalCode>
+</Data>
+<Data name="Blank">
+<Delimiter>"\"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="Counter">
+<Delimiter>"\"</Delimiter>
+<Piece>4</Piece>
+</Data>
+<Data name="Desc">
+<Delimiter>"\"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Node10">
+<Node>10</Node>
+</Data>
+<Data name="Node20">
+<Node>20</Node>
+</Data>
+<Data name="Title">
+<Delimiter>"\"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

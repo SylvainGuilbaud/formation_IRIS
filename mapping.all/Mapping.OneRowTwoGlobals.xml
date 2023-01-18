@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="22" zv="Cache for Windows (x86-32) 2008.1 (Build 401U)" ts="2008-12-10 14:54:40">
+<Class name="Mapping.OneRowTwoGlobals">
+<Description>
+This Class maps 2 globals that together contain one row of a table.
+
+The globals look like:
+
+^G1(1)="Data1^Data2^Data3"      ^G2(1)="Data4^Data5"
+^G1(2)="Data1^Data2^Data3"      ^G2(2)="Data4^Data5"
+^G1(3)="Data1^Data2^Data3"      ^G2(3)="Data4^Data5"
+^G1(4)="Data1^Data2^Data3"      ^G2(4)="Data4^Data5"
+^G1(5)="Data1^Data2^Data3"      ^G2(5)="Data4^Data5"
+
+In the master map we map ^G1 as normal to get Data1 Data2 and Data3.  In the Data section we us Retrieval Code to get the values of Data4 and Data5
+
+Fields that have Retrieval Code are read only, so if you want the map to support updates something else needs to be done.
+
+Defining a second map, an index map on ^G2(Id)="Data4^Data5" gets around the read only problem.  The filing code for the Master map will file the values for Data1, Data2 and Data3.  The filing code fo rthe index map with save Data4 and Data5.
+</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeCreated>61340,53603.502979</TimeCreated>
+
+<Property name="Id">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data1">
+<Type>%String</Type>
+</Property>
+
+<Property name="Data2">
+<Type>%String</Type>
+</Property>
+
+<Property name="Data3">
+<Type>%String</Type>
+</Property>
+
+<Property name="Data4">
+<Type>%String</Type>
+</Property>
+
+<Property name="Data5">
+<Type>%String</Type>
+</Property>
+
+<Index name="IDKeyIndex">
+<IdKey>1</IdKey>
+<Properties>Id</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.OneRowTwoGlobalsS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^G1</Global>
+<Subscript name="1">
+<Expression>{Id}</Expression>
+</Subscript>
+<Data name="Data1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Data2">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Data3">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="Data4">
+<RetrievalCode> s {Data4}=$P(^G2({L1}),"^",1)
+ </RetrievalCode>
+</Data>
+<Data name="Data5">
+<RetrievalCode> s {Data5}=$P(^G2({L1}),"^",2)</RetrievalCode>
+</Data>
+</SQLMap>
+<SQLMap name="Map2">
+<Type>index</Type>
+<ConditionalWithHostVars/>
+<Global>^G2</Global>
+<Subscript name="1">
+<Expression>{Id}</Expression>
+</Subscript>
+<Data name="Data4">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Data5">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

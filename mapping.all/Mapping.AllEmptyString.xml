@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="9" zv="Cache for Windows NT (Intel) 5.0.12 (Build 5504)" ts="2005-09-01 09:41:02">
+<Class name="Mapping.AllEmptyString">
+<Description>
+For this class we want Empty String and NULL to work the same way. 
+
+In the global below the bold e is $C(0), for CacheSQL this is Empty String. 
+
+The rest of the rows have "" for the second value, CacheSQL NULL.
+
+rray: ^Mapping.AllEmptyString
+^Mapping.AllEmptyString(1)=Bannon,Brendan^e
+                        2)=Bannon,Sharon^e
+                        3)=Bannon,Kaitlin^e
+                        4)=Bannon,Melissa^
+                        5)=Bannon,Robin^
+                        6)=Bannon,Kieran^
+                        7)=Bannon,Snitch^
+                        8)=Bannon,Snitch2^
+
+In the Data Type class Mapping.RMHString there is StorageToLogical and LogicalToStorage code that makes sure the Logical value is alway $c(0) 
+and that the storage value is always ""
+
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60144,34831.020388</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="Empty">
+<Type>Mapping.RMHString</Type>
+</Property>
+
+<Property name="ID">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ID</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.AllEmptyStringS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping.AllEmptyString</Global>
+<Subscript name="1">
+<Expression>{ID}</Expression>
+</Subscript>
+<Data name="Empty">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Class name="Mapping.RMHString">
+<Description>
+This clas extends %String
+
+It adds StorageToLogical and LogicalToStorage methos that make sure Null is always treated as Empty string.
+
+That means the Logical value is always $c(0) for a strage value of "" or $C(0).
+
+
+</Description>
+<ClassType>datatype</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Library.String</Super>
+<TimeChanged>60144,34831.071916</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Method name="StorageToLogical">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>%val:%Date</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s %codemode=$$$cMETHCODEMODEEXPRESSION
+ 	s %code="$S(%val="""":$c(0),1:%val)"
+ 	QUIT $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="LogicalToStorage">
+<ClassMethod>1</ClassMethod>
+<CodeMode>generator</CodeMode>
+<FormalSpec>%val:%Date</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s %codemode=$$$cMETHCODEMODEEXPRESSION
+ 	s %code="$S(%val=$c(0):"""",1:%val)"
+ 	QUIT $$$OK
+]]></Implementation>
+</Method>
+</Class>
+<Checksum value="3401789755"/>
+</Export>

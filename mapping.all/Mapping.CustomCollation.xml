@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="24" zv="Cache for Windows (x86-64) 2010.2.3 (Build 702U)" ts="2011-07-28 15:11:25">
+<Class name="Mapping.CustomCollation">
+<Description><![CDATA[
+This class gives an example of next code for an index that will translate the stored value to a non standard format.
+
+Now of the provided Collations will convert 00012345*01 to 1234501 so the conversion needs to be done in the next code of the subscript.
+
+You could write a function and put that in the expression but the Optimizer does not like indices with complex subscript expressions.
+
+The data looks like:
+
+USER>zw ^Mapping
+^Mapping("CustomCollation",1)="Brendan^00012345*01"
+^Mapping("CustomCollation",2)="Sharon^00009999*01"
+
+ 
+USER>zw ^MappingI
+^MappingI("TestId",999901,2)=""
+^MappingI("TestId",1234501,1)=""]]></Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62300,54604.606975</TimeChanged>
+<TimeCreated>62300,52498.293847</TimeCreated>
+
+<Property name="Name">
+<Type>%Name</Type>
+</Property>
+
+<Property name="TestId">
+<Type>%String</Type>
+<Parameter name="COLLATION" value="EXACT"/>
+</Property>
+
+<Property name="PatId">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="master">
+<IdKey>1</IdKey>
+<Properties>PatId</Properties>
+</Index>
+
+<Method name="InvalidCode">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>val:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+
+ s sub2=$tr(val,"*","")
+ s sub2=+sub2
+ QUIT $D(^MappingI("TestId",sub2))=0
+]]></Implementation>
+</Method>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.CustomCollationS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"CustomCollation"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{PatId}</Expression>
+</Subscript>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="TestId">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+</SQLMap>
+<SQLMap name="Map2">
+<Type>index</Type>
+<Global>^MappingI</Global>
+<Subscript name="1">
+<Expression>"TestId"</Expression>
+</Subscript>
+<Subscript name="2">
+<AccessType>Other</AccessType>
+<Expression>{TestId}</Expression>
+<NextCode> new len,sub2,zeros
+ s zeros="00000000000"
+ s sub2=$tr({L2},"*","")
+ s sub2=+sub2
+ s sub2=$O(^MappingI({L1},sub2))
+ i sub2="" s {L2}="" QUIT
+ s len=$L(sub2)
+ s sub2=$e(sub2,1,(len-2))_"*"_$e(sub2,(len-1),len)
+ s {L2}=$e(zeros,1,(10-len))_sub2</NextCode>
+<Invalidcondition name="1">
+<Expression>##class(Mapping.CustomCollation).InvalidCode({L2})</Expression>
+</Invalidcondition>
+</Subscript>
+<Subscript name="3">
+<Expression>{PatId}</Expression>
+<NextCode>new len,sub2,zeros
+ s zeros="000000000"
+ s sub2=$tr({L2},"*","")
+ s sub2=+sub2
+ s {L3}=$O(^MappingI({L1},sub2,{L3}))
+ </NextCode>
+</Subscript>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

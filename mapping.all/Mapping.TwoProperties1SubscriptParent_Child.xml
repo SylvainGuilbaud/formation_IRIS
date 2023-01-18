@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2015.1 (Build 429U)" ts="2016-08-22 16:17:41">
+<Class name="Mapping.TwoProperties1SubscriptChild">
+<Description>
+PARENT TABLE 1:
+
+^P(ID,PARENT)=P1^P2^P3
+
+PARENT subscript starts at 100, and increments by 100 like this:
+
+"PARENT" Records:
+
+^P(12345,100)="1^2^3"
+^P(12345,200)="5^3^2"
+^P(12345,300)="3^2^2"
+
+CHILD TABLE 2:
+
+^P(ID,CHILD)=T1^T2^T3^T4
+
+The CHILD subscript is in the "same subscript level" as PARENT but determines a different table by means of its numeric value...
+
+The CHILD subscript loops by adding 1 to PARENT with increments of 1 like this:
+
+"CHILD" Records:
+
+^P(12345,101)="A^B^C^D"
+^P(12345,102)="D^F^G^T"
+^P(12345,103)="E^D^A^B"
+^P(12345,104)="D^G^A^R"
+
+The "CHILD" Records are supposed to be "Children" of the "PARENT" records... the resulting global with both records looks like 
+this:
+
+^P(12345,100)="1^2^3"
+^P(12345,101)="A^B^C^D"
+^P(12345,102)="D^F^G^T"
+^P(12345,103)="E^D^A^B"
+^P(12345,104)="D^G^A^R"
+^P(12345,200)="5^3^2"
+^P(12345,201)="G^D^F^A"
+^P(12345,300)="X^Y^Z^A"
+^P(12345,301)="G^B^C^D"
+^P(12345,302)="F^D^S^T"
+</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63055,54079.841391</TimeChanged>
+<TimeCreated>63055,52367.617301</TimeCreated>
+
+<Property name="cData1">
+<Type>%String</Type>
+</Property>
+
+<Property name="cData2">
+<Type>%String</Type>
+</Property>
+
+<Property name="cData3">
+<Type>%String</Type>
+</Property>
+
+<Property name="ParentPointer">
+<Type>Mapping.TwoProperties1SubscriptParent</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ChildPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="ChildSub">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ChildSub</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoPropertiB9A9S</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^P</Global>
+<RowReference>^P({L1},({L2}+{L3}))</RowReference>
+<Subscript name="1">
+<Expression>{Mapping.TwoProperties1SubscriptParent.Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Mapping.TwoProperties1SubscriptParent.Sub2}</Expression>
+<NextCode> s {L2}={L2}+99
+ s {L2}=$ORDER(^P({L1},{L2}))
+ QUIT:{L2}=""
+ if {L2}#100'=0 s {L2}={L2}-({L2}#100) GOTO NEXT
+ </NextCode>
+</Subscript>
+<Subscript name="3">
+<AccessType>Other</AccessType>
+<Expression>{ChildSub}</Expression>
+<NextCode><![CDATA[ s {L3}={L2}+{L3}
+ s {L3}=$ORDER(^P({L1},{L3}))
+ IF {L3}#100=0 s {L3}=""
+ QUIT:{L3}=""
+ s {L3}={L3}-{L2}
+ IF {L3}>99 S {L3}="" QUIT
+ 
+ ]]></NextCode>
+</Subscript>
+<Data name="cData1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="cData2">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="cData3">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.TwoProperties1SubscriptParent">
+<Description>
+PARENT TABLE 1:
+
+^P(ID,PARENT)=P1^P2^P3
+
+PARENT subscript starts at 100, and increments by 100 like this:
+
+"PARENT" Records:
+
+^P(12345,100)="1^2^3"
+^P(12345,200)="5^3^2"
+^P(12345,300)="3^2^2"
+
+CHILD TABLE 2:
+
+^P(ID,CHILD)=T1^T2^T3^T4
+
+The CHILD subscript is in the "same subscript level" as PARENT but determines a different table by means of its numeric value...
+
+The CHILD subscript loops by adding 1 to PARENT with increments of 1 like this:
+
+"CHILD" Records:
+
+^P(12345,101)="A^B^C^D"
+^P(12345,102)="D^F^G^T"
+^P(12345,103)="E^D^A^B"
+^P(12345,104)="D^G^A^R"
+
+The "CHILD" Records are supposed to be "Children" of the "PARENT" records... the resulting global with both records looks like 
+this:
+
+^P(12345,100)="1^2^3"
+^P(12345,101)="A^B^C^D"
+^P(12345,102)="D^F^G^T"
+^P(12345,103)="E^D^A^B"
+^P(12345,104)="D^G^A^R"
+^P(12345,200)="5^3^2"
+^P(12345,201)="G^D^F^A"
+^P(12345,300)="X^Y^Z^A"
+^P(12345,301)="G^B^C^D"
+^P(12345,302)="F^D^S^T"
+</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63055,54096.99993</TimeChanged>
+<TimeCreated>63055,50772.919353</TimeCreated>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Sub2">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="Data1">
+<Type>%String</Type>
+</Property>
+
+<Property name="Data2">
+<Type>%String</Type>
+</Property>
+
+<Property name="Data3">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1,Sub2</Properties>
+</Index>
+
+<Property name="ChildPointer">
+<Type>Mapping.TwoProperties1SubscriptChild</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.TwoPropertiBD77S</StreamLocation>
+<ExtentSize>100000</ExtentSize>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars>0</ConditionalWithHostVars>
+<Global>^P</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub2}</Expression>
+<NextCode> s {L2}={L2}+99
+ s {L2}=$ORDER(^P({L1},{L2}))
+ QUIT:{L2}=""
+ if {L2}#100'=0 s {L2}={L2}-({L2}#100) GOTO NEXT
+ </NextCode>
+</Subscript>
+<Data name="Data1">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+<Data name="Data2">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Data3">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

@@ -63,7 +63,9 @@ services:
         ipv4_address: 172.0.0.12
   mssql:
     container_name: mssql
-    image: 'mcr.microsoft.com/mssql/server:2022-latest' 
+    # image: 'mcr.microsoft.com/mssql/server:2019-latest' 
+    # image: mcr.microsoft.com/mssql/server:latest
+    image: mcr.microsoft.com/azure-sql-edge
     ports:
         - '50007:1433'
     environment:
@@ -74,22 +76,22 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.13
-  oracle:
-    container_name: oracle
-    image: oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
-    ports:    
-      - 1521:1521
-      - 5500:5500
-    environment:
-      - ORACLE_PDB=orcl
-      - ORACLE_PWD=password
-      - INIT_SGA_SIZE=3000
-      - INIT_PGA_SIZE=1000
-    volumes:
-      - ./volumes/oracle:/opt/oracle/oradata
-    networks:
-      irisnetwork:
-        ipv4_address: 172.0.0.14
+  # oracle:
+  #   container_name: oracle
+  #   image: oracledb19c/oracle.19.3.0-ee:oracle19.3.0-ee
+  #   ports:    
+  #     - 1521:1521
+  #     - 5500:5500
+  #   environment:
+  #     - ORACLE_PDB=orcl
+  #     - ORACLE_PWD=password
+  #     - INIT_SGA_SIZE=3000
+  #     - INIT_PGA_SIZE=1000
+  #   volumes:
+  #     - ./volumes/oracle:/opt/oracle/oradata
+  #   networks:
+  #     irisnetwork:
+  #       ipv4_address: 172.0.0.14
   ftp_server:
     image: delfer/alpine-ftp-server:latest
     container_name: ftp-server
@@ -132,6 +134,13 @@ services:
   #       ipv4_address: 172.0.0.200
   #   volumes:
   #     - "./webgateway:/webgateway"
+  # hfsql:
+  #   image: windev/hfsql
+  #   container_name: hfsql
+  #   ports:
+  #     - 4923:4900
+  #   volumes:
+  #     - ./volumes/hfsql:/var/lib/hfsql
 
 
 

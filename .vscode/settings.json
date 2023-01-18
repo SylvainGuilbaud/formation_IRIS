@@ -18,25 +18,7 @@
     "mapped": true
    }, 
   "objectscript.conn" :{
-    "ns": "IRISAPP",
-    "username": "_SYSTEM",
-    "password": "SYS",
-    "active": true,
-    "docker-compose": {
-      "service": "iris",
-      "internalPort": 52773
-    },
-    "links": {
-      "terminal": "http://${host}/terminal/",
-      "version": "http://${host}/common/",
-      "atelier": "http://${host}:/api/atelier/",
-      "terminal-pws": "http://${host}:${port}/terminal/",
-      "version-pws": "http://${host}:${port}/common/",
-      "atelier-pws": "http://${host}:${port}/api/atelier/",
-      "XML Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.XMLSchemaWizard.cls?Namespace=${namespace}${serverAuth}",
-      "SOAP Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.SOAPWizard.cls?Namespace=${namespace}${serverAuth}",
-      "SAP BAPI Configuration RFC": "${serverUrl}/csp/${namespace}/EnsPortal.Dialog.SAPJCO.BaseConfiguration.cls?Namespace=${namespace}${serverAuth}"
-    }
+    "active": true
   },
   "sqltools.connections": [
     {
@@ -50,6 +32,19 @@
       "driver": "InterSystems IRIS",
       "name": "IRISAPP",
       "username": "_SYSTEM",
+      "password": "SYS"
+    },
+    {
+      "namespace": "IRISAPP",
+      "connectionMethod": "Server and Port",
+      "showSystem": false,
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 12773,
+      "askForPassword": false,
+      "driver": "InterSystems IRIS",
+      "name": "FORMATION-IRIS",
+      "username": "_system",
       "password": "SYS"
     }
   ]

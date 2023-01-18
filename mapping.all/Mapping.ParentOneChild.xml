@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="22" zv="Cache for Windows (x86-64) 2008.2.6 (Build 964U)" ts="2011-06-22 14:57:27">
+<Class name="Mapping.ParentOneChildC">
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62264,52159.936229</TimeChanged>
+<TimeCreated>62259,61346.24228</TimeCreated>
+
+<Property name="ChildName">
+<Type>%String</Type>
+</Property>
+
+<Property name="ChildDOB">
+<Type>%String</Type>
+</Property>
+
+<Property name="ParentPointer">
+<Type>Mapping.ParentOneChildP</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ChildPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ParentPointer</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ParentOneChildCS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"ParentOneChild"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Mapping.ParentOneChildP.Sub1}</Expression>
+<Invalidcondition name="1">
+<Expression>$L($P(^Mapping({L1},{L2}),"^",2))=0</Expression>
+</Invalidcondition>
+</Subscript>
+<Subscript name="3">
+<AccessType>Piece</AccessType>
+<Delimiter>"^"</Delimiter>
+<Expression>2</Expression>
+</Subscript>
+<Data name="ChildDOB">
+<Delimiter>"|"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="ChildName">
+<Delimiter>"|"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.ParentOneChildP">
+<Description>
+In this Parent Child relationship there can only be one child for each parent.  
+The data for both the child and the parent are stored on one row
+
+^Mapping("ParentOneChild",1)="Al^Isabella|62132^61132"
+^Mapping("ParentOneChild",2)="Brendan^Kaitlin|62132^61132"
+
+Normally the Child IDKey is base do the parent ref and a property in the child table.  
+For this child the IDKey is just the parent ref.</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>62259,62079.394435</TimeChanged>
+<TimeCreated>62259,60946.443169</TimeCreated>
+
+<Property name="ParentName">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+</Index>
+
+<Property name="ChildPointer">
+<Type>Mapping.ParentOneChildC</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ParentOneChildPS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Mapping</Global>
+<Subscript name="1">
+<Expression>"ParentOneChild"</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="DOB">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="ParentName">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

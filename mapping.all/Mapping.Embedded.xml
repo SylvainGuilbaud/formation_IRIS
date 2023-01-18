@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="9" zv="Cache for Windows NT (Intel) 5.0.5 (Build 936U)" ts="2004-05-26 12:12:35">
+<Class name="Mapping.Address">
+<ClassType>serial</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%SerialObject</Super>
+<TimeChanged>59681,38335.319572</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Parameter name="SERIALDELIMITER">
+<Default>|</Default>
+</Parameter>
+
+<Property name="Street">
+<Type>%String</Type>
+</Property>
+
+<Property name="City">
+<Type>%String</Type>
+</Property>
+
+<Property name="State">
+<Type>%String</Type>
+</Property>
+
+<Property name="ZipCode">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>AddressState</State>
+<StreamLocation>^Mapping.AddressS</StreamLocation>
+<Data name="AddressState">
+<Structure>listnode</Structure>
+<Subscript>"Mapping.Address"</Subscript>
+<Value name="1">
+<Value>City</Value>
+</Value>
+<Value name="2">
+<Value>State</Value>
+</Value>
+<Value name="3">
+<Value>Street</Value>
+</Value>
+<Value name="4">
+<Value>Town</Value>
+</Value>
+<Value name="5">
+<Value>ZipCode</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+<Class name="Mapping.PersonWithEmbeddedAddress">
+<Description>
+This is an example of a class that uses CacheSQLStorage and has an embedded class.
+
+The delimiter for this class is "^"
+
+The delimiter for the embedded class is "|"
+
+The key is to define a parameter in the embedded class.
+
+Parameter SERIALDELIMITER = "|";
+
+The data for this class looks like
+
+^Person(1)=Brendan Bannon^Cambridge|MA|15 Cliff Dr||02125^45956
+        2)=Sharon Bannon^Cambridge|MA|15 Cliff Dr||02125^45956
+</Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>59681,43926.771376</TimeChanged>
+<ClassDefinitionError>0</ClassDefinitionError>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Property name="HomeAddress">
+<Type>Address</Type>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="ID">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>ID</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.PersonWithEmbeddedAddrS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^Person</Global>
+<Subscript name="1">
+<Expression>{ID}</Expression>
+</Subscript>
+<Data name="DOB">
+<Delimiter>"^"</Delimiter>
+<Piece>3</Piece>
+</Data>
+<Data name="HomeAddress">
+<Delimiter>"^"</Delimiter>
+<Piece>2</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+<Checksum value="1222809987"/>
+</Export>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.1 (Build 549U)" ts="2015-09-10 10:05:55">
+<Class name="Mapping.Child">
+<Description><![CDATA[
+The keey to Parent Child Mapping is with defining the INDEX for the IDKey, just the fields that are defined in this table, in this case that is just Sub3 and in referencing all the REAL field in the subscript mapping.
+
+ <Subscript name="1">
+            <Expression>{Mapping.GrandParent.Sub1}</Expression>
+        </Subscript>
+        <Subscript name="2">
+            <Expression>{Mapping.Parent.Sub2}</Expression>
+        </Subscript>
+        <Subscript name="3">
+            <Expression>{Sub3}</Expression>
+        </Subscript>
+
+Note that I am referencing fields from GrandParent, Parent, and Child in the three subscript levels.
+
+]]></Description>
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60345,44444.207379</TimeChanged>
+<TimeCreated>63698,55152</TimeCreated>
+
+<Property name="ChildData">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParentPointer">
+<Type>Mapping.Parent</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ChildPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Sub3">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="IDKey">
+<IdKey>1</IdKey>
+<Properties>Sub3</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ChildS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<Global>^GrandParent</Global>
+<Subscript name="1">
+<Expression>{Mapping.GrandParent.Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Mapping.Parent.Sub2}</Expression>
+</Subscript>
+<Subscript name="3">
+<Expression>{Sub3}</Expression>
+</Subscript>
+<Data name="ChildData">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.GrandParent">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60345,44016.632774</TimeChanged>
+<TimeCreated>63698,55152</TimeCreated>
+
+<Property name="GrandParentData">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="ParentPointer">
+<Type>Mapping.Parent</Type>
+<Cardinality>children</Cardinality>
+<Inverse>GrandParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Sub1">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="IDKey">
+<IdKey>1</IdKey>
+<Properties>Sub1</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.GrandParentS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars>0</ConditionalWithHostVars>
+<Global>^GrandParent</Global>
+<Subscript name="1">
+<Expression>{Sub1}</Expression>
+</Subscript>
+<Data name="GrandParentData">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Mapping.Parent">
+<ClassType>persistent</ClassType>
+<ProcedureBlock>1</ProcedureBlock>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>60345,44229.585852</TimeChanged>
+<TimeCreated>63698,55152</TimeCreated>
+
+<Property name="ChildPointer">
+<Type>Mapping.Child</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="GrandParentPointer">
+<Type>Mapping.GrandParent</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>ParentPointer</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="ParentData">
+<Type>%String</Type>
+<Parameter name="TRUNCATE" value="1"/>
+</Property>
+
+<Property name="Sub2">
+<Type>%Integer</Type>
+</Property>
+
+<Index name="IDKey">
+<IdKey>1</IdKey>
+<Properties>Sub2</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.ParentS</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars>0</ConditionalWithHostVars>
+<Global>^GrandParent</Global>
+<Subscript name="1">
+<Expression>{Mapping.GrandParent.Sub1}</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{Sub2}</Expression>
+</Subscript>
+<Data name="ParentData">
+<Delimiter>"^"</Delimiter>
+<Piece>1</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

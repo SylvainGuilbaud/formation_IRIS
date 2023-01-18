@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2016.1 (Build 507U)" ts="2015-07-30 15:28:33">
+<Class name="Mapping.PropsOnLowerSubscripts">
+<Description>
+The below global structure is a classic parent child relationship, but in this case the customer wants only 3 rows for the 6 pieces of data.
+
+^NDAM(2,1,0)="Doc 1^63763^Open"
+^NDAM(2,1,3,1,4)="Brendan"
+^NDAM(2,1,3,2,4)=45956
+^NDAM(2,1,3,3,4)="Male"
+^NDAM(2,2,0)="Doc 2^63764^Open"
+^NDAM(2,2,3,1,4)="Kyle"
+^NDAM(2,2,3,2,4)=56630
+^NDAM(2,2,3,3,4)="Male"
+^NDAM(2,3,0)="Doc 3^63760^Closed"
+^NDAM(2,3,3,1,4)="Michael"
+^NDAM(2,3,3,2,4)=53274
+^NDAM(2,3,3,3,4)="Male"</Description>
+<StorageStrategy>NewStorage1</StorageStrategy>
+<Super>%Persistent</Super>
+<TimeChanged>63763,55524.974104</TimeChanged>
+<TimeCreated>63763,55497.849393</TimeCreated>
+
+<Property name="DocID">
+<Type>%Integer</Type>
+</Property>
+
+<Property name="DocName">
+<Type>%String</Type>
+</Property>
+
+<Property name="DocDate">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+</Property>
+
+<Property name="Sex">
+<Type>%String</Type>
+</Property>
+
+<Property name="status">
+<Type>%String</Type>
+</Property>
+
+<Index name="Master">
+<IdKey>1</IdKey>
+<Properties>DocID</Properties>
+</Index>
+
+<Storage name="NewStorage1">
+<Type>%CacheSQLStorage</Type>
+<StreamLocation>^Mapping.PropsOnLowe8D55S</StreamLocation>
+<SQLMap name="Map1">
+<Type>data</Type>
+<ConditionalWithHostVars/>
+<Global>^NDAM</Global>
+<Subscript name="1">
+<Expression>2</Expression>
+</Subscript>
+<Subscript name="2">
+<Expression>{DocID}</Expression>
+</Subscript>
+<Data name="DOB">
+<Delimiter>"^"</Delimiter>
+<Node>3,2,4</Node>
+<Piece>1</Piece>
+</Data>
+<Data name="DocDate">
+<Delimiter>"^"</Delimiter>
+<Node>0</Node>
+<Piece>2</Piece>
+</Data>
+<Data name="DocName">
+<Delimiter>"^"</Delimiter>
+<Node>0</Node>
+<Piece>1</Piece>
+</Data>
+<Data name="Name">
+<Delimiter>"^"</Delimiter>
+<Node>3,1,4</Node>
+<Piece>1</Piece>
+</Data>
+<Data name="Sex">
+<Delimiter>"^"</Delimiter>
+<Node>3,3,4</Node>
+<Piece>1</Piece>
+</Data>
+<Data name="status">
+<Delimiter>"^"</Delimiter>
+<Node>0</Node>
+<Piece>3</Piece>
+</Data>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

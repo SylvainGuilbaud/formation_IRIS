@@ -1,0 +1,2259 @@
+-- 
+--   +--------------------------------------------------------+
+--   | Copyright 1986-2018 by InterSystems Corporation,       |
+--   | Cambridge, Massachusetts, U.S.A.                       |
+--   | All rights reserved.                                   |
+--   +--------------------------------------------------------+
+-- 
+-- Intersystems IRIS MIB
+--
+-- 1.3.6.1.4.1.16563 = iso.org.dod.internet.private.enterprises.intersystems
+-- 
+-- .4 = iscIRIS | IRIS product ID
+--
+-- .4.1 = irisObjects | IRIS SNMP Data Objects
+-- 
+-- .4.1.1 = irisSysTab | Table of IRIS instances installed on this system
+-- .4.1.1.1 = irisSysRow | Conceptual row for IRIS instance table | INDEX = irisSysIndex
+-- .4.1.1.1.1 = irisSysIndex | Index for this IRIS instance | STRING |
+-- .4.1.1.1.2 = irisSysName | Name of this IRIS instance | STRING |
+-- .4.1.1.1.3 = irisSysCfgFile | Name of the current configuration file for this IRIS instance | STRING |
+-- .4.1.1.1.4 = irisSysDir | Installation directory for this IRIS instance | STRING
+-- .4.1.1.1.5 = irisSysVersion | Version string for this IRIS instance | STRING |
+-- .4.1.1.1.6 = irisSysCurUser | Current number of users on this IRIS instance | INTEGER
+-- .4.1.1.1.7 = irisSysRtnCache | Size of the routine cache in MB for this IRIS instance | INTEGER
+-- .4.1.1.1.8 = irisSysDbCache | Size of the database cache in MB for this IRIS instance | INTEGER
+-- .4.1.1.1.9 = irisSysErrorMsg | The last 'severe' error message logged in the console log for this IRIS instance | STRING
+-- .4.1.1.1.10 = irisSysLicenseUsed | The current number of licenses used on this IRIS instance | INTEGER
+-- .4.1.1.1.11 = irisSysLicenseHigh | The high-water mark for licenses used on this IRIS instance | INTEGER
+-- .4.1.1.1.12 = irisSysState | A single value which tracks the health of the IRIS instance | STRING
+-- .4.1.1.1.13 = irisSysLicServerUsed | The current count of licenses used on the License Server for this instance | INTEGER
+-- .4.1.1.1.14 = irisSysLicServerHigh | The high-water mark for licenses used on the License Server for this instance | INTEGER
+-- .4.1.1.1.15 = irisSysLicServerAuth | The total licenses authorized for use on the License Server for this instance | INTEGER
+-- .4.1.1.1.16 = irisSysLicServerConnectUsed | The current number of license connections on the License Server for this instance and key | INTEGER
+-- .4.1.1.1.17 = irisSysLicServerConnectHigh | The high-water mark for license connections on the License Server for this instance and key | INTEGER.
+-- .4.1.1.1.18 = irisSysLicServerError | A text string indicating any problem connecting to the License Server for summary information | STRING
+-- 
+-- .4.1.2 = irisPerfTab | Table of general performance stats
+-- .4.1.2.1 = irisPerfRow | Conceptual row for IRIS performance table | INDEX = irisSysIndex 
+-- .4.1.2.1.1 = irisPerfLines | Number of commands executed (used to be lines) | COUNTER32
+-- .4.1.2.1.2 = irisPerfRtnLoad | Routine loads/saves | COUNTER32
+-- .4.1.2.1.3 = irisPerfGloRef | Global references | COUNTER32
+-- .4.1.2.1.4 = irisPerfGloSets | Global sets | COUNTER32
+-- .4.1.2.1.5 = irisPerfGloKills | Global kills | COUNTER32
+-- .4.1.2.1.6 = irisPerfLogReads | Database logical block reads | COUNTER32
+-- .4.1.2.1.7 = irisPerfPhyReads | Database physical block reads | COUNTER32
+-- .4.1.2.1.8 = irisPerfPhyWrites | Database physical block writes | COUNTER32
+-- .4.1.2.1.9 = irisPerfJrnEntry | Database journal entries | COUNTER32
+-- .4.1.2.1.10 = irisPerfLockCom | Lock commands issued | COUNTER32
+-- .4.1.2.1.11 = irisPerfLockSucc | Successful lock commands | COUNTER32
+-- .4.1.2.1.12 = irisPerfLockFail | Failed lock commands | COUNTER32
+-- .4.1.2.1.13 = irisPerfGThrottleCur | Number of jobs currently counted 'in global' | COUNTER32
+-- .4.1.2.1.14 = irisPerfGThrottleMax | Maximum number of jobs to allow 'in global' | COUNTER32
+-- .4.1.2.1.15 = irisPerfGThrottleCnt | Number jobs required to wait for throttle | COUNTER32
+-- .4.1.2.1.16 = irisPerfGupLock | Write Demon has suspended global updates (1/0) (ijulock) | INTEGER
+-- .4.1.2.1.17 = irisPerfGupCnt | Number of users doing global updates (ijucnt) | COUNTER32
+-- .4.1.2.1.18 = irisPerfWdWake | 1=Write demon running, 0=WD waiting for wakeup | INTEGER
+-- 
+-- .4.1.3 = irisDBTab | Table of IRIS databases
+-- .4.1.3.1 = irisDBRow | Conceptual row for IRIS database table | INDEX = irisSysIndex , irisDBIndex
+-- .4.1.3.1.1 = irisDBIndex | Unique index for this database | INTEGER
+-- .4.1.3.1.2 = irisDBName | Name of database | STRING
+-- .4.1.3.1.3 = irisDBDir | Directory for database | STRING
+-- .4.1.3.1.4 = irisDBStatus | 1=Mounted 2=NotMounted | INTEGER
+-- .4.1.3.1.5 = irisDBRead | 1=ReadOnly, 0 =ReadWrite | INTEGER 
+-- .4.1.3.1.6 = irisDBSize | Size of database file in MB | INTEGER
+-- .4.1.3.1.7 = irisDBFree | Free space available within database in MB | INTEGER
+--        NOTE: The FreeSpace value is taken from the %Monitor.System.Freespace class.
+--		This must be "active" and being sampled by the system Application monitor
+--		for correct values to be returned (see the IRIS Monitoring Guide).
+-- .4.1.3.1.8 = irisDBMirrorName | The name of the database used for a Mirror. | STRING
+--
+-- .4.1.4 = irisAppSrvTab | Table of ECP Application Server stats
+-- .4.1.4.1 = irisAppSrvRow | Conceptual row for IRIS ECP Application Server table | INDEX = irisSysIndex
+-- .4.1.4.1.1 = irisAppSrvGloRef | Count of global refs not from cache | COUNTER32
+-- .4.1.4.1.2 = irisAppSrvBytesSent | Count of bytes sent from the ECP Application Server | COUNTER32
+-- .4.1.4.1.3 = irisAppSrvBytesRcv | Count of bytes received by the ECP Application Server | COUNTER32
+-- 
+-- .4.1.5 = irisDataSrvTab | Table of ECP Data Server stats
+-- .4.1.5.1 = irisDataSrvRow | Conceptual row for IRIS ECP Data Server table | INDEX = irisSysIndex
+-- .4.1.5.1.1 = irisDataSrvGloRef | Count of global refs returned by ECP Data Server | COUNTER32
+-- .4.1.5.1.2 = irisDataSrvReqs | Count of requests received by ECP Data Server | COUNTER32
+-- .4.1.5.1.3 = irisDataSrvBlkSent | Count of blocks sent by ECP Data Server | COUNTER32
+-- .4.1.5.1.4 = irisDataSrvBytesSent | Count of bytes sent by ECP Data Server | COUNTER32
+-- .4.1.5.1.5 = irisDataSrvBytesRcv | Count of bytes received by ECP Data Server | COUNTER32
+--
+-- .4.1.6 = irisResTab | Table of IRIS resource seize counts
+-- .4.1.6.1 = irisResRow | Conceptual row for IRIS resource seize counts | INDEX = irisSysIndex, irisResIndex
+-- .4.1.6.1.1 = irisResIndex | Unique index for this resource/seize_type | INTEGER
+-- .4.1.6.1.2 = irisResName | A name created by concatenating the resource and seize type, e.g. Pid-Nsz | STRING
+-- .4.1.6.1.3 = irisResCount | The count of the number of times this resource/seize has occurred | COUNTER32 
+--
+-- .4.1.7 = irisBuffTab | Table of IRIS global buffer metrics (indexed by counter of different buffer sizes, 2k, 8k etc)
+-- .4.1.7.1 = irisBuffRow | Conceptual row for IRIS global buffer metrics | INDEX = irisSysIndex, irisBuffIndex
+-- .4.1.7.1.1 = irisBuffIndex | 1-based counter to different size buffer pools | INTEGER 
+-- .4.1.7.1.2 = irisBuffSize | buffer size for this queue | INTEGER 
+-- .4.1.7.1.3 = irisBuffNum | number of buffers of this size | INTEGER 
+-- .4.1.7.1.4 = irisBuffBatchQ | the offset to the start of the LRU queue | INTEGER 
+-- .4.1.7.1.5 = irisBuffInt | current number of buffers in interactive portion of LRU queue | INTEGER 
+-- .4.1.7.1.6 = irisBuffMaxInt | max number of buffers in interactive portion of LRU queue | INTEGER 
+-- .4.1.7.1.7 = irisBuffMinReQ | threshold for re-queueing a buffer (interactive) | INTEGER 
+-- .4.1.7.1.8 = irisBuffMinReQB | threshold for re-queueing a buffer (batch) | INTEGER 
+-- .4.1.7.1.9 = irisBuffReQCnt | number of buffers requeued in the interactive LRU queue | INTEGER 
+-- .4.1.7.1.10 = irisBuffReQCntB | number of buffers requeued in the batch LRU queue | INTEGER 
+-- .4.1.7.1.11 = irisBuffWrtQSz | current number of interactive buffers queued to be written | INTEGER 
+-- .4.1.7.1.12 = irisBuffOffLRUCnt | number of buffers removed from LRU queue | INTEGER
+-- .4.1.7.1.13 = irisBuffWrtSz | Number of buffers in current write cycle | INTEGER 
+-- .4.1.7.1.14 = irisBuffWrtMax | threshold for waking write demon (interactive) | INTEGER 
+-- .4.1.7.1.15 = irisBuffAvail | current number of avaiable buffers (interactive) | INTEGER 
+-- .4.1.7.1.16 = irisBuffMin | threshold for no updaters to enter global module (interactive) | INTEGER 
+-- .4.1.7.1.17 = irisBuffMinB | threshold for no updaters to enter global module (batch) | INTEGER 
+--
+-- .4.1.8 = irisWDTab | Table of IRIS Write Demon status metrics (indexed by integer indicating WD (master=1) )
+-- .4.1.8.1 = irisWDRow | Conceptual row for IRIS Write Demon status metrics | INDEX = irisSysIndex, irisWDIndex
+-- .4.1.8.1.1 = irisWDIndex | unique index for each Write Demon | INTEGER 
+-- .4.1.8.1.2 = irisWDCurBlk | blocks written by current cycle | INTEGER 
+-- .4.1.8.1.3 = irisWDTotBlk | cumulative blocks written | INTEGER 
+-- .4.1.8.1.4 = irisWDCycles | number of active cycles | INTEGER 
+-- .4.1.8.1.5 = irisWDCycleBlk | average blocks written per WD cycle | INTEGER 
+-- .4.1.8.1.6 = irisWDVolumeQ | list of databases served by this WD | STRING
+--
+-- .4.1.9 = irisShadowSrcTab | Table of IRIS Shadow Journaling Source connections
+-- .4.1.9.1 = irisShadowSrcRow | Conceptual row for IRIS Shadow Journaling Source metrics | INDEX = irisSysIndex, irisShadowSrcIndex
+-- .4.1.9.1.1 = irisShadowSrcIndex | unique index for each Shadow Source connection | INTEGER 
+-- .4.1.9.1.2 = irisShadowSrcPort | Superserver port number of the Caché source instance | STRING 
+-- .4.1.9.1.3 = irisShadowSrcAddress | IP address of the shadow destination machine | STRING 
+-- .4.1.9.1.4 = irisShadowSrcJournal | Full directory path and file name of journal file currently being copied | STRING 
+-- .4.1.9.1.5 = irisShadowSrcPID | Process ID number of the shadow journal copying process. | STRING 
+-- .4.1.9.1.6 = irisShadowSrcLatency | Estimated time for the shadow to catch up copying the source journal file | STRING
+-- .4.1.9.1.7 = irisShadowSrcRate | Rate in KBs per second that the shadow copies the source journal files. | INTEGER
+--
+--	NOTE:  	An IRIS instance with no Shadow Connections will return a single instance
+--		of the irisShadowSrcTab, with a Port of '0'.
+--
+-- .4.1.10 = irisShadowDestTab | Table of IRIS Destination Shadow Servers
+-- .4.1.10.1 = irisShadowDestRow | Conceptual row for IRIS Destination Shadow Server metrics | INDEX = irisSysIndex, irisShadowDestIndex
+-- .4.1.10.1.1 = irisShadowDestIndex | unique index for each Destination Shadow Server | INTEGER 
+-- .4.1.10.1.2 = irisShadowDestName | Name of the shadow | STRING 
+-- .4.1.10.1.3 = irisShadowDestStatus | One of three shadowing states: "stopped", "processing", "suspended". | STRING 
+-- .4.1.10.1.4 = irisShadowDestCheckpoint | Offset location in the shadow copy of the journal where it is safe to resume processing. | STRING 
+-- .4.1.10.1.5 = irisShadowDestErrors | Number of errors reported on the shadow destination. | INTEGER 
+-- .4.1.10.1.6 = irisShadowDestOpenTx | Number of open transactions on the shadow (if any) | INTEGER
+-- .4.1.10.1.7 = irisShadowDestLatency | Estimated time to process current journal records copied from the source | STRING
+--
+--	NOTE:  	An IRIS instance with no Shadow Servers will return a single instance
+--		of the irisShadowDestTab, with a blank Name.
+--
+-- .4.1.11 = irisJournalTab | Table with current journaling status and information
+-- .4.1.11.1 = irisJournalRow | Conceptual row for IRIS Journaling metrics | INDEX = irisSysIndex
+-- .4.1.11.1.1 = irisJournalStatus | Journaling status Enabled, Disabled, Suspended, Frozen, Paused | STRING
+-- .4.1.11.1.2 = irisJournalDirectory | Current journaling directory | STRING 
+-- .4.1.11.1.3 = irisJournalSpace | Free space (in MB) in current journaling directory | INTEGER 
+-- .4.1.11.1.4 = irisJournalSecondDir | Secondary journaling directory. | STRING 
+-- .4.1.11.1.5 = irisJournalFile | Name of current journaling file. | STRING 
+-- .4.1.11.1.6 = irisJournalFileMax | Maximum size in MB for current journal file. | INTEGER
+-- .4.1.11.1.7 = irisJournalFileUsed | Space (in MB) used in current journal file. | INTEGER
+--
+-- .4.1.12 = irisMirrorTab | Table of current Mirror Members status and information
+-- .4.1.12.1 = irisMirrorRow | Conceptual row for Mirror status and metrics | INDEX = irisSysIndex, irisMirrorIndex
+-- .4.1.12.1.1 = irisMirrorIndex | unique index for each Mirror Member | INTEGER 
+-- .4.1.12.1.2 = irisMirrorName | Name of the mirror this system is a member of | STRING 
+-- .4.1.12.1.3 = irisMirrorMember | Mirror member name | STRING 
+-- .4.1.12.1.4 = irisMirrorRole | "Primary", "Backup", or "Async". | STRING 
+-- .4.1.12.1.5 = irisMirrorStatus | "Active" or "Activate". | STRING 
+-- .4.1.12.1.6 = irisMirrorJrnLatency | Mirror journal latency "Caught up", "Catchup", or "N/A". | STRING 
+-- .4.1.12.1.7 = irisMirrorDBLatency | Mirror database latency "Caught up", "Catchup", or "N/A". | STRING
+--
+--	NOTE:  	An IRIS instance that's not part of a Mirror will return a single instance
+--		of the irisMirrorTab, with a blank Member Name.
+--
+-- .4.1.13 = irisProcTab | Table of IRIS processes, list of top 20 processes by Commands Executed
+-- .4.1.13.1 = irisProcRow | Conceptual row for IRIS Process list | INDEX = irisSysIndex, irisProcIndex
+-- .4.1.13.1.1 = irisProcIndex | Positional index for Process | INTEGER 
+-- .4.1.13.1.2 = irisProcID | Process PID | STRING 
+-- .4.1.13.1.3 = irisProcDev | Process current device. | STRING 
+-- .4.1.13.1.4 = irisProcNamespace | Process current namespace. | STRING 
+-- .4.1.13.1.5 = irisProcRoutine | Process current routine. | INTEGER 
+-- .4.1.13.1.6 = irisProcCommands | Commands executed for the last collection period. | INTEGER
+-- .4.1.13.1.7 = irisProcGloRefs | Global references for the last collection period. | STRING
+-- .4.1.13.1.8 = irisProcPriority | Process current priority. | INTEGER
+-- .4.1.13.1.9 = irisProcUser | Process user name (or system function). | STRING
+-- .4.1.13.1.10 = irisProcState | Process current state (e.g. RUNW, HANGW, READ, see %SYS.ProcessQuery.State). | STRING
+--
+--        NOTE: The Process list and data collection is managed by the %Monitor.System.Dashboard2 class.
+--		This must be "active" and being sampled by the system Application Monitor
+--		for correct values to be returned (see the IRIS Monitoring Guide).
+--
+-- .4.1.14 = irisProcGTab | Table of IRIS processes, list of top 20 processes by Global References
+-- .4.1.14.1 = irisProcGRow | Conceptual row for IRIS Process list | INDEX = irisSysIndex, irisProcIndex
+-- .4.1.14.1.1 = irisProcGIndex | Positional index for Process | INTEGER 
+-- .4.1.14.1.2 = irisProcGID | Process PID | STRING 
+-- .4.1.14.1.3 = irisProcGDev | Process current device. | STRING 
+-- .4.1.14.1.4 = irisProcGNamesSpace | Process current namespace. | STRING 
+-- .4.1.14.1.5 = irisProcGRoutine | Process current routine. | INTEGER 
+-- .4.1.14.1.6 = irisProcGCommands | Commands executed for the last collection period. | INTEGER
+-- .4.1.14.1.7 = irisProcGGloRefs | Global references for the last collection period. | STRING
+-- .4.1.14.1.8 = irisProcGPriority | Process current priority. | INTEGER
+-- .4.1.14.1.9 = irisProcGUser | Process user name (or system function). | STRING
+-- .4.1.14.1.10 = irisProcGState | Process current state (e.g. RUNW, HANGW, READ, see %SYS.ProcessQuery.State). | STRING
+--
+--        NOTE: The Process list and data collection is managed by the %Monitor.System.Dashboard2 class.
+--		This must be "active" and being sampled by the system Application Monitor
+--		for correct values to be returned (see the IRIS Monitoring Guide).
+--
+-- .4.1.15 = irisProdTab | Table of Interoperability Productions on this system
+-- .4.1.15.1 = irisProdRow | Conceptual row for Production table | INDEX = irisSysIndex, irisProdIndex
+-- .4.1.15.1.1 = irisProdIndex | An index to the table of Productions for this system | INTEGER
+-- .4.1.15.1.2 = irisProdName | The name of the Production | STRING
+-- .4.1.15.1.3 = irisProdNamespace | The IRIS Namespace for this Production | STRING
+-- .4.1.15.1.4 = irisProdStatus | The current status of the Production | STRING
+-- .4.1.15.1.5 = irisProdStart | The date-time this Production was last started | STRING
+-- .4.1.15.1.6 = irisProdStop | The date-time this Production was last stopped | STRING
+--
+-- .4.1.16 = irisEvtLogTab | Table of entries for Interoperability Event Logs
+-- .4.1.16.1 = irisEvtLogRow | Conceptual row for Event Log table | INDEX = irisSysIndex, irisEvtLogNSIndex, irisEvtLogIndex
+-- .4.1.16.1.1 = irisEvtLogNSIndex | An integer index to the Namespace for this Event Log | INTEGER
+-- .4.1.16.1.2 = irisEvtLogIndex | An integer index to the entry in this Event Log | INTEGER
+-- .4.1.16.1.3 = irisEvtLogNamespace | The IRIS Namespace for this Event Log | STRING
+-- .4.1.16.1.4 = irisEvtLogID | The unique identifier for the message that comprises this event log entry | INTEGER
+-- .4.1.16.1.5 = irisEvtLogTime | The date and time when this entry was logged | STRING
+-- .4.1.16.1.6 = irisEvtLogType | Indicates the type of entry: Alert, Assert, Error, Info, Status, Trace, or Warning | STRING
+-- .4.1.16.1.7 = irisEvtLogJob | The system job that hosted the event | STRING
+-- .4.1.16.1.8 = irisEvtLogSession | The unique identifier for the session associated with this message | STRING
+-- .4.1.16.1.9 = irisEvtLogSource | The configuration item (service, process, or operation) that sent the message | STRING
+-- .4.1.16.1.10 = irisEvtLogMethod | The host class method that was in progress when the event was logged | STRING
+-- .4.1.16.1.11 = irisEvtLogText | The text string associated with the event log entry | STRING
+--
+-- .4.2 = irisTrap | IRIS SNMP Notification Objects (traps)
+--
+-- .4.2.1 = irisStart | IRIS instance startup
+-- .4.2.2 = irisStop | IRIS instance shutdown
+-- .4.2.3 = irisDBExpand | database expansion succeeded
+-- .4.2.4 = irisDBOutOfSpace | database expansion close to limit
+-- .4.2.5 = irisDBStatusChange | database read/write status change
+-- .4.2.6 = irisDBAccessFail | database access failed, may be either read or write
+-- .4.2.7 = irisWDStop | Write Demon stalled
+-- .4.2.8 = irisWDPanic | Write Demon enter 'panic' mode
+-- .4.2.9 = irisLockTableFull | lock table full (out of memory)
+-- .4.2.10 = irisProcessFail | IRIS process accvio
+-- .4.2.11 = irisECPTroubleDSrv | ECP Data Server connection in 'trouble' mode
+-- .4.2.12 = irisECPTroubleASrv | ECP Application Server connection in 'trouble' mode
+-- .4.2.13 = irisAuditLost | System unable to record Audit events
+-- .4.2.14 = irisLoggedError | A 'severe' error has been logged in the console log
+-- .4.2.15 = irisLicenseExceed | A request for a license has exceeded the licenses available or allowed
+-- .4.2.16 = irisEventLogPost | an entry posted in the Interoperability Event Log
+-- .4.2.100 = irisAppAlert | An application alert generated by calling the %Monitor.Alert.External method
+-- 
+-- .4.3 = irisTrapInfo | Data objects for notifications only
+--
+-- .4.3.1 = irisDBError | Error code for database access error
+-- .4.3.2 = irisApp | Application name which sent cachAppAlert trap
+-- .4.3.3 = irisAppSeverity | Severity code for cachAppAlert trap
+-- .4.3.4 = irisAppText | Text description of problem or event in cachAppAlert trap
+
+ISC-IRIS DEFINITIONS ::= BEGIN
+
+IMPORTS
+
+   MODULE-IDENTITY, OBJECT-TYPE, NOTIFICATION-TYPE,
+    Counter32, Gauge32, Integer32
+        FROM SNMPv2-SMI
+    DisplayString
+        FROM SNMPv2-TC
+    enterprises
+	FROM RFC1155-SMI;
+
+
+iscIRIS MODULE-IDENTITY
+     LAST-UPDATED "201803131000Z"
+     ORGANIZATION "InterSystems Corp"
+     CONTACT-INFO "1 Memorial Drive
+                   Cambridge MA 02142
+                   Subject: ISC-IRIS.mib"
+     DESCRIPTION "The MIB module for the IRIS database product"
+     
+     
+     REVISION "201803131000Z"
+     DESCRIPTION "Initial version for IRIS 2018"
+
+     ::= { intersystems 4 }
+
+
+intersystems OBJECT IDENTIFIER ::= { enterprises 16563 }
+
+
+irisObjects OBJECT IDENTIFIER ::= { iscIRIS 1 }
+
+
+
+--
+--  IRIS data is organized into the following groups
+--
+--	irisSys = a table of general IRIS system information
+--	irisPerf = a table of general performance metrics
+--	irisDB = a table of IRIS databases
+--	irisAppSrv = a table of ECP Application Server metrics
+--	irisDataSrv = a table of ECP Data Server metrics
+--	irisRes = a table of resource seize metrics
+--	irisBuff = a table of global buffer metrics
+--	irisWD = a table of Write Demon metrics
+--	irisShadowSrc = a table of Shadow Journaling Source connections
+--	irisShadowDest = a table of Shadow Destination Servers
+--	irisJournal = a table of Journaling status and metrics
+--	irisMirror = a table of Mirror Members status and metrics
+--	irisProc = a table of top 20 Processes by commands executed
+--	irisProcG = a table of top 20 Processes by global references
+--	irisProd = a table of Interoperability Productions
+--	irisEvtLog = a table of entries in the Interoperability Event Log
+
+
+--
+-- Table of IRIS instances on a system
+--
+
+irisSysTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISSysRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS database instances installed on a system."
+      ::= { irisObjects 1 }
+
+
+irisSysRow    OBJECT-TYPE
+      SYNTAX      IRISSysRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for the table of IRIS instances"
+      INDEX  { irisSysIndex }
+      ::= { irisSysTab 1 }
+
+
+IRISSysRow ::=
+    SEQUENCE {
+    	irisSysIndex		DisplayString,
+	irisSysName 		DisplayString,
+	irisSysFile     	DisplayString,
+	irisSysDir 		DisplayString,
+	irisSysVersion 		DisplayString,
+	irisSysCurUser 		Counter32,
+	irisSysRtnCache 	Integer32,
+	irisSysDbCache 		Integer32,
+	irisSysErrorMsg		DisplayString,
+	irisSysLicenseUsed	Integer32,
+	irisSysLicenseHigh	Integer32,
+	irisSysState       	DisplayString,
+	irisSysLicServerUsed	Integer32,
+	irisSysLicServerHigh	Integer32,
+	irisSysLicServerAuth	Integer32,
+	irisSysLicServerConnectUsed	Integer32,
+	irisSysLicServerConnectHigh	Integer32,
+	irisSysLicServerError	DisplayString
+    }
+
+irisSysIndex     OBJECT-TYPE
+    SYNTAX          DisplayString (SIZE (20))
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique string index for this IRIS instance, created using the instance name."
+    ::= { irisSysRow  1 }
+
+irisSysName     OBJECT-TYPE
+    SYNTAX          DisplayString (SIZE (20))
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The name of the IRIS instance"
+    ::= { irisSysRow  2 }
+
+irisSysFile     OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The name of the IRIS configuration file being used"
+    ::= { irisSysRow  3 }
+
+irisSysDir      OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The installation directory for this IRIS instance"
+    ::= { irisSysRow  4 }
+
+irisSysVersion  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The version string for this IRIS instance"
+    ::= { irisSysRow  5 }
+
+irisSysCurUser  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current number of users on this instance"
+    ::= { irisSysRow  6 }
+
+irisSysRtnCache  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The size of the routine cache in MB on this IRIS instance"
+    ::= { irisSysRow  7 }
+
+irisSysDbCache  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The size of the database cache in MB on this IRIS instance"
+    ::= { irisSysRow  8 }
+
+irisSysErrorMsg  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The error message associated with the last alert from the console log."
+    ::= { irisSysRow  9 }
+
+irisSysLicenseUsed  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current number of licenses used on this instance."
+    ::= { irisSysRow  10 }
+
+irisSysLicenseHigh  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The high-water mark for licenses used on this instance."
+    ::= { irisSysRow  11 }
+
+irisSysState  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"A single value which tracks the 'health' of the instance. Reflects the $System.Monitor.State() value - 'OK', 'Warning', 'Alert'."
+    ::= { irisSysRow  12 }
+    
+irisSysLicServerUsed  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current count of licenses used on the License Server for this instance."
+    ::= { irisSysRow  13 }
+    
+irisSysLicServerHigh  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The high-water mark for licenses used on the License Server for this instance."
+    ::= { irisSysRow  14 }
+    
+irisSysLicServerAuth  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The total licenses authorized for use on the License Server for this instance."
+    ::= { irisSysRow  15 }
+    
+irisSysLicServerConnectUsed  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current number of license connections on the License Server for this instance and key."
+    ::= { irisSysRow  16 }
+    
+irisSysLicServerConnectHigh  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The high-water mark for license connections on the License Server for this instance and key."
+    ::= { irisSysRow  17 }
+    
+irisSysLicServerError  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"A text string indicating any problem connecting to the License Server for summary information."
+    ::= { irisSysRow  18 }
+
+--
+-- Table of IRIS performance metrics on a system
+--
+
+irisPerfTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISPerfRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS performance metrics for a system."
+      ::= { irisObjects 2 }
+
+
+irisPerfRow    OBJECT-TYPE
+      SYNTAX      IRISPerfRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS performance table"
+      INDEX  { irisSysIndex }
+      ::= { irisPerfTab 1 }
+
+
+IRISPerfRow ::=
+    SEQUENCE {
+	irisPerfLines		Counter32,
+	irisPerfRtnLoad		Counter32,
+	irisPerfGloRef		Counter32,
+	irisPerfGloSets		Counter32,
+	irisPerfGloKills	Counter32,
+	irisPerfLogReads	Counter32,
+	irisPerfPhyReads	Counter32,
+	irisPerfPhyWrites	Counter32,
+	irisPerfJrnEntry	Counter32,
+	irisPerfLockCom		Counter32,
+	irisPerfLockSucc	Counter32,
+	irisPerfLockFail	Counter32,
+	irisPerfGThrottleCur	Counter32,
+	irisPerfGThrottleMax	Counter32,
+	irisPerfGThrottleCnt	Counter32,
+	irisPerfGupLock		Integer32,
+	irisPerfGupCnt		Counter32,
+	irisPerfWdWake		Integer32
+    }
+
+irisPerfLines  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of lines of code executed since system startup. Counter changed to indicate the number of commands."
+    ::= { irisPerfRow  1 }
+
+irisPerfRtnLoad  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of routine calls since system startup"
+    ::= { irisPerfRow  2 }
+
+irisPerfGloRef  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of global references since system startup"
+    ::= { irisPerfRow  3 }
+
+irisPerfGloSets  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number global updates since system startup. Counter changed to include both SETs and KILLs."
+    ::= { irisPerfRow  4 }
+
+irisPerfGloKills  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          obsolete
+    DESCRIPTION
+	"The number of global kills since system startup. Counter is no longer available, always '0'"
+    ::= { irisPerfRow  5 }
+
+irisPerfLogReads  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of database logical block reads since system startup"
+    ::= { irisPerfRow  6 }
+
+irisPerfPhyReads  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of database physical block reads since system startup"
+    ::= { irisPerfRow  7 }
+
+irisPerfPhyWrites  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of database physical block writes since system startup"
+    ::= { irisPerfRow  8 }
+
+irisPerfJrnEntry  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of database journal entries since system startup"
+    ::= { irisPerfRow  9 }
+
+irisPerfLockCom  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of lock commands issued since system startup"
+    ::= { irisPerfRow  10 }
+
+irisPerfLockSucc  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of successful lock commands since system startup"
+    ::= { irisPerfRow  11 }
+
+irisPerfLockFail  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of failed lock commands since system startup"
+    ::= { irisPerfRow  12 }
+
+irisPerfGThrottleCur  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of jobs currently counted 'in global'"
+    ::= { irisPerfRow  13 }
+
+irisPerfGThrottleMax  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The maximum number of jobs to allow 'in global'"
+    ::= { irisPerfRow  14 }
+
+irisPerfGThrottleCnt  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of jobs required to wait for the global throttle "
+    ::= { irisPerfRow  15 }
+
+irisPerfGupLock  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"An indicator that the Write Demon has suspended global updates (1/0) (ijulock)"
+    ::= { irisPerfRow  16 }
+
+irisPerfGupCnt  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of users currently doing global updates (ijucnt)"
+    ::= { irisPerfRow  17 }
+
+irisPerfWdWake  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"A status indicator for the write demon, 1=Write demon running, 0=WD waiting for wakeup"
+    ::= { irisPerfRow  18 }
+
+--
+-- Table of database sets in an IRIS instance
+--
+
+irisDBTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISDBRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS database sets for a system."
+      ::= { irisObjects 3 }
+
+
+irisDBRow    OBJECT-TYPE
+      SYNTAX      IRISDBRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS database table"
+      INDEX  { irisSysIndex , irisDBIndex }
+      ::= { irisDBTab 1 }
+
+
+IRISDBRow ::=
+    SEQUENCE {
+	irisDBIndex		Integer32,
+	irisDBName		DisplayString,
+	irisDBDir		DisplayString,
+	irisDBStatus		Integer32,
+	irisDBRead		Integer32,
+	irisDBSize		Integer32,
+	irisDBFree		Integer32,
+	irisDBMirrorName	DisplayString
+    }
+
+irisDBIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..256)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for this database"
+    ::= { irisDBRow  1 }
+
+irisDBName	  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The text name of this database from the IRIS instance"
+    ::= { irisDBRow  2 }
+
+irisDBDir	  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The directory for this database file."
+    ::= { irisDBRow  3 }
+
+irisDBStatus  OBJECT-TYPE
+    SYNTAX     	   Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current mount status of the database, Mounted(1) or NotMounted(2)"
+    ::= { irisDBRow  4 }
+
+irisDBRead       OBJECT-TYPE
+    SYNTAX     	   Integer32
+    MAX-ACCESS      read-write
+    STATUS          current
+    DESCRIPTION
+	"The database is currently mounted ReadOnly(1) or ReadWrite(0)"
+    ::= { irisDBRow  5 }
+
+irisDBSize	  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current size of the database file, reported in MB"
+    ::= { irisDBRow  6 }
+
+irisDBFree  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The free space available within database in MB (as reported in the %Monitor.System.Freespace class)."
+    ::= { irisDBRow  7 }
+
+irisDBMirrorName	  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The name of the database used for a Mirror. Blank if this database is not being Mirrored."
+    ::= { irisDBRow  8 }
+    
+--
+-- Table of IRIS ECP Application Server metrics for an instance
+--
+
+irisAppSrvTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISAppSrvRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS ECP Application Server metrics for an instance."
+      ::= { irisObjects 4 }
+
+
+irisAppSrvRow    OBJECT-TYPE
+      SYNTAX      IRISAppSrvRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS ECP Application Server table"
+      INDEX  { irisSysIndex }
+      ::= { irisAppSrvTab 1 }
+
+
+IRISAppSrvRow ::=
+    SEQUENCE {
+	irisAppSrvGloRef		Counter32,
+	irisAppSrvBytesSent		Counter32,
+	irisAppSrvBytesRcv		Counter32
+    }
+
+irisAppSrvGloRef  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of global refs not satisfied from cache"
+    ::= { irisAppSrvRow  1 }
+
+irisAppSrvBytesSent  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of bytes sent from the ECP Application Server"
+    ::= { irisAppSrvRow  2 }
+
+irisAppSrvBytesRcv  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of bytes received by the ECP Application Server"
+    ::= { irisAppSrvRow  3 }
+
+
+--
+-- Table of IRIS ECP Data Server metrics for an instance
+--
+
+irisDataSrvTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISDataSrvRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS ECP Data Server metrics for an instance."
+      ::= { irisObjects 5 }
+
+irisDataSrvRow    OBJECT-TYPE
+      SYNTAX      IRISDataSrvRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS ECP Data Server table"
+      INDEX  { irisSysIndex }
+      ::= { irisDataSrvTab 1 }
+
+IRISDataSrvRow ::=
+    SEQUENCE {
+	irisDataSrvGloRef		Counter32,
+	irisDataSrvReqs			Counter32,
+	irisDataSrvBlkSent		Counter32,
+	irisDataSrvBytesSent		Counter32,
+	irisDataSrvBytesRcv		Counter32
+    }
+
+irisDataSrvGloRef  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of global refs returned by the ECP Data Server"
+    ::= { irisDataSrvRow  1 }
+
+irisDataSrvReqs	  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of requests received by the ECP Data Server"
+    ::= { irisDataSrvRow  2 }
+
+irisDataSrvBlkSent  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of blocks sent by the ECP Data Server"
+    ::= { irisDataSrvRow  3 }
+
+irisDataSrvBytesSent OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of bytes sent by the ECP Data Server"
+    ::= { irisDataSrvRow  4 }
+
+irisDataSrvBytesRcv  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of bytes received by the ECP Data Server"
+    ::= { irisDataSrvRow  5 }
+
+
+--
+-- Table of IRIS resource/seize metrics for an instance
+--
+
+irisResTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISResRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS resource/seize metrics for a system.
+	   
+	   This table lists the different 'resources' that are used to
+	   limit access within the IRIS system code. The names displayed
+	   indicate a brief resource name concatenated with an indicator
+	   of the manner in which the seize occurs.
+
+	   Some common resources are 'Pid' for process related locks, 
+	   'Routine' for routine buffers, and 'Global' for global buffers.
+
+	   Some common ways in which the seize counts are sorted include 'Sz'
+	   which is a count of all resource seizes, 'Nsz' which indicates
+	   a failure to acquire the resource, 'Asz' is a successful spin
+	   lock on a multi-processor system, and 'Dsz'which indicates we
+	   woke the next process on the wait queue."
+      ::= { irisObjects 6 }
+
+
+irisResRow    OBJECT-TYPE
+      SYNTAX      IRISResRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS resource/seize table"
+      INDEX  { irisSysIndex , irisResIndex }
+      ::= { irisResTab 1 }
+
+
+IRISResRow ::=
+    SEQUENCE {
+	irisResIndex		Integer32,
+	irisResName		DisplayString,
+	irisResCount		Counter32
+    }
+
+irisResIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..1024)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for this resource/seize_type combination"
+    ::= { irisResRow  1 }
+
+irisResName	  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"A name created by concatenating the resource and seize type, e.g. Pid-Nsz"
+    ::= { irisResRow  2 }
+
+irisResCount	  OBJECT-TYPE
+    SYNTAX          Counter32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The count of the number of times this resource/seize has occurred"
+    ::= { irisResRow  3 }
+
+
+
+
+--
+-- Table of IRIS global buffer metrics for an instance
+--
+
+irisBuffTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISBuffRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS global buffer metrics (indexed by counter of different 
+           buffer sizes, 2k, 8k etc)"
+	   
+      ::= { irisObjects 7 }
+
+
+irisBuffRow    OBJECT-TYPE
+      SYNTAX      IRISBuffRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS global buffer table"
+      INDEX  { irisSysIndex , irisBuffIndex }
+      ::= { irisBuffTab 1 }
+
+
+IRISBuffRow ::=
+    SEQUENCE {
+	irisBuffIndex		Integer32,
+	irisBuffSize		Integer32,
+	irisBuffNum		Integer32,
+	irisBuffBatchQ		Integer32,
+	irisBuffInt		Integer32,
+	irisBuffMaxInt		Integer32,
+	irisBuffMinReQ		Integer32,
+	irisBuffMinReQB		Integer32,
+	irisBuffReQCnt		Integer32,
+	irisBuffReQCntB		Integer32,
+	irisBuffWrtQSz		Integer32,
+	irisBuffOffLRUCnt	Integer32,
+	irisBuffWrtSz		Integer32,
+	irisBuffWrtMax		Integer32,
+	irisBuffAvail		Integer32,
+	irisBuffMin		Integer32,
+	irisBuffMinB		Integer32
+    }
+
+irisBuffIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..16)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for different size buffer pools"
+    ::= { irisBuffRow  1 }
+
+irisBuffSize   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The buffer size for this queue"
+    ::= { irisBuffRow  2 }
+
+irisBuffNum   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of buffers of this size"
+    ::= { irisBuffRow  3 }
+
+irisBuffBatchQ   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The offset to the start of the LRU queue for this buffer"
+    ::= { irisBuffRow  4 }
+
+irisBuffInt   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current number of buffers in the interactive portion of the LRU queue"
+    ::= { irisBuffRow  5 }
+
+irisBuffMaxInt   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The max number of buffers in the interactive portion of the LRU queue"
+    ::= { irisBuffRow  6 }
+
+irisBuffMinReQ   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The threshold for re-queueing a buffer (interactive)"
+    ::= { irisBuffRow  7 }
+
+irisBuffMinReQB   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The threshold for re-queueing a buffer (batch)"
+    ::= { irisBuffRow  8 }
+
+irisBuffReQCnt   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of buffers requeued in the interactive LRU queue"
+    ::= { irisBuffRow  9 }
+
+irisBuffReQCntB   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of buffers requeued in the batch LRU queue"
+    ::= { irisBuffRow  10 }
+
+irisBuffWrtQSz   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current number of interactive buffers queued to be written"
+    ::= { irisBuffRow  11 }
+
+irisBuffOffLRUCnt  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of buffers removed from the LRU queue"
+    ::= { irisBuffRow  12 }
+
+irisBuffWrtSz   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of buffers in the current write cycle "
+    ::= { irisBuffRow  13 }
+
+irisBuffWrtMax   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The threshold for waking the write demon (interactive)"
+    ::= { irisBuffRow  14 }
+
+irisBuffAvail   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current number of avaiable buffers (interactive)"
+    ::= { irisBuffRow  15 }
+
+irisBuffMin   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The threshold for no updaters to enter the global module (interactive)"
+    ::= { irisBuffRow  16 }
+
+irisBuffMinB   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The threshold for no updaters to enter the global module (batch)"
+    ::= { irisBuffRow  17 }
+
+
+
+--
+-- Table of IRIS Write Demon status metrics for an instance
+--
+
+irisWDTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISWDRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS Write Demon status metrics (indexed by integer indicating WD (master=1) )"	   
+      ::= { irisObjects 8 }
+
+
+irisWDRow    OBJECT-TYPE
+      SYNTAX      IRISWDRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for Write Demon metrics table"
+      INDEX  { irisSysIndex , irisWDIndex }
+      ::= { irisWDTab 1 }
+
+
+IRISWDRow ::=
+    SEQUENCE {
+	irisWDIndex		Integer32,
+	irisWDCurBlk		Integer32,
+	irisWDTotBlk		Integer32,
+	irisWDCycles		Integer32,
+	irisWDCycleBlk		Integer32,
+	irisWDVolumeQ		DisplayString
+    }
+
+irisWDIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..16)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for this Write Demon"
+    ::= { irisWDRow  1 }
+
+irisWDCurBlk   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number blocks written by the Write Demon in this current cycle"
+    ::= { irisWDRow  2 }
+
+irisWDTotBlk   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The cumulative number of blocks written by this Write Demon"
+    ::= { irisWDRow  3 }
+
+irisWDCycles   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of active cycles completed by this Write Demon"
+    ::= { irisWDRow  4 }
+
+irisWDCycleBlk   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The average number of blocks written by this Write Demon per cycle"
+    ::= { irisWDRow  5 }
+
+irisWDVolumeQ   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"A list of databases served by this Write Demon"
+    ::= { irisWDRow  6 }
+
+--
+-- Table of IRIS Shadow Journaling Source connections for an instance
+--
+
+irisShadowSrcTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISShadowSrcRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS Shadow Journaling Source connections for an instance"	   
+      ::= { irisObjects 9 }
+
+
+irisShadowSrcRow    OBJECT-TYPE
+      SYNTAX      IRISShadowSrcRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for Write Demon metrics table"
+      INDEX  { irisSysIndex , irisShadowSrcIndex }
+      ::= { irisShadowSrcTab 1 }
+
+
+IRISShadowSrcRow ::=
+    SEQUENCE {
+	irisShadowSrcIndex		Integer32,
+	irisShadowSrcPort		DisplayString,
+	irisShadowSrcAddress		DisplayString,
+	irisShadowSrcJournal		DisplayString,
+	irisShadowSrcPID		DisplayString,
+	irisShadowSrcLatency		DisplayString,
+	irisShadowSrcRate		Integer32
+    }
+
+irisShadowSrcIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..256)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for for each Shadow Source connection"
+    ::= { irisShadowSrcRow  1 }
+
+irisShadowSrcPort   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The Superserver port number of the IRIS source instance."
+    ::= { irisShadowSrcRow  2 }
+
+irisShadowSrcAddress   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The IP address of the shadow destination machine."
+    ::= { irisShadowSrcRow  3 }
+
+irisShadowSrcJournal   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The full directory path and file name of journal file currently being copied."
+    ::= { irisShadowSrcRow  4 }
+
+irisShadowSrcPID   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The Process ID number of the shadow journal copying process."
+    ::= { irisShadowSrcRow  5 }
+
+irisShadowSrcLatency   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"Estimated time for the shadow to catch up copying the source journal file."
+    ::= { irisShadowSrcRow  6 }
+
+irisShadowSrcRate   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"Rate in KBs per second that the shadow is copying the source journal files."
+    ::= { irisShadowSrcRow  7 }
+
+
+--
+-- Table of IRIS Destination Shadow Servers for an instance
+--
+
+irisShadowDestTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISShadowDestRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS Destination Shadow Server metrics"	   
+      ::= { irisObjects 10 }
+
+irisShadowDestRow    OBJECT-TYPE
+      SYNTAX      IRISShadowDestRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for Destination Shadow Server metrics table"
+      INDEX  { irisSysIndex , irisShadowDestIndex }
+      ::= { irisShadowDestTab 1 }
+
+IRISShadowDestRow ::=
+    SEQUENCE {
+	irisShadowDestIndex		Integer32,
+	irisShadowDestName		DisplayString,
+	irisShadowDestStatus		DisplayString,
+	irisShadowDestCheckpoint	DisplayString,
+	irisShadowDestErrors		Integer32,
+	irisShadowDestOpenTx		Integer32,
+	irisShadowDestLatency		DisplayString
+    }
+
+irisShadowDestIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..256)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for each Destination Shadow Server."
+    ::= { irisShadowDestRow  1 }
+
+irisShadowDestName   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The name of the Destination Shadow Server."
+    ::= { irisShadowDestRow  2 }
+
+irisShadowDestStatus   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"One of three shadowing states: 'stopped', 'processing', 'suspended'."
+    ::= { irisShadowDestRow  3 }
+
+irisShadowDestCheckpoint   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"Offset location in the shadow copy of the journal where it is safe to resume processing."
+    ::= { irisShadowDestRow  4 }
+
+irisShadowDestErrors   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of errors reported on the shadow destination."
+    ::= { irisShadowDestRow  5 }
+
+irisShadowDestOpenTx   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of open transactions on the shadow (if any). "
+    ::= { irisShadowDestRow  6 }
+
+irisShadowDestLatency   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"Estimated time to process current journal records copied from the source."
+    ::= { irisShadowDestRow  7 }
+
+    
+--
+-- Table of IRIS Journal status and metrics for an instance
+--
+
+irisJournalTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISJournalRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS Journal status and metrics for an instance."
+      ::= { irisObjects 11 }
+
+irisJournalRow    OBJECT-TYPE
+      SYNTAX      IRISJournalRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS Journal table"
+      INDEX  { irisSysIndex }
+      ::= { irisJournalTab 1 }
+
+IRISJournalRow ::=
+    SEQUENCE {
+	irisJournalStatus		DisplayString,
+	irisJournalDirectory		DisplayString,
+	irisJournalSpace		Integer32,
+	irisJournalSecondDir		DisplayString,
+	irisJournalFile			DisplayString,
+	irisJournalFileMax		Integer32,
+	irisJournalFileUsed		Integer32
+    }
+
+irisJournalStatus  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current status of Journaling for this IRIS instance, 'Enabled', 'Disabled', 'Suspended', 'Frozen', 'Paused'."
+    ::= { irisJournalRow  1 }
+
+irisJournalDirectory	  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The directory currently in use for journaling."
+    ::= { irisJournalRow  2 }
+
+irisJournalSpace  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The amount of free space (in MB) available in the current journaling directory."
+    ::= { irisJournalRow  3 }
+
+irisJournalSecondDir OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The directory to be used as the secondary journaling directory."
+    ::= { irisJournalRow  4 }
+
+irisJournalFile   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The name of the current journaling file"
+    ::= { irisJournalRow  5 }
+
+irisJournalFileMax   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The maximum size possible (in MB) for current journal file."
+    ::= { irisJournalRow  6 }
+
+irisJournalFileUsed   OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The amount of space (in MB) used in current journal file."
+    ::= { irisJournalRow  7 }
+
+--
+-- Table of IRIS Mirroring status and metrics for an instance
+--
+
+irisMirrorTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISMirrorRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of IRIS Mirror Members status and metrics. This table will return a 
+	  single instance with a blank irisMirrorMember if there is no Mirror."	   
+      ::= { irisObjects 12 }
+
+irisMirrorRow    OBJECT-TYPE
+      SYNTAX      IRISMirrorRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for Mirror Members status and metrics table"
+      INDEX  { irisSysIndex , irisMirrorIndex }
+      ::= { irisMirrorTab 1 }
+
+IRISMirrorRow ::=
+    SEQUENCE {
+	irisMirrorIndex			Integer32,
+	irisMirrorName			DisplayString,
+	irisMirrorMember		DisplayString,
+	irisMirrorRole			DisplayString,
+	irisMirrorStatus		DisplayString,
+	irisMirrorJrnLatency		DisplayString,
+	irisMirrorDBLatency		DisplayString
+    }
+
+irisMirrorIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..256)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for each member of the Mirror set."
+    ::= { irisMirrorRow  1 }
+
+irisMirrorName   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The name of the Mirror. Note that Async Members can be part of more than one Mirror. In this case the table
+	will list all members of one Mirror and then all members of the next Mirror(s)."
+    ::= { irisMirrorRow  2 }
+
+irisMirrorMember   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The name of the Mirror Member."
+    ::= { irisMirrorRow  3 }
+
+irisMirrorRole   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The role of this Mirror Member 'Primary', 'Backup', or 'Async'."
+    ::= { irisMirrorRow  4 }
+
+irisMirrorStatus   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current status of this Mirror Member, either 'Active' or 'Activate'."
+    ::= { irisMirrorRow  5 }
+
+irisMirrorJrnLatency   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The Mirror Member journal latency 'Caught up', 'Catchup', or 'N/A'."
+    ::= { irisMirrorRow  6 }
+
+irisMirrorDBLatency   OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The Mirror Member database latency 'Caught up', 'Catchup', or 'N/A'. "
+    ::= { irisMirrorRow  7 }
+
+--
+-- A list of IRIS Processes, the top 20 by Commands Executed
+--
+
+irisProcTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISProcRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "A table of IRIS processes, the list of the top 20 processes by Commands Executed."
+      ::= { irisObjects 13 }
+
+
+irisProcRow    OBJECT-TYPE
+      SYNTAX      IRISProcRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS Process list"
+      INDEX  { irisSysIndex , irisProcIndex}
+      ::= { irisProcTab 1 }
+
+
+IRISProcRow ::=
+    SEQUENCE {
+	irisProcIndex		Integer32,
+	irisProcID		DisplayString,
+	irisProcDev		DisplayString,
+	irisProcNamespace	DisplayString,
+	irisProcRoutine		DisplayString,
+	irisProcCommands	Integer32,
+	irisProcGloRefs		Integer32,
+	irisProcPriority	Integer32,
+	irisProcUser		DisplayString,
+	irisProcState		DisplayString
+    }
+
+irisProcIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..256)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A positional integer index for each Process."
+    ::= { irisProcRow  1 }
+
+irisProcID  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The PID for this Process"
+    ::= { irisProcRow  2 }
+
+irisProcDev  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current device for this Process"
+    ::= { irisProcRow  3 }
+
+irisProcNamespace  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current namespace for this Process."
+    ::= { irisProcRow  4 }
+
+irisProcRoutine  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          obsolete
+    DESCRIPTION
+	"The current routine being executed by this Process."
+    ::= { irisProcRow  5 }
+
+irisProcCommands  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of commands executed by this Process for the last collection period"
+    ::= { irisProcRow  6 }
+
+irisProcGloRefs  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of global references by this Process for the last collection period."
+    ::= { irisProcRow  7 }
+
+irisProcPriority  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current priority of this Process."
+    ::= { irisProcRow  8 }
+
+irisProcUser  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The user name (or system function) for this Process."
+    ::= { irisProcRow  9 }
+
+irisProcState  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current state of this Process (e.g. RUNW, HANGW, READ, see %SYS.ProcessQuery.State)."
+    ::= { irisProcRow  10 }
+    
+
+
+--
+-- A list of IRIS Processes, the top 20 by Global References
+--
+
+irisProcGTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF IRISProcGRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "A table of IRIS processes, the list of the top 20 processes by Global References."
+      ::= { irisObjects 14 }
+
+
+irisProcGRow    OBJECT-TYPE
+      SYNTAX      IRISProcGRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for IRIS Process list"
+      INDEX  { irisSysIndex , irisProcGIndex}
+      ::= { irisProcGTab 1 }
+
+
+IRISProcGRow ::=
+    SEQUENCE {
+	irisProcGIndex		Integer32,
+	irisProcGID		DisplayString,
+	irisProcGDev		DisplayString,
+	irisProcGNamespace	DisplayString,
+	irisProcGRoutine	DisplayString,
+	irisProcGCommands	Integer32,
+	irisProcGGloRefs	Integer32,
+	irisProcGPriority	Integer32,
+	irisProcGUser		DisplayString,
+	irisProcGState		DisplayString
+    }
+
+irisProcGIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..256)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A positional integer index for each Process."
+    ::= { irisProcGRow  1 }
+
+irisProcGID  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The PID for this Process"
+    ::= { irisProcGRow  2 }
+
+irisProcGDev  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current device for this Process"
+    ::= { irisProcGRow  3 }
+
+irisProcGNamespace  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current namespace for this Process."
+    ::= { irisProcGRow  4 }
+
+irisProcGRoutine  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          obsolete
+    DESCRIPTION
+	"The current routine being executed by this Process."
+    ::= { irisProcGRow  5 }
+
+irisProcGCommands  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of commands executed by this Process for the last collection period"
+    ::= { irisProcGRow  6 }
+
+irisProcGGloRefs  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The number of global references by this Process for the last collection period."
+    ::= { irisProcGRow  7 }
+
+irisProcGPriority  OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current priority of this Process."
+    ::= { irisProcGRow  8 }
+
+irisProcGUser  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The user name (or system function) for this Process."
+    ::= { irisProcGRow  9 }
+
+irisProcGState  OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current state of this Process (e.g. RUNW, HANGW, READ, see %SYS.ProcessQuery.State)."
+    ::= { irisProcGRow  10 }
+    
+--
+-- Table of Interoperability Productions on a system
+--
+
+irisProdTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF EnsProdRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of Interoperability Productions on this system. Each Production 
+           is associated with an IRIS instance and namespace, and there may 
+           be multiple Productions on a system (but for each IRIS namespace,
+           only one Production may be running)."
+      ::= { irisObjects 15 }
+
+
+irisProdRow    OBJECT-TYPE
+      SYNTAX      EnsProdRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for the table of Interoperability Productions"
+      INDEX  { irisSysIndex, irisProdIndex }
+      ::= { irisProdTab 1 }
+
+
+EnsProdRow ::=
+    SEQUENCE {
+    	irisProdIndex		Integer32,
+    	irisProdName		DisplayString,
+    	irisProdNamespace	DisplayString,
+	irisProdStatus 		DisplayString,
+	irisProdStart     	DisplayString,
+	irisProdStop 		DisplayString
+    }
+
+irisProdIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..256)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for this Production"
+    ::= { irisProdRow  1 }
+
+irisProdName     OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The name of the Interoperability Production."
+    ::= { irisProdRow  2 }
+
+irisProdNamespace     OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The IRIS Namespace for this Production."
+    ::= { irisProdRow  3 }
+
+irisProdStatus     OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The current status of the Production. One of the following strings: 
+        Running, Suspended, Troubled, Stopped, or NetworkStopped."
+    ::= { irisProdRow  4 }
+
+irisProdStart     OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The date-time this Production was last started."
+    ::= { irisProdRow  5 }
+
+irisProdStop      OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The date-time this Production was last stopped."
+    ::= { irisProdRow  6 }
+
+--
+-- Table of Interoperability Event Log entries on a system
+--
+
+irisEvtLogTab	OBJECT-TYPE
+      SYNTAX      SEQUENCE OF EnsEvtLogRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "The table of Interoperability Event Log entries on a system. The Event 
+           Log is associated with a specific IRIS instance and namespace.
+           There may be multiple Event Logs on a system. "
+      ::= { irisObjects 16 }
+
+
+irisEvtLogRow    OBJECT-TYPE
+      SYNTAX      EnsEvtLogRow
+      MAX-ACCESS  not-accessible
+      STATUS      current
+      DESCRIPTION
+          "Conceptual row for Interoperability Production table"
+      INDEX  { irisSysIndex, irisEvtLogNSIndex, irisEvtLogIndex }
+      ::= { irisEvtLogTab 1 }
+
+
+EnsEvtLogRow ::=
+    SEQUENCE {
+    	irisEvtLogNSIndex	Integer32,
+    	irisEvtLogIndex		Integer32,
+    	irisEvtLogNamespace	DisplayString,
+    	irisEvtLogID		Integer32,
+	irisEvtLogTime 		DisplayString,
+	irisEvtLogType     	DisplayString,
+	irisEvtLogJob 		DisplayString,
+	irisEvtLogSession	DisplayString,
+	irisEvtLogSource	DisplayString,
+	irisEvtLogMethod	DisplayString,
+	irisEvtLogText 		DisplayString
+    }
+
+irisEvtLogNSIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..2048)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"An integer index to the Namespace for this Event Log"
+    ::= { irisEvtLogRow  1 }
+
+irisEvtLogIndex   OBJECT-TYPE
+    SYNTAX          Integer32 (1..2048)
+    MAX-ACCESS      not-accessible
+    STATUS          current
+    DESCRIPTION
+	"A unique integer index for this Event Log entry"
+    ::= { irisEvtLogRow  2 }
+
+irisEvtLogNamespace     OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The IRIS Namespace for this Event Log."
+    ::= { irisEvtLogRow  3 }
+
+irisEvtLogID     OBJECT-TYPE
+    SYNTAX          Integer32
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The unique identifier for the message that comprises this event log entry."
+    ::= { irisEvtLogRow  4 }
+
+irisEvtLogTime     OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The date and time when this entry was logged."
+    ::= { irisEvtLogRow  5 }
+
+irisEvtLogType     OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"Indicates the type of entry: Alert, Assert, Error, Info, Status, Trace, or Warning."
+    ::= { irisEvtLogRow  6 }
+
+irisEvtLogJob      OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The system job that hosted the event."
+    ::= { irisEvtLogRow  7 }
+
+irisEvtLogSession      OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The unique identifier for the session associated with this message."
+    ::= { irisEvtLogRow  8 }
+
+irisEvtLogSource      OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The configuration item (service, process, or operation) that sent the message."
+    ::= { irisEvtLogRow  9 }
+
+irisEvtLogMethod      OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The host class method that was in progress when the event was logged."
+    ::= { irisEvtLogRow  10 }
+
+irisEvtLogText      OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      read-only
+    STATUS          current
+    DESCRIPTION
+	"The text string associated with the event log entry."
+    ::= { irisEvtLogRow  11 }
+
+----------------------------------------------------------------
+
+irisTraps OBJECT IDENTIFIER ::= { iscIRIS 2 }
+
+irisStart NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisStart trap indicates that the IRIS instance
+         has been started."
+    ::= { irisTraps 1 }
+
+irisStop NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"A irisStop trap indicates that the IRIS instance
+         is in the process of shutting down."
+    ::= { irisTraps 2 }
+
+irisDBExpand NOTIFICATION-TYPE
+    OBJECTS     { irisSysName, irisDBName }
+    STATUS      current
+    DESCRIPTION
+	"An irisDBExpand trap indicates the successful expansion of an
+         IRIS database."
+    ::= { irisTraps 3 }
+
+irisDBOutOfSpace NOTIFICATION-TYPE
+    OBJECTS     { irisSysName, irisDBName }
+    STATUS      current
+    DESCRIPTION
+	"An irisDBOutOfSpace trap indicates that there is a potential
+	 problem in the future expansion of an IRIS database. The database
+	 is approaching its maximum size or the disk is nearly full."
+    ::= { irisTraps 4 }
+
+irisDBStatusChange NOTIFICATION-TYPE
+    OBJECTS     { irisSysName, irisDBName, irisDBRead }
+    STATUS      current
+    DESCRIPTION
+	"An irisDBStatusChange trap indicates that the read/write 
+         status of an IRIS database has been changed."
+    ::= { irisTraps 5 }
+
+irisDBAccessFail NOTIFICATION-TYPE
+    OBJECTS     { irisSysName, irisDBName, irisDBError }
+    STATUS      current
+    DESCRIPTION
+	"An irisDBAccessFail trap indicates that an error occurred trying
+	 to access an IRIS database, this my be either read or write
+	 access. It includes the IRIS error code for the failed access,
+	 either DATABASE or DISKHARD."
+    ::= { irisTraps 6 }
+
+irisWDStop NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisWriteDemonStop trap indicates that the Write Demon
+         of an IRIS instance has stalled."
+    ::= { irisTraps 7 }
+
+irisWDPanic NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisWDPanic trap indicates that the Write Demon for an IRIS
+         instance has entered 'panic' mode. That is the Write Demon
+         is out of buffers and must write database blocks directly to disk
+         without first commiting them to the Write Image Journal file."
+    ::= { irisTraps 8 }
+
+irisLockTableFull NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisLockTableFull trap indicates that the lock table for
+         an IRIS instance is full, causing subsequent Locks to fail."
+    ::= { irisTraps 9 }
+
+irisProcessFail NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisProcessFail trap indicates that a process has abnormally
+         exited IRIS due to an access violation. Check the console log
+         of the instance for further details."
+    ::= { irisTraps 10 }
+
+irisECPTroubleDSrv NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisECPTroubleDSrv trap indicates that a connection to this 
+	 ECP Data Server for an IRIS database has encountered a serious 
+	 communication problem. Check the console log of the instance
+	 for further details"
+    ::= { irisTraps 11 }
+
+irisECPTroubleASrv NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisECPTroubleASrv trap indicates that a connection from this 
+	 ECP Application Server to a remote IRIS database has encountered a serious 
+	 communication problem. Check the console log of the instance
+	 for further details"
+    ::= { irisTraps 12 }
+
+irisAuditLost NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisAuditLost trap indicates that system has failed to record
+	 an Audit event. The most likely cause is a problem with space for
+	 the Audit database, and requires operator asssitance."
+    ::= { irisTraps 13 }
+
+irisLoggedError NOTIFICATION-TYPE
+    OBJECTS     { irisSysName, irisSysErrorMsg }
+    STATUS      current
+    DESCRIPTION
+	"An irisLoggedError trap indicates that a 'severe' error has been
+	 logged in the IRIS console log. The trap will include the error
+	 message as defined in irisSysErrorMsg."
+    ::= { irisTraps 14 }
+
+irisLicenseExceed NOTIFICATION-TYPE
+    OBJECTS     { irisSysName }
+    STATUS      current
+    DESCRIPTION
+	"An irisLicenseExceed trap indicates that a request for a license 
+	 has exceeded the number licenses currently available or allowed."
+    ::= { irisTraps 15 }
+
+irisEventLogPost NOTIFICATION-TYPE
+    OBJECTS     { irisSysName, irisEvtLogNamespace, irisEvtLogID, irisEvtLogTime, irisEvtLogType, irisEvtLogText, irisEvtLogSource }
+    STATUS      current
+    DESCRIPTION
+	"An entry posted in the Interoperability Event Log."
+    ::= { irisTraps 16 }
+
+    irisAppAlert NOTIFICATION-TYPE
+    OBJECTS     { irisSysName, irisApp, irisAppSeverity, irisAppText }
+    STATUS      current
+    DESCRIPTION
+	"A generic trap that can be used by IRIS applications to generate alerts
+	 via SNMP. See the %Monitor.Alert.External class method for details about
+	 how this can be used. It includes the name of the application, a severity
+	 code, and a text description of the event."
+    ::= { irisTraps 100 }
+
+
+----------------------------------------------------------------
+
+irisTrapInfo OBJECT IDENTIFIER ::= { iscIRIS 3 }
+
+--
+-- IRIS auxiliary information only sent in traps
+--
+
+irisDBError OBJECT-TYPE
+    SYNTAX          DisplayString
+    MAX-ACCESS      accessible-for-notify
+    STATUS          current
+    DESCRIPTION
+	"The IRIS specific error code for a failed database access.
+	 Possible values are:  <DATABASE> or <DISKHARD>"
+    ::= { irisTrapInfo  1 }
+
+irisApp OBJECT-TYPE
+    SYNTAX          DisplayString(SIZE (20))
+    MAX-ACCESS      accessible-for-notify
+    STATUS          current
+    DESCRIPTION
+	"A brief string which identifies the application which
+	 has generated, or source of, a cachAppAlert trap."
+    ::= { irisTrapInfo  2 }
+    
+irisAppSeverity OBJECT-TYPE
+    SYNTAX          Integer32 (0..3)
+    MAX-ACCESS      accessible-for-notify
+    STATUS          current
+    DESCRIPTION
+	"A code indicating the severity of the problem for a cachAppAlert trap, 
+	 where 0=info, 1=warning, 2=severe, 3=fatal."
+    ::= { irisTrapInfo  3 }
+    
+irisAppText OBJECT-TYPE
+    SYNTAX          DisplayString(SIZE (1024))
+    MAX-ACCESS      accessible-for-notify
+    STATUS          current
+    DESCRIPTION
+	"The text description of the problem, error or event which caused
+	 the cachAppAlert trap to be broadcast."
+    ::= { irisTrapInfo  4 }
+    
+
+
+
+----------------------------------------------------------------
+
+END
