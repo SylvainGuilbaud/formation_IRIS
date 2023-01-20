@@ -45,24 +45,11 @@
       "showSystem": false,
       "previewLimit": 50,
       "server": "localhost",
-      "port": 12775,
+      "port": 12773,
       "askForPassword": false,
       "driver": "InterSystems IRIS",
       "name": "IRISAPP",
       "username": "_SYSTEM",
-      "password": "SYS"
-    },
-    {
-      "namespace": "IRISAPP",
-      "connectionMethod": "Server and Port",
-      "showSystem": false,
-      "previewLimit": 50,
-      "server": "localhost",
-      "port": 12773,
-      "askForPassword": false,
-      "driver": "InterSystems IRIS",
-      "name": "FORMATION-IRIS",
-      "username": "_system",
       "password": "SYS"
     }
   ]
