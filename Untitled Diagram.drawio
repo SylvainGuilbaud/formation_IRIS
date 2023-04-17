@@ -1,11 +1,13 @@
-<mxfile host="app.diagrams.net" modified="2023-04-17T16:30:25.974Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="5ikrtWO5f3n0l2hnpC6u" version="21.1.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-17T17:33:52.351Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="phLtwjJPYHE1NB1xoCA6" version="21.1.8" type="github">
   <diagram name="Page-1" id="I7xTnPxRHZJP-MAULyoQ">
     <mxGraphModel dx="1222" dy="795" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-49" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;shape=flexArrow;strokeColor=#B3B3B3;" edge="1" parent="1" source="NS_PCVdNuBJ5CIJFDRs9-2" target="NS_PCVdNuBJ5CIJFDRs9-6">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-49" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;shape=flexArrow;strokeColor=#B3B3B3;" edge="1" parent="1" target="NS_PCVdNuBJ5CIJFDRs9-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="239" y="255.3950000000001" as="sourcePoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-2" value="&lt;b&gt;&lt;font color=&quot;#b3b3b3&quot;&gt;serveur source&lt;/font&gt;&lt;/b&gt;" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#B3B3B3;shape=mxgraph.mscae.enterprise.windows_server" vertex="1" parent="1">
           <mxGeometry x="10" y="110" width="229" height="293.59" as="geometry" />
@@ -16,11 +18,13 @@
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-5" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" vertex="1" parent="1">
           <mxGeometry x="660" y="440" width="37" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-50" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.505;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;shape=flexArrow;strokeColor=#000099;" edge="1" parent="1" source="NS_PCVdNuBJ5CIJFDRs9-6" target="NS_PCVdNuBJ5CIJFDRs9-3">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-50" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.505;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;shape=flexArrow;strokeColor=#000099;" edge="1" parent="1" source="NS_PCVdNuBJ5CIJFDRs9-6">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="255.3950000000001" as="targetPoint" />
+          </mxGeometry>
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-6" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#000099;shape=mxgraph.mscae.enterprise.connectors;direction=east;" vertex="1" parent="1">
-          <mxGeometry x="370" y="246.4" width="70" height="47.6" as="geometry" />
+          <mxGeometry x="370" y="252" width="70" height="47.6" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-10" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" vertex="1" parent="1">
           <mxGeometry x="697" y="450" width="37" height="50" as="geometry" />
@@ -108,6 +112,24 @@
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-48" value="&lt;font color=&quot;#000099&quot;&gt;iris.cpf&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#000099;" vertex="1" parent="1">
           <mxGeometry x="585" y="492" width="54.5" height="86" as="geometry" />
+        </mxCell>
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-54" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/OS_Images_Classic.svg;fontColor=#B3B3B3;labelBorderColor=#B3B3B3;" vertex="1" parent="1">
+          <mxGeometry x="18" y="674" width="50" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-55" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Security_Center.svg;" vertex="1" parent="1">
+          <mxGeometry x="48" y="663" width="25" height="34.72" as="geometry" />
+        </mxCell>
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-56" value="&lt;font color=&quot;#b3b3b3&quot;&gt;Security.System&lt;br&gt;ExportAll&lt;br&gt;&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#B3B3B3;" vertex="1" parent="1">
+          <mxGeometry x="62.5" y="694" width="101.5" height="83" as="geometry" />
+        </mxCell>
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-57" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/OS_Images_Classic.svg;fontColor=#B3B3B3;labelBorderColor=#B3B3B3;" vertex="1" parent="1">
+          <mxGeometry x="593" y="663" width="50" height="46" as="geometry" />
+        </mxCell>
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-58" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Security_Center.svg;" vertex="1" parent="1">
+          <mxGeometry x="623" y="652" width="25" height="34.72" as="geometry" />
+        </mxCell>
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-59" value="&lt;font color=&quot;#000099&quot;&gt;Security.System&lt;br&gt;ImportAll&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#000099;" vertex="1" parent="1">
+          <mxGeometry x="637.5" y="683" width="101.5" height="83" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
