@@ -1,51 +1,51 @@
-<mxfile host="app.diagrams.net" modified="2023-04-18T09:28:39.366Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="qhBFDzOqdIuuH8eBJYT9" version="21.1.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-04-18T09:31:39.723Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36" etag="qlNv_-XYdMyScgBRWgk4" version="21.1.8" type="github">
   <diagram name="Page-1" id="I7xTnPxRHZJP-MAULyoQ">
-    <mxGraphModel dx="1055" dy="738" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+    <mxGraphModel dx="1191" dy="738" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-49" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;shape=flexArrow;strokeColor=#B3B3B3;" parent="1" target="NS_PCVdNuBJ5CIJFDRs9-6" edge="1">
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-49" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;shape=flexArrow;strokeColor=#B3B3B3;exitX=0.616;exitY=0.136;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" target="NS_PCVdNuBJ5CIJFDRs9-6" edge="1" source="NS_PCVdNuBJ5CIJFDRs9-2">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="239" y="255.3950000000001" as="sourcePoint" />
+            <mxPoint x="239" y="161.3950000000001" as="sourcePoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-2" value="&lt;b&gt;&lt;font color=&quot;#b3b3b3&quot;&gt;serveur source&lt;/font&gt;&lt;/b&gt;" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#B3B3B3;shape=mxgraph.mscae.enterprise.windows_server" parent="1" vertex="1">
           <mxGeometry x="10" y="110" width="229" height="293.59" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-3" value="&lt;b&gt;&lt;font color=&quot;#000099&quot;&gt;serveur cible&lt;/font&gt;&lt;/b&gt;" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.windows_server" parent="1" vertex="1">
-          <mxGeometry x="713" y="108" width="229" height="293.59" as="geometry" />
+          <mxGeometry x="735" y="108" width="229" height="293.59" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-5" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
-          <mxGeometry x="793" y="438" width="37" height="50" as="geometry" />
+          <mxGeometry x="815" y="438" width="37" height="50" as="geometry" />
         </mxCell>
-        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-50" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.505;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;shape=flexArrow;strokeColor=#000099;" parent="1" source="NS_PCVdNuBJ5CIJFDRs9-6" edge="1" target="NS_PCVdNuBJ5CIJFDRs9-3">
+        <mxCell id="NS_PCVdNuBJ5CIJFDRs9-50" style="edgeStyle=orthogonalEdgeStyle;rounded=1;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.505;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.004;entryY=0.157;entryDx=0;entryDy=0;entryPerimeter=0;shape=flexArrow;strokeColor=#000099;" parent="1" source="NS_PCVdNuBJ5CIJFDRs9-6" edge="1" target="NS_PCVdNuBJ5CIJFDRs9-3">
           <mxGeometry relative="1" as="geometry">
-            <mxPoint x="580" y="255.3950000000001" as="targetPoint" />
+            <mxPoint x="713" y="160.79499999999996" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-6" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#000099;shape=mxgraph.mscae.enterprise.connectors;direction=east;" parent="1" vertex="1">
-          <mxGeometry x="431" y="250.4" width="70" height="47.6" as="geometry" />
+          <mxGeometry x="431" y="156.4" width="70" height="47.6" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-10" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
-          <mxGeometry x="830" y="448" width="37" height="50" as="geometry" />
+          <mxGeometry x="852" y="448" width="37" height="50" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-17" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
-          <mxGeometry x="803" y="488" width="37" height="50" as="geometry" />
+          <mxGeometry x="825" y="488" width="37" height="50" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-18" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
-          <mxGeometry x="840" y="498" width="37" height="50" as="geometry" />
+          <mxGeometry x="862" y="498" width="37" height="50" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-19" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
-          <mxGeometry x="811.5" y="538" width="37" height="50" as="geometry" />
+          <mxGeometry x="833.5" y="538" width="37" height="50" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-20" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
-          <mxGeometry x="848.5" y="548" width="37" height="50" as="geometry" />
+          <mxGeometry x="870.5" y="548" width="37" height="50" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-21" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
-          <mxGeometry x="821.5" y="588" width="37" height="50" as="geometry" />
+          <mxGeometry x="843.5" y="588" width="37" height="50" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-22" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
-          <mxGeometry x="858.5" y="598" width="37" height="50" as="geometry" />
+          <mxGeometry x="880.5" y="598" width="37" height="50" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-24" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#B3B3B3;shape=mxgraph.mscae.enterprise.database_generic" parent="1" vertex="1">
           <mxGeometry x="70" y="450" width="37" height="50" as="geometry" />
@@ -90,28 +90,28 @@
           <mxGeometry x="212.5" y="618" width="50" height="34" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-40" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.application" parent="1" vertex="1">
-          <mxGeometry x="895.5" y="438" width="50" height="34" as="geometry" />
+          <mxGeometry x="917.5" y="438" width="50" height="34" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-42" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.application" parent="1" vertex="1">
-          <mxGeometry x="905.5" y="472" width="50" height="34" as="geometry" />
+          <mxGeometry x="927.5" y="472" width="50" height="34" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-43" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.application" parent="1" vertex="1">
-          <mxGeometry x="915.5" y="506" width="50" height="34" as="geometry" />
+          <mxGeometry x="937.5" y="506" width="50" height="34" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-44" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.application" parent="1" vertex="1">
-          <mxGeometry x="925.5" y="540" width="50" height="34" as="geometry" />
+          <mxGeometry x="947.5" y="540" width="50" height="34" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-45" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.application" parent="1" vertex="1">
-          <mxGeometry x="935.5" y="574" width="50" height="34" as="geometry" />
+          <mxGeometry x="957.5" y="574" width="50" height="34" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-46" value="" style="sketch=0;aspect=fixed;pointerEvents=1;shadow=0;dashed=0;html=1;strokeColor=none;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;align=center;fillColor=#00188D;shape=mxgraph.mscae.enterprise.application" parent="1" vertex="1">
-          <mxGeometry x="945.5" y="608" width="50" height="34" as="geometry" />
+          <mxGeometry x="967.5" y="608" width="50" height="34" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-47" value="&lt;font color=&quot;#b3b3b3&quot;&gt;iris.cpf&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#B3B3B3;" parent="1" vertex="1">
           <mxGeometry x="10" y="512" width="54.5" height="86" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-48" value="&lt;font color=&quot;#000099&quot;&gt;iris.cpf&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#000099;" parent="1" vertex="1">
-          <mxGeometry x="718" y="490" width="54.5" height="86" as="geometry" />
+          <mxGeometry x="740" y="490" width="54.5" height="86" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-54" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/OS_Images_Classic.svg;fontColor=#B3B3B3;labelBorderColor=#B3B3B3;" parent="1" vertex="1">
           <mxGeometry x="18" y="674" width="50" height="46" as="geometry" />
@@ -123,22 +123,22 @@
           <mxGeometry x="62.5" y="694" width="101.5" height="83" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-57" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/OS_Images_Classic.svg;fontColor=#B3B3B3;labelBorderColor=#B3B3B3;" parent="1" vertex="1">
-          <mxGeometry x="726" y="661" width="50" height="46" as="geometry" />
+          <mxGeometry x="748" y="661" width="50" height="46" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-58" value="" style="image;sketch=0;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/mscae/Security_Center.svg;" parent="1" vertex="1">
-          <mxGeometry x="756" y="650" width="25" height="34.72" as="geometry" />
+          <mxGeometry x="778" y="650" width="25" height="34.72" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-59" value="&lt;font color=&quot;#000099&quot;&gt;Security.System&lt;br&gt;ImportAll&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#000099;" parent="1" vertex="1">
-          <mxGeometry x="770.5" y="681" width="101.5" height="83" as="geometry" />
+          <mxGeometry x="792.5" y="681" width="101.5" height="83" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-60" value="&lt;font color=&quot;#b3b3b3&quot;&gt;iris.key&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#B3B3B3;" parent="1" vertex="1">
           <mxGeometry x="270" y="516" width="54.5" height="86" as="geometry" />
         </mxCell>
         <mxCell id="NS_PCVdNuBJ5CIJFDRs9-61" value="&lt;font color=&quot;#000099&quot;&gt;iris.key&lt;/font&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;strokeColor=#000099;" parent="1" vertex="1">
-          <mxGeometry x="1008" y="488" width="54.5" height="86" as="geometry" />
+          <mxGeometry x="1030" y="488" width="54.5" height="86" as="geometry" />
         </mxCell>
-        <mxCell id="BBO-3hV4wWY8fssrbt2p-1" value="&lt;div style=&quot;font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px; font-size: 9px;&quot;&gt;&lt;div style=&quot;font-size: 8px;&quot;&gt;&lt;div style=&quot;background-color: rgb(30, 30, 30); line-height: 18px;&quot;&gt;&lt;div style=&quot;&quot;&gt;&lt;font color=&quot;#d4d4d4&quot;&gt; 1. &lt;/font&gt;&lt;span style=&quot;color: rgb(78, 201, 176);&quot;&gt;Installation&lt;/span&gt;&lt;font color=&quot;#d4d4d4&quot;&gt; du serveur&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#4ec9b0&quot;&gt;Windows&lt;/font&gt;&lt;font color=&quot;#d4d4d4&quot;&gt;&amp;nbsp;cible&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;2&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Téléchargement&lt;/span&gt; de la distribution &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; pour &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Windows&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;3&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Installation&lt;/span&gt; instance &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; sur nouveau serveur &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Windows&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;4&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Copie&lt;/span&gt; du fichier iris.cpf de &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; source vers &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;5&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Copie&lt;/span&gt; du fichier iris.key de &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; source vers &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;6&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Export&lt;/span&gt; des paramètres de sécurité (&lt;span style=&quot;color: #4ec9b0;&quot;&gt;Utilisateurs&lt;/span&gt;, &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Rôles&lt;/span&gt;, &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Applications&lt;/span&gt;, etc.)&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;7&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Copie&lt;/span&gt; des bases de données &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; sources vers &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;8&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Copie&lt;/span&gt; des applications web de &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; sources vers &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt; &lt;span style=&quot;color: #b5cea8;&quot;&gt;9&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Import&lt;/span&gt; des paramètres de sécurité (&lt;span style=&quot;color: #4ec9b0;&quot;&gt;Utilisateurs&lt;/span&gt;, &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Rôles&lt;/span&gt;, &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Applications&lt;/span&gt;, etc.)&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212);&quot;&gt;&lt;span style=&quot;color: #b5cea8;&quot;&gt;10&lt;/span&gt;. &lt;span style=&quot;color: #4ec9b0;&quot;&gt;Démarrer&lt;/span&gt; l’instance &lt;span style=&quot;color: #4ec9b0;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;labelBackgroundColor=#000000;labelBorderColor=none;fontSize=9;" vertex="1" parent="1">
-          <mxGeometry x="291" y="296" width="394" height="192" as="geometry" />
+        <mxCell id="BBO-3hV4wWY8fssrbt2p-1" value="&lt;div style=&quot;font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; line-height: 18px; font-size: 10px;&quot;&gt;&lt;div style=&quot;font-size: 10px;&quot;&gt;&lt;div style=&quot;background-color: rgb(30, 30, 30); line-height: 18px; font-size: 10px;&quot;&gt;&lt;div style=&quot;font-size: 10px;&quot;&gt;&lt;font color=&quot;#d4d4d4&quot; style=&quot;font-size: 10px;&quot;&gt; 1. &lt;/font&gt;&lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Installation&lt;/span&gt;&lt;font color=&quot;#d4d4d4&quot; style=&quot;font-size: 10px;&quot;&gt; du serveur&amp;nbsp;&lt;/font&gt;&lt;font color=&quot;#4ec9b0&quot; style=&quot;font-size: 10px;&quot;&gt;Windows&lt;/font&gt;&lt;font color=&quot;#d4d4d4&quot; style=&quot;font-size: 10px;&quot;&gt;&amp;nbsp;cible&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt; &lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;2&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Téléchargement&lt;/span&gt; de la distribution &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; pour &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Windows&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt; &lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;3&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Installation&lt;/span&gt; instance &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; sur nouveau serveur &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Windows&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt; &lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;4&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Copie&lt;/span&gt; du fichier iris.cpf de &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; source vers &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt; &lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;5&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Copie&lt;/span&gt; du fichier iris.key de &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; source vers &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt; &lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;6&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Export&lt;/span&gt; des paramètres de sécurité (&lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Utilisateurs&lt;/span&gt;, &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Rôles&lt;/span&gt;, &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Applications&lt;/span&gt;, etc.)&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt; &lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;7&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Copie&lt;/span&gt; des bases de données &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; sources vers &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt; &lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;8&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Copie&lt;/span&gt; des applications web de &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; sources vers &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt; &lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;9&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Import&lt;/span&gt; des paramètres de sécurité (&lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Utilisateurs&lt;/span&gt;, &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Rôles&lt;/span&gt;, &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Applications&lt;/span&gt;, etc.)&lt;/div&gt;&lt;div style=&quot;color: rgb(212, 212, 212); font-size: 10px;&quot;&gt;&lt;span style=&quot;color: rgb(181, 206, 168); font-size: 10px;&quot;&gt;10&lt;/span&gt;. &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;Démarrer&lt;/span&gt; l’instance &lt;span style=&quot;color: rgb(78, 201, 176); font-size: 10px;&quot;&gt;IRIS&lt;/span&gt; cible&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;labelBackgroundColor=#000000;labelBorderColor=none;fontSize=10;" vertex="1" parent="1">
+          <mxGeometry x="252" y="197" width="488" height="192" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
