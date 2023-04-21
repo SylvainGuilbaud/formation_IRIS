@@ -7,7 +7,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
 <Route Url="/" Method="GET" Call="version"/>
-<Route Url="/patient" Method="GET" Call="service" />
+<Route Url="/personne" Method="POST" Call="service" />
 </Routes>
 }
 
@@ -39,16 +39,15 @@ ClassMethod service() As %Status
 
 	set payload=%request.Content
 
-	set tSC=##class(Ens.Director).CreateBusinessService("from Patients REST",.tService)
+	set tSC=##class(Ens.Director).CreateBusinessService("from personnes REST",.tService)
 
-	set request=##class(formation.msg.mysql.patient).%New()
+	set request=##class(formation.RM.personne.Record).%New()
 	set sc = request.%JSONImport(payload.Read())
 
 	set sc=tService.ProcessInput(request,.response)
 	#; set retour={}
 	#; set retour.data=response.StringValue
 	#; write retour.%ToJSON()
-    set sc = response.%JSONExport()
     #; write str.%ToJSON()
 	} catch e {
 		throw e
