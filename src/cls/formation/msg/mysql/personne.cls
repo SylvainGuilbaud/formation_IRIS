@@ -1,4 +1,4 @@
-Class formation.msg.mysql.patient Extends (Ens.Request, %JSON.Adaptor)
+Class formation.msg.mysql.personne Extends (Ens.Request, %JSON.Adaptor)
 {
 
 Property id As %Integer;
@@ -13,8 +13,8 @@ Property Sex As %String(DISPLAYLIST = ",male,female", VALUELIST = ",M,F");
 
 Storage Default
 {
-<Data name="patientDefaultData">
-<Subscript>"patient"</Subscript>
+<Data name="personneDefaultData">
+<Subscript>"personne"</Subscript>
 <Value name="1">
 <Value>id</Value>
 </Value>
@@ -31,7 +31,7 @@ Storage Default
 <Value>Sex</Value>
 </Value>
 </Data>
-<DefaultData>patientDefaultData</DefaultData>
+<DefaultData>personneDefaultData</DefaultData>
 <Type>%Storage.Persistent</Type>
 }
 

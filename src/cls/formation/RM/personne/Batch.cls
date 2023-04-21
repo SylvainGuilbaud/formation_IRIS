@@ -1,10 +1,10 @@
-/// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.patient'
+/// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.personne'
 /// on 2022-10-25 at 14:27:10.232 [2022-10-25 14:27:10.232 UTC]
 /// by user _SYSTEM
-Class formation.RM.patient.Batch Extends (%Library.Persistent, EnsLib.RecordMap.SimpleBatch) [ Inheritance = right, ProcedureBlock ]
+Class formation.RM.personne.Batch Extends (%Library.Persistent, EnsLib.RecordMap.SimpleBatch) [ Inheritance = right, ProcedureBlock ]
 {
 
-Parameter XMLNAME = "patientBatch";
+Parameter XMLNAME = "personneBatch";
 
 Parameter RECORDMAPGENERATED = 1;
 
@@ -18,14 +18,14 @@ Parameter TrailerTerm;
 
 Parameter IgnoreLeadingData = 0;
 
-Relationship Records As formation.RM.patient.Record [ Cardinality = many, Inverse = %ParentBatch ];
+Relationship Records As formation.RM.personne.Record [ Cardinality = many, Inverse = %ParentBatch ];
 
 Trigger OnDelete [ Event = DELETE ]
 {
 	Set %ok = ..deleteRecords({ID})
 }
 
-Parameter XMLTYPE = "patientBatchOut";
+Parameter XMLTYPE = "personneBatchOut";
 
 Storage Default
 {
@@ -43,12 +43,12 @@ Storage Default
 <Value>BatchTrailer</Value>
 </Value>
 </Data>
-<DataLocation>^formation.RM.patient.BatchD</DataLocation>
+<DataLocation>^formation.RM.personne.BatchD</DataLocation>
 <DefaultData>BatchDefaultData</DefaultData>
 <ExtentSize>2000000</ExtentSize>
-<IdLocation>^formation.RM.patient.BatchD</IdLocation>
-<IndexLocation>^formation.RM.patient.BatchI</IndexLocation>
-<StreamLocation>^formation.RM.patient.BatchS</StreamLocation>
+<IdLocation>^formation.RM.personne.BatchD</IdLocation>
+<IndexLocation>^formation.RM.personne.BatchI</IndexLocation>
+<StreamLocation>^formation.RM.personne.BatchS</StreamLocation>
 <Type>%Storage.Persistent</Type>
 }
 

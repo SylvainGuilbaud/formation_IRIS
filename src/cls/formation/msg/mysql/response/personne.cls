@@ -1,16 +1,16 @@
-Class formation.msg.mysql.response.patient Extends (Ens.Response, %JSON.Adaptor)
+Class formation.msg.mysql.response.personne Extends (Ens.Response, %JSON.Adaptor)
 {
 
 Property inserted As %Integer;
 
 Property updated As %Integer;
 
-Property status As common.msg.status;
+Property status As %Status;
 
 Storage Default
 {
-<Data name="patientDefaultData">
-<Subscript>"patient"</Subscript>
+<Data name="personneDefaultData">
+<Subscript>"personne"</Subscript>
 <Value name="1">
 <Value>status</Value>
 </Value>
@@ -21,7 +21,7 @@ Storage Default
 <Value>updated</Value>
 </Value>
 </Data>
-<DefaultData>patientDefaultData</DefaultData>
+<DefaultData>personneDefaultData</DefaultData>
 <Type>%Storage.Persistent</Type>
 }
 

@@ -1,10 +1,10 @@
-/// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.patient'
+/// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.personne'
 /// on 2022-10-25 at 14:27:10.247 [2022-10-25 14:27:10.247 UTC]
 /// by user _SYSTEM
-Class formation.RM.patient Extends EnsLib.RecordMap.RecordMap
+Class formation.RM.personne Extends EnsLib.RecordMap.RecordMap
 {
 
-Parameter OBJECTNAME = "formation.RM.patient.Record";
+Parameter OBJECTNAME = "formation.RM.personne.Record";
 
 /// Method to retrieve a record from a stream or device. This method will be generated based on the
 /// structure of the RecordMap. For testing purposes, a file name may be passed in the pStream argument.
@@ -148,8 +148,8 @@ ClassMethod PutRecord(pStream As %IO.DeviceStream, pObject As %RegisteredObject,
 ClassMethod GetGeneratedClasses(Output pClasses As %String) As %Status
 {
 	Kill pClasses
-	Set pClasses("formation.RM.patient.Batch")=""
-	Set pClasses("formation.RM.patient.Record")=""
+	Set pClasses("formation.RM.personne.Batch")=""
+	Set pClasses("formation.RM.personne.Record")=""
 	Set pClasses($classname())=""
 	Quit $$$OK
 }
@@ -166,7 +166,7 @@ ClassMethod getType() As EnsLib.RecordMap.Model.DataType.RecordType [ CodeMode =
 
 XData RecordMap [ XMLNamespace = "http://www.intersystems.com/Ensemble/RecordMap" ]
 {
-<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="formation.RM.patient" type="delimited" char_encoding="UTF-8" targetClassname="formation.RM.patient.Record" batchClass="formation.RM.patient.Batch" complexBatchManaged="0" padFromLeft="0" recordTerminator="\x0a" escaping="quote" escapeSequence="&quot;" allowEarlyTerminator="0">
+<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="formation.RM.personne" type="delimited" char_encoding="UTF-8" targetClassname="formation.RM.personne.Record" batchClass="formation.RM.personne.Batch" complexBatchManaged="0" padFromLeft="0" recordTerminator="\x0a" escaping="quote" escapeSequence="&quot;" allowEarlyTerminator="0">
   <Separators>
     <Separator>;</Separator>
   </Separators>

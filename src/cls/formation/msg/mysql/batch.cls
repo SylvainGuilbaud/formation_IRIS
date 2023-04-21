@@ -1,7 +1,7 @@
 Class formation.msg.mysql.batch Extends Ens.Request
 {
 
-Property list As array Of formation.msg.mysql.patient;
+Property list As array Of formation.msg.mysql.personne;
 
 Storage Default
 {
