@@ -22,6 +22,7 @@ XData setup
     <Configuration>
       <ClassMapping From="${Namespace}-DATA" Package="common" />
     </Configuration>
+
   </Namespace>
 
 </Manifest>

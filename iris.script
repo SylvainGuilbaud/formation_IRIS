@@ -1,6 +1,7 @@
  set r=##class(%Net.HttpRequest).%New(),r.Server="pm.community.intersystems.com",r.SSLConfiguration="ISC.FeatureTracker.SSL.Config" d r.Get("/packages/zpm/latest/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
  zpm "install webterminal"
- zpm "install irishealth-ensdemo -v"
+#;  zpm "install irishealth-ensdemo -v"
+ zpm "install objectscript-json-trace-viewer"
  zpm "install swagger-ui" 
  write "INSTALLING IRISAPP"
  do $SYSTEM.OBJ.Load("/app/Installer.cls", "ck")
