@@ -17,7 +17,6 @@ XData ProductionDefinition
     <Setting Target="Host" Name="BusinessRuleName">formation.rules.personnes</Setting>
   </Item>
   <Item Name="to personne SQL" Category="" ClassName="formation.operation.personne" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Adapter" Name="DSN">mysql</Setting>
     <Setting Target="Adapter" Name="JGService">JG</Setting>
   </Item>
   <Item Name="JG" Category="" ClassName="EnsLib.JavaGateway.Service" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">

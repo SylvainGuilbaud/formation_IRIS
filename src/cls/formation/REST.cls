@@ -45,10 +45,21 @@ ClassMethod service() As %Status
 	set sc = request.%JSONImport(payload.Read())
 
 	set sc=tService.ProcessInput(request,.response)
-	#; set retour={}
+    #dim response as formation.msg.mysql.response.personne
+	set retour={}
+    if 'response.status {
+        set retour.status = ($system.Status.GetErrorText(response.status))
+    } else {
+        set retour.status = "OK"
+    }
+    if response.inserted {
+     set retour.action = "inserted"
+    } 
+    if response.updated {
+     set retour.action = "updated"
+    } 
 	#; set retour.data=response.StringValue
-	#; write retour.%ToJSON()
-    #; write str.%ToJSON()
+	write retour.%ToJSON()
 	} catch e {
 		throw e
 	}
