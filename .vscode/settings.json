@@ -27,11 +27,10 @@
       "internalPort": 52773
     },
     "links": {
-      "terminal": "http://${host}/terminal/",
-      "version": "http://${host}/common/",
-      "atelier": "http://${host}:/api/atelier/",
-      "terminal-pws": "http://${host}:${port}/terminal/",
-      "version-pws": "http://${host}:${port}/common/",
+      "terminal": "http://${host}:${port}/terminal/",
+      "class explorer": "http://${host}:${port}/classexplorer/",
+      "swagger-ui": "http://${host}:${port}/swagger-ui/index.html",
+      "version": "http://${host}:${port}/common/",
       "atelier-pws": "http://${host}:${port}/api/atelier/",
       "XML Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.XMLSchemaWizard.cls?Namespace=${namespace}${serverAuth}",
       "SOAP Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.SOAPWizard.cls?Namespace=${namespace}${serverAuth}",
