@@ -1,5 +1,7 @@
 ARG IMAGE=intersystemsdc/irishealth-community:latest
 ARG IMAGE=intersystemsdc/iris-community:latest
+ARG IMAGE=containers.intersystems.com/intersystems/iris-community:2023.2.0.204.0
+ARG IMAGE=containers.intersystems.com/intersystems/iris-community-arm64:2023.2.0.204.0
 FROM $IMAGE
 USER root
 WORKDIR /app

@@ -2,6 +2,8 @@
 ARG IMAGE=localhost/intersystems/irishealth-ml-arm64:2022.1.1.374.0
 ARG IMAGE=localhost/intersystems/irishealth-arm64:2022.2.0.368.0
 ARG IMAGE=localhost/intersystems/iris-ml-arm64:2022.2.0.368.0
+ARG IMAGE=containers.intersystems.com/intersystems/iris-community:2023.2.0.204.0
+ARG IMAGE=containers.intersystems.com/intersystems/iris-community-arm64:2023.2.0.204.0
 # ARG IMAGE=intersystemsdc/irishealth-community:latest
 FROM $IMAGE
 USER root
