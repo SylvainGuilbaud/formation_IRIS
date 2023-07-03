@@ -26,9 +26,11 @@ ClassMethod readAll(classname As %String) As %Status
     Try {
         if ##class(%Dictionary.ClassDefinition).%ExistsId(classname) {
             set class = ##class(%Dictionary.ClassDefinition).%OpenId(classname)
+            set nomClasse = $piece(classname,".",*)
+            set schema = $replace($piece(classname,"."_nomClasse),".","_")
             set tableName = class.SqlTableName
-            set:tableName="" tableName = $replace(classname,".","_")
-            set sql = "select ID from " _ tableName
+            set:tableName="" tableName = nomClasse
+            set sql = "select ID from " _ schema _ "." _ tableName
             set result = ##class(%SQL.Statement).%ExecDirect(,sql)
             if result.%SQLCODE = 0 {
                 set json = []
