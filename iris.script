@@ -63,6 +63,7 @@
 
  zn "IRISAPP" 
  do $System.OBJ.LoadDir("/app/src","ck",,1)
+ do $system.OBJ.Load("/app/src/inc/common.inc")
  write ##class(Ens.Config.Credentials).SetCredential("ftp","app","youneverknow",1)
  write ##class(Ens.Config.Credentials).SetCredential("PostgreSQL","postgres","postgres",1)
  set ^Ens.Config.DefaultSettingsD("formation.prod.personne","to personne SQL","*","DSN") = $lb("mysql","",0)

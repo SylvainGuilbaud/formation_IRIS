@@ -27,7 +27,7 @@ ClassMethod readAll(classname As %String) As %Status
         if ##class(%Dictionary.ClassDefinition).%ExistsId(classname) {
             set class = ##class(%Dictionary.ClassDefinition).%OpenId(classname)
             set tableName = class.SqlTableName
-            set:tableName="" tableName = classname
+            set:tableName="" tableName = $replace(classname,".","_")
             set sql = "select ID from " _ tableName
             set result = ##class(%SQL.Statement).%ExecDirect(,sql)
             if result.%SQLCODE = 0 {
