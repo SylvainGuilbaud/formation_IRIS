@@ -118,9 +118,137 @@ Method batch(pRequest As formation.msg.mysql.batch, Output pResponse As formatio
 	return sc
 }
 
+Method maj2(pRequest As NomProjet.RM.personne.Record, Output pResponse As formation.msg.mysql.response.personne) As %Status
+{
+	set sc = $$$OK
+	Try {
+
+		set pResponse = ##class(formation.msg.mysql.response.personne).%New()
+
+		set query = "SELECT 1 FROM formation.personne " _
+					"WHERE id = ? "
+		$$$TRACE(query)
+				
+		$$$ThrowOnError(..Adapter.ExecuteQuery(.select,query,pRequest.ID))
+		
+		do select.Next() 
+		set exist = select.GetData(1)
+
+		if exist {
+			set update = ""
+			set update = update _ "update formation.personne "
+			set update = update _ "set"
+			set update = update _ " LastName = ?"
+			set update = update _ ", FirstName = ?"
+			set update = update _ ", DOB = ?"
+			set update = update _ ", Sex = ?"
+			set update = update _ ", LastAction = ?"
+			set update = update _ " where id = ?"
+			set sc = ..Adapter.ExecuteUpdate(.nrows
+											,update
+											, pRequest.Nom
+											, pRequest.Prenom
+											, $zd(pRequest.DateNaissance,3)
+											, pRequest.Sexe
+											, "UPDATED on " _ $zdt($h,3)
+											, pRequest.ID
+											)
+			set pResponse.status = sc
+			if sc {
+				set pResponse.updated = pResponse.updated + 1
+				$$$LOGINFO(nrows _ " row successfully updated")
+			} else {
+				#; set error=##class(common.msg.errors).%New()
+				#; set error.status=sc
+				#; do  pResponse.errors.SetAt(error,pResponse.errors.Count()+1)
+				$$$LOGERROR("ERROR WHILE UPDATING : "_ pResponse.status.text)
+			}
+
+		} else {
+
+			set insert = ""
+			set insert = insert _ "insert into formation.personne "
+			set insert = insert _ "("
+			set insert = insert _ "  id"
+			set insert = insert _ ", LastName"
+			set insert = insert _ ", FirstName"
+			set insert = insert _ ", DOB"
+			set insert = insert _ ", Sex"
+			set insert = insert _ ", FirstAction"
+			set insert = insert _ ")"
+			set insert = insert _ " values "
+			set insert = insert _ "("
+			set insert = insert _ "?,?,?,?,?,?"
+			set insert = insert _ ")"
+			set sc = ..Adapter.ExecuteUpdate(.nrows
+											,insert
+											, pRequest.ID
+											, pRequest.Nom
+											, pRequest.Prenom
+											, $zd(pRequest.DateNaissance,3)
+											, pRequest.Sexe
+											, "INSERTED on " _ $zdt($h,3)
+											)
+			set pResponse.status = sc
+			if sc {
+				set pResponse.inserted = pResponse.inserted + 1
+				$$$LOGINFO(nrows _ " row successfully inserted")
+			} else {
+				#; set error=##class(common.msg.errors).%New()
+				#; set error.status=sc
+				#; do  pResponse.errors.SetAt(error,pResponse.errors.Count()+1)
+				$$$LOGERROR("ERROR WHILE INSERTING : "_ pResponse.status.text)
+			}
+		}
+	
+	}
+	Catch ex {
+		Set sc=ex.AsStatus()
+	}
+    
+	return sc
+}
+
+Method test(pRequest As Ens.StringContainer, Output pResponse As Ens.StringContainer) As %Status
+{
+	set sc = $$$OK
+	Try {
+
+		set pResponse = ##class(Ens.StringContainer).%New()
+		if pRequest.StringValue '= "" {
+			set query = "SELECT concat(count(*), ' rows') FROM " _ pRequest.StringValue
+			$$$ThrowOnError(..Adapter.ExecuteQuery(.select,query))
+		} else {
+			set query = "SELECT  concat(sysdate(),' (version ',version(),')') "
+			$$$ThrowOnError(..Adapter.ExecuteQuery(.select,query))
+		}
+		
+		$$$TRACE(query)
+				
+		$$$ThrowOnError(..Adapter.ExecuteQuery(.select,query))
+		
+		do select.Next() 
+		set result = select.GetData(1)
+		set pResponse.StringValue =  result _ $char(13,10)
+		set pResponse.StringValue = pResponse.StringValue _" (query:" _ query _ ")"
+	
+	}
+	Catch ex {
+		Set sc=ex.AsStatus()
+	}
+    
+	return sc
+}
+
 XData MessageMap
 {
 <MapItems>
+   <MapItem MessageType="Ens.StringContainer">
+    <Method>test</Method>
+  </MapItem>
+  <MapItem MessageType="NomProjet.RM.personne.Record">
+    <Method>maj2</Method>
+  </MapItem>
   <MapItem MessageType="formation.msg.mysql.personne">
     <Method>maj</Method>
   </MapItem>

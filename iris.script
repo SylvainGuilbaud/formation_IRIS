@@ -1,11 +1,17 @@
  set r=##class(%Net.HttpRequest).%New(),r.Server="pm.community.intersystems.com",r.SSLConfiguration="ISC.FeatureTracker.SSL.Config" d r.Get("/packages/zpm/latest/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
  zpm "install webterminal"
-#;  zpm "install irishealth-ensdemo -v"
  zpm "install objectscript-json-trace-viewer"
  zpm "install swagger-ui" 
+ zpm "install classexplorer" 
  write "INSTALLING IRISAPP"
  do $SYSTEM.OBJ.Load("/app/Installer.cls", "ck")
  set sc = ##class(App.Installer).setup() 
+ 
+ if 'sc {
+    set ^["USER"]TRACE("IRISAPP App.Installer")=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+ } else {
+    set ^["USER"]TRACE("IRISAPP App.Installer")="successful"
+ }
  zn "%SYS"
  do ##class(Security.Users).UnExpireUserPasswords("*")
 #;  set ^%SYS("sql","ODBCCONNECTION","DATA")	=	1
@@ -32,12 +38,33 @@
  set webProperties("DispatchClass") = "common.REST"
  set webProperties("NameSpace") = "IRISAPP"
  set webProperties("Enabled") = 1
- set webProperties("AutheEnabled") = 32
+ set webProperties("AutheEnabled") = 96
+ set webProperties("MatchRoles")=":%All"
  set sc = ##class(Security.Applications).Create(webName, .webProperties)
- write sc
- write "Web application "_webName_" has been created!"
+ if 'sc {
+    set ^["USER"]TRACE("Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+ } else {
+    set ^["USER"]TRACE("Web App "_webName)="successful"
+ }
+ 
+ write "Create web application ..."
+ set webName = "/crud"
+ set webProperties("DispatchClass") = "REST.crud"
+ set webProperties("NameSpace") = "IRISAPP"
+ set webProperties("Enabled") = 1
+ set webProperties("AutheEnabled") = 96
+ set webProperties("MatchRoles")=":%All"
+ set sc = ##class(Security.Applications).Create(webName, .webProperties)
+ if 'sc {
+    set ^["USER"]TRACE("Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+ } else {
+    set ^["USER"]TRACE("Web App "_webName)="successful"
+ }
 
  zn "IRISAPP" 
  do $System.OBJ.LoadDir("/app/src","ck",,1)
+ write ##class(Ens.Config.Credentials).SetCredential("ftp","app","youneverknow",1)
+ write ##class(Ens.Config.Credentials).SetCredential("PostgreSQL","postgres","postgres",1)
+ set ^Ens.Config.DefaultSettingsD("formation.prod.personne","to personne SQL","*","DSN") = $lb("mysql","",0)
 
 halt

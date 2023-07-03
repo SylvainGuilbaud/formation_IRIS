@@ -39,26 +39,34 @@ ClassMethod service() As %Status
 
 	set payload=%request.Content
 
-	set tSC=##class(Ens.Director).CreateBusinessService("from personnes REST",.tService)
+	set tSC=##class(Ens.Director).CreateBusinessService("de EXPARF REST",.tService)
 
-	set request=##class(formation.RM.personne.Record).%New()
+	#; set request=##class(formation.RM.personne.Record).%New()
+    set request = ##class(NomProjet.RM.personne.Record).%New()
 	set sc = request.%JSONImport(payload.Read())
 
-	set sc=tService.ProcessInput(request,.response)
-    #dim response as formation.msg.mysql.response.personne
-	set retour={}
-    if 'response.status {
-        set retour.status = ($system.Status.GetErrorText(response.status))
+    set retour={}
+
+    if 'sc {
+         set retour.importJSON = ($system.Status.GetErrorText(sc))
     } else {
-        set retour.status = "OK"
+
+        set sc=tService.ProcessInput(request,.response)
+
+        #dim response as formation.msg.mysql.response.personne
+        
+        if 'response.status {
+            set retour.status = ($system.Status.GetErrorText(response.status))
+        } else {
+            set retour.status = "OK"
+        }
+        if response.inserted {
+        set retour.action = "inserted"
+        } 
+        if response.updated {
+        set retour.action = "updated"
+        } 
     }
-    if response.inserted {
-     set retour.action = "inserted"
-    } 
-    if response.updated {
-     set retour.action = "updated"
-    } 
-	#; set retour.data=response.StringValue
 	write retour.%ToJSON()
 	} catch e {
 		throw e

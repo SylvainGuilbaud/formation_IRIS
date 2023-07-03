@@ -222,6 +222,7 @@ ClassMethod version() As %Status
     set sc = $$$OK
     set %response.ContentType = ..#CONTENTTYPEJSON
     set json = {}
+    set json.context="formation-iris-embedded"
     set json.version = ($zv)
     set json.date = ($zdt($h,3))
     set json.system = ($System)
@@ -237,22 +238,100 @@ ClassMethod version() As %Status
     return sc
 }
 
+// ClassMethod spec() As %Status
+
+// {
+
+//  try {
+
+// 	set sc=$$$OK
+
+// 	set %response.ContentType=..#CONTENTTYPEJSON
+
+//     set file = ##class(%File).%New("/data/swagger-crud.json")
+
+//     do file.Open("RS")
+
+//     while 'file.AtEnd{
+
+//         w file.ReadLine()
+
+//     }
+
+// 	} catch e {
+
+// 		throw e
+
+// 	}
+
+// 	return sc
+
+// }
+
 ClassMethod spec() As %Status
 {
- try {
-	set sc=$$$OK
-	set %response.ContentType=..#CONTENTTYPEJSON
+  Set tSC = ##class(%REST.API).GetWebRESTApplication($NAMESPACE, %request.Application, .swagger)
+  Do swagger.info.%Remove("x-ISC_Namespace")
+  Set swagger.basePath = "/crud"
+  Set swagger.info.title = "InterSystems IRIS CRUD demo"
+  Set swagger.info.version = "0.1"
+  Set swagger.host = "localhost:12773"
+  Return ..%ProcessResult($$$OK, swagger)
+}
 
-    set file = ##class(%File).%New("/data/swagger-crud.json")
-    
-    do file.Open("RS")
-    while 'file.AtEnd{
-        w file.ReadLine()
+ClassMethod %ProcessResult(pStatus As %Status = {$$$OK}, pResult As %DynamicObject = "") As %Status [ Internal ]
+{
+  #dim %response As %CSP.Response
+  SET tSC = $$$OK
+  IF $$$ISERR(pStatus) {
+    SET %response.Status = 500
+    SET tSC = ..StatusToJSON(pStatus, .tJSON)
+    IF $isobject(tJSON) {
+      SET pResult = tJSON
+    } ELSE {
+      SET pResult = { "errors": [ { "error": "Unknown error parsing status code" } ] }
     }
-	} catch e {
-		throw e
-	}
-	return sc
+  } 
+  ELSEIF pStatus=1 {
+    IF '$isobject(pResult){
+      SET pResult = {
+      }
+    }
+  }
+  ELSE {
+    SET %response.Status = pStatus
+    SET error = $PIECE(pStatus, " ", 2, *)
+    SET pResult = {
+      "error": (error)
+    }
+  }
+  
+  IF pResult.%Extends("%Library.DynamicAbstractObject") {
+    WRITE pResult.%ToJSON()
+  }
+  ELSEIF pResult.%Extends("%JSON.Adaptor") {
+    DO pResult.%JSONExport()
+  }
+  ELSEIF pResult.%Extends("%Stream.Object") {
+    DO pResult.OutputToDevice()
+  }
+  
+  QUIT tSC
+}
+
+ClassMethod OnHandleCorsRequest(url As %String) As %Status
+{
+	set url = %request.GetCgiEnv("HTTP_REFERER")
+    set origin = $p(url,"/",1,3) // origin = "http(s)://origin.com:port"
+
+    // here you can check specific origins
+    // otherway, it will allow all origins (useful while developing only)
+
+	do %response.SetHeader("Access-Control-Allow-Credentials","true")
+	do %response.SetHeader("Access-Control-Allow-Methods","GET,POST,PUT,DELETE,OPTIONS")
+	do %response.SetHeader("Access-Control-Allow-Origin",origin)
+	do %response.SetHeader("Access-Control-Allow-Headers","Access-Control-Allow-Origin, Origin, X-Requested-With, Content-Type, Accept, Authorization, Cache-Control")
+	quit $$$OK
 }
 
 }

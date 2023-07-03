@@ -67,23 +67,8 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="FilePath">/data/out/</Setting>
     <Setting Target="Host" Name="RecordMap">data.RM.customer</Setting>
   </Item>
-  <Item Name="crcind.Operation.SOAPDemoSoap" Category="" ClassName="crcind.Operation.SOAPDemoSoap" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Adapter" Name="SSLConfig">API</Setting>
-  </Item>
-  <Item Name="w3schools.Operation.TempConvertSoap" Category="" ClassName="w3schools.Operation.TempConvertSoap" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Adapter" Name="SSLConfig">API</Setting>
-  </Item>
   <Item Name="fichiers" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">bastideRouteur.fichiers</Setting>
-  </Item>
-  <Item Name="GET DATA CLINICOM SQL" Category="fichiers directs,transfo,transfo + traitements" ClassName="JDBC.demo.INSERT.operation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
-    <Setting Target="Adapter" Name="JGService">JG</Setting>
-    <Setting Target="Adapter" Name="StayConnected">10</Setting>
-    <Setting Target="Adapter" Name="DSN">jdbc:IRIS://172.18.1.73:1972/DSA-CLA-PRD</Setting>
-    <Setting Target="Adapter" Name="JDBCClasspath">/app/jdbc/intersystems-jdbc-3.3.1.jar</Setting>
-    <Setting Target="Adapter" Name="JDBCDriver">com.intersystems.jdbc.IRISDriver</Setting>
-    <Setting Target="Adapter" Name="Credentials">CLINICOM</Setting>
-    <Setting Target="Host" Name="batchSize">10</Setting>
   </Item>
   <Item Name="from customer SQL" Category="" ClassName="EnsLib.SQL.Service.GenericService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="TargetConfigNames">routage + transfo clients</Setting>
@@ -158,25 +143,6 @@ FROM data.test</Setting>
     <Setting Target="Adapter" Name="FTPPort">21</Setting>
     <Setting Target="Adapter" Name="FTPServer">172.0.0.100</Setting>
     <Setting Target="Adapter" Name="Protocol">FTP</Setting>
-  </Item>
-  <Item Name="from SEMARCHY customer" Category="SEMARCHY" ClassName="EnsLib.SQL.Service.GenericService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Adapter" Name="DSN">SEMARCHY</Setting>
-    <Setting Target="Adapter" Name="Query">select ID,col1,col2,col3
-from schema_name.customer</Setting>
-    <Setting Target="Host" Name="TargetConfigNames">SEMARCHYrouteur</Setting>
-    <Setting Target="Host" Name="MessageClass">MDM.IRIS.customer</Setting>
-  </Item>
-  <Item Name="from SEMARCHY patient" Category="SEMARCHY" ClassName="EnsLib.SQL.Service.GenericService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Adapter" Name="DSN">SEMARCHY</Setting>
-    <Setting Target="Adapter" Name="Query">select ID,col1,col2,col3
-from schema_name.patient</Setting>
-    <Setting Target="Host" Name="TargetConfigNames">to IRIS MDM</Setting>
-    <Setting Target="Host" Name="MessageClass">MDM.IRIS.patient</Setting>
-  </Item>
-  <Item Name="to IRIS MDM" Category="SEMARCHY" ClassName="JDBC.demo.INSERT.operation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-  </Item>
-  <Item Name="SEMARCHYrouteur" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="BusinessRuleName">Bastide.SEMARCHYrouteur</Setting>
   </Item>
 </Production>
 }

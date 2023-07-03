@@ -1,0 +1,3101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for UNIX (Ubuntu Server LTS for x86-64 Containers) 2019.2 (Build 109U)" ts="2019-11-15 18:57:37">
+<Class name="Dev.Utilities">
+<TimeChanged>65330,70714.282697</TimeChanged>
+<TimeCreated>65037,1403.943642</TimeCreated>
+
+<Method name="ResetStorage">
+<Description>
+Reset all storage definitions for a package</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>package:%String</FormalSpec>
+<Implementation><![CDATA[
+	if ($get(package) = "") {
+		write !, "Please supply package or sub-package name as argument." return }
+	#dim resultSet as %ResultSet
+	set resultSet = ##class(%ResultSet).%New()
+	set resultSet.ClassName = "%Dictionary.ClassDefinition"
+	set resultSet.QueryName = "FormWizard"
+	// returns names of persistent classes
+	do resultSet.%Execute("persistent")
+	write !, "Clearing storage definitions for classes:"
+	set pattern = "1""" _ package _ """.e"
+	while resultSet.%Next() {
+		set className = resultSet.%GetData(1)
+		continue:(className'?@pattern)
+		#dim class as %Dictionary.ClassDefinition
+		set class = ##class(%Dictionary.ClassDefinition).%OpenId(className)
+		write !, className
+		do class.Storages.Clear()
+		do class.%Save()
+	}
+	do resultSet.Close()
+	write !, "Compiling classes..."
+	do $system.OBJ.CompilePackage(package,"k")
+]]></Implementation>
+</Method>
+
+<Method name="RemovePopulation">
+<Description>
+Remove all Population code from classes (call with commit=1 to actually save/recompile the classes)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>package:%String,commit:%Boolean=0</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	if ($get(package) = "") {
+		write !, "Please supply package or sub-package name as argument." return $$$OK }
+	if commit {
+		read !, "Changes will be saved and classes recompiled. Continue? No=>", cont
+		return:($case($extract(cont), "Y":0, "y":0, :1)) $$$OK
+	} 
+	
+	set status = $$$OK
+	
+	&sql(DECLARE rempop CURSOR FOR
+		 SELECT parent, name FROM %Dictionary.PropertyDefinition
+		 WHERE (parent %STARTSWITH :package) AND (parameters LIKE '%POPSPEC%')
+		 UNION
+		 SELECT name, null FROM %Dictionary.ClassDefinition
+		 WHERE (name %STARTSWITH :package) AND (super LIKE '%Populate%')
+		 ORDER BY parent)
+	&sql(OPEN rempop)
+	quit:(SQLCODE '= 0) // error -101 if cursor already open
+	for {
+		&sql(FETCH rempop INTO :classname, :propertyname)
+		quit:(SQLCODE '= 0)
+		write !, classname, ?20, propertyname
+		
+		// process superclass list (extends)
+		#dim class as %Dictionary.ClassDefinition
+		set class = ##class(%Dictionary.ClassDefinition).%OpenId(classname)
+		set classes(classname) = ""
+		set super = class.Super
+		if (super [ "%Populate") || (super [ "%Library.Populate") {
+			set superList = $listfromstring(super, ",")
+			set loc1 = $listfind(superList, "%Populate")
+			set loc2 = $listfind(superList, "%Library.Populate")
+			set j = 1, superNew = ""
+			for i=1:1:$listlength(superList) {
+				if (i = loc1) || (i = loc2) {  } // skip, do nothing
+				else {
+					set $piece(superNew, ",", j) = $list(superList, i)
+					set j = j + 1
+				}
+			}
+			write ?40, superNew
+			if 'class.SuperIsModified() { set class.Super = superNew }
+		}
+		
+		// process POPSPEC
+		if propertyname '= "" {
+			#dim property as %Dictionary.PropertyDefinition
+			set property = ##class(%Dictionary.PropertyDefinition).IDKEYOpen(classname,propertyname)
+			do property.Parameters.RemoveAt("POPSPEC") 
+		}
+		
+		// save changes or not?
+		if commit {
+			set stClass = class.%Save()
+			set stProp = property.%Save()
+		}			
+	}
+	&sql(CLOSE rempop)
+	quit:(SQLCODE '= 0) // error -102 if cursor not open
+	
+	// comment in if really ready to recompile classes
+	/* if commit { do $system.OBJ.Compile(.classes, "ck") }
+	else { write ! zw classes } */
+	write ! zw classes
+	quit status
+]]></Implementation>
+</Method>
+
+<Method name="LoadConfigPerson">
+<Description>
+Load Person classes (exercise C-1), and update classes programmatically using %Dictionary package</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>directory:%String="c:\Development\Studio\PersonOnly.xml"</FormalSpec>
+<Implementation><![CDATA[
+	set st = $system.OBJ.Load(directory, "ck")
+	quit:$$$ISERR(st)
+	#dim classAccountHolder, classCurrencyOrder as %Dictionary.ClassDefinition
+	set classAccountHolder = ##class(%Dictionary.ClassDefinition).%OpenId("FCE.AccountHolder")
+	set classCurrencyOrder = ##class(%Dictionary.ClassDefinition).%OpenId("FCE.CurrencyOrder")
+	#dim propAccttoCO as %Dictionary.PropertyDefinition
+	set propAccttoCO = ##class(%Dictionary.PropertyDefinition).%New()
+	set propAccttoCO.Name = "CurrencyOrders",
+	    propAccttoCO.Type = "FCE.CurrencyOrder",
+	    propAccttoCO.Relationship = 1,
+	    propAccttoCO.Cardinality = "many",
+	    propAccttoCO.Inverse = "AccountHolder",
+	    propAccttoCO.Description = "Exchanges that this customer made"
+	set propAccttoCO.parent = classAccountHolder
+	
+	#dim propCOtoAcct as %Dictionary.PropertyDefinition
+	set propCOtoAcct = ##class(%Dictionary.PropertyDefinition).%New()
+	set propCOtoAcct.Name = "AccountHolder",
+	    propCOtoAcct.Type = "FCE.AccountHolder",
+	    propCOtoAcct.Relationship = 1,
+	    propCOtoAcct.Cardinality = "one",
+	    propCOtoAcct.Inverse = "CurrencyOrders"
+	set propCOtoAcct.parent = classCurrencyOrder
+	
+	#dim indexAcct as %Dictionary.IndexDefinition
+	set indexAcct = ##class(%Dictionary.IndexDefinition).%New()
+	set indexAcct.Name = "AccountHolderIndex", indexAcct.Properties = "AccountHolder"
+	set indexAcct.parent = classCurrencyOrder
+	
+	do classAccountHolder.%Save(), classCurrencyOrder.%Save()
+	
+	set compileList = "FCE.AccountHolder.cls,FCE.CurrencyOrder.cls"
+	do $system.OBJ.CompileList(compileList, "ck")
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.AccountHolder">
+<Description>
+Customer with accounts</Description>
+<Super>FCE.PersistentPerson</Super>
+<TimeChanged>65332,66824.413801</TimeChanged>
+<TimeCreated>65037,1403.73389</TimeCreated>
+
+<Property name="Balance">
+<Description>
+Current account balance</Description>
+<Type>%Numeric</Type>
+<Parameter name="MINVAL" value="0"/>
+</Property>
+
+<Property name="Currency">
+<Description>
+Type of currency that this account holds</Description>
+<Type>FCE.CurrencyName</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="CurrencyOrders">
+<Description>
+Exchanges that this customer made</Description>
+<Type>FCE.CurrencyOrder</Type>
+<Cardinality>many</Cardinality>
+<Inverse>AccountHolder</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Method name="Update">
+<Description>
+Debit account balance and save account</Description>
+<FormalSpec>paymentAmount:%Numeric</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set ..Balance = ..Balance - paymentAmount
+	return $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.AccountPayment">
+<Description>
+Processing for Account payments</Description>
+<Super>FCE.Payment</Super>
+<TimeChanged>65332,66825.092232</TimeChanged>
+<TimeCreated>65037,1402.743913</TimeCreated>
+
+<Method name="Process">
+<FormalSpec>order:FCE.CurrencyOrder,*accountPaymentString:%String=""</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set status = ##super(order, .paymentString)
+	if ($$$ISERR(status)) { return status }
+	else {
+		#dim branch as FCE.Branch
+		set branch = order.Branch
+		#dim account as FCE.AccountHolder
+		set account = order.AccountHolder
+		// debit branch
+		set branchStatus = branch.Update(order.CurrencyOut, order.AmountOut)
+		// debit account							         
+		set accountStatus = account.Update(order.AmountIn)
+		
+		set paymentSaved = ..%Save()								
+		set status = $$$ADDSC(branchStatus, accountStatus)
+		set status = $$$ADDSC(status, paymentSaved)
+		if $$$ISOK(status) {
+			set accountPaymentString = paymentString _ $$$NL
+		    	_ "Thank you, " _ account.PrintName
+		    	_ ", for your account payment of "
+		    	_ order.AmountIn _ " "
+		    	_ order.CurrencyIn _ "."
+		}
+		return status
+	}
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Address">
+<Description><![CDATA[
+Address properties for <class>FCE.RealEstate</class> and <class>FCE.MailingAddress</class>]]></Description>
+<Abstract>1</Abstract>
+<Super>%Populate,%XML.Adaptor,%JSON.Adaptor</Super>
+<TimeChanged>65190,79553.852388</TimeChanged>
+<TimeCreated>65037,1404.061449</TimeCreated>
+
+<Property name="Street">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="City">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="State">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="VALUELIST" value="-NY-NJ-MA-TX"/>
+</Property>
+
+<UDLText name="T">
+<Content><![CDATA[
+// Property Zip As %String(PATTERN = "5n.1(1""-""4n)") [ Required ];
+
+]]></Content>
+</UDLText>
+
+<Property name="Zip">
+<Type>FCE.Regex</Type>
+<Required>1</Required>
+<Parameter name="REGEX" value="\d{5}(-\d{4})?"/>
+</Property>
+
+<Method name="Print">
+<Implementation><![CDATA[
+	write !, ..Street
+	write !, ..City, ", ", ..State, " ", ..Zip
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Branch">
+<Description>
+Bank branch information</Description>
+<Super>%Persistent,%Populate,%XML.Adaptor,%JSON.Adaptor</Super>
+<TimeChanged>65332,66824.368159</TimeChanged>
+<TimeCreated>65037,1403.206221</TimeCreated>
+
+<Property name="Phone">
+<Type>FCE.PhoneNumber</Type>
+<Required>1</Required>
+</Property>
+
+<Index name="PhoneIndex">
+<Properties>Phone</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Address">
+<Type>FCE.RealEstate</Type>
+</Property>
+
+<Index name="AddressIndex">
+<Properties>Address</Properties>
+<Unique>1</Unique>
+</Index>
+
+<ForeignKey name="RealEstateFK">
+<OnDelete>setnull</OnDelete>
+<Properties>Address</Properties>
+<ReferencedClass>FCE.RealEstate</ReferencedClass>
+</ForeignKey>
+
+<Property name="Opens">
+<Description>
+Time branch opens</Description>
+<Type>%Time</Type>
+<Parameter name="MAXVAL" value="$ztimeh(&quot;12:00n&quot;)"/>
+<Parameter name="MINVAL" value="$ztimeh(&quot;6:00am&quot;)"/>
+</Property>
+
+<Property name="Closes">
+<Description>
+Time branch closes</Description>
+<Type>%Time</Type>
+<Parameter name="MAXVAL" value="$ztimeh(&quot;10:00pm&quot;)"/>
+<Parameter name="MINVAL" value="$ztimeh(&quot;1:00pm&quot;)"/>
+</Property>
+
+<Property name="NationalCurrency">
+<Description>
+Currency used by this branch's nation</Description>
+<Type>FCE.CurrencyName</Type>
+<InitialExpression>"USD"</InitialExpression>
+</Property>
+
+<Property name="DurationOpen">
+<Description>
+calculate DurationOpen from Opens, Closes</Description>
+<Type>%String</Type>
+<Calculated>1</Calculated>
+<SqlComputeCode>set {*} = ##class(FCE.Branch).DurationOpenCalc({Opens}, {Closes})</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+<Parameter name="%JSONINCLUDE" value="NONE"/>
+</Property>
+
+<Method name="DurationOpenCalc">
+<Description>
+container for code that calculates DurationOpen</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>opens:%Time,closes:%Time</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	if (opens = "") || (closes = "") {set duration = ""}
+	else {set duration = $ztime(closes - opens)}
+	return duration
+]]></Implementation>
+</Method>
+
+<Property name="CurrencyBalances">
+<Type>%Numeric</Type>
+<Collection>array</Collection>
+<SqlFieldName>Balance</SqlFieldName>
+<Parameter name="MAXVAL" value="1000000"/>
+<Parameter name="MINVAL" value="0"/>
+<Parameter name="POPSPEC" value=":5:##class(FCE.Tests.Utilities).Currency()"/>
+</Property>
+
+<Index name="CBIndex">
+<Properties>CurrencyBalances(KEYS)</Properties>
+</Index>
+
+<Property name="ATMs">
+<Description>
+Serial numbers of ATMs belonging to this branch</Description>
+<Type>%String</Type>
+<Collection>list</Collection>
+<Parameter name="POPSPEC" value="##class(%PopulateUtils).String(5)_##class(%PopulateUtils).String(5)"/>
+</Property>
+
+<Index name="ATMIndex">
+<Properties>ATMs(ELEMENTS)</Properties>
+</Index>
+
+<Property name="Orders">
+<Type>FCE.CurrencyOrder</Type>
+<Cardinality>many</Cardinality>
+<Inverse>Branch</Inverse>
+<Relationship>1</Relationship>
+<Parameter name="%JSONINCLUDE" value="NONE"/>
+</Property>
+
+<Property name="Notes">
+<Type>%Stream.GlobalCharacter</Type>
+</Property>
+
+<Index name="NotesiFind">
+<Properties>Notes</Properties>
+<TypeClass>%iFind.Index.Basic</TypeClass>
+</Index>
+
+<Method name="CopyToObject">
+<Description>
+create a JSON object from Branch properties</Description>
+<FormalSpec>*object:%DynamicObject</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	// for IRIS, use these 6 lines
+	set st = ..%JSONExportToString(.jsonString)
+	if $$$ISOK(st) {
+		set object = ##class(%DynamicObject).%FromJSON(jsonString)
+		set object.ID = ..%Id()
+	}
+	return st
+	
+	// for Cache, use these 6 lines
+	//set object.Phone = ..Phone
+	//set object.Opens = $ztime(..Opens)
+	//set object.Closes = $ztime(..Closes)
+	//set object.NationalCurrency = ..NationalCurrency
+	//set object.ID = ..%Id()
+	//return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="CopyFromObject">
+<Description>
+copy a JSON object into Branch properties</Description>
+<FormalSpec>object:%DynamicObject</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	// for IRIS, use this line
+	return ..%JSONImport(object)
+	
+	// for Cache, use these 5 lines
+	//set ..Phone  = object.Phone
+	//set ..Opens = $ztimeh(object.Opens)
+	//set ..Closes = $ztimeh(object.Closes)
+	//set ..NationalCurrency = object.NationalCurrency
+	//return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="%OnValidateObject">
+<Description>
+OVERRIDE: validate the keys (currency abbreviations) for the CurrencyBalances array</Description>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    // convert currency abbreviations to $list format
+    set abbreviations = ##class(FCE.CurrencyName).#VALUELIST
+	set validKeys = ##class(FCE.Currency).ConvertCurrenciestoListString(abbreviations)
+ 	
+    // loop through keys until either reaching end or key is not in validKeys
+    set key = ""
+    do { do ..CurrencyBalances.GetNext(.key) }
+    while (key '= "") && ($listfind(validKeys, key))
+
+    if (key = "") { return $$$OK }
+    else { return $$$ERROR($$$GeneralError, "Invalid key: " _ key) }
+]]></Implementation>
+</Method>
+
+<Method name="Update">
+<Description><![CDATA[
+Update Branch by debiting/crediting currencies<br>
+This method can be called with:<br>
+* all 4 arguments (cash in - cash out). currencyOut and currencyIn <b>must</b> be different<br>
+* the first 2 arguments (cash out only, paid for by credit card or bank account)<br>
+* the last 2 arguments (cash in only, to be credited to bank balance)<br>]]></Description>
+<FormalSpec>currencyOut:FCE.CurrencyName="",amountOut:%Numeric=0,currencyIn:FCE.CurrencyName="",amountIn:%Numeric=0</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	try {	
+		#dim cb as %Collection.ArrayOfDT
+		set cb = ..CurrencyBalances
+		set status = $$$OK
+		set (outChanged, inChanged) = 0
+		
+		// debit stock amount by amount taken out
+		if (currencyOut '= "") && (amountOut > 0) {
+			set outChanged = 1
+			set balanceBeforeDebit = cb.GetAt(currencyOut)
+			set balanceAfterDebit = balanceBeforeDebit - amountOut
+			do cb.SetAt(balanceAfterDebit, currencyOut)
+			set status = ..%ValidateObject()
+			if $$$ISERR(status) {
+				set ex = ##class(%Exception.StatusException).CreateFromStatus(status)
+				throw ex
+			}
+		}
+		
+		// credit stock amount by amount put in
+		if (currencyIn '= "") && (amountIn > 0) {
+			set inChanged = 1
+			set balanceBeforeCredit = cb.GetAt(currencyIn)
+			set balanceAfterCredit = balanceBeforeCredit + amountIn
+			do cb.SetAt(balanceAfterCredit, currencyIn)
+			set status = ..%ValidateObject()
+			if $$$ISERR(status) {
+				set ex = ##class(%Exception.StatusException).CreateFromStatus(status)
+				throw ex
+			}
+		}
+		// create unforseen <DIVIDE> exception 10% of the time
+		// if '$r(10) {write 1/0}
+	}
+	catch ex {
+		#dim ex, exCustom as %Exception.StatusException
+		// return custom error status and also write it to Application Error Log
+		if (ex.Code = $$$ERRORCODE($$$DTMinVal)) {
+			set custom = "Not enough stock in branch for " _ currencyOut
+			set status = $$$ERROR($$$GeneralError, custom)
+			set exCustom = ##class(%Exception.StatusException).CreateFromStatus(status)
+			do exCustom.Log()
+		}
+		elseif (ex.Code = $$$ERRORCODE($$$DTMaxVal)) {
+			set custom = "Branch has no more room for " _ currencyIn
+			set status = $$$ERROR($$$GeneralError, custom)
+			set exCustom = ##class(%Exception.StatusException).CreateFromStatus(status)
+			do exCustom.Log()
+		}
+		// or change unforeseen exception back into a status
+		else {
+			set status = ex.AsStatus()
+			do ex.Log()
+		}
+		// reset currencyIn and currencyOut
+		do:outChanged cb.SetAt(balanceBeforeDebit, currencyOut)
+		do:inChanged cb.SetAt(balanceBeforeCredit, currencyIn)
+		
+		// write to messages log (IRIS) or console log (Cache), optionally triggering notification
+		set consoleMsg = "Branch Stock Problem - Check Error Log for details: "
+		set portalLink = "http://localhost:52773/csp/sys/op/UtilSysAppErrorNamespaces.csp"
+		do ##class(%SYS.System).WriteToConsoleLog(consoleMsg _ portalLink, , 2)
+	}
+	return status
+]]></Implementation>
+</Method>
+
+<Method name="CitiesStates">
+<Description>
+Return unique list of city/state combinations with branches, 
+along with a count of branches with currencies, and the list of cities with branches</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%SQL.StatementResult</ReturnType>
+<SqlProc>1</SqlProc>
+<ReturnResultsets>1</ReturnResultsets>
+<Implementation><![CDATA[
+	#dim %sqlcontext as %ProcedureContext
+	#dim resultSet as %SQL.StatementResult
+	set resultSet = $$$NULLOREF
+	#dim statement as %SQL.Statement
+	set statement = ##class(%SQL.Statement).%New()
+	set sql = "SELECT Address->State, COUNT(DISTINCT ID) as Branches, LIST(DISTINCT Address->City) as Cities"
+	set sql = sql _ " FROM FCE.Branch"
+	set sql = sql _ " WHERE (Branch_Balance->element_key is not null) AND (Address->State is not null)"
+	set sql = sql _ " GROUP BY Address->State"
+
+	set status = statement.%Prepare(sql)
+	if $$$ISOK(status) {
+		set resultSet = statement.%Execute()
+		if (resultSet.%SQLCODE = 0) {
+			// successful %Execute
+
+			// for testing using Terminal
+			do resultSet.%Display()
+
+			// for ODBC/JDBC
+			// do %sqlcontext.AddResultSet(resultSet)
+		}
+		else {
+			// error during %Execute
+			set %sqlcontext.%SQLCODE = resultSet.%SQLCODE
+			set %sqlcontext.%Message = resultSet.%Message
+		} 
+	}
+	else {
+		// error during %Prepare: bad SQL
+		#dim ex as %Exception.StatusException
+		set ex = ##class(%Exception.StatusException).CreateFromStatus(status)
+		set %sqlcontext.%SQLCODE = ex.AsSQLCODE()
+		// 4th ":" piece contains %msg value
+		set %sqlcontext.%Message = $piece(ex.AsSQLMessage(), ":", 4)
+	}
+	return resultSet  // return results to other server-side code
+]]></Implementation>
+</Method>
+
+<Method name="BranchesInAState">
+<Description>
+Show ATM serial numbers and addresses for branches in a given state that have at least one currency</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>state:%String</FormalSpec>
+<ReturnType>%SQL.StatementResult</ReturnType>
+<SqlProc>1</SqlProc>
+<ReturnResultsets>1</ReturnResultsets>
+<Implementation><![CDATA[
+	#dim %sqlcontext as %ProcedureContext
+	#dim resultSet as %SQL.StatementResult
+	set resultSet = $$$NULLOREF
+	#dim statement as %SQL.Statement
+	set statement = ##class(%SQL.Statement).%New(1) // ODBC mode to make list of ATMs display better
+	set sql = "SELECT Phone, ATMs, Address->Street, Address->City, LIST(Branch_Balance->element_key) as Currencies"
+	set sql = sql _ " FROM FCE.Branch"
+	set sql = sql _ " WHERE Address->State = ?"
+	set sql = sql _ " GROUP BY Phone"
+	set sql = sql _ " HAVING LIST(Branch_Balance->element_key) is not null"
+
+	set status = statement.%Prepare(sql)
+	if $$$ISOK(status) {
+		set resultSet = statement.%Execute(state)
+		if (resultSet.%SQLCODE = 0) {
+			// successful %Execute
+
+			// for testing using Terminal
+			while resultSet.%Next() {
+				write !!, resultSet.Phone, ?15, resultSet.Street, ?40, resultSet.City
+				write !?5, "ATMs: ", resultSet.ATMs
+				write !?5, "Currencies: ", resultSet.Currencies
+			}
+			if (resultSet.%SQLCODE '= 100) {
+				// error during %Next()
+				write !, resultSet.%SQLCODE, ": ", resultSet.%Message
+			}
+						
+			// for ODBC/JDBC
+			// do %sqlcontext.AddResultSet(resultSet)
+		}
+		else {
+			// error during %Execute
+			set %sqlcontext.%SQLCODE = resultSet.%SQLCODE
+			set %sqlcontext.%Message = resultSet.%Message
+		} 
+	}
+	else {
+		// error during %Prepare: bad SQL
+		#dim ex as %Exception.StatusException
+		set ex = ##class(%Exception.StatusException).CreateFromStatus(status)
+		set %sqlcontext.%SQLCODE = ex.AsSQLCODE()
+		// 4th ":" piece contains %msg value
+		set %sqlcontext.%Message = $piece(ex.AsSQLMessage(), ":", 4)
+	}
+	return resultSet  // return results to other server-side code
+]]></Implementation>
+</Method>
+
+<Query name="CurrencySummary">
+<Type>%SQLQuery</Type>
+<FormalSpec>minimum=0</FormalSpec>
+<SqlProc>1</SqlProc>
+<SqlQuery><![CDATA[ select element_key as Currency, count(Branch) as Branch_Count,
+        sum(Balance) as Total_Balance
+ from FCE.Branch_Balance
+ group by element_key
+ having sum(Balance) >= :minimum
+ order by element_key]]></SqlQuery>
+</Query>
+
+<Method name="BranchReport">
+<ClassMethod>1</ClassMethod>
+<SqlProc>1</SqlProc>
+<ReturnResultsets>1</ReturnResultsets>
+<Implementation><![CDATA[
+	#dim %sqlcontext as %ProcedureContext
+	#dim resultSet as %SQL.StatementResult
+	set sql = "CALL FCE.Branch_CurrencySummary()"	
+	set rSets = ##class(%SQL.Statement).%ExecDirect(, sql)
+	set SQLCODE = rSets.%SQLCODE
+	if (SQLCODE = 0) {
+		set resultSet = rSets.%NextResult()
+		do %sqlcontext.AddResultSet(resultSet)
+	}
+	else {
+		set %sqlcontext.%SQLCODE = SQLCODE
+		set %sqlcontext.%Message = rSets.%Message
+		quit
+	}
+	
+	set sql = "CALL FCE.Branch_CitiesStates()"	
+	set rSets = ##class(%SQL.Statement).%ExecDirect(, sql)
+	set SQLCODE = rSets.%SQLCODE
+	if (SQLCODE = 0) {
+		set resultSet = rSets.%NextResult()
+		do %sqlcontext.AddResultSet(resultSet)
+		// retrieve FIRST state for use in BranchesInAState() below
+		do resultSet.%Next()
+		set firstState = resultSet.State
+	}
+	else {
+		set %sqlcontext.%SQLCODE = SQLCODE
+		set %sqlcontext.%Message = rSets.%Message
+		quit
+	}
+
+	set sql = "CALL FCE.Branch_BranchesInAState(?)"	
+	set rSets = ##class(%SQL.Statement).%ExecDirect(, sql, firstState)
+	set SQLCODE = rSets.%SQLCODE
+	if (SQLCODE = 0) {
+		set resultSet = rSets.%NextResult()
+		do %sqlcontext.AddResultSet(resultSet)
+	}
+	else {
+		set %sqlcontext.%SQLCODE = SQLCODE
+		set %sqlcontext.%Message = rSets.%Message
+		quit
+	}
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Cash">
+<Description>
+Processing for cash payments</Description>
+<Super>FCE.Payment</Super>
+<TimeChanged>65332,66825.116129</TimeChanged>
+<TimeCreated>65037,1403.524325</TimeCreated>
+
+<Method name="Process">
+<FormalSpec>order:FCE.CurrencyOrder,*cashPaymentString:%String=""</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set status = ##super(order, .paymentString)
+	if ($$$ISERR(status)) { return status }
+	else {
+		#dim branch as FCE.Branch
+		set branch = order.Branch
+		// debit and credit branch only
+		set status = branch.Update(order.CurrencyOut,
+								   order.AmountOut,
+								   order.CurrencyIn,
+								   order.AmountIn)	
+		set paymentSaved = ..%Save()								
+		set status = $$$ADDSC(status, paymentSaved)
+		if $$$ISOK(status) {
+			set cashPaymentString = paymentString _ $$$NL
+			    _ "Cash payment of "
+			    _ order.AmountIn _ " "
+			    _ order.CurrencyIn _ " verified."
+		}
+		return status
+	}
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.CreditCard">
+<Description>
+Processing for credit card payments</Description>
+<Super>FCE.Payment</Super>
+<TimeChanged>65332,66825.044115</TimeChanged>
+<TimeCreated>65037,1403.399494</TimeCreated>
+
+<Property name="Number">
+<Type>%String</Type>
+<Parameter name="PATTERN" value="3(4n1&quot;-&quot;)4n"/>
+<Parameter name="POPSPEC" value="##class(FCE.Tests.Utilities).CreditCardNumber()"/>
+</Property>
+
+<Property name="Type">
+<Type>%String</Type>
+<Parameter name="VALUELIST" value="-Visa-MC-AmEx-Discover-Diners"/>
+</Property>
+
+<Property name="ExpirationDate">
+<Description>
+ expires within next 5 years </Description>
+<Type>%Date</Type>
+<Parameter name="MAXVAL" value="$zdh(&quot;t+1825&quot;,5)"/>
+<Parameter name="MINVAL" value="$zdh(&quot;t&quot;,5)"/>
+</Property>
+
+<Method name="Process">
+<FormalSpec>order:FCE.CurrencyOrder,*creditCardString:%String=""</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set status = ##super(order, .paymentString)
+	if ($$$ISERR(status)) { return status }
+	else {
+		#dim branch as FCE.Branch
+		set branch = order.Branch
+		// debit branch
+		set status = branch.Update(order.CurrencyOut, order.AmountOut)
+		set paymentSaved = ..%Save()								
+		set status = $$$ADDSC(status, paymentSaved)
+		if $$$ISOK(status) {
+			set creditCardString = paymentString _ $$$NL
+		        _ ..Type _ " transaction for "
+		        _ order.AmountIn _ " "
+		        _ order.CurrencyIn _ " completed"
+		    	_ " (card ending in " _ $piece(..Number, "-", 4) _ ")."
+		}
+		return status
+	}
+]]></Implementation>
+</Method>
+</Class>
+
+<Class name="FCE.Currency">
+<Description>
+Currency exchange rates and images, and other utilities</Description>
+<Super>%Persistent</Super>
+<TimeChanged>65323,69515.487816</TimeChanged>
+<TimeCreated>65037,1403.28043</TimeCreated>
+<DependsOn>FCE.CurrencyName</DependsOn>
+
+<Parameter name="ABBREVIATIONS">
+<Description>
+currency abbreviations, computed at COMPILE time (therefore requires DependsOn above)</Description>
+<Expression>##class(FCE.CurrencyName).#VALUELIST</Expression>
+</Parameter>
+
+<Parameter name="ACCESSKEY">
+<Description>
+access key for apilayer.net (can contain spaces for clarity), for InterSystems training use ONLY!</Description>
+<Default/>
+</Parameter>
+
+<Parameter name="DEFAULTRATES">
+<Description>
+default rates in case call to apilayer.net fails</Description>
+<Default>{"USDEUR":1,"USDINR":65,"USDGBP":1,"USDJPY":110,"USDMXN":20,"USDZAR":15,"USDBRL":3,"USDCAD":1,"USDCHF":1}</Default>
+</Parameter>
+
+<Property name="Currency">
+<Description>
+Currency is an alternate key</Description>
+<Type>FCE.CurrencyName</Type>
+<Required>1</Required>
+</Property>
+
+<Index name="CurrencyIndex">
+<Properties>Currency</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="USDExchangeRate">
+<Description>
+1 USD in each currency</Description>
+<Type>%Decimal</Type>
+<Parameter name="MINVAL" value=".001"/>
+<Parameter name="SCALE" value="3"/>
+</Property>
+
+<Property name="Image">
+<Type>%Stream.GlobalBinary</Type>
+</Property>
+
+<Method name="ConvertCurrenciestoListString">
+<Description>
+%List returntype is a $list string</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>valuelist:%String</FormalSpec>
+<ReturnType>%List</ReturnType>
+<Implementation><![CDATA[
+	set delim = $extract(valuelist, 1)
+	set currencies = $extract(valuelist, 2, *)
+	set currencies = $listfromstring(currencies, delim)
+	return currencies
+]]></Implementation>
+</Method>
+
+<Method name="FetchRates">
+<Description>
+fetch currency rates from currencylayer.com as JSON with a REST Get</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>verbose:%Boolean=0</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#dim currency as FCE.Currency
+	// create USD object if it doesn't exist already
+	if '(..CurrencyIndexExists("USD")) {
+		set currency = ..%New()
+		set currency.Currency = "USD"
+		set currency.USDExchangeRate = 1
+		do currency.%Save()
+		write:verbose !, "created USD object"
+	}
+	
+	// now create/update the rest of the exchange rates
+	set abbreviations = ..#ABBREVIATIONS
+	set delim = $extract(abbreviations, 1)
+	// skip first currency (USD) and get the rest
+	set currencies = $piece(abbreviations, delim, 3, *)
+	// change current delimiter to ,
+	set currencies = $translate(currencies, delim, ",")
+
+	#dim formatter as %JSON.Formatter
+	set formatter = ##class(%JSON.Formatter).%New()
+	#dim request as %Net.HttpRequest
+	#dim response, rates as %DynamicObject
+	set request = ##class(%Net.HttpRequest).%New()
+	set request.Server = "apilayer.net"
+	set uri = "/api/live?access_key=" _ 
+			  $translate(..#ACCESSKEY, " ") _
+	          "&currencies=" _ currencies _
+	          "&source=USD&format=1"
+	set stGet = request.Get(uri)
+	if ($$$ISERR(stGet) || (request.HttpResponse.StatusCode '= 200)) {
+		do $system.Status.DisplayError(stGet)
+		set rates = ""
+	}
+	else {
+		// convert the response into a JSON object
+		set response = ##class(%DynamicObject).%FromJSON(request.HttpResponse.Data) 
+		if verbose {
+			write !, "Entire response:", !
+			do formatter.Format(response)  // or "write response.%ToJSON()"
+			write !
+		}
+		// get the rates from the quotes property (also JSON)
+		set rates = response.quotes
+	}
+	if '$isobject(rates) {	
+		// create JSON from DEFAULTRATES
+		set rates = ##class(%DynamicObject).%FromJSON(..#DEFAULTRATES)
+	}
+	
+	if verbose {
+		write !, "Rates:", !
+		do formatter.Format(rates)  // or "write rates.%ToJSON()"
+		write !
+	}
+	
+	// iterate through the JSON object
+	write:verbose !, "Loading rates..."
+	#dim i as %Iterator.Object
+	set i = rates.%GetIterator()
+	while i.%GetNext(.key, .value) {
+		write:verbose !, key _ ":" _ value
+		// the keys look like USDEUR so get the last 3 characters 
+		set currencyName = $extract(key, 4, 6)
+		// create or update the currency
+		if '(..CurrencyIndexExists(currencyName)) {
+			set currency = ..%New()
+			set currency.Currency = currencyName
+		}
+		else {
+			set currency = ..CurrencyIndexOpen(currencyName)
+		}
+		set currency.USDExchangeRate = value
+		set stSave = currency.%Save()
+		if $$$ISERR(stSave) {
+			do $system.Status.DisplayError(stSave)
+		}
+	}
+	return $system.Status.AppendStatus(stGet, stSave)
+]]></Implementation>
+</Method>
+
+<Method name="ComputeRate">
+<Description>
+compute exchange rate between two currencies based on the USD rate</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>currencyIn:FCE.CurrencyName,currencyOut:FCE.CurrencyName</FormalSpec>
+<ReturnType>%Decimal</ReturnType>
+<SqlProc>1</SqlProc>
+<ReturnTypeParams>SCALE=3</ReturnTypeParams>
+<Implementation><![CDATA[
+	// get the exchange rate between USD and currencyIn
+	&sql(SELECT USDExchangeRate INTO :inRate
+	     FROM FCE.Currency
+	     WHERE Currency = :currencyIn)
+	set sqlcode1 = SQLCODE
+
+	// get the exchange rate between USD and currencyOut
+	&sql(SELECT USDExchangeRate INTO :outRate
+	     FROM FCE.Currency
+	     WHERE Currency = :currencyOut)
+	set sqlcode2 = SQLCODE
+
+	if (sqlcode1 = 0) && (sqlcode2 = 0) {
+		// compute the exchange rate between currencyIn and currencyOut
+		return (outRate / inRate)
+	}
+	else {
+		write !, "Error code(s): ", sqlcode1, " ", sqlcode2
+		return 0
+	}
+]]></Implementation>
+</Method>
+
+<Method name="ImportImages">
+<Description><![CDATA[
+Load images from a directory; should only need to run once
+Note: filenames MUST correspond to VALUELIST from FCE.CurrencyName class</Description>]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>directory:%String</FormalSpec>
+<Implementation><![CDATA[
+	set currencies = ..ConvertCurrenciestoListString(..#ABBREVIATIONS)
+	
+	for image = 1: 1 : $listlength(currencies)
+	{
+		set currencyName = $list(currencies, image)
+		#dim currency as FCE.Currency
+		set currency = ##class(FCE.Currency).CurrencyIndexOpen(currencyName)
+	
+		#dim file as %Stream.FileBinary
+		set file = ##class(%Stream.FileBinary).%New()
+		set file.Filename = directory _ currencyName _ ".jpg"
+		
+		// does file exist?
+		if (file.Size = 0) {
+			write !, "Couldn't import ", file.Filename, !
+			do $system.Status.DisplayError(%objlasterror)
+			continue
+		}
+		
+		do currency.Image.CopyFrom(file)
+		set status = currency.%Save()
+		do $system.Status.DisplayError(status)
+		write !, currencyName, " imported"
+		
+		set file = ""
+		set currency = ""
+	}
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.CurrencyName">
+<Description>
+Datatype for currency names</Description>
+<Super>%EnumString</Super>
+<TimeChanged>65323,70220.726796</TimeChanged>
+<TimeCreated>65037,1403.554872</TimeCreated>
+
+<Parameter name="DISPLAYLIST">
+<Default>-US Dollars-Euros-Indian Rupees-Great British Pounds-Japanese Yen-Mexican Pesos-South African Rands-Brazilian Reais-Canadian Dollars-Swiss Francs</Default>
+</Parameter>
+
+<Parameter name="VALUELIST">
+<Default>-USD-EUR-INR-GBP-JPY-MXN-ZAR-BRL-CAD-CHF</Default>
+</Parameter>
+</Class>
+
+
+<Class name="FCE.CurrencyOrder">
+<Description>
+An order for currency.</Description>
+<Super>%Persistent,%Populate,%XML.Adaptor,%JSON.Adaptor</Super>
+<TimeChanged>65332,66825.157784</TimeChanged>
+<TimeCreated>65037,1403.017254</TimeCreated>
+
+<Parameter name="USEEXTENTSET">
+<Description>
+Generate more performant globals</Description>
+<Default>1</Default>
+</Parameter>
+
+<Parameter name="FEERATE">
+<Default>.025</Default>
+</Parameter>
+
+<Property name="ATM">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="##class(%PopulateUtils).String(5)_##class(%PopulateUtils).String(5)"/>
+</Property>
+
+<Property name="Requestor">
+<Description>
+name of requestor</Description>
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="Name()"/>
+</Property>
+
+<Property name="RequestorEmail">
+<Type>%String</Type>
+</Property>
+
+<Property name="AmountOut">
+<Type>%Numeric</Type>
+<Parameter name="MINVAL" value="0"/>
+</Property>
+
+<Property name="CurrencyOut">
+<Type>FCE.CurrencyName</Type>
+</Property>
+
+<Property name="AmountIn">
+<Description>
+AmountIn reduced by transaction fee</Description>
+<Type>%Numeric</Type>
+<Parameter name="MINVAL" value="0"/>
+</Property>
+
+<Property name="CurrencyIn">
+<Type>FCE.CurrencyName</Type>
+</Property>
+
+<Property name="ExchangeRate">
+<Type>%Decimal</Type>
+<Parameter name="MINVAL" value=".001"/>
+<Parameter name="SCALE" value="3"/>
+</Property>
+
+<Property name="Fee">
+<Type>%Numeric</Type>
+</Property>
+
+<Property name="DateStamp">
+<Type>%Date</Type>
+<Parameter name="MAXVAL" value="+$system.SYS.TimeStamp()"/>
+<Parameter name="MINVAL" value="59901"/>
+</Property>
+
+<Property name="TimeStamp">
+<Type>%Time</Type>
+</Property>
+
+<Property name="Satisfaction">
+<Description>
+Satisfaction with the service on this order</Description>
+<Type>%EnumString</Type>
+<Parameter name="DISPLAYLIST" value="-Great-Good-OK-Bad-Horrible"/>
+<Parameter name="VALUELIST" value="-1-2-3-4-5"/>
+</Property>
+
+<Property name="Status">
+<Description><![CDATA[
+Requested: initial request<br>
+Pending:   only if awaiting approval<br>
+Rejected:  not approved by bank<br>
+Paid:      currency received by ATM, outgoing currency to be picked up<br>
+Completed: outgoing currency paid to customer<br>
+Problem:   problem in system<br>
+Canceled:  canceled by customer<br>]]></Description>
+<Type>%String</Type>
+<Parameter name="VALUELIST" value="-Requested-Pending-Rejected-Paid-Completed-Problem-Canceled"/>
+</Property>
+
+<Property name="Branch">
+<Type>FCE.Branch</Type>
+<Cardinality>one</Cardinality>
+<Inverse>Orders</Inverse>
+<Relationship>1</Relationship>
+<Required>1</Required>
+</Property>
+
+<Index name="BranchIndex">
+<Type>bitmap</Type>
+<Properties>Branch</Properties>
+</Index>
+
+<Index name="StatusIndex">
+<Type>bitmap</Type>
+<Properties>Status</Properties>
+</Index>
+
+<Index name="OutIndex">
+<Type>bitmap</Type>
+<Properties>CurrencyOut</Properties>
+</Index>
+
+<Index name="InIndex">
+<Type>bitmap</Type>
+<Properties>CurrencyIn</Properties>
+</Index>
+
+<Property name="AccountHolder">
+<Description>
+If this order is for a account holder,
+both requestor fields contain Customer information</Description>
+<Type>FCE.AccountHolder</Type>
+<Cardinality>one</Cardinality>
+<Inverse>CurrencyOrders</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="AccountHolderIndex">
+<Properties>AccountHolder</Properties>
+</Index>
+
+<Property name="Payment">
+<Description>
+Unique reference to FCE.Payment</Description>
+<Type>FCE.Payment</Type>
+</Property>
+
+<Index name="PaymentIndex">
+<Properties>Payment</Properties>
+<Unique>1</Unique>
+</Index>
+
+<ForeignKey name="PaymentFK">
+<Properties>Payment</Properties>
+<ReferencedClass>FCE.Payment</ReferencedClass>
+</ForeignKey>
+
+<Method name="%OnNew">
+<Description>
+OVERRIDE: custom constructor</Description>
+<FormalSpec>branch:FCE.Branch="",requestor:%String="",requestorEmail:%String="",currencyOut:FCE.CurrencyName="",currencyIn:FCE.CurrencyName="",amountIn:%Numeric=0,*valid:%Status</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set ..Requestor = requestor
+	set ..RequestorEmail = requestorEmail
+	set ..CurrencyOut = currencyOut
+	set ..CurrencyIn = currencyIn
+	set ..Branch = branch
+	set ..AmountIn = amountIn
+	set ..Fee = amountIn * ..#FEERATE		
+
+	// compute AmountOut		
+	if (amountIn '= 0) {
+		set ..ExchangeRate = ##class(FCE.Currency).ComputeRate(currencyOut, currencyIn)
+		set ..AmountOut = (amountIn - ..Fee) * ..ExchangeRate
+	}
+	// check available stock
+	if $isobject(branch) {
+		set stockAmountOut = branch.CurrencyBalances.GetAt(currencyOut)
+		if (..AmountOut > stockAmountOut) {
+			set custom = "Not enough stock in branch for " _ currencyOut
+			set valid = $$$ERROR($$$GeneralError, custom)			
+		}
+	}
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OnPopulate">
+<Description>
+OVERRIDE: custom population</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	// link this order to one of its Branch's ATMs (if the Branch has any)
+	// otherwise, this CurrencyOrder happened at the Branch itself (no ATM)
+	set ATMs = ..Branch.ATMs
+	set count = ATMs.Count()
+	if (count > 0) {
+		set rand = $random(count) + 1
+		set serialNumber = ATMs.GetAt(rand)
+		set ..ATM = serialNumber
+	}
+	else {
+		set ..ATM = ""
+	}
+	// 70% of CurrencyOrders are Status = Completed
+	if ($random(10) > 2) {
+		set ..Status = "Completed"
+	}
+	else {
+		set ..Status = ##class(%PopulateUtils).ValueList("-Requested-Pending-Rejected-Paid-Problem-Canceled")
+	}
+	// make sure CurrencyIn and CurrencyOut are different
+	while (..CurrencyIn = ..CurrencyOut) {
+		set ..CurrencyOut = ##class(FCE.Tests.Utilities).Currency()
+	}
+	// set fee
+	set ..Fee = ..AmountIn * ..#FEERATE
+	// get exchange rate
+	set rate = ##class(FCE.Currency).ComputeRate(..CurrencyIn, ..CurrencyOut)
+	set ..ExchangeRate = rate
+	// set correct AmountOut
+	set ..AmountOut = (..AmountIn - ..Fee) * rate
+
+	// assign a random payment to this CurrencyOrder
+	set rand = $random(3), payment = 1
+	if (rand = 0) { do ##class(FCE.Cash).Populate(1,,, .payment) }
+	elseif (rand = 1) { do ##class(FCE.CreditCard).Populate(1,,, .payment)}
+	elseif (rand = 2) { do ##class(FCE.AccountPayment).Populate(1,,, .payment)}
+	set ..Payment = payment(1)
+	// only CurrencyOrders with AccountPayments have an AccountHolder
+	if (rand '= 2) { set ..AccountHolder = "" }
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OrdersByCity">
+<Description>
+Display all orders in a given status, sorted by branch city</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>orderStatus:%String="Pending"</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	// check for SELECT privileges on FCE.CurrencyOrder and -> referenced tables
+	if '$system.SQL.Security.CheckPrivilege($username, 1, "FCE.CurrencyOrder", "s") ||
+	   '$system.SQL.Security.CheckPrivilege($username, 1, "FCE.Branch", "s") ||
+	   '$system.SQL.Security.CheckPrivilege($username, 1, "FCE.RealEstate", "s") {
+		set message = "User " _ $username _ " is not privileged for the operation"
+		set status = $$$ERROR($$$SQLCode, -99, message)
+		return status
+	}
+	#sqlcompile SELECT = odbc
+	&sql(DECLARE bycity CURSOR FOR
+		 SELECT Branch->Address->City, AmountIn, CurrencyIn, AmountOut, CurrencyOut,
+				DateStamp, TimeStamp
+		 FROM FCE.CurrencyOrder
+		 WHERE Status = :orderStatus
+		 ORDER BY Branch->Address->City)
+	&sql(OPEN bycity)
+	quit:(SQLCODE '= 0) // error -101 if cursor already open
+	write !, orderStatus, " Orders"
+	write !, "City", ?20, "Amount In", ?30, "Currency In", ?55, "Amount Out", ?70,
+			 "Currency Out", ?95, "Date Stamp", ?110, "Time Stamp"
+	for {
+		&sql(FETCH bycity INTO :city, :amountIn, :currencyIn, :amountOut,
+							   :currencyOut, :dateStamp, :timeStamp)
+		quit:(SQLCODE '= 0)
+		write !, city, ?20, amountIn, ?30, currencyIn, ?55, amountOut, ?70,
+				 currencyOut, ?95, dateStamp, ?110, timeStamp
+	}
+
+	if SQLCODE = 100 {
+		write !!, %ROWCOUNT, " row(s) returned."
+		set status = $$$OK
+	}
+	else { set status = $$$ERROR($$$GeneralError, "SQLCODE: " _ SQLCODE _ " " _ %msg) }
+	&sql(CLOSE bycity)
+	quit:(SQLCODE '= 0) // error -102 if cursor not open
+    return status
+]]></Implementation>
+</Method>
+
+<Trigger name="UpdateDeleteInNotes">
+<Description>
+When a CurrencyOrder is updated or deleted, record that in the branch Notes</Description>
+<Code>	new action, note, auditNote, branch, st // ensure variables are private to trigger
+	set action = $case({%%OPERATION}, "DELETE":"deleted", "UPDATE":"updated")
+	set note = "At " _ $zdt($h) _ ", " _ $username _ " " _ action _ " Order #"
+			   _ {ID} _ " originally requested by " _ {Requestor}
+	           _ " (for " _ {AmountOut} _ " " _ {CurrencyOut} _ ")"
+	set auditNote = "Order #" _ {ID} _ " " _ action
+	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%OpenId({Branch}, 4, .st)
+	if $$$ISOK(st) {
+		do branch.Notes.MoveToEnd()
+		do branch.Notes.WriteLine(note)
+		set st = branch.%Save()
+	}
+	if ($$$ISERR(st)) { set %msg = "Couldn't update branch notes." }
+	do $system.Security.Audit("Application", "FCE.CurrencyOrder", "Change", auditNote , "UpdateDelete")</Code>
+<Event>UPDATE/DELETE</Event>
+<Time>AFTER</Time>
+<Foreach>row/object</Foreach>
+</Trigger>
+
+<Trigger name="DeletePayment">
+<Description>
+When a currency order row/object is deleted, delete its payment</Description>
+<Code><![CDATA[	return:({Payment} = "")
+    new SQLCODE // ensure SQLCODE is private to trigger
+    &sql(DELETE FROM FCE.Payment WHERE ID = :{Payment})
+	if (SQLCODE < 0) { set %ok = 0, %msg = "SQLCODE: "_ SQLCODE }]]></Code>
+<Event>DELETE</Event>
+<Time>AFTER</Time>
+<Foreach>row/object</Foreach>
+</Trigger>
+</Class>
+
+
+<Class name="FCE.ExtendedHours">
+<ClassType>view</ClassType>
+<CompileAfter>FCE.Branch</CompileAfter>
+<DdlAllowed>1</DdlAllowed>
+<ProcedureBlock>0</ProcedureBlock>
+<SqlTableName>ExtendedHours</SqlTableName>
+<TimeChanged>65037,1403.166256</TimeChanged>
+<TimeCreated>65037,1403.166256</TimeCreated>
+<ViewQuery><![CDATA[ select * from FCE.Branch where DurationOpen > 10]]></ViewQuery>
+</Class>
+
+
+<Class name="FCE.MailingAddress">
+<Description>
+Mailing addresses for people</Description>
+<Super>%SerialObject,FCE.Address</Super>
+<TimeChanged>65037,1403.35226</TimeChanged>
+<TimeCreated>65037,1403.35226</TimeCreated>
+</Class>
+
+
+<Class name="FCE.Operations.Branch">
+<Description>
+Facade for branch operations</Description>
+<IncludeCode>%occStatus,%occConstant</IncludeCode>
+<TimeChanged>65332,66477.59816</TimeChanged>
+<TimeCreated>65330,61682.305697</TimeCreated>
+
+<Parameter name="FEERATE">
+<Default>.025</Default>
+</Parameter>
+
+<Method name="GetAmountOutAndFee">
+<Description>
+Perform calculations for a request</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>amountIn:%Numeric,exchangeRate:%Decimal,*fee:%Numeric,*amountOut:%Numeric</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<SqlProc>1</SqlProc>
+<Implementation><![CDATA[
+	set fee = amountIn * ..#FEERATE
+	set amountOut = (amountIn - fee) * exchangeRate
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="ProcessOrder">
+<Description>
+Process an order, with a payment (optionally made from an account)
+1. Link objects
+2. Prepare for transaction
+3. Tstart, process payment, Tcommit
+4. Report errors, set error status</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[order:FCE.CurrencyOrder,payment:FCE.Payment,account:FCE.AccountHolder="",&message:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	if $IsObject(account) { set order.AccountHolder = account }
+	
+	set UTCTimeStamp = $system.SYS.TimeStamp()
+	set order.DateStamp = $p(UTCTimeStamp, ",", 1)
+	set order.TimeStamp = $p(UTCTimeStamp, ",", 2)
+	set status = $$$OK, message = "" // initialize
+	
+
+	// check that account has valid and sufficient currency
+	if $IsObject(account) &&
+	       ( (account.Currency '= order.CurrencyIn) ||
+	         (account.Balance < order.AmountIn) ) {
+		set order.Status = "Rejected"
+	}
+	else {
+		tstart // start a nested transaction
+		set status = payment.Process(order, .message)
+
+		if $$$ISERR(status)
+		{
+			set order.Status = "Problem"
+			trollback 1
+		}
+		else {
+			set order.Payment = payment
+			set order.Status = "Completed"
+			tcommit
+		}
+	}
+	set orderSaved = order.%Save()
+	set finalStatus = $$$ADDSC(status, orderSaved)
+	if ($$$ISERR(finalStatus)) {return finalStatus}
+	else {
+		do ..SendConfirmation(order)
+		return $$$OK
+	}
+]]></Implementation>
+</Method>
+
+<Method name="SendConfirmation">
+<Description>
+Send email confirmation for processed order</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>order:FCE.CurrencyOrder</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	//disabled for now; comment following line to enable
+	return 1
+	// define an smtp server
+	#dim mailServer as %Net.SMTP
+	set mailServer = ##class(%Net.SMTP).%New()
+	set mailServer.smtpserver = "localhost" ; use MailSlurper in ReadyTech VM by default
+	set mailServer.timezone = "-0500"  ; your timezone
+	// define a message
+	#dim message as %Net.MailMessage
+	set message = ##class(%Net.MailMessage).%New()
+	set message.Subject = "Confirmation of " _ order.Status _ " currency exchange"
+	set message.From = "auto-confirm@fcxbank.com"
+	do message.To.Insert(order.RequestorEmail)
+	// add text
+	set line(1) = "Hello " _ order.Requestor
+	set line(2) = $$$NL _ $$$NL _ "Your exchange of " _ order.AmountIn _ " " _ order.CurrencyIn
+	set line(3) = $$$NL _ $justify("for ",17) _ order.AmountOut _ " " _ order.CurrencyOut
+	set line(4) = $$$NL _ "has been " _ order.Status _ "."
+	for i=1:1:4 {
+		do message.TextData.Write(line(i))
+	}
+	// send the email
+	set status = mailServer.Send(message)
+	return status
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Operations.REST">
+<IncludeCode>%occErrors</IncludeCode>
+<Super>%CSP.REST</Super>
+<TimeChanged>65155,76385.315913</TimeChanged>
+<TimeCreated>65037,1402.89872</TimeCreated>
+
+<XData name="UrlMap">
+<XMLNamespace>http://www.intersystems.com/urlmap</XMLNamespace>
+<Data><![CDATA[
+<Routes>
+<Route Url="/branches" Method="POST" Call="CreateBranch" />
+<Route Url="/branches/:ID" Method="GET" Call="RetrieveBranch" />
+<Route Url="/branches/:ID" Method="DELETE" Call="DeleteBranch" />
+<Route Url="/branches/openinglist/:count" Method="GET" Call="ListBranchesByOpeningTime" />
+</Routes>
+]]></Data>
+</XData>
+
+<Parameter name="HTTP422UNPROCESSABLEENTITY">
+<Default>422 Unprocessable Entity</Default>
+</Parameter>
+
+<Method name="RetrieveBranch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>branchID:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#dim %response as %CSP.Response
+	set %response.ContentType = "application/json"
+	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%OpenId(branchID, , .st)
+	if $$$ISOK(st) {
+		set jsonBranch = {}
+		set st = branch.CopyToObject(.jsonBranch)
+		if $$$ISOK(st) {
+			// send the JSON string response out
+			write jsonBranch.%ToJSON()
+		} 
+	}
+	return st
+]]></Implementation>
+</Method>
+
+<Method name="CreateBranch">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#dim %response as %CSP.Response
+	set %response.ContentType = "application/json"
+	#dim %request as %CSP.Request
+	set data = ##class(%DynamicObject).%FromJSON(%request.Content)
+	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set st = branch.CopyFromObject(data)
+	if $$$ISOK(st) {
+		set st = branch.%Save()
+		if $$$ISOK(st) {
+			set jsonBranch = {}
+			set st = branch.CopyToObject(.jsonBranch)
+			if $$$ISOK(st) {
+				// send the JSON string response out
+				write jsonBranch.%ToJSON()
+			} 
+		}
+	}
+	return st
+]]></Implementation>
+</Method>
+
+<Method name="DeleteBranch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>branchID:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#dim %response as %CSP.Response
+	set st = ##class(FCE.Branch).%DeleteId(branchID)
+	set %response.Status = ..#HTTP204NOCONTENT
+	return st
+]]></Implementation>
+</Method>
+
+<Method name="ListBranchesByOpeningTime">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>count:%Integer</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#dim rs as %SQL.StatementResult
+	#dim results as %DynamicArray
+	#dim %response as %CSP.Response
+	set %response.ContentType = "application/json"
+	// limit request to top 100
+	if (count > 100) {
+		set st = $$$ERROR($$$GeneralError, "Limit = 100")
+		set %response.Status = ..#HTTP204NOCONTENT
+		return st
+	}
+	// use dynamic sql, using JSON_OBJECT to format result as JSON string
+	set sql = "SELECT TOP ?"
+	set sql = sql _ " JSON_OBJECT('Opens':%odbcout(opens),'Closes':%odbcout(closes),'Phone':phone)"
+	set sql = sql _ " as branch"
+	set sql = sql _ " FROM FCE.Branch"
+	set sql = sql _ " WHERE opens is not null"
+	set sql = sql _ " ORDER BY opens"
+	set rs = ##class(%SQL.Statement).%ExecDirect(, sql, count)
+	if (rs.%SQLCODE = 0) {
+		// use %DynamicArray to hold results
+		set results = []
+		while rs.%Next() {
+			// change JSON string into %DynamicObject and push into results
+			do results.%Push(##class(%DynamicObject).%FromJSON(rs.branch))
+		}
+		if (rs.%SQLCODE = 100) {
+			// create %DynamicObject to hold final count and results
+			set finalResult = {}
+			set finalResult.count = rs.%ROWCOUNT
+			set finalResult.results = results
+			write finalResult.%ToJSON()  // send the JSON string response out
+		}
+		else {
+			// failure during %Next()
+			set %response.Status = ..#HTTP204NOCONTENT
+			set st = $$$ERROR($$$GeneralError, rs.%SQLCODE _ ": " _ rs.%Message)
+		}
+	}
+	else {
+		set %response.Status = ..#HTTP204NOCONTENT
+	}
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="Http500">
+<Description>
+Issue a '500' error and give some indication as to what occurred
+(Overridden to interpret some particular %Status values as different HTTP status codes.)</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>ex:%Exception.AbstractException</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set st = ex.AsStatus()
+	set code = +$System.Status.GetErrorCodes(st)
+    return ..ReportHttpStatusCode($case(code,
+    			$$$LoadObjectNotFound       :..#HTTP404NOTFOUND,
+    			$$$DeleteObjectNotFound     :..#HTTP404NOTFOUND,
+    			$$$KeyNotUnique             :..#HTTP422UNPROCESSABLEENTITY,
+    			$$$PropertyRequired	        :..#HTTP422UNPROCESSABLEENTITY,
+    			$$$DatatypeValidationFailed :..#HTTP422UNPROCESSABLEENTITY,
+    			$$$AccessDenied             :..#HTTP403FORBIDDEN,
+    			                            :..#HTTP500INTERNALSERVERERROR), st)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Pages.CurrencyImage">
+<Description>
+page that displays national flags for each currency</Description>
+<Super>%ZEN.Component.page</Super>
+<TimeChanged>65037,1404.131572</TimeChanged>
+<TimeCreated>65037,1404.131572</TimeCreated>
+
+<Parameter name="APPLICATION">
+<Description>
+Class name of application this page belongs to.</Description>
+</Parameter>
+
+<Parameter name="PAGENAME">
+<Description>
+Displayed name of this page.</Description>
+<Default>CurrencyImage</Default>
+</Parameter>
+
+<Parameter name="DOMAIN">
+<Description>
+Domain used for localization.</Description>
+</Parameter>
+
+<Property name="Current">
+<Description>
+Name of currently visible image</Description>
+<Type>%String</Type>
+</Property>
+
+<XData name="Style">
+<Description>
+This Style block contains page-specific CSS style definitions.</Description>
+<Data><![CDATA[
+<style type="text/css">
+/* style for title bar */
+#title {
+	background: #C5D6D6;
+	color: black;
+	font-family: Verdana;
+	font-size: 1.5em;
+	font-weight: bold;
+	padding: 5px;
+	border-bottom: 1px solid black;
+	text-align: center;
+}
+</style>
+]]></Data>
+</XData>
+
+<XData name="Contents">
+<Description>
+This XML block defines the contents of this page.</Description>
+<XMLNamespace>http://www.intersystems.com/zen</XMLNamespace>
+<Data><![CDATA[
+<page id="page" xmlns="http://www.intersystems.com/zen" title="FCE Currency Images">
+<label id="title" value="FCE Currency Images"/>
+<dataCombo id="cmbCurrencies" label="Choose a currency" sql="select ID, currency from fce.currency order by currency"
+           onchange="zenPage.showImage();"/>
+<spacer height="40px"/>
+
+</page>
+]]></Data>
+</XData>
+
+<Method name="showImage">
+<Language>javascript</Language>
+<ClientMethod>1</ClientMethod>
+<Implementation><![CDATA[
+	imagelist = ["USD", "EUR", "INR", "GBP", "JPY",
+	             "MXN", "ZAR", "BRL", "CAD", "CHF"];
+
+	if (zenPage.Current != "") {
+		zenSetProp(zenPage.Current,"hidden",true);
+	}
+	
+	index = zenThis.getValue() - 1;
+	component = "img".concat(imagelist[index]);
+	zenSetProp(component,"hidden",false);
+	zenPage.Current = component;
+]]></Implementation>
+</Method>
+
+<Method name="%OnAfterCreatePage">
+<Description>
+Load ALL images ahead of time; add hidden component for each image</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	#dim %page as %ZEN.Component.page
+	set abbreviations = ##class(FCE.CurrencyName).#VALUELIST
+	set currencies = ##class(FCE.Currency).ConvertCurrenciestoListString(abbreviations)
+	for i=1:1:$listlength(currencies) {
+		set componentID = "img" _ $list(currencies, i)
+		#dim img as %ZEN.Component.image
+		set img = ##class(%ZEN.Component.image).%New()
+		set img.id = componentID, img.hidden = 1
+		do %page.%AddChild(img)
+		#dim currencyImage as %Stream.GlobalBinary
+		set currencyImage = ##class(FCE.Currency).%OpenId(i).Image
+		set oid = currencyImage.%Oid()
+		set img.streamId = oid
+	}	
+	return $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Payment">
+<Description>
+Abstract class for payments for exchanges</Description>
+<Abstract>1</Abstract>
+<Super>%Persistent,%Populate,%XML.Adaptor</Super>
+<TimeChanged>65330,12329.777584</TimeChanged>
+<TimeCreated>65037,1403.134095</TimeCreated>
+
+<Property name="VerificationID">
+<Type>%String</Type>
+<InitialExpression>##class(%PopulateUtils).String(5)</InitialExpression>
+</Property>
+
+<Method name="Process">
+<FormalSpec>order:FCE.CurrencyOrder,*paymentString:%String=""</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	if (order = "") { 
+	    return $$$ERROR($$$GeneralError, "No associated currency order")}
+	elseif (order.Branch = "") {
+		return $$$ERROR($$$GeneralError, "No associated branch")}
+	else {
+		set paymentString = "Re: your request of: "
+		    _ order.AmountOut _ " " 
+        	_ order.CurrencyOut _ ", at an exchange rate of: "
+        	_ order.ExchangeRate _ " "
+        	_ order.CurrencyOut _ " per 1 "
+        	_ order.CurrencyIn _ " (Verification ID: "
+        	_ ..VerificationID _ ")..."
+        return $$$OK
+	}
+]]></Implementation>
+</Method>
+
+<Index name="BitmapExtent">
+<Description>
+Automatically creates indexes of subclass extents</Description>
+<Type>bitmap</Type>
+<Extent>1</Extent>
+</Index>
+</Class>
+
+
+<Class name="FCE.PersistentPerson">
+<Description>
+Abstract persistent superclass for AccountHolder</Description>
+<Abstract>1</Abstract>
+<Super>%Persistent,FCE.Person</Super>
+<TimeChanged>65330,66905.183291</TimeChanged>
+<TimeCreated>65037,1403.443948</TimeCreated>
+<NoExtent>1</NoExtent>
+
+<Index name="NameIndex">
+<Properties>Name</Properties>
+</Index>
+
+<Index name="EmailIndex">
+<Properties>Email</Properties>
+<Unique>1</Unique>
+</Index>
+</Class>
+
+
+<Class name="FCE.Person">
+<Description>
+Abstract person class</Description>
+<Abstract>1</Abstract>
+<Super>%Populate,%XML.Adaptor</Super>
+<TimeChanged>65037,1402.827187</TimeChanged>
+<TimeCreated>65037,1402.827187</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="PrintName">
+<Type>%String</Type>
+<Calculated>1</Calculated>
+<SqlComputeCode> set {PrintName}=$piece({Name},",",2)_" "_$piece({Name},",",1)</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+</Property>
+
+<Property name="Email">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="DOB">
+<Type>%Date</Type>
+<Parameter name="FORMAT" value="5"/>
+<Parameter name="MAXVAL" value="+$h"/>
+</Property>
+
+<Property name="Home">
+<Type>FCE.MailingAddress</Type>
+</Property>
+
+<Property name="Work">
+<Type>FCE.MailingAddress</Type>
+</Property>
+</Class>
+
+
+<Class name="FCE.PhoneNumber">
+<Super>%String</Super>
+<TimeChanged>65037,1403.073432</TimeChanged>
+<TimeCreated>65037,1403.073432</TimeCreated>
+
+<Parameter name="PATTERN">
+<Default>3n1"-"3n1"-"4n</Default>
+</Parameter>
+
+<Method name="LogicalToDisplay">
+<Description>
+OVERRIDE: add parentheses around area code</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>phone:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	return "(" _ $piece(phone, "-") _ ")-" _ $piece(phone, "-", 2, 3)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.RealEstate">
+<Description>
+Addresses for branches</Description>
+<Super>%Persistent,FCE.Address</Super>
+<TimeChanged>65332,66824.329741</TimeChanged>
+<TimeCreated>65037,1402.789705</TimeCreated>
+
+<Method name="ByZip">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>state:%String="",*status:%Status</FormalSpec>
+<ReturnType>%SQL.StatementResult</ReturnType>
+<SqlProc>1</SqlProc>
+<ReturnResultsets>1</ReturnResultsets>
+<Implementation><![CDATA[
+	#dim %sqlcontext as %ProcedureContext
+	#dim resultSet as %SQL.StatementResult
+	set resultSet = $$$NULLOREF
+	#dim statement as %SQL.Statement
+	set statement = ##class(%SQL.Statement).%New()
+	set sql = "SELECT zip, street, city, state FROM fce.realestate"
+	if (state '= "") {
+		set sql = sql _ " WHERE state = ?"
+	}
+	set sql = sql _ " ORDER BY zip"
+	set status = statement.%Prepare(sql)
+	if $$$ISOK(status) {
+		if (state '= "") {
+			set resultSet = statement.%Execute(state)
+		}
+		else {
+			set resultSet = statement.%Execute()
+		}
+		if (resultSet.%SQLCODE = 0) {
+			// successful %Execute
+
+			// for testing using Terminal
+			do resultSet.%Display()
+
+			// for ODBC/JDBC
+			// do %sqlcontext.AddResultSet(resultSet)
+		}
+		else {
+			// error during %Execute
+			set %sqlcontext.%SQLCODE = resultSet.%SQLCODE
+			set %sqlcontext.%Message = resultSet.%Message
+		}
+	}
+	else {
+		// error during %Prepare: bad SQL
+		#dim ex as %Exception.StatusException
+		set ex = ##class(%Exception.StatusException).CreateFromStatus(status)
+		set %sqlcontext.%SQLCODE = ex.AsSQLCODE()
+		// 4th ":" piece contains %msg value
+		set %sqlcontext.%Message = $piece(ex.AsSQLMessage(), ":", 4)
+	}
+	return resultSet  // return results to other server-side code
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Regex">
+<Description><![CDATA[
+A string datatype definition which extends <class>%Library.String</class> with additional regex pattern validation. <br>]]></Description>
+<Super>%Library.String</Super>
+<TimeChanged>65330,76115.923259</TimeChanged>
+<TimeCreated>65037,1403.237538</TimeCreated>
+
+<Parameter name="PATTERN">
+<Description>
+Set PATTERN to empty and final as it is not relevant</Description>
+<Final>1</Final>
+</Parameter>
+
+<Parameter name="VALUELIST">
+<Description>
+Set VALUELIST to empty and final as it is not relevant</Description>
+<Final>1</Final>
+</Parameter>
+
+<Parameter name="DISPLAYLIST">
+<Description>
+Set DISPLAYLIST to empty and final as it is not relevant</Description>
+<Final>1</Final>
+</Parameter>
+
+<Parameter name="REGEX">
+<Description>
+Set a valid regex pattern for value validation</Description>
+</Parameter>
+
+<Method name="IsValid">
+<Description><![CDATA[
+Tests if the logical value <var>%val</var>, which is a string, is valid.]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>%val:%RawString</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	if (..#REGEX '= "") {
+		try {
+			if '$match(%val, ..#REGEX) {
+				return $$$ERROR($$$DTPattern, %val, ..#REGEX)
+			}
+		} catch Ex {
+			return $$$ERROR($$$URegexRuleSyntax)
+		}
+	}
+	return $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Tests.BasicTests">
+<Super>FCE.Tests.TestCase</Super>
+<TimeChanged>65332,64396.458981</TimeChanged>
+<TimeCreated>65037,1403.68449</TimeCreated>
+
+<Property name="RefdRealEstate">
+<Description>
+holds a referenced FCE.RealEstate object, assigned in OnBeforeAllTests()</Description>
+<Type>FCE.RealEstate</Type>
+<Private>1</Private>
+</Property>
+
+<Property name="UnrefdRealEstate">
+<Description>
+holds an unreferenced FCE.RealEstate object, assigned in OnBeforeAllTests()</Description>
+<Type>FCE.RealEstate</Type>
+<Private>1</Private>
+</Property>
+
+<Method name="OnBeforeAllTests">
+<Description>
+Set up test environment</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+ 	// create a Branch with this phone #
+ 	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set branch.Phone = "999-999-9999"
+ 
+ 	/* create a dummy RealEstate object, link it to the Branch above
+       and save the object in the "global" RefdRealEstate property */
+ 	#dim realestate as FCE.RealEstate
+	set realestate = ##class(FCE.RealEstate).%New()
+	set realestate.Street = "10 Main Street"
+	set realestate.City = "New York"
+	set realestate.State = "NY"
+	set realestate.Zip = "99999"
+	set status = realestate.%Save()
+	set branch.Address = realestate
+	set status = branch.%Save()
+	return:$$$ISERR(status) status
+	set ..RefdRealEstate = realestate
+	
+	/* create a dummy RealEstate object that *isn't* referenced by a Branch
+	   save the object in the "global" UnrefdRealEstate property */
+	set realestate = ##class(FCE.RealEstate).%New()
+	set realestate.Street = "20 Oak Street"
+	set realestate.City = "Boston"
+	set realestate.State = "MA"
+	set realestate.Zip = "99999"
+	set status = realestate.%Save()
+	return:$$$ISERR(status) status
+	set ..UnrefdRealEstate = realestate
+ 	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OnAfterAllTests">
+<Description>
+Clean up test environment</Description>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	/// in case any tests fail to *complete*
+	/// remove the leftover branch and the initial branch
+	&sql(DELETE FROM FCE.Branch
+	     WHERE (Phone = '999-999-9999') OR (Phone = '999-999-0000'))
+	return:(SQLCODE < 0) $$$ERROR($$$SQLError,SQLCODE,%msg)
+	set ID1 = ..RefdRealEstate.%Id(), ID2 = ..UnrefdRealEstate.%Id()
+	&sql(DELETE FROM FCE.RealEstate WHERE ID IN (:ID1, :ID2))
+	return:(SQLCODE < 0) $$$ERROR($$$SQLError,SQLCODE,%msg)
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="TestBranch">
+<Description>
+Basic tests for FCE.Branch</Description>
+<Implementation><![CDATA[
+	// assertion 1
+ 	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	do $$$AssertTrue($isobject(branch),"Created New Branch")	
+	// assertion 2
+	set status = branch.%Save()
+	do $$$AssertStatusNotOK(status, "Phone is required")	
+	// assertion 3
+	set branch.Phone = "9999999999" // bad pattern
+	set status = branch.%Save()
+	do $$$AssertStatusNotOK(status, "Phone doesn't match pattern: ###-###-####")
+	// assertion 4
+	set branch.Phone = "999-999-9999" // pre-existing number
+	set status = branch.%Save()
+	do $$$AssertStatusNotOK(status, "Phone must be unique")
+	// assertion 5
+	set branch.Phone = "999-999-0000"
+	set branch.Address = ..RefdRealEstate
+	set status = branch.%Save()
+	do $$$AssertStatusNotOK(status, "Another Branch already has this address")
+	// assertion 6
+	set branch.Address = ..UnrefdRealEstate
+	set branch.Opens = 18000 // open at 5am
+	set status = branch.%Save()
+	do $$$AssertStatusNotOK(status, "Opening at 5am too early")	
+	// assertion 7
+	set branch.Opens = 28800 // open at 8am
+	set branch.Closes = 82800 // close at 11pm
+	set status = branch.%Save()
+	do $$$AssertStatusNotOK(status, "Closing at 11pm too late")
+	// assertion 8
+	set branch.Closes = 64800 // close at 6pm
+	set branch.NationalCurrency = "ABC" // invalid currency
+	set status = branch.%Save()
+	do $$$AssertStatusNotOK(status, "ABC is invalid currency")
+	// assertion 9
+	set branch.NationalCurrency = "USD" // valid currency
+	set status = branch.%Save()
+	do $$$AssertStatusOK(status, "Branch saved")
+	// assertion 10
+	set branchID = branch.%Id()
+	do $$$AssertNotEquals(branchID, "", "ID assigned")
+	// assertion 11
+	set status = ##class(FCE.Branch).%DeleteId(branchID)
+	do $$$AssertStatusOK(status, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestBranchSQL">
+<Description>
+SQL tests for FCE.Branch table</Description>
+<Implementation><![CDATA[
+	set realestateID = ..UnrefdRealEstate.%Id()
+
+	&sql(INSERT INTO FCE.Branch (Address)
+	     VALUES (:realestateID))
+	do $$$AssertEquals(SQLCODE, -108, "Phone is required")
+	&sql(INSERT INTO FCE.Branch (Phone, Address)
+	     VALUES ('9999999999',:realestateID))
+	do $$$AssertEquals(SQLCODE, -104, "Phone doesn't match pattern: ###-###-####")
+	&sql(INSERT INTO FCE.Branch (Phone, Address)
+	     VALUES ('999-999-9999',:realestateID))
+	do $$$AssertEquals(SQLCODE, -119, "Phone must be unique")
+	&sql(INSERT INTO FCE.Branch (Phone, Address, Opens)
+	     VALUES ('999-999-0000',:realestateID,18000))
+	do $$$AssertEquals(SQLCODE, -104, "Opening at 5am too early")
+	&sql(INSERT INTO FCE.Branch (Phone, Address, Opens, Closes)
+	     VALUES ('999-999-0000',:realestateID,28800,82800))
+	do $$$AssertEquals(SQLCODE, -104, "Closing at 11pm too late")
+	&sql(INSERT INTO FCE.Branch (Phone, Address, Opens, Closes, NationalCurrency)
+	     VALUES ('999-999-0000',:realestateID,28800,64800,'ABC'))
+	do $$$AssertEquals(SQLCODE, -104, "ABC is invalid currency")
+	&sql(INSERT INTO FCE.Branch (Phone, Address, Opens, Closes, NationalCurrency)
+	     VALUES ('999-999-0000',:realestateID,28800,64800,'USD'))
+	do $$$AssertEquals(SQLCODE, 0, "Branch saved")
+	set branchID = %ROWID
+	do $$$AssertNotEquals(branchID, "", "ID assigned")
+	&sql(DELETE FROM FCE.Branch WHERE ID = :branchID)
+	do $$$AssertEquals(SQLCODE, 0, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestRealEstate">
+<Description>
+Basic tests for FCE.RealEstate</Description>
+<Implementation><![CDATA[
+ 	#dim realestate as FCE.RealEstate
+	set realestate = ##class(FCE.RealEstate).%New()
+	set status = realestate.%Save()
+	do $$$AssertStatusNotOK(status, "Real Estate requires all 4 properties")
+	set realestate.Street = "10 Main St."
+	set status = realestate.%Save()
+	do $$$AssertStatusNotOK(status, "Real Estate requires all 4 properties")
+	set realestate.City = "New York"
+	set status = realestate.%Save()
+	do $$$AssertStatusNotOK(status, "Real Estate requires all 4 properties")
+	set realestate.State = "ny"
+	set status = realestate.%Save()
+	do $$$AssertStatusNotOK(status, "State must be on VALUELIST and must match case")
+	set realestate.State = "NY"
+	set status = realestate.%Save()
+	do $$$AssertStatusNotOK(status, "Real Estate requires all 4 properties")
+	set realestate.Zip = "123"
+	set status = realestate.%Save()
+	do $$$AssertStatusNotOK(status, "ZipCode must be ##### or #####-####")
+	set realestate.Zip = "12345-1"
+	set status = realestate.%Save()
+	do $$$AssertStatusNotOK(status, "ZipCode must be ##### or #####-####")
+	set realestate.Zip = "99999-4567"
+	set status = realestate.%Save()
+	set realestateID = realestate.%Id()
+	do $$$AssertStatusOK(status, "Real Estate saved")
+ 	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set branch.Phone = "999-999-0000"
+	set branch.Address = realestate
+	set status = branch.%Save()
+	set branchID = branch.%Id()
+	do $$$AssertStatusOK(status, "Branch saved")
+	set (branch, realestate) = ""
+	do $$$LogMessage("All objects closed")
+	set branch = ##class(FCE.Branch).%OpenId(branchID)
+	set realestate = ##class(FCE.RealEstate).%OpenId(realestateID)
+	do $$$AssertEquals(branch.Address.City, realestate.City, "Branch references Real Estate")
+	set (branch, realestate) = ""
+	do $$$LogMessage("All objects closed")
+	set status = ##class(FCE.RealEstate).%DeleteId(realestateID)
+	do $$$AssertStatusOK(status, "Real Estate deleted")
+	set realestateID = ##class(FCE.Branch).AddressGetStored(branchID)
+	do $$$AssertEquals(realestateID, "", "Branch not linked to Real Estate")
+	set status = ##class(FCE.Branch).%DeleteId(branchID)
+	do $$$AssertStatusOK(status, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestRealEstateSQL">
+<Description>
+SQL tests for FCE.RealEstate table</Description>
+<Implementation><![CDATA[
+	&sql(INSERT INTO FCE.RealEstate (Street) VALUES ('10 Main St.'))
+	do $$$AssertEquals(SQLCODE, -108, "Real Estate requires all 4 properties")
+	&sql(INSERT INTO FCE.RealEstate (Street,City) VALUES ('10 Main St.','New York'))
+	do $$$AssertEquals(SQLCODE, -108, "Real Estate requires all 4 properties")
+	&sql(INSERT INTO FCE.RealEstate (Street,City,State)
+             VALUES ('10 Main St.','New York','ny'))
+	do $$$AssertEquals(SQLCODE, -104, "State must be on VALUELIST and must match case")
+	&sql(INSERT INTO FCE.RealEstate (Street,City,State)
+             VALUES ('10 Main St.','New York','NY'))
+	do $$$AssertEquals(SQLCODE, -108, "Real Estate requires all 4 properties")
+	&sql(INSERT INTO FCE.RealEstate (Street,City,State,Zip) 
+             VALUES ('10 Main St.','New York','NY','123'))
+	do $$$AssertEquals(SQLCODE, -104, "ZipCode must be ##### or #####-####")
+	&sql(INSERT INTO FCE.RealEstate (Street,City,State,Zip) 
+             VALUES ('10 Main St.','New York','NY','12345-1'))
+	do $$$AssertEquals(SQLCODE, -104, "ZipCode must be ##### or #####-####")
+	&sql(INSERT INTO FCE.RealEstate (Street,City,State,Zip)
+             VALUES ('10 Main St.','New York','NY','99999-4567'))
+	do $$$AssertEquals(SQLCODE, 0, "Real Estate saved")
+	set realestateID = %ROWID
+	do $$$AssertNotEquals(realestateID, "", "Real Estate ID assigned")
+	&sql(INSERT INTO FCE.Branch (Phone,Address) VALUES ('999-999-0000',:realestateID))
+	do $$$AssertEquals(SQLCODE, 0, "Branch saved")
+	set branchID = %ROWID
+	&sql(SELECT Address->City INTO :city FROM FCE.Branch WHERE ID = :branchID)
+	do $$$AssertEquals(SQLCODE, 0, "City retrieved")
+
+	do $$$AssertEquals(city, "New York", "Branch references Real Estate")
+	&sql(DELETE FROM FCE.RealEstate WHERE ID = :realestateID)
+	do $$$AssertEquals(SQLCODE, 0, "Real Estate deleted")
+	&sql(SELECT Address INTO :realestateID FROM FCE.Branch WHERE ID = :branchID)
+	do $$$AssertEquals(SQLCODE, 0, "Real Estate ID retrieved")
+
+	do $$$AssertEquals(realestateID, "", "Branch not linked to Real Estate")
+	&sql(DELETE FROM FCE.Branch WHERE ID = :branchID)
+	do $$$AssertEquals(SQLCODE, 0, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestCurrenciesATMs">
+<Description>
+Basic tests for FCE.Branch CurrencyBalances and ATMs collections</Description>
+<Implementation><![CDATA[
+	if '$$$PropertyExists(FCE.Branch,CurrencyBalances) ||
+	   '$$$PropertyExists(FCE.Branch,ATMs) {
+		do $$$AssertSkipped("Can't run test yet")
+		quit
+	}
+
+	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set branch.Phone = "999-999-0000"
+	do branch.CurrencyBalances.SetAt(9999999,"USD")
+	set status = branch.%Save()
+	do $$$AssertStatusNotOK(status, "Currency Balance must be <= 1000000")
+	do branch.CurrencyBalances.SetAt(1000,"USD")
+	/// test this AFTER writing %OnValidateObject()
+	if $$$MethodExists(FCE.Branch,%OnValidateObject) {
+		do branch.CurrencyBalances.SetAt(1000,"ABC")
+		set status = branch.%Save()
+		do $$$AssertStatusNotOK(status, $system.Status.GetErrorText(status))
+		do branch.CurrencyBalances.RemoveAt("ABC")
+	}	
+	set status = branch.%Save()
+	do $$$AssertStatusOK(status, "Branch with Currency Balance saved")
+	set count = branch.CurrencyBalances.Count()
+	do $$$AssertEquals(count, 1, "Branch has one Currency Balance")
+	do branch.CurrencyBalances.RemoveAt("US")
+	set count = branch.CurrencyBalances.Count()
+	do $$$AssertNotEquals(count, 0, "RemoveAt() requires exact key")
+	do branch.CurrencyBalances.RemoveAt("USD")
+	set count = branch.CurrencyBalances.Count()
+	do $$$AssertEquals(count, 0, "Currency Balance Removed")
+	do branch.ATMs.Insert("a111")
+	do branch.ATMs.Insert("b222")
+	do branch.ATMs.Insert("c333")
+	set count = branch.ATMs.Count()
+	do $$$AssertEquals(count, 3, "Branch has three ATMs")
+	do branch.ATMs.RemoveAt(2)
+	set count = branch.ATMs.Count()
+	do $$$AssertEquals(count, 2, "Branch's original 2nd ATM deleted")
+	set ATM = branch.ATMs.GetAt(2)
+	do $$$AssertEquals(ATM, "c333", "Branch's original 3rd ATM now in position 2")
+	set status = ##class(FCE.Branch).%DeleteId(branch.%Id())
+	do $$$AssertStatusOK(status, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestCurrenciesSQL">
+<Description>
+SQL tests for FCE.Branch CurrencyBalances collection</Description>
+<Implementation><![CDATA[
+	if '$$$PropertyExists(FCE.Branch,CurrencyBalances) {
+		do $$$AssertSkipped("Can't run test yet")
+		quit
+	}
+
+	#sqlcompile mode=deferred
+	&sql(INSERT INTO FCE.Branch (Phone) VALUES ('999-999-0000'))
+	set branchID = %ROWID
+	&sql(INSERT INTO FCE.Branch_Balance (Branch, element_key, Balance)
+             VALUES (:branchID, 'USD', '9999999'))
+	do $$$AssertEquals(SQLCODE, -104, "Currency Balance must be <= 1000000")
+	&sql(INSERT INTO FCE.Branch_Balance (Branch, element_key, Balance)
+             VALUES (:branchID, 'USD', '10000'))
+	do $$$AssertEquals(SQLCODE, 0, "Branch with Currency Balance saved")
+	&sql(SELECT COUNT(*) INTO :count FROM FCE.Branch_Balance WHERE Branch = :branchID)
+	do $$$AssertEquals(SQLCODE, 0, "Currency Balance count retrieved")
+	do $$$AssertEquals(count, 1, "Branch has one Currency Balance")
+	&sql(DELETE FROM FCE.Branch_Balance WHERE (element_key = 'USD') AND (Branch = :branchID))
+	do $$$AssertEquals(SQLCODE, 0, "Currency Balance removed")
+	&sql(DELETE FROM FCE.Branch WHERE ID = :branchID)
+	do $$$AssertEquals(SQLCODE, 0, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestCurrencyOrder">
+<Description><![CDATA[
+Basic tests for 1->M relationship between FCE.Branch and FCE.CurrencyOrder]]></Description>
+<Implementation><![CDATA[
+ 	if '$$$ClassExists(FCE.CurrencyOrder) {
+		do $$$AssertSkipped("Can't run test yet")
+		quit
+	}
+	
+ 	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set branch.Phone = "999-999-0000"
+	set status = branch.%Save()
+	do $$$AssertStatusOK(status, "Branch saved")
+	set branchID = branch.%Id()
+	set countOfOrders = branch.Orders.Count()
+	do $$$AssertEquals(countOfOrders, 0, "No orders yet")
+	#dim order1 as FCE.CurrencyOrder
+	set order1 = ##class(FCE.CurrencyOrder).%New()
+	do $$$AssertTrue($isobject(order1), "Create order 1")
+	set order1.ATM = "a111"
+	set order1.Branch = branch
+	set countOfOrders = branch.Orders.Count()
+	do $$$AssertEquals(countOfOrders, 1, "Branch has 1 order")
+	set status = order1.%Save()
+	do $$$AssertStatusOK(status, "Order 1 saved")
+	set order1ID = order1.%Id()
+	do $$$AssertNotEquals(order1ID, "", "Order 1 ID assigned")
+	#dim order2 as FCE.CurrencyOrder
+	set order2 = ##class(FCE.CurrencyOrder).%New()
+	do $$$AssertTrue($isobject(order2), "Create order 2")
+	set order2.ATM = "b222"
+	do branch.Orders.Insert(order2)
+	set countOfOrders = branch.Orders.Count()
+	do $$$AssertEquals(countOfOrders, 2, "Branch has 2 orders")
+	set status = branch.%Save()
+	do $$$AssertStatusOK(status, "Branch and order 2 saved")
+	set order2ID = order2.%Id()
+	do $$$AssertNotEquals(order2ID, "", "Order 2 ID assigned")
+	set (branch, order1, order2) = ""
+	do $$$LogMessage("All objects closed")
+	set order2 = ##class(FCE.CurrencyOrder).%OpenId(order2ID)
+	do $$$AssertTrue($isobject(order2), "Order 2 retrieved")
+	set branch = order2.Branch
+	do $$$AssertEquals(branch.Phone, "999-999-0000", "Branch retrieved")
+	set countOfOrders = branch.Orders.Count()
+	do $$$AssertEquals(countOfOrders, 2, "Branch has 2 orders")
+	set (branch, order1, order2) = ""
+	do $$$LogMessage("All objects closed")
+	#dim order3 as FCE.CurrencyOrder
+	set order3 = ##class(FCE.CurrencyOrder).%New()
+	set order3.ATM = "c333"
+	set status = order3.%Save()
+	do $$$AssertStatusNotOK(status, "Order 3 not saved, branch required")
+	set status = ##class(FCE.Branch).%DeleteId(branchID)
+	do $$$AssertStatusNotOK(status, "Branch can't be deleted while it has orders")
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order1ID)
+	do $$$AssertStatusOK(status, "Order 1 deleted")
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order2ID)
+	do $$$AssertStatusOK(status, "Order 2 deleted")
+	set status = ##class(FCE.Branch).%DeleteId(branchID)
+	do $$$AssertStatusOK(status, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestCurrencyOrderSQL">
+<Description><![CDATA[
+SQL tests for 1->M relationship between FCE.Branch and FCE.CurrencyOrder tables]]></Description>
+<Implementation><![CDATA[
+ 	if '$$$ClassExists(FCE.CurrencyOrder) {
+		do $$$AssertSkipped("Can't run test yet")
+		quit
+	}
+	
+	#sqlcompile mode=deferred
+	&sql(INSERT INTO FCE.Branch (Phone) VALUES ('999-999-0000'))
+	do $$$AssertEquals(SQLCODE, 0, "Branch saved")
+	set branchID = %ROWID
+	do $$$AssertNotEquals(branchID, "", "Branch ID assigned")
+	&sql(INSERT INTO FCE.CurrencyOrder (Branch, ATM)
+	     VALUES (:branchID, 'a111'))
+	do $$$AssertEquals(SQLCODE, 0, "Order 1 linked to Branch and saved")
+	set order1ID = %ROWID
+	do $$$AssertNotEquals(order1ID, "", "Order 1 ID assigned")
+	&sql(INSERT INTO FCE.CurrencyOrder (ATM)
+	     VALUES ('b222'))
+	do $$$AssertEquals(SQLCODE, -108, "Order 2 not saved, branch required")
+	&sql(DELETE FROM FCE.Branch WHERE ID = :branchID)
+	do $$$AssertEquals(SQLCODE, -124, "Branch can't be deleted while it has orders")
+	&sql(DELETE FROM FCE.CurrencyOrder WHERE ID = :order1ID)
+	do $$$AssertEquals(SQLCODE, 0, "Order 1 deleted")
+	&sql(DELETE FROM FCE.Branch WHERE ID = :branchID)
+	do $$$AssertEquals(SQLCODE, 0, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestUpdateBranch">
+<Description>
+test FCE.Branch Update()</Description>
+<Implementation><![CDATA[
+	// create branch
+ 	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set branch.Phone = "999-999-0000"
+	set euros = 150, dollars = 50
+	do branch.CurrencyBalances.SetAt(euros, "EUR")
+	do branch.CurrencyBalances.SetAt(dollars, "USD")
+	
+	set currencyOut = "EUR", amountOut   = 1000
+	set currencyIn  = "USD", amountIn    = 100
+	set status = branch.Update(currencyOut, amountOut, currencyIn, amountIn)
+	do $$$AssertStatusNotOK(status, $system.Status.GetErrorText(status))
+	set currentEuros = branch.CurrencyBalances.GetAt("EUR")
+	set currentDollars = branch.CurrencyBalances.GetAt("USD")
+	do $$$AssertEquals(currentEuros, euros, "Outgoing currency remains the same")
+	do $$$AssertEquals(currentDollars, dollars, "Incoming currency remains the same")
+
+	set amountIn  = 9999999, amountOut = 100
+	set status = branch.Update(currencyOut, amountOut, currencyIn, amountIn)
+	do $$$AssertStatusNotOK(status, $system.Status.GetErrorText(status))
+	set currentEuros = branch.CurrencyBalances.GetAt("EUR")
+	set currentDollars = branch.CurrencyBalances.GetAt("USD")
+	do $$$AssertEquals(currentEuros, euros, "Outgoing currency remains the same")
+	do $$$AssertEquals(currentDollars, dollars, "Incoming currency remains the same")
+
+	set amountIn = 100
+	set status = branch.Update(currencyOut, amountOut, currencyIn, amountIn)
+	do $$$AssertStatusOK(status, "Branch updated")
+	set currentEuros = branch.CurrencyBalances.GetAt("EUR")
+	set currentDollars = branch.CurrencyBalances.GetAt("USD")
+	set euros = euros - amountOut, dollars = dollars + amountIn
+	do $$$AssertEquals(currentEuros, euros, "Outgoing currency updated correctly")
+	do $$$AssertEquals(currentDollars, dollars, "Incoming currency updated correctly")
+
+	set amountOut = 20
+	set status = branch.Update(currencyOut, amountOut)
+	do $$$AssertStatusOK(status, "Outgoing-only currency allowed (credit card or account payment)")
+	set currentEuros = branch.CurrencyBalances.GetAt("EUR")
+	set currentDollars = branch.CurrencyBalances.GetAt("USD")
+	set euros = euros - amountOut
+	do $$$AssertEquals(currentEuros, euros, "Outgoing currency updated correctly")
+	do $$$AssertEquals(currentDollars, dollars, "Incoming currency remains the same")
+
+	set amountIn = 20
+	set status = branch.Update(,,currencyIn, amountIn)
+	do $$$AssertStatusOK(status, "Incoming-only currency allowed (crediting account balance)")
+	set currentEuros = branch.CurrencyBalances.GetAt("EUR")
+	set currentDollars = branch.CurrencyBalances.GetAt("USD")
+	set dollars = dollars + amountIn
+	do $$$AssertEquals(currentEuros, euros, "Outgoing currency remains the same")
+	do $$$AssertEquals(currentDollars, dollars, "Incoming currency updated correctly")
+
+	set currencyIn = "ABC", amountIn = 20
+	set status = branch.Update(,,currencyIn, amountIn)
+	do $$$AssertStatusNotOK(status, "Invalid incoming currency")
+	set currentEuros = branch.CurrencyBalances.GetAt("EUR")
+	set currentDollars = branch.CurrencyBalances.GetAt("USD")
+	do $$$AssertEquals(currentEuros, euros, "Outgoing currency remains the same")
+	do $$$AssertEquals(currentDollars, dollars, "Incoming currency remains the same")
+]]></Implementation>
+</Method>
+
+<Method name="TestAccountHolder">
+<Description>
+Basic tests for FCE.AccountHolder</Description>
+<Implementation><![CDATA[
+	// assertion 1
+	#dim accountHolder as FCE.AccountHolder		
+	set accountHolder = ##class(FCE.AccountHolder).%New()
+	do $$$AssertTrue($isobject(accountHolder), "Create new account holder")
+	// assertion 2
+	set status = accountHolder.%Save()
+	do $$$AssertStatusNotOK(status, "Name is required")
+	set accountHolder.Name = "Smith,John"
+	// assertion 3
+	set status = accountHolder.%Save()
+	do $$$AssertStatusNotOK(status, "Email is required")
+	set accountHolder.Email = "Smith@zzz.com"
+	// assertion 4
+	set status = accountHolder.%Save()
+	do $$$AssertStatusNotOK(status, "Home/work address is required")
+	set accountHolder.Home.Street = "10 High St."
+	set accountHolder.Home.City = "Cambridge"
+	set accountHolder.Home.State = "MA"
+	set accountHolder.Home.Zip = "02142"
+	set work = accountHolder.Home.%ConstructClone()
+	set accountHolder.Work = work
+	// assertion 5
+	set accountHolder.DOB = $zdh("01/01/2100")
+	set status = accountHolder.%Save()
+	do $$$AssertStatusNotOK(status, "DOB must be in past")
+	set accountHolder.DOB = $zdh("01/01/1980")
+	// assertion 6
+	set accountHolder.Currency = "DKK"
+	set status = accountHolder.%Save()
+	do $$$AssertStatusNotOK(status, "Invalid currency type")
+	set accountHolder.Currency = "INR"
+	// assertion 7
+	set accountHolder.Balance = -5
+	set status = accountHolder.%Save()
+	do $$$AssertStatusNotOK(status, "Balance must be >= 0")
+	set accountHolder.Balance = 1000
+	// assertion 8
+	set status = accountHolder.%Save()
+	do $$$AssertStatusOK(status, "New account holder saved")
+	// assertion 9
+	set status = ##class(FCE.AccountHolder).%DeleteId(accountHolder.%Id())
+	do $$$AssertStatusOK(status, "New account holder deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestAccountHolderSQL">
+<Description>
+SQL tests for FCE.AccountHolder</Description>
+<Implementation><![CDATA[
+	&sql(INSERT INTO FCE.AccountHolder (Name) VALUES ('Smith,John'))
+	do $$$AssertEquals(SQLCODE, -108, "Email is required")
+	&sql(INSERT INTO FCE.AccountHolder (Name, Email)
+	     VALUES ('Smith,John', 'Smith@zzz.com'))
+	do $$$AssertEquals(SQLCODE, -108, "Home/work addresses required")
+	&sql(INSERT INTO FCE.AccountHolder (Name, Email, DOB,
+		 Home_Street, Home_City, Home_State, Home_Zip,
+		 Work_Street, Work_City, Work_State, Work_Zip)
+		 VALUES ('Smith,John', 'Smith@zzz.com', {d '2100-01-01'},
+		 '10 High St.', 'Cambridge', 'MA', '02142',
+		 '10 High St.', 'Cambridge', 'MA', '02142'))
+	do $$$AssertEquals(SQLCODE, -104, "DOB must be in past")
+	&sql(INSERT INTO FCE.AccountHolder (Name, Email, DOB, Currency,
+		 Home_Street, Home_City, Home_State, Home_Zip,
+		 Work_Street, Work_City, Work_State, Work_Zip)
+		 VALUES ('Smith,John', 'Smith@zzz.com', {d '1980-01-01'}, 'DKK',
+		 '10 High St.', 'Cambridge', 'MA', '02142',
+		 '10 High St.', 'Cambridge', 'MA', '02142'))
+	do $$$AssertEquals(SQLCODE, -104, "Invalid currency type")
+	&sql(INSERT INTO FCE.AccountHolder (Name, Email, DOB, Currency, Balance,
+		 Home_Street, Home_City, Home_State, Home_Zip,
+		 Work_Street, Work_City, Work_State, Work_Zip)
+		 VALUES ('Smith,John', 'Smith@zzz.com', {d '1980-01-01'}, 'INR', -5,
+		 '10 High St.', 'Cambridge', 'MA', '02142',
+		 '10 High St.', 'Cambridge', 'MA', '02142'))
+	do $$$AssertEquals(SQLCODE, -104, "Balance must be >= 0")
+	&sql(INSERT INTO FCE.AccountHolder (Name, Email, DOB, Currency, Balance,
+		 Home_Street, Home_City, Home_State, Home_Zip,
+		 Work_Street, Work_City, Work_State, Work_Zip)
+		 VALUES ('Smith,John', 'Smith@zzz.com', {d '1980-01-01'}, 'INR', 100,
+		 '10 High St.', 'Cambridge', 'MA', '02142',
+		 '10 High St.', 'Cambridge', 'MA', '02142'))
+	do $$$AssertEquals(SQLCODE, 0, "New account holder saved:")
+	&sql(DELETE FROM FCE.AccountHolder WHERE ID = :%ROWID)
+	do $$$AssertEquals(SQLCODE, 0, "New account holder deleted")
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Tests.CurrencyOrderTests">
+<Super>FCE.Tests.TestCase</Super>
+<TimeChanged>65332,68245.387665</TimeChanged>
+<TimeCreated>65037,1404.026447</TimeCreated>
+
+<Method name="TestCOTrigger">
+<Description>
+test unified trigger FCE.CurrencyOrder UpdateDeleteInNotes for updates and deletes</Description>
+<Implementation><![CDATA[
+ 	if '$$$TriggerExists(FCE.CurrencyOrder,UpdateDeleteInNotes) {
+		do $$$AssertSkipped("Can't run test yet")
+		quit
+	}
+	
+	// create branch
+	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set branch.Phone = "999-999-0000"
+	do branch.CurrencyBalances.SetAt(250, "EUR")
+	do branch.CurrencyBalances.SetAt(50, "USD")
+	set status = branch.%Save()
+	do $$$AssertStatusOK(status, "Branch saved")
+	
+	// create order
+	#dim order as FCE.CurrencyOrder
+	set order = ##class(FCE.CurrencyOrder).%New()
+	set order.Branch = branch
+	set order.ATM = "a111"
+	set order.CurrencyOut = "EUR"
+	set order.AmountOut = 95
+	set order.CurrencyIn = "USD"
+	set order.AmountIn = 100
+	set order.Requestor = "Smith,John"
+	set order.RequestorEmail = "Smith@abcd.com"
+	set status = order.%Save()
+	do $$$AssertStatusOK(status, "Order saved")
+		
+	set order.Fee = 50
+	set status = order.%Save()
+	do $$$AssertStatusOK(status, "Fee changed, Order saved")
+	
+	#dim notes as %Stream.GlobalCharacter
+	set notes = order.Branch.Notes
+	set length1 = notes.Size
+	do $$$AssertTrue(length1 > 0, "Branch notes got longer")
+	set found = notes.FindAt(1, "updated")
+	do $$$AssertTrue((found '= -1), "Branch notes contain an ""update"" entry")
+	
+	// delete order
+	set orderID = order.%Id()
+	&sql(DELETE FROM fce.currencyorder WHERE ID = :orderID)
+	do $$$AssertEquals(SQLCODE, 0, "Order deleted")
+
+	set length2 = notes.Size
+	do $$$AssertTrue(length2 > length1, "Branch notes got longer again")
+	set found = notes.FindAt(1, "deleted")
+	do $$$AssertTrue((found '= -1), "Branch notes contain a ""delete"" entry")
+
+	// delete Branch
+	set status = ##class(FCE.Branch).%DeleteId(branch.%Id())
+	do $$$AssertStatusOK(status, "Branch deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestProcessOrder">
+<Description>
+test FCE.Operations.Branch.ProcessOrder()</Description>
+<Implementation><![CDATA[
+	// create order #1
+	#dim order1 as FCE.CurrencyOrder
+	set order1 = ##class(FCE.Tests.Utilities).CreateOrder()
+	#dim payment1 as FCE.Cash
+	set payment1 = ##class(FCE.Cash).%New()
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order1, payment1, , .message1)
+	do $$$AssertStatusOK(status, "Order #1 processed and saved")
+	do $$$AssertNotEquals(message1, "", "Message returned")
+	do $$$AssertEquals(order1.Status, "Completed", "Order #1 completed")
+	set euros = order1.Branch.CurrencyBalances.GetAt("EUR")
+	set dollars = order1.Branch.CurrencyBalances.GetAt("USD")
+	do $$$AssertEquals(dollars, 150, "Incoming Currency updated in branch")
+	do $$$AssertEquals(euros, 155, "Outgoing Currency updated in branch")
+
+	// create account for order #2
+	#dim account as FCE.AccountHolder
+	set account = ##class(FCE.Tests.Utilities).CreateAccount()
+	
+	// create order #2
+	#dim order2 as FCE.CurrencyOrder
+	set order2 = ##class(FCE.Tests.Utilities).CreateOrder()
+	#dim payment2 as FCE.AccountPayment
+	set payment2 = ##class(FCE.AccountPayment).%New()
+	set order2.AmountIn = 1100 // change incoming amount so it's greater than account balance
+	set order2.CurrencyIn = "CHF" // change incoming currency so it doesn't match account
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order2, payment2, account, .message2)
+	do $$$AssertStatusOK(status, "Order #2 processed and saved")
+	do $$$AssertEquals(message2, "", "Message not returned")
+	do $$$AssertEquals(order2.Status, "Rejected", "Order #2 rejected-insufficient funds in account")
+	do $$$AssertNotEquals(account.Balance, 900, "Account payment not completed")
+	set order2.AmountIn = 100 // change incoming amount back
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order2, payment2, account, .message2)
+	do $$$AssertStatusOK(status, "Order #2 processed and saved")
+	do $$$AssertEquals(message2, "", "Message not returned")
+	do $$$AssertEquals(order2.Status, "Rejected", "Order #2 rejected-account has wrong currency")
+	do $$$AssertNotEquals(account.Balance, 900, "Account payment not completed")
+	set order2.CurrencyIn = "USD" // correct incoming currency
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order2, payment2, account, .message2)
+	do $$$AssertStatusOK(status, "Order #2 processed and saved")
+	do $$$AssertEquals(order2.Status, "Completed", "Order #2 completed")
+	do $$$AssertNotEquals(message2, "", "Message returned")
+	do $$$AssertEquals(account.Balance, 900, "Account payment completed")
+	set euros = order2.Branch.CurrencyBalances.GetAt("EUR")
+	do $$$AssertEquals(euros, 155, "Outgoing Currency updated in branch")
+
+	// create order #3
+	#dim order3 as FCE.CurrencyOrder
+	set order3 = ##class(FCE.Tests.Utilities).CreateOrder()
+	#dim payment3 as FCE.CreditCard
+	set payment3 = ##class(FCE.CreditCard).%New()
+	set payment3.Type = "Visa"
+	set payment3.Number = "1234-4444-3333-2222"
+	set payment3.ExpirationDate = ($h + 1095)
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order3, payment3, , .message3)
+	do $$$AssertStatusOK(status, "Order #3 processed and saved")
+	do $$$AssertEquals(order3.Status, "Completed", "Order #3 completed")
+	do $$$AssertNotEquals(message3, "", "Message returned")
+	set euros = order3.Branch.CurrencyBalances.GetAt("EUR")
+	do $$$AssertEquals(euros, 155, "Outgoing Currency updated in branch")
+
+	// create order #4 to test rollback
+	#dim order4 as FCE.CurrencyOrder
+	set order4 = ##class(FCE.Tests.Utilities).CreateOrder()
+	set order4.AmountOut = 10000  // this causes a Problem status rather than Rejected
+	#dim payment4 as FCE.CreditCard
+	set payment4 = ##class(FCE.CreditCard).%New()
+	set payment4.Type = "Visa"
+	set payment4.Number = "1234-4444-3333-2222"
+	set payment4.ExpirationDate = ($h + 1095)
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order4, payment4, , .message4)
+	set paymentID = payment4.%Id()
+	do $$$AssertNotEquals(paymentID, "", "Order #4 Payment saved")
+	do $$$AssertStatusNotOK(status, "Order #4 processed and saved, but has a problem")
+	do $$$AssertEquals(order4.Status, "Problem", "Order #4's Status=Problem")
+	do $$$AssertEquals(message4, "", "Message not returned")
+	&sql(select verificationID from FCE.Payment where ID = :paymentID)
+	do $$$AssertEquals(SQLCODE, 100, "Rollback deleted order #4 saved payment")
+
+	// delete orders and payments
+	set branch1ID = order1.Branch.%Id()
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order1.%Id())
+	do $$$AssertStatusOK(status, "Order #1 deleted")
+	set branch2ID = order2.Branch.%Id()
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order2.%Id())	
+	do $$$AssertStatusOK(status, "Order #2 deleted")
+	set branch3ID = order3.Branch.%Id()
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order3.%Id())	
+	do $$$AssertStatusOK(status, "Order #3 deleted")
+	set branch4ID = order4.Branch.%Id()
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order4.%Id())	
+	do $$$AssertStatusOK(status, "Order #4 deleted")
+	// delete branches
+	&sql(DELETE FROM FCE.Branch WHERE ID IN (:branch1ID, :branch2ID, :branch3ID, :branch4ID))
+	do $$$AssertEquals(SQLCODE, 0, "All branches deleted")
+	// delete account
+	set status = ##class(FCE.AccountHolder).%DeleteId(account.%Id())	
+	do $$$AssertStatusOK(status, "Account deleted")
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Tests.PaymentTests">
+<Description>
+Tests for all Payments</Description>
+<Super>FCE.Tests.TestCase</Super>
+<TimeChanged>65330,13162.774841</TimeChanged>
+<TimeCreated>65037,1403.89795</TimeCreated>
+
+<Property name="Order">
+<Description>
+OREF of an order that all the tests use</Description>
+<Type>FCE.CurrencyOrder</Type>
+</Property>
+
+<Method name="OnAfterAllTests">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set orderID = ..Order.%Id()
+	&sql(DELETE FROM FCE.CurrencyOrder WHERE ID = :orderID)
+	&sql(DELETE FROM FCE.AccountHolder WHERE Name = 'Smith,John')
+	&sql(DELETE FROM FCE.Branch WHERE Phone = '999-999-0000')
+	set ..Order = ""
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OnBeforeAllTests">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	// create branch
+	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set phone = "999-999-0000", branch.Phone = phone
+	set status = branch.%Save()
+
+	#dim order as FCE.CurrencyOrder
+	set order = ##class(FCE.Tests.Utilities).CreateOrder()
+	set order.Branch = branch
+	set status = order.%Save()
+	set ..Order = order
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="OnBeforeOneTest">
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	do ..Order.Branch.CurrencyBalances.SetAt(250, "EUR") // reset
+	return $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="TestCashPayment">
+<Description>
+Basic tests for FCE.Cash</Description>
+<Implementation><![CDATA[
+	set order = ..Order
+	#dim cashPayment as FCE.Cash
+	set cashPayment = ##class(FCE.Cash).%New()
+	do $$$AssertTrue($isobject(cashPayment), "Create new cash payment")
+	set order.Payment = cashPayment 
+	set status = cashPayment.Process(order, .cashPaymentMessage)
+	do $$$AssertNotEquals(cashPayment.%Id(), "", "New cash payment saved by Process() method")
+	do $$$AssertNotEquals(cashPaymentMessage, "", "Message Generated: """ _ cashPaymentMessage _ """")
+	set status = order.%Save()
+	do $$$AssertStatusOK(status, "Order saved")
+	set status = ##class(FCE.Cash).%DeleteId(cashPayment.%Id())
+	do $$$AssertStatusNotOK(status, "Foreign key constraint prevents cash payment deletion")
+	set order.Payment = ""
+	set status = order.%Save()
+	do $$$AssertStatusOK(status, "Payment removed from order")
+	set status = ##class(FCE.Cash).%DeleteId(cashPayment.%Id())
+	do $$$AssertStatusOK(status, "New cash payment deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestCCPayment">
+<Description>
+Basic tests for FCE.CreditCard</Description>
+<Implementation><![CDATA[
+	set order = ..Order
+	#dim CCPayment as FCE.CreditCard
+	set CCPayment = ##class(FCE.CreditCard).%New()
+	do $$$AssertTrue($isobject(CCPayment), "Create new credit card payment")
+	set CCPayment.Type = "XYZ"
+	set status = CCPayment.%ValidateObject()
+	do $$$AssertStatusNotOK(status, "Type must be Visa,MC,etc.")
+	set CCPayment.Type = "Visa"
+	set CCPayment.Number = "1234"
+	set status = CCPayment.%ValidateObject()
+	do $$$AssertStatusNotOK(status, "Number must match pattern")
+	set CCPayment.Number = "1234-1234-1234-1234"
+	set status = CCPayment.%ValidateObject()
+	do $$$AssertStatusOK(status, "New credit card payment valid")
+	set order.Payment = CCPayment
+	set status = CCPayment.Process(order, .CCPaymentMessage)
+	do $$$AssertNotEquals(CCPayment.%Id(), "", "New credit card payment saved by Process() method")
+	do $$$AssertNotEquals(CCPaymentMessage, "", "Message Generated: """ _ CCPaymentMessage _ """")
+	set status = order.%Save()
+	do $$$AssertStatusOK(status, "Order saved")
+	set status = ##class(FCE.CreditCard).%DeleteId(CCPayment.%Id())
+	do $$$AssertStatusNotOK(status, "Foreign key constraint prevents credit card payment deletion")
+	set order.Payment = ""
+	set status = order.%Save()
+	do $$$AssertStatusOK(status, "Payment removed from order")
+	set status = ##class(FCE.CreditCard).%DeleteId(CCPayment.%Id())
+	do $$$AssertStatusOK(status, "New credit card payment deleted")
+]]></Implementation>
+</Method>
+
+<Method name="TestAccountPayment">
+<Description>
+Basic tests for FCE.AccountPayment</Description>
+<Implementation><![CDATA[
+	set order = ..Order
+	#dim accountPayment as FCE.AccountPayment
+	set accountPayment = ##class(FCE.AccountPayment).%New()
+	do $$$AssertTrue($isobject(accountPayment), "Create new account payment")
+	set order.Payment =  accountPayment
+	#dim accountHolder as FCE.AccountHolder	
+	set accountHolder = ##class(FCE.Tests.Utilities).CreateAccount()
+	set order.AccountHolder = accountHolder
+	set status = accountPayment.Process(order, .accountPaymentMessage)
+	do $$$AssertNotEquals(accountPayment.%Id(), "", "New account payment saved by Process() method")
+	do $$$AssertNotEquals(accountPaymentMessage, "", "Message Generated: """ _ accountPaymentMessage _ """")
+	set status = order.%Save()
+	do $$$AssertStatusOK(status, "Order saved")
+	set status = ##class(FCE.AccountPayment).%DeleteId(accountPayment.%Id())
+	do $$$AssertStatusNotOK(status, "Foreign key constraint prevents account payment deletion")
+	set order.Payment = ""
+	set status = order.%Save()
+	do $$$AssertStatusOK(status, "Payment removed from order")
+	set status = ##class(FCE.AccountPayment).%DeleteId(accountPayment.%Id())
+	do $$$AssertStatusOK(status, "New account payment deleted")
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Tests.TestCase">
+<IncludeCode>FCE</IncludeCode>
+<Super>%UnitTest.TestCase</Super>
+<TimeChanged>65316,81111.445757</TimeChanged>
+<TimeCreated>65037,1403.982021</TimeCreated>
+
+<Method name="Run">
+<Description>
+Helper method</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+    set testSuite = "FCETests"
+    
+    // set up ^UnitTestRoot if not already set
+    if '$data(^UnitTestRoot) {
+    	set mainFolder = "UnitTests\FCE\" 
+	    set st = ##class(%File).CreateDirectoryChain(mainFolder _ testSuite)
+	    if $$$ISOK(st) { set ^UnitTestRoot = mainFolder }
+	    else {
+	    	write !, "UnitTestRoot folder could not be created. Consult with instructor."
+	    	do $system.Status.DisplayError(st)
+	    }
+    }
+    
+    set testCase = ..%ClassName(1) // this test case
+    set test = testSuite _ ":" _ testCase
+	set quals = "/noload/norecursive/nodelete"
+    do ##class(%UnitTest.Manager).RunTest(test, quals)
+    quit
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FCE.Tests.Utilities">
+<Description>
+Utilities for development</Description>
+<IncludeCode>FCE</IncludeCode>
+<TimeChanged>65332,65368.732292</TimeChanged>
+<TimeCreated>65037,1403.478158</TimeCreated>
+
+<Method name="DestroyAll">
+<Description>
+Delete all data and run tests</Description>
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	// if FCE.Currency exists but there's no data run FetchRates()
+	if $$$ClassExists(FCE.Currency) && $$$MethodExists(FCE.Currency,FetchRates) {
+		set sql = "SELECT COUNT(*) as currencies FROM FCE.Currency"
+		set rs = ##class(%SQL.Statement).%ExecDirect( , sql)
+		set SQLCODE = rs.%SQLCODE
+		if (SQLCODE = 0) && (rs.%Next()) && (rs.currencies '= 10) {			
+			do ##class(FCE.Currency).FetchRates()
+			write !, "Fetched exchange rates"
+		}
+		elseif (SQLCODE < 0) {
+			write !, "SQL error: ", SQLCODE, " ", %msg
+		}
+	}
+
+	write !, "Deleted all "
+	if $$$ClassExists(FCE.CurrencyOrder) {
+		do ##class(FCE.CurrencyOrder).%KillExtent()
+		write "CurrencyOrders, " 
+	}	
+	do ##class(FCE.Payment).%KillExtent()
+	write "Payments, "
+	do ##class(FCE.AccountHolder).%KillExtent()
+	write "AccountHolders, "
+	do ##class(FCE.Branch).%DeleteExtent()  // also deletes FCE.Branch Notes stream data
+	write "Branches, "
+	do ##class(FCE.RealEstate).%KillExtent()
+	write "RealEstates"
+	read !, "Data deleted. Press <Enter> to run tests.", x
+
+	do ##class(FCE.Tests.BasicTests).Run()
+	read !, "Press <Enter> to continue.", x
+	if $$$ClassExists(FCE.Tests.CurrencyOrderTests) {	
+		do ##class(FCE.Tests.CurrencyOrderTests).Run()
+		read !, "Press <Enter> to continue.", x
+	}
+	do ##class(FCE.Tests.PaymentTests).Run()
+]]></Implementation>
+</Method>
+
+<Method name="CreateAll">
+<Description>
+Create data and run tests</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>base:%Integer=5</FormalSpec>
+<Implementation><![CDATA[
+	// if FCE.Currency exists but there's no data run FetchRates()
+	if $$$ClassExists(FCE.Currency) && $$$MethodExists(FCE.Currency,FetchRates) {
+		set sql = "SELECT COUNT(*) as currencies FROM FCE.Currency"
+		set rs = ##class(%SQL.Statement).%ExecDirect( , sql)
+		set SQLCODE = rs.%SQLCODE
+		if (SQLCODE = 0) && (rs.%Next()) && (rs.currencies '= 10) {			
+			do ##class(FCE.Currency).FetchRates()
+			write !, "Fetched exchange rates"
+		}
+		elseif (SQLCODE < 0) {
+			write !, "SQL error: ", SQLCODE, " ", rs.%Message
+		}
+	}
+	
+	write !, "Populated "
+	set count = ##class(FCE.RealEstate).Populate(base * 10)
+	write count, " RealEstates, "
+	set count = ##class(FCE.Branch).Populate(base * 3)
+	write count, " Branches, "
+	set count = ##class(FCE.AccountHolder).Populate(base * 3)
+	write count, " AccountHolders, "
+	if $$$ClassExists(FCE.CurrencyOrder) {
+		set count = ##class(FCE.CurrencyOrder).Populate(base * 6)
+		write count, " CurrencyOrders"
+	}
+	read !, "Data added. Press <Enter> to run tests.", x
+
+	do ##class(FCE.Tests.BasicTests).Run()
+	read !, "Press <Enter> to continue.", x
+	if $$$ClassExists(FCE.Tests.CurrencyOrderTests) {
+		do ##class(FCE.Tests.CurrencyOrderTests).Run()
+		read !, "Press <Enter> to continue.", x
+	}
+	do ##class(FCE.Tests.PaymentTests).Run()
+]]></Implementation>
+</Method>
+
+<Method name="Currency">
+<Description>
+Generate currency name for use as collection key</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>FCE.CurrencyName</ReturnType>
+<Implementation><![CDATA[
+	set abbreviations = ##class(FCE.CurrencyName).#VALUELIST
+	return ##class(%PopulateUtils).ValueList(abbreviations)
+]]></Implementation>
+</Method>
+
+<Method name="CreditCardNumber">
+<Description>
+Generate credit card numbers</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	return ($Random(9000) + 1000) _ "-"
+		 _ ($Random(9000) + 1000) _ "-"
+		 _ ($Random(9000) + 1000) _ "-"
+		 _ ($Random(9000) + 1000)
+]]></Implementation>
+</Method>
+
+<Method name="CreateOrder">
+<Description>
+helper method for tests</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>FCE.CurrencyOrder</ReturnType>
+<Implementation><![CDATA[
+	#dim branch as FCE.Branch
+	set branch = ##class(FCE.Branch).%New()
+	set branch.Phone = ##class(%PopulateUtils).USPhone()
+	do branch.CurrencyBalances.SetAt(250, "EUR")
+	do branch.CurrencyBalances.SetAt(50, "USD")
+	#dim order as FCE.CurrencyOrder
+	set order = ##class(FCE.CurrencyOrder).%New(branch,
+												"Smith,John",
+												"Smith@abcd.com",
+												"EUR", "USD", 100)
+	set order.ATM = ##class(%PopulateUtils).String(5)_##class(%PopulateUtils).String(5)
+	// override %New() AmountOut calculation for testing purposes
+	set order.AmountOut = 95
+	return order
+]]></Implementation>
+</Method>
+
+<Method name="CreateAccount">
+<Description>
+helper method for tests</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>FCE.AccountHolder</ReturnType>
+<Implementation><![CDATA[
+	#dim account as FCE.AccountHolder	
+	set account = ##class(FCE.AccountHolder).%New()
+	set account.Name = "Smith,John"
+	set account.Email = "Smith@zzz.com"
+	set account.Home.Street = "10 High St."
+	set account.Home.City = "Cambridge"
+	set account.Home.State = "MA"
+	set account.Home.Zip = "02142"
+	set work = account.Home.%ConstructClone()
+	set account.Work = work
+	set account.DOB = $zdh("01/01/1980")
+	set account.Balance = 1000
+	set account.Currency = "USD"
+	return account
+]]></Implementation>
+</Method>
+</Class>
+<Routine name="FCE" type="INC" languagemode="0" timestamp="65444,56570.668000">
+<![CDATA[#; helpful macros for FCE application	
+
+/// does class exist?
+#define ClassExists(%class) ##class(%Dictionary.ClassDefinition).%ExistsId(##quote(%class))
+
+/// does property exist?
+#define PropertyExists(%class,%property) ##class(%Dictionary.PropertyDefinition).%ExistsId(##quote(%class||%property))
+
+/// does method exist?
+#define MethodExists(%class,%method) ##class(%Dictionary.MethodDefinition).%ExistsId(##quote(%class||%method))
+
+/// does trigger exist?
+#define TriggerExists(%class,%trigger) ##class(%Dictionary.TriggerDefinition).%ExistsId(##quote(%class||%trigger))
+
+]]></Routine>
+</Export>

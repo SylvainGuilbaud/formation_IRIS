@@ -20,7 +20,7 @@ Method gender(pRequest As HTTP.msg.genderRequest, Output pResponse As HTTP.msg.g
 		set pResponse = ##class(HTTP.msg.genderResponse).%New()
         set httpRequest = ##class(%Net.HttpRequest).%New()
         set httpResponse = ##class(%Net.HttpRequest).%New()
-        set url = ..Adapter.URL_"?name="_pRequest.firstName
+        set url = ..Adapter.URL _ "?name=" _ pRequest.firstName
         
         #; $$$ThrowOnError(..Adapter.GetURL(..Adapter.HTTPServer,.pHttpResponse))
         $$$ThrowOnError(..Adapter.SendFormDataArray(.httpResponse,"GET",httpRequest,,,url))
@@ -39,6 +39,49 @@ Method gender(pRequest As HTTP.msg.genderRequest, Output pResponse As HTTP.msg.g
 	}
 	
  return sc
+}
+
+Method genderPy(pRequest As HTTP.msg.genderRequest, Output pResponse As HTTP.msg.genderResponse) As %Library.Status [ Language = python ]
+{
+import requests
+import iris
+
+pResponse= iris.cls('HTTP.msg.genderResponse')
+
+# api-endpoint
+URL = "http://api.genderize.io"
+
+# location given here
+firstname = pRequest.firstName
+g = iris.gref("^SGTRACE")
+g["request name"]=firstname
+
+# defining a params dict for the parameters to be sent to the API
+PARAMS = {'name':firstname}
+
+# sending get request and saving the response as response object
+r = requests.get(url = URL, params = PARAMS)
+
+# extracting data in json format
+data = r.json()
+
+pResponse.name=data['name']
+g["data name"]=data['name']
+pResponse.gender=data['gender']
+g["data gender"]=data['gender']
+pResponse.probability=data['probability']
+g["data probability"]=data['probability']
+pResponse.count=data['count']
+g["data count"]=data['count']
+msg='gender of ' + pRequest.firstName + ' is ' + pResponse.gender
+trace = iris.cls('Ens.Util.Trace').WriteTrace(msg,'HTTP','genderPy','gender')
+g["trace"]=msg
+
+return 1
+
+#; # printing the output
+#; print(" name:%s\n gender:%s\n probability:%s\ncount:%s"
+#;     %(name, gender,probability, count))
 }
 
 Method test(pRequest As Ens.StringContainer, Output pResponse As Ens.StringContainer) As %Library.Status

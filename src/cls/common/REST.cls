@@ -37,6 +37,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/file/:filename" Method="POST" Call="file"/>
 <Route Url="/service" Method="POST" Call="service" />
 <Route Url="/_spec" Method="GET" Call="spec" />
+<Route Url="/dump" Method="GET" Call="dump" />
 </Routes>
 }
 
@@ -54,6 +55,13 @@ ClassMethod Request(classname, property, id, full) As %Status
     write "SERVER_SOFTWARE : " _%request.CgiEnvs("SERVER_SOFTWARE")
     write $c(13,10)
     write "HTTP_HOST : " _%request.CgiEnvs("HTTP_HOST")
+    Quit $$$OK
+}
+
+ClassMethod dump() As %Status
+{
+	Set %response.ContentType="text/plain"
+	Do $System.OBJ.Dump(%request)
     Quit $$$OK
 }
 
@@ -649,6 +657,9 @@ ClassMethod version() As %Status
     set json.lang = ($listget(nls,2))
     set json.JavaHomeDirectory = $SYSTEM.Util.JavaHomeDirectory()
     set json.JavaExe = $SYSTEM.Util.JavaExe()
+    #; set json.XYZ = (%request.CgiEnvs("HTTP_XYZ"))
+    set json.CgiEnvsContentType = (%request.CgiEnvs("CONTENT_TYPE"))
+    set json.ContentType = (%request.ContentType)
     do json.%ToJSON()
     #; write "Hello "_$USERNAME
     return sc
@@ -740,21 +751,53 @@ ClassMethod file(filename As %String) As %Status
 
 ClassMethod spec() As %Status
 {
- try {
-	set sc=$$$OK
-	set %response.ContentType=..#CONTENTTYPEJSON
+  Set tSC = ##class(%REST.API).GetWebRESTApplication($NAMESPACE, %request.Application, .swagger)
+  Do swagger.info.%Remove("x-ISC_Namespace")
+  Set swagger.basePath = "/common"
+  Set swagger.info.title = "InterSystems IRIS COMMON"
+  Set swagger.info.version = "0.1"
+  Set swagger.host = "localhost:12773"
+  Return ..%ProcessResult($$$OK, swagger)
+}
 
-	set file = ##class(%File).%New("/data/swagger-common.yaml")
-    set file = ##class(%File).%New("/data/swagger-common.json")
-    
-    do file.Open("RS")
-    while 'file.AtEnd{
-        w file.ReadLine()
+ClassMethod %ProcessResult(pStatus As %Status = {$$$OK}, pResult As %DynamicObject = "") As %Status [ Internal ]
+{
+  #dim %response As %CSP.Response
+  SET tSC = $$$OK
+  IF $$$ISERR(pStatus) {
+    SET %response.Status = 500
+    SET tSC = ..StatusToJSON(pStatus, .tJSON)
+    IF $isobject(tJSON) {
+      SET pResult = tJSON
+    } ELSE {
+      SET pResult = { "errors": [ { "error": "Unknown error parsing status code" } ] }
     }
-	} catch e {
-		throw e
-	}
-	return sc
+  } 
+  ELSEIF pStatus=1 {
+    IF '$isobject(pResult){
+      SET pResult = {
+      }
+    }
+  }
+  ELSE {
+    SET %response.Status = pStatus
+    SET error = $PIECE(pStatus, " ", 2, *)
+    SET pResult = {
+      "error": (error)
+    }
+  }
+  
+  IF pResult.%Extends("%Library.DynamicAbstractObject") {
+    WRITE pResult.%ToJSON()
+  }
+  ELSEIF pResult.%Extends("%JSON.Adaptor") {
+    DO pResult.%JSONExport()
+  }
+  ELSEIF pResult.%Extends("%Stream.Object") {
+    DO pResult.OutputToDevice()
+  }
+  
+  QUIT tSC
 }
 
 }
