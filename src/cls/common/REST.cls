@@ -713,6 +713,7 @@ ClassMethod service() As %Status
 	set sc = request.%JSONImport(payload.Read())
 
     set retour={}
+    
 
     if 'sc {
          set retour.importJSON = ($system.Status.GetErrorText(sc))
@@ -728,12 +729,13 @@ ClassMethod service() As %Status
             set retour.status = "OK"
         }
         if response.inserted {
-        set retour.action = "inserted"
+            set retour.action = "inserted"
         } 
         if response.updated {
-        set retour.action = "updated"
+            set retour.action = "updated"
         } 
     }
+    set retour.ts=($zdt($h,3))
 	write retour.%ToJSON()
 	} catch e {
 		throw e
