@@ -41,8 +41,8 @@ ClassMethod service() As %Status
 
 	set tSC=##class(Ens.Director).CreateBusinessService("de EXPARF REST",.tService)
 
-	#; set request=##class(formation.RM.personne.Record).%New()
-    set request = ##class(NomProjet.RM.personne.Record).%New()
+	set request=##class(formation.RM.personne.Record).%New()
+    #; set request = ##class(NomProjet.RM.personne.Record).%New()
 	set sc = request.%JSONImport(payload.Read())
 
     set retour={}
