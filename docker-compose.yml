@@ -3,7 +3,7 @@ networks:
     ipam:
       driver: default
       config:
-        - subnet: 173.0.0.0/24
+        - subnet: 172.0.0.0/24
 services:
   iris:
     build: 
@@ -25,7 +25,7 @@ services:
       # - ./key/iris.key:/key/iris.key
     networks:
       irisnetwork:
-        ipv4_address: 173.0.0.10
+        ipv4_address: 172.0.0.10
   mysql: 
     image: mysql:8.0.30
     command: --default-authentication-plugin=mysql_native_password
@@ -35,12 +35,12 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=mysqlpass
     ports:
-      - 22774:3306
+      - 3306:3306
     volumes:
       - ./mysql:/docker-entrypoint-initdb.d
     networks:
       irisnetwork:
-        ipv4_address: 173.0.0.11
+        ipv4_address: 172.0.0.11
   postgres:
     container_name: ${iris_container_name}-postgres
     image: postgres:13.4-alpine3.14
@@ -50,7 +50,7 @@ services:
       - ./src/sql/postgreSQL:/docker-entrypoint-initdb.d/
       - ./volumes/postgreSQL:/var/lib/postgresql/data
     ports:
-      - 22775:5432
+      - 5432:5432
     restart: unless-stopped
     healthcheck:
         test: ["CMD", "pg_isready", "-U", "postgres"]
@@ -59,13 +59,13 @@ services:
         retries: 3
     networks:
       irisnetwork:
-        ipv4_address: 173.0.0.12
+        ipv4_address: 172.0.0.12
   ftp_server:
     image: delfer/alpine-ftp-server:latest
     container_name: ${iris_container_name}-ftp-server
     ports:
-      - "22776:21"
-      - "22800-22810:21000-21010"
+      - "21:21"
+      - "21000-21010:21000-21010"
     volumes: 
       - "./data:/home/app/"
       # - "./data/passwd:/etc/pure-ftpd/passwd"
@@ -77,13 +77,13 @@ services:
     environment:
       PUBLICHOST: "localhost"
       USERS: "app|youneverknow|/home/app|10000"
-      ADDRESS: "173.0.0.100"
+      ADDRESS: "172.0.0.100"
 # also for ssl/tls:
 #      ADDED_FLAGS: "--tls=2"
     restart: always
     networks:
       irisnetwork:
-        ipv4_address: 173.0.0.100
+        ipv4_address: 172.0.0.100
   # webgateway:
   #   hostname: ${web_container_name}
   #   container_name: ${web_container_name}
@@ -99,7 +99,7 @@ services:
   #     - IRIS_PASSWORD=SYS
   #   networks:
   #     irisnetwork:
-  #       ipv4_address: 173.0.0.200
+  #       ipv4_address: 172.0.0.200
   #   volumes:
   #     - "./webgateway:/webgateway"
 
