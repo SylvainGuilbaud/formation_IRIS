@@ -9,6 +9,20 @@
             "request": "launch",
             "name": "post",
             "program": "##class(common.test).post()"
-        }
+        },
+        {
+            "type": "objectscript",
+            "request": "launch",
+            "name": "hello",
+            "program": "##class(Dev.simple).Hello()"
+        },
+        {
+            "type": "objectscript",
+            "request": "launch",
+            "name": "aaa",
+            "program": "##class(aaa.aaa).MyMethode()"
+        },
+      
+
     ]
 }

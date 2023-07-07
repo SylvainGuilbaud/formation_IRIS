@@ -1,0 +1,80 @@
+<commande>
+    <orderStatus>S3510</orderStatus>
+    <requestedShipDate>2023-07-30T00:00:00Z</requestedShipDate>
+    <requestedDeliveryDate>2023-08-06T00:00:00Z</requestedDeliveryDate>
+    <orderPlacedDate>2023-07-23T00:00:00Z</orderPlacedDate>
+    <orderValue>2844.62</orderValue>
+    <orderCurrency>CNY</orderCurrency>
+    <items>
+        <article itemsKey="D696">
+            <name>Zimmerman,Danielle I.</name>
+            <code>M5146</code>
+            <description>Q</description>
+            <unitPrice>2245.5339</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="I519">
+            <name>Perez,Peter Z.</name>
+            <code>I7234</code>
+            <description>H</description>
+            <unitPrice>6343.8642</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="I655">
+            <name>Braam,Will I.</name>
+            <code>B1430</code>
+            <description>T</description>
+            <unitPrice>9455.2442</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="M109">
+            <name>Joyce,George A.</name>
+            <code>T2809</code>
+            <description>R</description>
+            <unitPrice>4323.5846</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="N805">
+            <name>Quine,Chad B.</name>
+            <code>P9896</code>
+            <description>P</description>
+            <unitPrice>46.2185</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="U222">
+            <name>Cunningham,Michael R.</name>
+            <code>Q5496</code>
+            <description>R</description>
+            <unitPrice>4605.261</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="U488">
+            <name>Fripp,Geoffrey E.</name>
+            <code>D4956</code>
+            <description>L</description>
+            <unitPrice>5357.7121</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="U726">
+            <name>Williams,Brian J.</name>
+            <code>D7145</code>
+            <description>P</description>
+            <unitPrice>4861.134</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="W377">
+            <name>Minichillo,Martin U.</name>
+            <code>D6256</code>
+            <description>C</description>
+            <unitPrice>1380.2571</unitPrice>
+            <valid>true</valid>
+        </article>
+        <article itemsKey="Z412">
+            <name>Malynko,Zeke R.</name>
+            <code>Q7438</code>
+            <description>Q</description>
+            <unitPrice>5882.0942</unitPrice>
+            <valid>true</valid>
+        </article>
+    </items>
+</commande>

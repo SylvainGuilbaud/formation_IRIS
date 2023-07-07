@@ -1,9 +1,9 @@
-Class data.article Extends (%SerialObject, %Populate)
+Class data.article Extends (%SerialObject, %Populate, %JSON.Adaptor, %XML.Adaptor)
 {
 
-Property name As %String(MAXLEN = 200, MINLEN = 10);
+Property name As %String(MAXLEN = 200);
 
-Property code As %String(MAXLEN = 5, MINLEN = 5);
+Property code As %String;
 
 Property description As %String(MAXLEN = "");
 

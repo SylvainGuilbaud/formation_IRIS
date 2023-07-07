@@ -23,7 +23,7 @@ Property AmountIn As %Numeric(MINVAL = 0);
 
 Property CurrencyIn As FCE.CurrencyName;
 
-Property ExchangeRate As %Decimal(MINVAL = .001, SCALE = 3);
+Property ExchangeRate As %Decimal(MINVAL = 0, SCALE = 3);
 
 Property Fee As %Numeric;
 

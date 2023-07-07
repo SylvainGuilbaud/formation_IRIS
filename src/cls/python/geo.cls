@@ -1,6 +1,19 @@
 Class python.geo
 {
 
+Parameter ADDRESSES = "London,Nantes,Lille,Bordeaux,136 chemin de Saint-Marc 06130 Grasse,Boston,Paris,Dubai,Milan,New York,Tokyo,Sao Paolo";
+
+Parameter LOCATIONMAP = "/data/locations_map.html";
+
+ClassMethod test() As %Status
+{
+        Set sc = $$$OK
+        
+        set sc = ..MarkGeoDetails(..#ADDRESSES,..#LOCATIONMAP)
+
+        Return sc
+}
+
 ClassMethod MarkGeoDetails(addr As %String, filepath As %String) As %Status [ Language = python ]
 {
     import folium
@@ -48,6 +61,57 @@ ClassMethod MarkGeoDetails(addr As %String, filepath As %String) As %Status [ La
     	f.close()
     except:
     	print("Not able to write to a file")
+}
+
+ClassMethod getAddress(addr As %String) As %String [ Language = python ]
+{
+    import geopy
+    geolocator = geopy.Nominatim(user_agent="Embedded Python")
+    address = geolocator.geocode(addr)
+    #; print(flatiron.address)
+    return address.address
+}
+
+/// Description
+ClassMethod distance() As %Numeric [ Language = python ]
+{
+    from geopy import distance
+    newport_ri = (41.49008, -71.312796)
+    cleveland_oh = (41.499498, -81.695391)
+    return distance.distance(newport_ri, cleveland_oh).miles
+}
+
+/// Description
+ClassMethod distanceOS() As %String
+{
+    Set sc = $$$OK 
+    set builtins = ##class(%SYS.Python).Builtins()
+    
+    set newport = builtins.list()
+    
+    do newport.append(41.49008)
+    
+    do newport.append(-71.312796)
+    
+    set cleveland = builtins.list()
+    
+    do cleveland.append(41.499498)
+    
+    do cleveland.append(-81.695391)
+
+    #; zwrite newport
+    #; newport=11@%SYS.Python  ; [41.49008, -71.312796]  ; <OREF>
+
+    #; zwrite cleveland
+    #; cleveland=11@%SYS.Python  ; [41.499498, -81.695391]  ; <OREF>
+
+    set distance = $system.Python.Import("geopy.distance")
+    
+    set route = distance.distance(newport, cleveland)
+
+    write $num(route.miles,4) _ " miles between Newport and Cleveland" 
+    #; 538.3904453677205311
+    Return sc
 }
 
 }

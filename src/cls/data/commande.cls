@@ -1,12 +1,16 @@
-Class data.commande Extends (%Persistent, %Populate)
+Class data.commande Extends (%Persistent, %Populate, %JSON.Adaptor, %XML.Adaptor)
 {
+
+Index uniqueID On orderStatus [ Unique ];
+
+// Index orderCurrencyIndex On orderCurrency [ Type = bitmap ];
 
 /// order status
 Property orderStatus As %String(MAXLEN = 128);
 
-/// requested ship date
 Property requestedShipDate As %TimeStamp [ InitialExpression = {$zdt($h+$r(21)+5,3)} ];
 
+/// requested ship date
 /// requested delivery date
 Property requestedDeliveryDate As %TimeStamp [ InitialExpression = {$zdt($h+$r(21)+15,3)} ];
 
@@ -21,7 +25,11 @@ Property orderCurrency As %String(VALUELIST = ",EUR,USD,GBP,YEN,TND,CNY,JPY,MAD,
 
 Property items As array Of data.article;
 
-/// Description
+Property panier As list Of data.article;
+
+Relationship client As data.client [ Cardinality = one, Inverse = commandes ];
+
+/// Description 
 ClassMethod getItems(id As %Integer = 1) As %Status
 {
     Set sc = $$$OK
@@ -102,6 +110,12 @@ Storage Default
 </Value>
 <Value name="7">
 <Value>orderCurrency</Value>
+</Value>
+<Value name="8">
+<Value>panier</Value>
+</Value>
+<Value name="9">
+<Value>client</Value>
 </Value>
 </Data>
 <Data name="items">

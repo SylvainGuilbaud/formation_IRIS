@@ -86,7 +86,8 @@ ClassMethod BStreamPop() As %Stream.GlobalBinary
 {
     set file=##class(%Stream.FileBinary).%New()
     #; set filename=$system.Util.DataDirectory()_"docs/copyright.pdf"
-    set filename=$system.Util.DataDirectory()_"docs/images/classroom2.svg"
+    #; set filename=$system.Util.DataDirectory()_"docs/images/classroom2.svg"
+    set filename="/data/images/iris.png"
 	set sc=file.LinkToFile(filename)
     set stream=##class(%Stream.GlobalBinary).%New()
     do stream.CopyFrom(file)

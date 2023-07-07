@@ -1,0 +1,80 @@
+{
+    "orderStatus": "S3510",
+    "requestedShipDate": "2023-07-30T00:00:00Z",
+    "requestedDeliveryDate": "2023-08-06T00:00:00Z",
+    "orderPlacedDate": "2023-07-23T00:00:00Z",
+    "orderValue": 2844.62,
+    "orderCurrency": "CNY",
+    "items": {
+        "D696": {
+            "name": "Zimmerman,Danielle I.",
+            "code": "M5146",
+            "description": "Q",
+            "unitPrice": 2245.5339,
+            "valid": true
+        },
+        "I519": {
+            "name": "Perez,Peter Z.",
+            "code": "I7234",
+            "description": "H",
+            "unitPrice": 6343.8642,
+            "valid": true
+        },
+        "I655": {
+            "name": "Braam,Will I.",
+            "code": "B1430",
+            "description": "T",
+            "unitPrice": 9455.2442,
+            "valid": true
+        },
+        "M109": {
+            "name": "Joyce,George A.",
+            "code": "T2809",
+            "description": "R",
+            "unitPrice": 4323.5846,
+            "valid": true
+        },
+        "N805": {
+            "name": "Quine,Chad B.",
+            "code": "P9896",
+            "description": "P",
+            "unitPrice": 46.2185,
+            "valid": true
+        },
+        "U222": {
+            "name": "Cunningham,Michael R.",
+            "code": "Q5496",
+            "description": "R",
+            "unitPrice": 4605.261,
+            "valid": true
+        },
+        "U488": {
+            "name": "Fripp,Geoffrey E.",
+            "code": "D4956",
+            "description": "L",
+            "unitPrice": 5357.7121,
+            "valid": true
+        },
+        "U726": {
+            "name": "Williams,Brian J.",
+            "code": "D7145",
+            "description": "P",
+            "unitPrice": 4861.134,
+            "valid": true
+        },
+        "W377": {
+            "name": "Minichillo,Martin U.",
+            "code": "D6256",
+            "description": "C",
+            "unitPrice": 1380.2571,
+            "valid": true
+        },
+        "Z412": {
+            "name": "Malynko,Zeke R.",
+            "code": "Q7438",
+            "description": "Q",
+            "unitPrice": 5882.0942,
+            "valid": true
+        }
+    }
+}
