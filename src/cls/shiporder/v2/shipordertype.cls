@@ -14,4 +14,28 @@ Relationship item As shiporder.v2.itemtype(XMLNAME = "item", XMLPROJECTION = "EL
 
 Property orderid As shiporder.v2.orderidtype(XMLNAME = "orderid", XMLPROJECTION = "ATTRIBUTE") [ Required ];
 
+Storage Default
+{
+<Data name="shipordertypeDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>orderperson</Value>
+</Value>
+<Value name="3">
+<Value>shipto</Value>
+</Value>
+<Value name="4">
+<Value>orderid</Value>
+</Value>
+</Data>
+<DataLocation>^shiporder.v2.shipordertypeD</DataLocation>
+<DefaultData>shipordertypeDefaultData</DefaultData>
+<IdLocation>^shiporder.v2.shipordertypeD</IdLocation>
+<IndexLocation>^shiporder.v2.shipordertypeI</IndexLocation>
+<StreamLocation>^shiporder.v2.shipordertypeS</StreamLocation>
+<Type>%Storage.Persistent</Type>
+}
+
 }

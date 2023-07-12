@@ -16,4 +16,34 @@ Property price As shiporder.v2.dectype(XMLNAME = "price") [ Required ];
 
 Relationship shipordertype As shiporder.v2.shipordertype(XMLPROJECTION = "NONE") [ Cardinality = one, Inverse = item ];
 
+Storage Default
+{
+<Data name="itemtypeDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>title</Value>
+</Value>
+<Value name="3">
+<Value>note</Value>
+</Value>
+<Value name="4">
+<Value>quantity</Value>
+</Value>
+<Value name="5">
+<Value>price</Value>
+</Value>
+<Value name="6">
+<Value>shipordertype</Value>
+</Value>
+</Data>
+<DataLocation>^shiporder.v2.itemtypeD</DataLocation>
+<DefaultData>itemtypeDefaultData</DefaultData>
+<IdLocation>^shiporder.v2.itemtypeD</IdLocation>
+<IndexLocation>^shiporder.v2.itemtypeI</IndexLocation>
+<StreamLocation>^shiporder.v2.itemtypeS</StreamLocation>
+<Type>%Storage.Persistent</Type>
+}
+
 }

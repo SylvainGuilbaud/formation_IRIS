@@ -6,7 +6,7 @@ CREATE SCHEMA app;
 -- 	MAXVALUE 9223372036854775807
 -- 	START 1;
 
-DROP TABLE app.customer;
+-- DROP TABLE app.customer;
 
 CREATE TABLE IF NOT EXISTS app.customer (
 	-- id integer NOT NULL DEFAULT nextval('app.customer_id_seq'),

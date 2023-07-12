@@ -6,3 +6,6 @@
 /volumes
 /webgateway
 /data/db
+/data/SC*
+/data/**/archive
+/data/**/out

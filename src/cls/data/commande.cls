@@ -1,9 +1,11 @@
 Class data.commande Extends (%Persistent, %Populate, %JSON.Adaptor, %XML.Adaptor)
 {
 
-Index uniqueID On orderStatus [ Unique ];
+// Index uniqueID On orderStatus [ Unique ];
 
-// Index orderCurrencyIndex On orderCurrency [ Type = bitmap ];
+Index orderCurrencyIndex On orderCurrency [ Type = bitmap ];
+
+// Index orderCurrencyIndex On orderCurrency;
 
 /// order status
 Property orderStatus As %String(MAXLEN = 128);
