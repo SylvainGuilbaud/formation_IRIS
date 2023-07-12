@@ -1,7 +1,7 @@
 Class python.geo
 {
 
-Parameter ADDRESSES = "London,Nantes,Lille,Bordeaux,136 chemin de Saint-Marc 06130 Grasse,Boston,Paris,Dubai,Milan,New York,Tokyo,Sao Paolo";
+Parameter ADDRESSES = "Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
 
 Parameter LOCATIONMAP = "/data/locations_map.html";
 
@@ -10,6 +10,8 @@ ClassMethod test() As %Status
         Set sc = $$$OK
         
         set sc = ..MarkGeoDetails(..#ADDRESSES,..#LOCATIONMAP)
+
+        write "Look at results in "_..#LOCATIONMAP,!
 
         Return sc
 }
