@@ -61,6 +61,15 @@
     set ^["USER"]TRACE("Web App "_webName)="successful"
  }
 
+ set prop("AutheEnabled")=32
+ set prop("DeepSeeEnabled")=1
+ set app="/csp/irisapp"
+ set sc = ##class(Security.Applications).Modify(app,.prop)
+  if 'sc {
+    set ^["USER"]TRACE("IRISAPP "_app)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+ } else {
+    set ^["USER"]TRACE("IRISAPP "_app)="successful"
+ }
  zn "IRISAPP" 
  do $System.OBJ.LoadDir("/app/src","ck",,1)
  do $system.OBJ.Load("/app/src/inc/common.inc")

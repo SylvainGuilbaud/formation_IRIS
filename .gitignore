@@ -4,7 +4,6 @@
 **/*.gz
 /docs
 /volumes
-/webgateway
 /data/db
 /data/SC*
 /data/**/archive
