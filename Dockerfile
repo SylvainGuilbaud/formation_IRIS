@@ -8,7 +8,7 @@ WORKDIR /app
 RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /app
 USER ${ISC_PACKAGE_MGRUSER}
 
-COPY Installer.cls .
+COPY App.Installer.cls .
 COPY src src
 COPY iris.script /tmp/iris.script
 COPY pdf /tmp/.
