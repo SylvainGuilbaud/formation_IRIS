@@ -1,5 +1,5 @@
 /// 
-Class JDBC.demo.process.customers Extends Ens.BusinessProcessBPL
+Class JDBC.demo.process.customers Extends (Ens.BusinessProcessBPL, alwo.EnsHelper.HostRequestResponseInfo)
 {
 
 /// BPL Definition

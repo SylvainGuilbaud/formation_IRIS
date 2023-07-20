@@ -1,6 +1,6 @@
 Include EnsSQLTypes
 
-Class JDBC.demo.INSERT.operation Extends Ens.BusinessOperation
+Class JDBC.demo.INSERT.operation Extends (Ens.BusinessOperation, alwo.EnsHelper.HostRequestResponseInfo)
 {
 
 Parameter ADAPTER = "JDBC.SQL.OutboundAdapter";
