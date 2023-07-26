@@ -26,7 +26,7 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="ArchivePath">/data/personne/archive</Setting>
     <Setting Target="Adapter" Name="FilePath">./ftp/in</Setting>
     <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
-    <Setting Target="Host" Name="TargetConfigNames">personnes</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">process personne</Setting>
     <Setting Target="Host" Name="HeaderCount">1</Setting>
     <Setting Target="Adapter" Name="FTPServer">172.0.0.100</Setting>
     <Setting Target="Adapter" Name="Credentials">ftp</Setting>
@@ -57,8 +57,13 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="FilePath">/data/personne/in/</Setting>
     <Setting Target="Adapter" Name="FileSpec">*.csv</Setting>
     <Setting Target="Adapter" Name="WorkPath">/data/personne/work</Setting>
-    <Setting Target="Host" Name="TargetConfigNames">personnes</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">process personne</Setting>
     <Setting Target="Host" Name="HeaderCount">1</Setting>
+  </Item>
+  <Item Name="process personne" Category="" ClassName="formation.process.personne" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+  <Item Name="from personnes REST" Category="" ClassName="REST.service" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">process personne</Setting>
   </Item>
 </Production>
 }

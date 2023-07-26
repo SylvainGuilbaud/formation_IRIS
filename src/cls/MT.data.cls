@@ -1,4 +1,4 @@
-Class MT.data Extends %Persistent [ StorageStrategy = SQL ]
+Class MT.data Extends (%Persistent, %XML.Adaptor, %JSON.Adaptor) [ StorageStrategy = SQL ]
 {
 
 ClassMethod init() As %Status
@@ -28,11 +28,11 @@ Property Key2 As %Integer;
 
 Property Key3 As %String;
 
-Property Key4 As %String;
+Property CodeProduit As %String;
 
 Property Key5 As %String;
 
-Index IDIdx On (Key1, Key2, Key3, Key4, Key5) [ IdKey ];
+Index IDIdx On (Key1, Key2, Key3, CodeProduit, Key5) [ IdKey ];
 
 /// Description
 Storage SQL
@@ -77,7 +77,7 @@ Storage SQL
 <Expression>{Key3}</Expression>
 </Subscript>
 <Subscript name="4">
-<Expression>{Key4}</Expression>
+<Expression>{CodeProduit}</Expression>
 </Subscript>
 <Subscript name="5">
 <Expression>{Key5}</Expression>

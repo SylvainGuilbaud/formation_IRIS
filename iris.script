@@ -4,7 +4,7 @@
  zpm "install swagger-ui" 
  zpm "install classexplorer" 
  write "INSTALLING IRISAPP"
- do $SYSTEM.OBJ.Load("/app/Installer.cls", "ck")
+ do $SYSTEM.OBJ.Load("/app/App.Installer.cls", "ck")
  set sc = ##class(App.Installer).setup() 
  
  if 'sc {
