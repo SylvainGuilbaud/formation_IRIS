@@ -36,7 +36,8 @@
       "XML Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.XMLSchemaWizard.cls?Namespace=${namespace}${serverAuth}",
       "SOAP Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.SOAPWizard.cls?Namespace=${namespace}${serverAuth}",
       "SAP BAPI Configuration RFC": "${serverUrl}/csp/${namespace}/EnsPortal.Dialog.SAPJCO.BaseConfiguration.cls?Namespace=${namespace}${serverAuth}"
-    }
+    },
+    "server": "formation-iris"
   },
   "sqltools.connections": [
     {
