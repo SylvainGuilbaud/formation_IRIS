@@ -3,6 +3,7 @@
  zpm "install objectscript-json-trace-viewer"
  zpm "install swagger-ui" 
  zpm "install classexplorer" 
+ zpm "install openapi-client-gen"
  write "INSTALLING IRISAPP"
  do $SYSTEM.OBJ.Load("/app/App.Installer.cls", "ck")
  set sc = ##class(App.Installer).setup() 
@@ -33,8 +34,9 @@
  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," IRIS",4)=""
  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MSSQL",5)=""
 
- write "Create web application ..."
  set webName = "/common"
+ write "Create web application ...",webName
+ 
  set webProperties("DispatchClass") = "common.REST"
  set webProperties("NameSpace") = "IRISAPP"
  set webProperties("Enabled") = 1
@@ -47,9 +49,23 @@
     set ^["USER"]TRACE("Web App "_webName)="successful"
  }
  
- write "Create web application ..."
  set webName = "/crud"
+ write "Create web application ...",webName
  set webProperties("DispatchClass") = "REST.crud"
+ set webProperties("NameSpace") = "IRISAPP"
+ set webProperties("Enabled") = 1
+ set webProperties("AutheEnabled") = 96
+ set webProperties("MatchRoles")=":%All"
+ set sc = ##class(Security.Applications).Create(webName, .webProperties)
+ if 'sc {
+    set ^["USER"]TRACE("Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+ } else {
+    set ^["USER"]TRACE("Web App "_webName)="successful"
+ }
+
+ set webName = "/admin"
+ write "Create web application ...",webName
+ set webProperties("DispatchClass") = "admin.REST"
  set webProperties("NameSpace") = "IRISAPP"
  set webProperties("Enabled") = 1
  set webProperties("AutheEnabled") = 96

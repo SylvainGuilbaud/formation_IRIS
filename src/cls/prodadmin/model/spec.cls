@@ -1,0 +1,382 @@
+Class prodadmin.model.spec Extends %RegisteredObject [ ProcedureBlock ]
+{
+
+XData OpenAPI [ MimeType = application/json ]
+{
+{
+  "openapi":"3.0.1",
+  "info":{
+    "x-ISC_Namespace":"IRISAPP"
+  },
+  "servers":[
+    {
+      "url":"/admin"
+    }
+  ],
+  "paths":{
+    "/":{
+      "get":{
+        "operationId":"version",
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"version"
+      }
+    },
+    "/sage":{
+      "get":{
+        "operationId":"analytics",
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"analytics"
+      }
+    },
+    "/namespaces":{
+      "get":{
+        "description":" This method returns a list of namespaces for this server ",
+        "operationId":"GetNamespaces",
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"GetNamespaces"
+      }
+    },
+    "/namespace/exist/{namespace}":{
+      "get":{
+        "operationId":"namespaceExists",
+        "parameters":[
+          {
+            "name":"namespace",
+            "in":"path",
+            "required":true,
+            "style":"simple",
+            "explode":false,
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"namespaceExists"
+      }
+    },
+    "/namespace":{
+      "post":{
+        "operationId":"createNamespace",
+        "requestBody":{
+          "content":{
+            "*/*":{
+              "schema":{
+                "type":"string"
+              }
+            }
+          },
+          "required":false
+        },
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"createNamespace",
+        "x-codegen-request-body-name":"payloadBody"
+      },
+      "delete":{
+        "operationId":"deleteNamespace",
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"deleteNamespace"
+      }
+    },
+    "/namespace/enable/{namespace}":{
+      "get":{
+        "operationId":"enableNamespace",
+        "parameters":[
+          {
+            "name":"namespace",
+            "in":"path",
+            "required":true,
+            "style":"simple",
+            "explode":false,
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"enableNamespace"
+      },
+      "put":{
+        "operationId":"enableNamespace01",
+        "parameters":[
+          {
+            "name":"namespace",
+            "in":"path",
+            "required":true,
+            "style":"simple",
+            "explode":false,
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "requestBody":{
+          "content":{
+            "*/*":{
+              "schema":{
+                "type":"string"
+              }
+            }
+          },
+          "required":false
+        },
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"enableNamespace",
+        "x-codegen-request-body-name":"payloadBody"
+      }
+    },
+    "/namespace/disable/{namespace}":{
+      "get":{
+        "operationId":"disableNamespace",
+        "parameters":[
+          {
+            "name":"namespace",
+            "in":"path",
+            "required":true,
+            "style":"simple",
+            "explode":false,
+            "schema":{
+              "type":"string"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"disableNamespace"
+      }
+    },
+    "/service":{
+      "get":{
+        "operationId":"service",
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"service"
+      }
+    },
+    "/production":{
+      "post":{
+        "operationId":"createProduction",
+        "requestBody":{
+          "content":{
+            "*/*":{
+              "schema":{
+                "type":"string"
+              }
+            }
+          },
+          "required":false
+        },
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"createProduction",
+        "x-codegen-request-body-name":"payloadBody"
+      }
+    },
+    "/security/export":{
+      "get":{
+        "operationId":"SecurityExport",
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"SecurityExport"
+      }
+    },
+    "/security/import":{
+      "get":{
+        "operationId":"SecurityImport",
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"SecurityImport"
+      }
+    },
+    "/key":{
+      "post":{
+        "operationId":"newKey",
+        "requestBody":{
+          "content":{
+            "*/*":{
+              "schema":{
+                "type":"string"
+              }
+            }
+          },
+          "required":false
+        },
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"newKey",
+        "x-codegen-request-body-name":"payloadBody"
+      }
+    },
+    "/_spec":{
+      "get":{
+        "operationId":"SwaggerSpec",
+        "responses":{
+          "200":{
+            "description":"(Expected Result)",
+            "content":{
+            }
+          },
+          "default":{
+            "description":"(Unexpected Error)",
+            "content":{
+            }
+          }
+        },
+        "x-ISC_ServiceMethod":"SwaggerSpec"
+      }
+    }
+  },
+  "components":{
+  }
+}
+}
+
+}
