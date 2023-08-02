@@ -29,6 +29,7 @@
     "links": {
       "terminal": "http://${host}:${port}/terminal/",
       "class explorer": "http://${host}:${port}/classexplorer/",
+      "api management": "http://${host}:${port}/api/mgmnt/",
       "swagger-ui": "http://${host}:${port}/swagger-ui/index.html",
       "unit test": "http://127.0.0.1:12773/csp/sys/%25UnitTest.Portal.Home.cls?$NAMESPACE=IRISAPP",
       "version": "http://${host}:${port}/common/",
