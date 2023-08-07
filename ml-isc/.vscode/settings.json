@@ -1,0 +1,7 @@
+{
+    "objectscript.conn": {
+        "server": "remote",
+        "ns": "APPL",
+        "active": true
+    }
+}

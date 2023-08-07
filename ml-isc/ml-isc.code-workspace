@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"name": "main",
+			"path": ".",
+		}
+	],
+	"settings": {
+		"objectscript.conn": {
+			"active": true
+		},
+		"intersystems.servers": {
+		
+			"remote": {
+				"webServer": {
+					"scheme": "http",
+					"host": "localhost",		// IRIS address
+					"port": 9092				// IRIS web port 
+				},
+				"description": "REMOTE",
+				"username": "superuser",		// IRIS username 
+                "password": "SYS",		        // IRIS password 
+			},
+			"/default": "remote"
+		},
+	}
+}

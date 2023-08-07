@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  ehr:
+    image: mlisc/ml-ehr:latest
+    pull_policy: always
+    container_name: ehr
+    hostname: ehr
+    init: true
+    ports:
+    - "8098:4200" # where Nodejs will be listening
+  iris:
+    image: mlisc/ml-iris:latest
+    pull_policy: always
+    container_name: iris
+    hostname: iris
+    ports:
+    - "9092:52773" # where IRIS will be listening
+    volumes:
+      - shared-volume:/tmp
+  jupyter:
+    image: mlisc/ml-jupyter:latest
+    pull_policy: always
+    hostname: jupyter
+    container_name: jupyter
+    entrypoint: jupyter lab --ip 0.0.0.0 --port 8888 --allow-root
+    ports:
+    - "4200:8888" # where Jupyter will be listening
+    - "4201:6006"
+    volumes:
+      - shared-volume:/tmp
+volumes:
+  shared-volume:
