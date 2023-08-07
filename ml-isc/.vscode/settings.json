@@ -2,6 +2,10 @@
     "objectscript.conn": {
         "server": "remote",
         "ns": "APPL",
-        "active": true
+        "active": true,
+        "docker-compose": {
+            "service": "iris",
+            "internalPort": 52773
+        }
     }
 }
