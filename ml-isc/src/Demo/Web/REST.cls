@@ -12,8 +12,8 @@ Parameter HandleCorsRequest = 1;
 XData UrlMap
 {
 <Routes>
-        <Route Url="/probabilities" Method="GET" Call="IntegratedML"/>
-        <!--<Route Url="/probabilities" Method="GET" Call="EmbeddedPython"/>-->
+        <!-- <Route Url="/probabilities" Method="GET" Call="IntegratedML"/> -->
+        <Route Url="/probabilities" Method="GET" Call="EmbeddedPython"/>
     </Routes>
 }
 
@@ -46,7 +46,8 @@ ClassMethod IntegratedML() As %Status
 		set qry($increment(qry)) = ",avg_glucose_level"
 		set qry($increment(qry)) = ",bmi"
 		set qry($increment(qry)) = ",smoking_status"
-		// insert code for Step A3 below this line
+		// insert code for Step A3 below this line 
+        set qry($increment(qry)) = ", PROBABILITY(StrokeModel USE StrokeModelTrained) as probability_stroke"
         
 		set qry($increment(qry)) = $$$FormatText("FROM %1",table)
 		set qry($increment(qry)) = "WHERE 1=1"
@@ -135,14 +136,15 @@ ClassMethod EmbeddedPython() As %Status
         //instantiate Python builtins functionality and then use it to create a Python list that will hold all patients
         set builtins = ##class(%SYS.Python).Builtins()
         //insert code for Step B3 below this line
-        
+        set patientlist = builtins.list()
+
 
         set pythonpatient = ""
         while rs.%Next() {
             set patient = {}
             //instantiate a second Python list that will hold each individual patient's values  
             //insert code for Step B4 below this line
-            
+            set pythonpatient = builtins.list()
 
             for iCol=1:1:rsMetadata.columnCount {
                 set col = rsMetadata.columns.GetAt(iCol)
@@ -175,14 +177,14 @@ ClassMethod EmbeddedPython() As %Status
             //now add the individual patient to the list of all patients and push them into a temporary JSON result
             //once we have the probability scores we will add those
             //insert code for Step B5 below this line 
-            
+            do patientlist.append(pythonpatient)
             //templist is the variable holding the JSON result that will go back to our Angular UI
             do templist.patients.%Push(patient)
 
         }
         set probs = ""
         //insert code for Step B6 below this line
-       
+        set probs = ..PythonProbabilities(patientlist)
 
         for i=1:1:probs.Count() {
                set prob = probs.GetAt(i)
@@ -217,6 +219,22 @@ import pandas as pd
 import numpy as np 
 import pickle
 from xgboost import XGBClassifier
+
+# python cheat sheet
+
+stroke_df = pd.DataFrame(patientlist, columns=['gender', 'age', 'ever_married',
+'hypertension', 'heart_disease', 'work_type', 'Residence_type',
+'avg_glucose_level', 'bmi', 'smoking_status'])
+
+categorical_features = stroke_df.select_dtypes(include='object').columns
+for col in categorical_features:
+    stroke_df[col] = stroke_df[col].astype('category')
+    
+model = XGBClassifier()
+model.load_model("/tmp/xgboost_export.json")
+preds_proba = model.predict_proba(stroke_df)[:,1]
+
+return preds_proba.tolist()
 }
 
 }

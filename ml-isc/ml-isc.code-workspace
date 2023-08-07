@@ -23,5 +23,21 @@
 			},
 			"/default": "remote"
 		},
+		"sqltools.connections": [
+			{
+				"namespace": "USER",
+				"connectionMethod": "Server and Port",
+				"showSystem": false,
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 9092,
+				"https": false,
+				"askForPassword": false,
+				"driver": "InterSystems IRIS",
+				"name": "IRIS-ML",
+				"username": "_system",
+				"password": "SYS"
+			}
+		],
 	}
 }
