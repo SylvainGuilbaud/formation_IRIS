@@ -136,7 +136,7 @@ Method OnProcessInput(pInput As %Net.MailMessage, Output pOutput As %RegisteredO
     #;
 	set attachment=##class(%Stream.GlobalCharacter).%New()
 	do ..getAttachment(pInput,.attachment)
-	set ^Email("BinaryData","attachment size")=attachment.Size
+	set ^Email("Attachment Data","attachment size")=attachment.Size
 	do attachment.Rewind()
     set separator=";"
 	while 'attachment.AtEnd {
@@ -225,12 +225,14 @@ Method getAttachment(msg As %Net.MailMessage, ByRef attachment As %Stream.Global
             do msg.BinaryData.Rewind() 
             do attachment.CopyFrom(msg.BinaryData)
             $$$LOGINFO("("_$i(nb)_") size:"_msg.BinaryData.Size)
+
         }
         else {
             do msg.TextData.Rewind() 
             do attachment.CopyFrom(msg.TextData)
             $$$LOGINFO("("_$i(nb)_") size:"_msg.TextData.Size)
         }
+        $$$LOGINFO("("_$i(nb)_") attachment size:"_attachment.Size)
 	}
 
 	// when "content-type" contents "application/octet-stream"
@@ -251,7 +253,6 @@ Method getAttachment(msg As %Net.MailMessage, ByRef attachment As %Stream.Global
 		do file.CopyFrom(msg.BinaryData)
 		do file.Close()
 	}
-    $$$LOGINFO("attachment size:"_attachment.Size)
 }
 
 ClassMethod OnGetConnections(Output pArray As %String, pItem As Ens.Config.Item)
