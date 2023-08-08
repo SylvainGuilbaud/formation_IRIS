@@ -1,7 +1,7 @@
 Class adm.data.utils [ Abstract, Not ProcedureBlock ]
 {
 
-ClassMethod export(file As %String, globalName As %String, delimiter As %String = ";")
+ClassMethod export(file As %String, globalName As %String, delimiter As %String = ";") As %Status
 {
     set s=$zts write !,"Started at ",s
     set nb=0
@@ -14,10 +14,10 @@ ClassMethod export(file As %String, globalName As %String, delimiter As %String 
 	}
     i $l(file) c file
     write !,"Exported ",nb," objects in ",$p($zts,",",2)-$p(s,",",2)," seconds"
-    quit
+    return $$$OK
 }
 
-ClassMethod import(file As %String, globalName As %String, delimiter As %String = ";")
+ClassMethod import(file As %String, globalName As %String, delimiter As %String = ";") As %Status
 {
 	kill ^CacheTempImport($job)
     set s=$zts write !,"Started at ",s
@@ -30,7 +30,7 @@ ClassMethod import(file As %String, globalName As %String, delimiter As %String 
 	}
 eof i $l(file) c file
     write !,"Loaded ",nb," objects in ",$p($zts,",",2)-$p(s,",",2)," seconds"
-    quit
+    return $$$OK
 }
 
 }

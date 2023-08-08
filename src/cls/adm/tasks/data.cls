@@ -9,8 +9,7 @@ Property delimiter As %String [ InitialExpression = ";" ];
 
 Method OnTask() As %Status
 {
-		do ##class(adm.data.utils).export(..file,..globalName,..delimiter)
-		Quit 1
+		return ##class(adm.data.utils).export(..file,..globalName,..delimiter)
 }
 
 }
