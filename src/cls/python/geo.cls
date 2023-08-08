@@ -3,7 +3,9 @@ Class python.geo
 
 // Parameter ADDRESSES = "Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
 
-Parameter ADDRESSES = "20 avenue André Prothin 92400 Courbevoie,Abidjan,Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
+// Parameter ADDRESSES = "20 avenue Andre Prothin 92400 Courbevoie,Abidjan,Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
+
+Parameter ADDRESSES = "20 avenue Andre Prothin 92400 Courbevoie";
 
 Parameter LOCATIONMAP = "/data/locations_map.html";
 
@@ -21,6 +23,7 @@ ClassMethod test() As %Status
 ClassMethod MarkGeoDetails(addr As %String, filepath As %String) As %Status [ Language = python ]
 {
     import folium
+    import sys
     from geopy.geocoders import Nominatim
     
     geolocator = Nominatim(user_agent="IrisGeoMap")
@@ -64,7 +67,7 @@ ClassMethod MarkGeoDetails(addr As %String, filepath As %String) As %Status [ La
     	f.write(fullHtml)
     	f.close()
     except:
-    	print("Not able to write to a file")
+    	print("Not able to write to a file Unexpected error:", sys.exc_info()[0])
 }
 
 ClassMethod getAddress(addr As %String) As %String [ Language = python ]
