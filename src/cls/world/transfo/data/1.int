@@ -1,0 +1,41 @@
+ROUTINE world.transfo.data.1 [Type=INT,Generated]
+ ;world.transfo.data.1
+ ;Generated for class world.transfo.data.  Do NOT edit. 08/16/2023 01:03:29PM
+ ;;2B463363;world.transfo.data
+ ;
+GetSourceType() methodimpl {
+ Quit "world.data" }
+GetTargetType(pCreate) methodimpl {
+ Set pCreate="new"
+ Quit "world.data" }
+Transform(source,target,aux="") [ process,context ] methodimpl {
+	Set (tSC,tSCTrans,tSCGet)=1
+	Try {
+		Set target = ##class(world.data).%New()
+		If '$IsObject(target) Set tSC=%objlasterror Quit
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("xform",$classname(),"Transform","transform from source "_source_$S(source.%Extends("%Persistent"):"/"_source.%Id(),1:"")_" to target "_target_$S(target.%Extends("%Persistent"):"/"_target.%Id(),1:"")_"")
+		Set tIgnore = 0
+		Try { Set zVALz=source.Country, zVALz=$S($IsObject(zVALz):zVALz.%ConstructClone(), 1:zVALz) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tIgnore=1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		If 'tIgnore { Set target.Country=zVALz }
+		Set tIgnore = 0
+		Try { Set zVALz=source.AgriculturalLand, zVALz=$S($IsObject(zVALz):zVALz.%ConstructClone(), 1:zVALz) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tIgnore=1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		If 'tIgnore { Set target.AgriculturalLand=zVALz }
+		Set tIgnore = 0
+		Try { Set zVALz=source.BirthRate, zVALz=$S($IsObject(zVALz):zVALz.%ConstructClone(), 1:zVALz) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tIgnore=1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		If 'tIgnore { Set target.BirthRate=zVALz }
+	} Catch thrownErr {
+		If $ZE="" {
+			Set tSC=thrownErr.AsStatus()
+			Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSC)
+		} Else {
+			Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"Transform")
+		}
+	}
+	If ('tSCTrans) Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSCTrans)  Quit:(''tSC) tSCTrans
+	Quit tSC }
