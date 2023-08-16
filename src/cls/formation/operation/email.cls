@@ -7,7 +7,7 @@ Parameter ADAPTER = "Ens.OutboundAdapter";
 
 Parameter INVOCATION = "Queue";
 
-Method send(pRequest As Ens.Request, Output pResponse As Ens.Response ) As %Status
+Method send(pRequest As Ens.Request, Output pResponse As Ens.Response) As %Status
 {
     set sc = $$$OK
     
@@ -22,4 +22,5 @@ XData MessageMap
     </MapItem>
 </MapItems>
 }
+
 }

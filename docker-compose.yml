@@ -27,7 +27,8 @@ services:
       irisnetwork:
         ipv4_address: 172.0.0.10
   jupyter:
-    image: jupyter/datascience-notebook:latest
+    # image: jupyter/datascience-notebook
+    image: jupyter/base-notebook
     pull_policy: always
     hostname: jupyter
     container_name: ${iris_container_name}-jupyter

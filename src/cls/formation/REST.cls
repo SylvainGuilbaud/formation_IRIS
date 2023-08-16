@@ -15,18 +15,20 @@ ClassMethod version() As %Status
 {
     set sc = $$$OK
     set %response.ContentType = ..#CONTENTTYPEJSON
-    set json = {}
-    set json.version = ($zv)
-    set json.date = ($zdt($h,3))
-    set json.system = ($System)
-    set json.username = ($Username)
-    set json.roles = ($Roles)
-    set json.namespace = ($Namespace)
     set nls = ##class(%SYS.NLS.Locale).GetLanguage()
-    set json.country = ($listget(nls,1))
-    set json.lang = ($listget(nls,2))
-    set json.JavaHomeDirectory = $SYSTEM.Util.JavaHomeDirectory()
-    set json.JavaExe = $SYSTEM.Util.JavaExe()
+
+    set json = {
+         "version": ($zv)
+        ,"date": ($zdt($h,3))
+        ,"system": ($System)
+        ,"username": ($Username)
+        ,"roles": ($Roles)
+        ,"namespace": ($Namespace)
+        ,"country": ($listget(nls,1))
+        ,"lang": ($listget(nls,2))
+        ,"JavaHomeDirectory": ($SYSTEM.Util.JavaHomeDirectory())
+        ,"JavaExe": ($SYSTEM.Util.JavaExe())
+    }
     do json.%ToJSON()
     return sc
 }

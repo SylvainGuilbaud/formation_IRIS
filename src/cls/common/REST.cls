@@ -37,8 +37,47 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/file/:filename" Method="POST" Call="file"/>
 <Route Url="/service" Method="POST" Call="service" />
 <Route Url="/_spec" Method="GET" Call="spec" />
+<Route Url="/__spec/:filename" Method="GET" Call="fileSpec" />
 <Route Url="/dump" Method="GET" Call="dump" />
 </Routes>
+}
+
+ClassMethod fileSpec(filename As %String) As %Status
+{
+
+ try {
+
+	set sc=$$$OK
+
+	set %response.ContentType=..#CONTENTTYPEJSON
+
+    #; set json = {
+    #;     "ts":($zdt($h,3)),
+    #;     "filename":(##class(%CSP.Page).UnescapeURL(filename))
+    #; }
+    #; do json.%ToJSON()
+
+    set data = {}.%FromJSON(##class(%CSP.Page).UnescapeURL(filename))
+    #; do data.%ToJSON()
+
+    set file = ##class(%File).%New(data.directory_data.name)
+
+
+    do file.Open("RS")
+
+    while 'file.AtEnd{
+
+        w file.ReadLine()
+
+    }
+
+	} catch e {
+
+		throw e
+
+	}
+
+	return sc
 }
 
 ClassMethod Request(classname, property, id, full) As %Status
