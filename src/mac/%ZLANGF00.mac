@@ -4,7 +4,22 @@ ROUTINE %ZLANGF00
  
  QUIT
 
-/// w $zcube(2)
-ZCUBE(input) public {
- Quit input*input*input
+/// w $zcel(32)
+/// (0°C × 9/5) + 32 = 32°F
+ZCEL(input) public {
+ return (input * (9/5)) + 32 
+}
+/// w $zcelsius(32)
+ZCELSIUS(input) public {
+ return $ZCEL(input) 
+}
+
+/// w $zfa(32)
+/// (32°F − 32) × 5/9 = 0°C
+ZFA(input) public {
+ return (input - 32) * (5/9)
+}
+/// w $zfahrenheit(32)
+ZFAHRENHEIT(input) public {
+ return $ZFA(input)
 }
