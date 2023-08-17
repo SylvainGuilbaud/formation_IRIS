@@ -1,0 +1,10 @@
+ROUTINE %ZLANGF00
+ ; implementation of ^%ZLANGF00
+ ; custom functions for ObjectScript
+ 
+ QUIT
+
+/// w $zcube(2)
+ZCUBE(input) public {
+ Quit input*input*input
+}
