@@ -1,0 +1,127 @@
+ROUTINE FCE.Operations.REST.1 [Type=INT,Generated]
+ ;FCE.Operations.REST.1
+ ;Generated for class FCE.Operations.REST.  Do NOT edit. 08/14/2023 08:17:19AM
+ ;;386F7A34;FCE.Operations.REST
+ ;
+CreateBranch() methodimpl {
+	set %response.ContentType = "application/json"
+	set data = ##class(%Library.DynamicObject).%FromJSON(%request.Content)
+	set branch = ##class(FCE.Branch).%New()
+	set st = branch.CopyFromObject(data)
+	if (''st) {
+		set st = branch.%Save()
+		if (''st) {
+			set jsonBranch = {}
+			set st = branch.CopyToObject(.jsonBranch)
+			if (''st) {
+				// send the JSON string response out
+				write jsonBranch.%ToJSON()
+			} 
+		}
+	}
+	return st }
+DeleteBranch(branchID) methodimpl {
+	set st = ##class(FCE.Branch).%DeleteId(branchID)
+	set %response.Status = ..#HTTP204NOCONTENT
+	return st }
+DispatchMap(pURL,pMethod,pResourceMatched,pMatcher) methodimpl {
+ set pResourceMatched=0
+ Set pMatcher=##class(%Regex.Matcher).%New("/branches")
+ If pMatcher.Match(pURL) {
+    If ",POST,OPTIONS,"[(","_pMethod_",") Return $ListBuild("R","/branches","POST","CreateBranch","false")
+    Set pResourceMatched=1
+ }
+ Set pMatcher.Pattern="/branches/([^/]+)"
+ If pMatcher.Match(pURL) {
+    If ",GET,OPTIONS,"[(","_pMethod_",") Return $ListBuild("R","/branches/([^/]+)","GET","RetrieveBranch","false")
+    Set pResourceMatched=1
+ }
+ Set pMatcher.Pattern="/branches/([^/]+)"
+ If pMatcher.Match(pURL) {
+    If ",DELETE,OPTIONS,"[(","_pMethod_",") Return $ListBuild("R","/branches/([^/]+)","DELETE","DeleteBranch","false")
+    Set pResourceMatched=1
+ }
+ Set pMatcher.Pattern="/branches/openinglist/([^/]+)"
+ If pMatcher.Match(pURL) {
+    If ",GET,OPTIONS,"[(","_pMethod_",") Return $ListBuild("R","/branches/openinglist/([^/]+)","GET","ListBranchesByOpeningTime","false")
+    Set pResourceMatched=1
+ }
+ Return "" }
+Http500(ex) methodimpl {
+	set st = ex.AsStatus()
+	set code = +$System.Status.GetErrorCodes(st)
+    return ..ReportHttpStatusCode($case(code,
+    			5809       :..#HTTP404NOTFOUND,
+    			5810     :..#HTTP404NOTFOUND,
+    			5808             :..#HTTP422UNPROCESSABLEENTITY,
+    			5659	        :..#HTTP422UNPROCESSABLEENTITY,
+    			5802 :..#HTTP422UNPROCESSABLEENTITY,
+    			822             :..#HTTP403FORBIDDEN,
+    			                            :..#HTTP500INTERNALSERVERERROR), st)
+}
+ListBranchesByOpeningTime(count) methodimpl {
+	set %response.ContentType = "application/json"
+	// limit request to top 100
+	if (count > 100) {
+		set st = $$Error^%apiOBJ(5001, "Limit = 100")
+		set %response.Status = ..#HTTP204NOCONTENT
+		return st
+	}
+	// use dynamic sql, using JSON_OBJECT to format result as JSON string
+	set sql = "SELECT TOP ?"
+	set sql = sql _ " JSON_OBJECT('Opens':%odbcout(opens),'Closes':%odbcout(closes),'Phone':phone)"
+	set sql = sql _ " as branch"
+	set sql = sql _ " FROM FCE.Branch"
+	set sql = sql _ " WHERE opens is not null"
+	set sql = sql _ " ORDER BY opens"
+	set rs = ##class(%SQL.Statement).%ExecDirect(, sql, count)
+	if (rs.%SQLCODE = 0) {
+		// use %DynamicArray to hold results
+		set results = []
+		while rs.%Next() {
+			// change JSON string into %DynamicObject and push into results
+			do results.%Push(##class(%Library.DynamicObject).%FromJSON(rs.branch))
+		}
+		if (rs.%SQLCODE = 100) {
+			// create %DynamicObject to hold final count and results
+			set finalResult = {}
+			set finalResult.count = rs.%ROWCOUNT
+			set finalResult.results = results
+			write finalResult.%ToJSON()  // send the JSON string response out
+		}
+		else {
+			// failure during %Next()
+			set %response.Status = ..#HTTP204NOCONTENT
+			set st = $$Error^%apiOBJ(5001, rs.%SQLCODE _ ": " _ rs.%Message)
+		}
+	}
+	else {
+		set %response.Status = ..#HTTP204NOCONTENT
+	}
+	return 1 }
+RetrieveBranch(branchID) methodimpl {
+	set %response.ContentType = "application/json"
+	set branch = ##class(FCE.Branch).%OpenId(branchID, , .st)
+	if (''st) {
+		set jsonBranch = {}
+		set st = branch.CopyToObject(.jsonBranch)
+		if (''st) {
+			// send the JSON string response out
+			write jsonBranch.%ToJSON()
+		} 
+	}
+	return st }
+SupportedVerbs(pUrl,pVerbs) methodimpl {
+ Set pVerbs="",tSC=1
+ Do {
+   Set tSC=..ResolveTarget(pUrl,.tTargetUrl,.tTargetClass)
+   If ('tSC)||((tTargetUrl="")&&(tTargetClass="")) Quit
+   If (tTargetUrl'=pUrl)&&(tTargetClass'=$classname()) {
+       Set tSC=$classmethod(tTargetClass,"SupportedVerbs",tTargetUrl,.pVerbs)
+       Quit
+   }
+   If ##class(%Regex.Matcher).%New("/branches").Match(pUrl) Set pVerbs="POST,OPTIONS" Quit
+   If ##class(%Regex.Matcher).%New("/branches/([^/]+)").Match(pUrl) Set pVerbs="DELETE,GET,OPTIONS" Quit
+   If ##class(%Regex.Matcher).%New("/branches/openinglist/([^/]+)").Match(pUrl) Set pVerbs="GET,OPTIONS" Quit
+ } while 0
+ Quit tSC }

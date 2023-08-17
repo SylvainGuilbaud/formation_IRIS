@@ -1,0 +1,158 @@
+ROUTINE FCE.Tests.CurrencyOrderTests.1 [Type=INT,Generated]
+ ;FCE.Tests.CurrencyOrderTests.1
+ ;Generated for class FCE.Tests.CurrencyOrderTests.  Do NOT edit. 08/16/2023 04:19:20PM
+ ;;345A4333;FCE.Tests.CurrencyOrderTests
+ ;
+TestCOTrigger() [ SQLCODE,orderID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,orderID 
+ 	if '$$$TriggerExists(FCE.CurrencyOrder,UpdateDeleteInNotes) {
+		do ..AssertSkippedViaMacro("Can't run test yet")
+		quit
+	}
+	// create branch
+	set branch = ##class(FCE.Branch).%New()
+	set branch.Phone = "999-999-0000"
+	do branch.CurrencyBalances.SetAt(250, "EUR")
+	do branch.CurrencyBalances.SetAt(50, "USD")
+	set status = branch.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Branch saved""",status, "Branch saved")
+	// create order
+	set order = ##class(FCE.CurrencyOrder).%New()
+	set order.Branch = branch
+	set order.ATM = "a111"
+	set order.CurrencyOut = "EUR"
+	set order.AmountOut = 95
+	set order.CurrencyIn = "USD"
+	set order.AmountIn = 100
+	set order.Requestor = "Smith,John"
+	set order.RequestorEmail = "Smith@abcd.com"
+	set status = order.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Order saved""",status, "Order saved")
+	set order.Fee = 50
+	set status = order.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Fee changed, Order saved""",status, "Fee changed, Order saved")
+	set notes = order.Branch.Notes
+	set length1 = notes.Size
+	do ..AssertTrueViaMacro("length1 > 0, ""Branch notes got longer""",length1 > 0, "Branch notes got longer")
+	set found = notes.FindAt(1, "updated")
+	do ..AssertTrueViaMacro("(found '= -1), ""Branch notes contain an """"update"""" entry""",(found '= -1), "Branch notes contain an ""update"" entry")
+	// delete order
+	set orderID = order.%Id()
+	 ;---&sql(DELETE FROM fce.currencyorder WHERE ID = :orderID)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, orderID
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"En5P2YteSLSckhSwCaeA4JLZhvc","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"En5P2YteSLSckhSwCaeA4JLZhvc"))||($ze["<ZSQLU>") { d %0dsqlA } else { throw } }
+	do ..AssertEqualsViaMacro("SQLCODE, 0, ""Order deleted""",SQLCODE, 0, "Order deleted")
+	set length2 = notes.Size
+	do ..AssertTrueViaMacro("length2 > length1, ""Branch notes got longer again""",length2 > length1, "Branch notes got longer again")
+	set found = notes.FindAt(1, "deleted")
+	do ..AssertTrueViaMacro("(found '= -1), ""Branch notes contain a """"delete"""" entry""",(found '= -1), "Branch notes contain a ""delete"" entry")
+	// delete Branch
+	set status = ##class(FCE.Branch).%DeleteId(branch.%Id())
+	do ..AssertStatusOKViaMacro("status, ""Branch deleted""",status, "Branch deleted") }
+ q
+%0dsqlA	n %xxsql
+	s %xxsql("S",1)="DELETE FROM fce . currencyorder WHERE ID = :orderID"
+	s %xxsql("I","%outUnitTest")="",%xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","FCE.Tests",0,"",),,"FCE.Tests.CurrencyOrderTests.CLS")
+	return
+TestProcessOrder() [ SQLCODE,branch1ID,branch2ID,branch3ID,branch4ID,paymentID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,branch1ID,branch2ID,branch3ID,branch4ID,paymentID 
+	// create order #1
+	set order1 = ##class(FCE.Tests.Utilities).CreateOrder()
+	set payment1 = ##class(FCE.Cash).%New()
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order1, payment1, , .message1)
+	do ..AssertStatusOKViaMacro("status, ""Order #1 processed and saved""",status, "Order #1 processed and saved")
+	do ..AssertNotEqualsViaMacro("message1, """", ""Message returned""",message1, "", "Message returned")
+	do ..AssertEqualsViaMacro("order1.Status, ""Completed"", ""Order #1 completed""",order1.Status, "Completed", "Order #1 completed")
+	set euros = order1.Branch.CurrencyBalances.GetAt("EUR")
+	set dollars = order1.Branch.CurrencyBalances.GetAt("USD")
+	do ..AssertEqualsViaMacro("dollars, 150, ""Incoming Currency updated in branch""",dollars, 150, "Incoming Currency updated in branch")
+	do ..AssertEqualsViaMacro("euros, 155, ""Outgoing Currency updated in branch""",euros, 155, "Outgoing Currency updated in branch")
+	// create account for order #2
+	set account = ##class(FCE.Tests.Utilities).CreateAccount()
+	// create order #2
+	set order2 = ##class(FCE.Tests.Utilities).CreateOrder()
+	set payment2 = ##class(FCE.AccountPayment).%New()
+	set order2.AmountIn = 1100 // change incoming amount so it's greater than account balance
+	set order2.CurrencyIn = "CHF" // change incoming currency so it doesn't match account
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order2, payment2, account, .message2)
+	do ..AssertStatusOKViaMacro("status, ""Order #2 processed and saved""",status, "Order #2 processed and saved")
+	do ..AssertEqualsViaMacro("message2, """", ""Message not returned""",message2, "", "Message not returned")
+	do ..AssertEqualsViaMacro("order2.Status, ""Rejected"", ""Order #2 rejected-insufficient funds in account""",order2.Status, "Rejected", "Order #2 rejected-insufficient funds in account")
+	do ..AssertNotEqualsViaMacro("account.Balance, 900, ""Account payment not completed""",account.Balance, 900, "Account payment not completed")
+	set order2.AmountIn = 100 // change incoming amount back
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order2, payment2, account, .message2)
+	do ..AssertStatusOKViaMacro("status, ""Order #2 processed and saved""",status, "Order #2 processed and saved")
+	do ..AssertEqualsViaMacro("message2, """", ""Message not returned""",message2, "", "Message not returned")
+	do ..AssertEqualsViaMacro("order2.Status, ""Rejected"", ""Order #2 rejected-account has wrong currency""",order2.Status, "Rejected", "Order #2 rejected-account has wrong currency")
+	do ..AssertNotEqualsViaMacro("account.Balance, 900, ""Account payment not completed""",account.Balance, 900, "Account payment not completed")
+	set order2.CurrencyIn = "USD" // correct incoming currency
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order2, payment2, account, .message2)
+	do ..AssertStatusOKViaMacro("status, ""Order #2 processed and saved""",status, "Order #2 processed and saved")
+	do ..AssertEqualsViaMacro("order2.Status, ""Completed"", ""Order #2 completed""",order2.Status, "Completed", "Order #2 completed")
+	do ..AssertNotEqualsViaMacro("message2, """", ""Message returned""",message2, "", "Message returned")
+	do ..AssertEqualsViaMacro("account.Balance, 900, ""Account payment completed""",account.Balance, 900, "Account payment completed")
+	set euros = order2.Branch.CurrencyBalances.GetAt("EUR")
+	do ..AssertEqualsViaMacro("euros, 155, ""Outgoing Currency updated in branch""",euros, 155, "Outgoing Currency updated in branch")
+	// create order #3
+	set order3 = ##class(FCE.Tests.Utilities).CreateOrder()
+	set payment3 = ##class(FCE.CreditCard).%New()
+	set payment3.Type = "Visa"
+	set payment3.Number = "1234-4444-3333-2222"
+	set payment3.ExpirationDate = ($h + 1095)
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order3, payment3, , .message3)
+	do ..AssertStatusOKViaMacro("status, ""Order #3 processed and saved""",status, "Order #3 processed and saved")
+	do ..AssertEqualsViaMacro("order3.Status, ""Completed"", ""Order #3 completed""",order3.Status, "Completed", "Order #3 completed")
+	do ..AssertNotEqualsViaMacro("message3, """", ""Message returned""",message3, "", "Message returned")
+	set euros = order3.Branch.CurrencyBalances.GetAt("EUR")
+	do ..AssertEqualsViaMacro("euros, 155, ""Outgoing Currency updated in branch""",euros, 155, "Outgoing Currency updated in branch")
+	// create order #4 to test rollback
+	set order4 = ##class(FCE.Tests.Utilities).CreateOrder()
+	set order4.AmountOut = 10000  // this causes a Problem status rather than Rejected
+	set payment4 = ##class(FCE.CreditCard).%New()
+	set payment4.Type = "Visa"
+	set payment4.Number = "1234-4444-3333-2222"
+	set payment4.ExpirationDate = ($h + 1095)
+	set status = ##class(FCE.Operations.Branch).ProcessOrder(order4, payment4, , .message4)
+	set paymentID = payment4.%Id()
+	do ..AssertNotEqualsViaMacro("paymentID, """", ""Order #4 Payment saved""",paymentID, "", "Order #4 Payment saved")
+	do ..AssertStatusNotOKViaMacro("status, ""Order #4 processed and saved, but has a problem""",status, "Order #4 processed and saved, but has a problem")
+	do ..AssertEqualsViaMacro("order4.Status, ""Problem"", ""Order #4's Status=Problem""",order4.Status, "Problem", "Order #4's Status=Problem")
+	do ..AssertEqualsViaMacro("message4, """", ""Message not returned""",message4, "", "Message not returned")
+	 ;---&sql(select verificationID from FCE.Payment where ID = :paymentID)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, paymentID
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EQoDjF6iHyljHWggEnrzoOnhcqQ","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EQoDjF6iHyljHWggEnrzoOnhcqQ"))||($ze["<ZSQLU>") { d %0dsqlC } else { throw } }
+	do ..AssertEqualsViaMacro("SQLCODE, 100, ""Rollback deleted order #4 saved payment""",SQLCODE, 100, "Rollback deleted order #4 saved payment")
+	// delete orders and payments
+	set branch1ID = order1.Branch.%Id()
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order1.%Id())
+	do ..AssertStatusOKViaMacro("status, ""Order #1 deleted""",status, "Order #1 deleted")
+	set branch2ID = order2.Branch.%Id()
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order2.%Id())	
+	do ..AssertStatusOKViaMacro("status, ""Order #2 deleted""",status, "Order #2 deleted")
+	set branch3ID = order3.Branch.%Id()
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order3.%Id())	
+	do ..AssertStatusOKViaMacro("status, ""Order #3 deleted""",status, "Order #3 deleted")
+	set branch4ID = order4.Branch.%Id()
+	set status = ##class(FCE.CurrencyOrder).%DeleteId(order4.%Id())	
+	do ..AssertStatusOKViaMacro("status, ""Order #4 deleted""",status, "Order #4 deleted")
+	// delete branches
+	 ;---&sql(DELETE FROM FCE.Branch WHERE ID IN (:branch1ID, :branch2ID, :branch3ID, :branch4ID))
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, branch1ID, branch2ID, branch3ID, branch4ID
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EiWiHE8gK0BALyAi0LGIM50uSPR","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EiWiHE8gK0BALyAi0LGIM50uSPR"))||($ze["<ZSQLU>") { d %0dsqlE } else { throw } }
+	do ..AssertEqualsViaMacro("SQLCODE, 0, ""All branches deleted""",SQLCODE, 0, "All branches deleted")
+	// delete account
+	set status = ##class(FCE.AccountHolder).%DeleteId(account.%Id())	
+	do ..AssertStatusOKViaMacro("status, ""Account deleted""",status, "Account deleted") }
+ q
+%0dsqlC	n %xxsql
+	s %xxsql("S",1)="SELECT verificationID FROM FCE . Payment WHERE ID = :paymentID"
+	s %xxsql("I","%outUnitTest")="",%xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","FCE.Tests",0,"",),,"FCE.Tests.CurrencyOrderTests.CLS")
+	return
+%0dsqlE	n %xxsql
+	s %xxsql("S",1)="DELETE FROM FCE . Branch WHERE ID IN ( :branch1ID , :branch2ID , :branch3ID , :branch4ID )"
+	s %xxsql("I","%outUnitTest")="",%xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","FCE.Tests",0,"",),,"FCE.Tests.CurrencyOrderTests.CLS")
+	return
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlC")="",t("%0dsqlE")=""
+}

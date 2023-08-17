@@ -1,0 +1,179 @@
+ROUTINE FCE.Tests.PaymentTests.1 [Type=INT,Generated]
+ ;FCE.Tests.PaymentTests.1
+ ;Generated for class FCE.Tests.PaymentTests.  Do NOT edit. 08/16/2023 04:19:20PM
+ ;;6C693369;FCE.Tests.PaymentTests
+ ;
+%BindExport(dev,Seen,RegisterOref,AllowedDepth,AllowedCapacity) methodimpl {
+   i $d(Seen(+$this)) q 1
+   Set Seen(+$this)=$this
+   s sc = 1
+ s proporef=..Order
+   d:RegisterOref InitObjVar^%SYS.BINDSRV($this)
+   i dev'="" s t=$io u dev i $zobjexport($this_"",3)+$zobjexport($this."%%OID",3)+$zobjexport($this,3)!1 u t
+ If AllowedDepth>0 Set AllowedDepth = AllowedDepth - 1
+ If AllowedCapacity>0 Set AllowedCapacity = AllowedCapacity - 1/1
+ s proporef=..Order
+       i proporef'="" s sc=1 i AllowedDepth'=0,AllowedCapacity'=0 s sc=proporef.%BindExport(dev,.Seen,RegisterOref,AllowedDepth,AllowedCapacity) q:('sc) sc
+   Quit sc }
+%ConstructCloneInit(object,deep=0,cloned,location) methodimpl {
+	Set i%"%%OID"=""
+	If deep>0 {
+		If $isobject(..Manager)=1 Set r%Manager=r%Manager.%ConstructClone(1,.cloned),i%Manager=""
+		If $isobject(..Order)=1 Set r%Order=r%Order.%ConstructClone(1,.cloned),i%Order=""
+	}
+	Quit 1 }
+%SerializeObject(serial,partial=0) methodimpl {
+	try {
+		Set sc=..%ValidateObject(,0) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		Set sc=..%NormalizeObject() Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		If r%Order'="" { Set:'$data(%objTX(0,+r%Order)) %objTX(0,+r%Order)=$i(%objTX(1)),%objTX(1,%objTX(0,+r%Order))=r%Order,%objTX(1,%objTX(0,+r%Order),1)=..OrderGetObject(1),%objTX(1,%objTX(0,+r%Order),6)=1 Set M%Order=1,i%Order=$listget(%objTX(1,%objTX(0,+r%Order),1)) }
+		set sc=1
+	}
+	catch tException {
+		set sc = tException.AsStatus()
+	}
+	Quit sc }
+%AddToSaveSet(depth=3,refresh=0) methodimpl {
+	Set sc=1,intOref=+$this
+	If $data(%objTX(0,intOref),index) {
+		If 'refresh RETURN 1
+		Set intPoref="" For  Set intPoref=$order(%objTX(1,index,2,intPoref)) Quit:intPoref=""  Kill %objTX(1,%objTX(0,intPoref),3,index),%objTX(1,index,2,%objTX(0,intPoref))
+	}
+	Set:'$d(index) (index,%objTX(0,intOref))=$i(%objTX(1)),%objTX(1,index)=$this Set %objTX(1,index,1)=-1
+	Set Poref=r%Manager If Poref'="",'$data(%objTX(0,+Poref)) Set %objTX(6,$i(%objTX(6)))=Poref
+	Set Poref=r%Order If Poref'="",'$data(%objTX(0,+Poref)) Set %objTX(6,$i(%objTX(6)))=Poref
+exit	Quit sc }
+OnAfterAllTests() [ SQLCODE,orderID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,orderID 
+	set orderID = ..Order.%Id()
+	 ;---&sql(DELETE FROM FCE.CurrencyOrder WHERE ID = :orderID)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, orderID
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EnvfpkoBZb5uEfHjhn7f0GYiylQ","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EnvfpkoBZb5uEfHjhn7f0GYiylQ"))||($ze["<ZSQLU>") { d %0dsqlA } else { throw } }
+	 ;---&sql(DELETE FROM FCE.AccountHolder WHERE Name = 'Smith,John')
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E7HeIdiijXi8hYeCe9di3TBkYb4","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E7HeIdiijXi8hYeCe9di3TBkYb4"))||($ze["<ZSQLU>") { d %0dsqlC } else { throw } }
+	 ;---&sql(DELETE FROM FCE.Branch WHERE Phone = '999-999-0000')
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EnBAyTYLhIsrfFnGw7mtBePXfyW","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EnBAyTYLhIsrfFnGw7mtBePXfyW"))||($ze["<ZSQLU>") { d %0dsqlE } else { throw } }
+	set ..Order = ""
+	return 1 }
+ q
+%0dsqlA	n %xxsql
+	s %xxsql("S",1)="DELETE FROM FCE . CurrencyOrder WHERE ID = :orderID"
+	s %xxsql("I","%outUnitTest")="",%xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","FCE.Tests",0,"",),,"FCE.Tests.PaymentTests.CLS")
+	return
+%0dsqlC	n %xxsql
+	s %xxsql("S",1)="DELETE FROM FCE . AccountHolder WHERE Name = 'Smith,John'"
+	s %xxsql("I","%outUnitTest")="",%xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","FCE.Tests",0,"",),,"FCE.Tests.PaymentTests.CLS")
+	return
+%0dsqlE	n %xxsql
+	s %xxsql("S",1)="DELETE FROM FCE . Branch WHERE Phone = '999-999-0000'"
+	s %xxsql("I","%outUnitTest")="",%xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","FCE.Tests",0,"",),,"FCE.Tests.PaymentTests.CLS")
+	return
+OnBeforeAllTests() methodimpl {
+	// create branch
+	set branch = ##class(FCE.Branch).%New()
+	set phone = "999-999-0000", branch.Phone = phone
+	set status = branch.%Save()
+	set order = ##class(FCE.Tests.Utilities).CreateOrder()
+	set order.Branch = branch
+	set status = order.%Save()
+	set ..Order = order
+	return 1 }
+OnBeforeOneTest(testname) methodimpl {
+	do ..Order.Branch.CurrencyBalances.SetAt(250, "EUR") // reset
+	return 1 }
+TestAccountPayment() methodimpl {
+	set order = ..Order
+	set accountPayment = ##class(FCE.AccountPayment).%New()
+	do ..AssertTrueViaMacro("$isobject(accountPayment), ""Create new account payment""",$isobject(accountPayment), "Create new account payment")
+	set order.Payment =  accountPayment
+	set accountHolder = ##class(FCE.Tests.Utilities).CreateAccount()
+	set order.AccountHolder = accountHolder
+	set status = accountPayment.Process(order, .accountPaymentMessage)
+	do ..AssertNotEqualsViaMacro("accountPayment.%Id(), """", ""New account payment saved by Process() method""",accountPayment.%Id(), "", "New account payment saved by Process() method")
+	do ..AssertNotEqualsViaMacro("accountPaymentMessage, """", ""Message Generated: """""" _ accountPaymentMessage _ """"""""",accountPaymentMessage, "", "Message Generated: """ _ accountPaymentMessage _ """")
+	set status = order.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Order saved""",status, "Order saved")
+	set status = ##class(FCE.AccountPayment).%DeleteId(accountPayment.%Id())
+	do ..AssertStatusNotOKViaMacro("status, ""Foreign key constraint prevents account payment deletion""",status, "Foreign key constraint prevents account payment deletion")
+	set order.Payment = ""
+	set status = order.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Payment removed from order""",status, "Payment removed from order")
+	set status = ##class(FCE.AccountPayment).%DeleteId(accountPayment.%Id())
+	do ..AssertStatusOKViaMacro("status, ""New account payment deleted""",status, "New account payment deleted") }
+TestCCPayment() methodimpl {
+	set order = ..Order
+	set CCPayment = ##class(FCE.CreditCard).%New()
+	do ..AssertTrueViaMacro("$isobject(CCPayment), ""Create new credit card payment""",$isobject(CCPayment), "Create new credit card payment")
+	set CCPayment.Type = "XYZ"
+	set status = CCPayment.%ValidateObject()
+	do ..AssertStatusNotOKViaMacro("status, ""Type must be Visa,MC,etc.""",status, "Type must be Visa,MC,etc.")
+	set CCPayment.Type = "Visa"
+	set CCPayment.Number = "1234"
+	set status = CCPayment.%ValidateObject()
+	do ..AssertStatusNotOKViaMacro("status, ""Number must match pattern""",status, "Number must match pattern")
+	set CCPayment.Number = "1234-1234-1234-1234"
+	set status = CCPayment.%ValidateObject()
+	do ..AssertStatusOKViaMacro("status, ""New credit card payment valid""",status, "New credit card payment valid")
+	set order.Payment = CCPayment
+	set status = CCPayment.Process(order, .CCPaymentMessage)
+	do ..AssertNotEqualsViaMacro("CCPayment.%Id(), """", ""New credit card payment saved by Process() method""",CCPayment.%Id(), "", "New credit card payment saved by Process() method")
+	do ..AssertNotEqualsViaMacro("CCPaymentMessage, """", ""Message Generated: """""" _ CCPaymentMessage _ """"""""",CCPaymentMessage, "", "Message Generated: """ _ CCPaymentMessage _ """")
+	set status = order.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Order saved""",status, "Order saved")
+	set status = ##class(FCE.CreditCard).%DeleteId(CCPayment.%Id())
+	do ..AssertStatusNotOKViaMacro("status, ""Foreign key constraint prevents credit card payment deletion""",status, "Foreign key constraint prevents credit card payment deletion")
+	set order.Payment = ""
+	set status = order.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Payment removed from order""",status, "Payment removed from order")
+	set status = ##class(FCE.CreditCard).%DeleteId(CCPayment.%Id())
+	do ..AssertStatusOKViaMacro("status, ""New credit card payment deleted""",status, "New credit card payment deleted") }
+TestCashPayment() methodimpl {
+	set order = ..Order
+	set cashPayment = ##class(FCE.Cash).%New()
+	do ..AssertTrueViaMacro("$isobject(cashPayment), ""Create new cash payment""",$isobject(cashPayment), "Create new cash payment")
+	set order.Payment = cashPayment 
+	set status = cashPayment.Process(order, .cashPaymentMessage)
+	do ..AssertNotEqualsViaMacro("cashPayment.%Id(), """", ""New cash payment saved by Process() method""",cashPayment.%Id(), "", "New cash payment saved by Process() method")
+	do ..AssertNotEqualsViaMacro("cashPaymentMessage, """", ""Message Generated: """""" _ cashPaymentMessage _ """"""""",cashPaymentMessage, "", "Message Generated: """ _ cashPaymentMessage _ """")
+	set status = order.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Order saved""",status, "Order saved")
+	set status = ##class(FCE.Cash).%DeleteId(cashPayment.%Id())
+	do ..AssertStatusNotOKViaMacro("status, ""Foreign key constraint prevents cash payment deletion""",status, "Foreign key constraint prevents cash payment deletion")
+	set order.Payment = ""
+	set status = order.%Save()
+	do ..AssertStatusOKViaMacro("status, ""Payment removed from order""",status, "Payment removed from order")
+	set status = ##class(FCE.Cash).%DeleteId(cashPayment.%Id())
+	do ..AssertStatusOKViaMacro("status, ""New cash payment deleted""",status, "New cash payment deleted") }
+OrderGetObject(force=0) methodimpl {
+	Quit $select(r%Order=""||(i%Order'=""):$select(i%Order="":"",1:$listbuild(i%Order_"")),(''..Order.%GetSwizzleObject(force,.oid)):oid,1:"") }
+OrderGetObjectId(force=0) methodimpl {
+	Quit $listget(..OrderGetObject(force)) }
+OrderGetSwizzled(noswizzle=0) methodimpl {
+	If noswizzle Quit r%Order
+	If i%Order="" Quit ""
+	Set oref=##class(FCE.CurrencyOrder).%Open($select(i%Order="":"",1:$listbuild(i%Order_"")),,.sc) If ('sc) Do:$get(^%SYS("ThrowSwizzleError"),0) $zutil(96,3,19,1) Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%Order=oref Do $system.CLS.SetModifiedBits(modstate)
+	Quit oref }
+OrderNewObject() methodimpl {
+	Set newobject=##class(FCE.CurrencyOrder).%New() If newobject="" Quit ""
+	Set ..Order=newobject
+	Quit newobject }
+OrderSetObject(newvalue) methodimpl {
+	If newvalue'="",$data(i%Order,tmp),tmp=$listget(newvalue) Quit 1
+	Set i%Order=$listget(newvalue),r%Order=0,r%Order=""
+	Quit 1 }
+OrderSetObjectId(newid) methodimpl {
+	Quit ..OrderSetObject($select(newid="":"",1:$listbuild(newid_""))) }
+OrderUnSwizzle(force=0) methodimpl {
+	If r%Order="" Quit 1
+	Set sc=..Order.%GetSwizzleObject(force,.newvalue) Quit:('sc) sc
+	Set modstate=$system.CLS.GetModifiedBits() Set r%Order="" Do $system.CLS.SetModifiedBits(modstate)
+	Set i%Order=$listget(newvalue)
+	Quit 1 }
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlC")="",t("%0dsqlE")=""
+}

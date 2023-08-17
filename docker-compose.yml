@@ -6,8 +6,10 @@ networks:
         - subnet: 172.0.0.0/24
 services:
   iris:
-    build: 
+    build:
       context: .
+      dockerfile: Dockerfile
+      target: final
     restart: always
     container_name: ${iris_container_name}
     hostname: ${iris_container_name}
@@ -21,6 +23,7 @@ services:
     #   - ISC_DATA_DIRECTORY=/irisdata
     volumes:
       - ./data:/data
+      # - ./:/home/irisowner/dev
       # - ./volumes/irisdata:/irisdata
       # - ./key/iris.key:/key/iris.key
     networks:

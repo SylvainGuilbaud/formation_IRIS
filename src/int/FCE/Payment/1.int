@@ -1,0 +1,603 @@
+ROUTINE FCE.Payment.1 [Type=INT,Generated]
+ ;FCE.Payment.1
+ ;Generated for class FCE.Payment.  Do NOT edit. 08/14/2023 08:17:19AM
+ ;;6E69462F;FCE.Payment
+ ;
+SQLUPPER(v,l) { quit $zu(28,v,7,$g(l,32767)) }
+ALPHAUP(v,r) { quit $zu(28,v,6) }
+STRING(v,l) { quit $zu(28,v,9,$g(l,32767)) }
+SQLSTRING(v,l) { quit $zu(28,v,8,$g(l,32767)) }
+UPPER(v) { quit $zu(28,v,5) }
+MVR(v) { quit $zu(28,v,2) }
+TRUNCATE(v,l) { quit $e(v,1,$g(l,3641144)) }
+%BMEBuilt(bmeName) methodimpl
+	Set bmeName = "BitmapExtent"
+	RETURN ''$d(^FCE.PaymentI("BitmapExtent"))
+%BuildDeferredIndices(lockFlag=0,journalFlag=1) methodimpl {
+	return $$Error^%apiOBJ(5758,"%Storage.Persistent::%BuildDeferredIndices") }
+%BuildIndices(pIndexList="",pAutoPurge=1,pLockFlag=0,pJournalFlag="",pStartID="",pEndID="",pIgnoreIndexList="") methodimpl {
+	if ($listlength(pIndexList)=1)&&($listget(pIndexList,1)="") { return 1 }
+	Set class=$classname(),tBuildFlags=1,tBuildFlags(class)=$c(0)
+	Set tPtr=0,tStatus=1
+	While $listnext(pIndexList,tPtr,tIndex) {
+		continue:tIndex=""
+		If '$d(^oddCOM(class,"i",tIndex)) {
+			Set tStatus=$select(+tStatus:$$Error^%apiOBJ(5066,class_"::"_tIndex),1:$$AppendStatus^%occSystem(tStatus,$$Error^%apiOBJ(5066,class_"::"_tIndex)))
+		}
+	}
+	If ('tStatus) RETURN tStatus
+	if ((pIndexList="")||($listfind(pIndexList,"BitmapExtent"))),'$listfind(pIgnoreIndexList,"BitmapExtent") { set $Extract(tBuildFlags(class),1)=$c(1) }
+	Quit ..%BuildIndexInternal(.pLockFlag,.pAutoPurge,.pStartID,.pEndID,.pIndexList,.tBuildFlags,"^FCE.PaymentD",1,.pJournalFlag,0) }
+%BuildIndicesSegment(pStartID,pEndID,pIndexHandle=0,pLockFlag=1,pFirstRange=0,pJob="") methodimpl {
+	New %tIndexBuffer
+	Try {
+		set tStatus=1,tLocked=0
+		Set tPrefetch=$prefetchon(^FCE.PaymentD)
+		If 'pFirstRange||('$data(^FCE.PaymentD(pStartID))) { Set tID=$order(^FCE.PaymentD(pStartID)) } Else { Set tID=pStartID }
+		Set tCurrentChunk=tID\64000+1
+		While tID'="",(pEndID="")||(tID']]pEndID) {
+			If pLockFlag=2 {
+				Set tSC = ..%LockId(tID,1)
+				If (''tSC) {
+					If $data(^FCE.PaymentD(tID)) {
+						If (tID\64000+1)'=tCurrentChunk { set tCurrentChunk=(tID\64000+1) kill tVectorBuffer }
+						Set tSC=..%FileIndices(tID,.pIndexHandle,.tVectorBuffer)
+					}
+					Do ..%UnlockId(tID,1,1)
+				}
+				If ('tSC) Set tStatus=$select(+tStatus:tSC,1:$$AppendStatus^%occSystem(tStatus,tSC))
+				Set tID=$order(^FCE.PaymentD(tID))
+				Continue
+			}
+			Set tChunk=tID\64000+1
+			If tChunk'=tCurrentChunk {
+				Do BitMerge^%occLibrary($name(^FCE.PaymentI("BitmapExtent")),$name(%tIndexBuffer(2)))
+				kill %tIndexBuffer(2)
+				kill tVectorBuffer
+				Set tCurrentChunk=tChunk
+			}
+			Set tSC=..%FileIndicesBuffered(tID,.pIndexHandle,.%tIndexBuffer,.tVectorBuffer)
+			If ('tSC) {
+				Set tStatus=$select(+tStatus:tSC,1:$$AppendStatus^%occSystem(tStatus,tSC))
+			}
+			Set tID=$order(^FCE.PaymentD(tID))
+		}
+		Do BitMerge^%occLibrary($name(^FCE.PaymentI("BitmapExtent")),$name(%tIndexBuffer(2)))
+	}
+	Catch tException {
+		Set tSC=tException.AsStatus(),tStatus=$select(+tStatus:tSC,1:$$AppendStatus^%occSystem(tStatus,tSC))
+	}
+	Set:$Get(tPrefetch) tPrefetch=$prefetchoff(^FCE.PaymentD)
+	Quit tStatus }
+%CheckConstraints(pID,pConstraintList="",pCheckDisabled=0,pErrorInfo) methodimpl {
+	if (''..%OnDetermineClass($select(pID="":"",1:$listbuild(pID_"")),.tMSTC)) && (tMSTC '= $classname()) { quit $classmethod(tMSTC,"%CheckConstraints",pID,pConstraintList) } else { quit 1 } }
+%CheckConstraintsForExtent(pConstraintList="",pCheckDisabled=0,pErrorLog) [ SQLCODE,tID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,tID 
+	kill pErrorLog set tStatusAll = 1, pErrorLog = 0 if '$listvalid(pConstraintList) { set pConstraintList = $listfromstring(pConstraintList) }
+	 ;---&sql(declare ext cursor for select %ID into :tID FROM %NOPARALLEL FCE.Payment)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, tID
+	 
+	 ;---&sql(open ext)
+	if $g(%ext0177)'="" { s SQLCODE=-101 } else { try { s %ext0177="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EEZaT8jilHH2Ixv9oA9Y09pcWqV",%ext0177=$classmethod(%ext0177,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%ext0177)),$ze'["<ZSQLU>" { throw } } if '$isobject(%ext0177) { s %ext0177=$$%0dsqlA() } }
+	if SQLCODE '< 0 {
+		for {
+			 ;---&sql(fetch ext)
+ 			 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+			if $isobject($g(%ext0177))'=1 { s SQLCODE=-102 } else { do %ext0177.FET() }
+			if SQLCODE { if SQLCODE=100 { quit } elseif SQLCODE<0 { set tStatusAll = $select(+tStatusAll:$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)),1:$$AppendStatus^%occSystem(tStatusAll,$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)))) quit } }
+			set tStatus = ..%CheckConstraints(tID,pConstraintList,pCheckDisabled,.tErrorInfo)
+			if ('tStatus) { set tStatusAll = $select(+tStatusAll:tStatus,1:$$AppendStatus^%occSystem(tStatusAll,tStatus)) set:pErrorLog<1000 pErrorLog = pErrorLog + 1, pErrorLog(pErrorLog) = tErrorInfo _ $Listbuild(tStatus) }
+		}
+		 ;---&sql(close ext)
+		if '$isobject($get(%ext0177)) { set SQLCODE=-102 } else { set SQLCODE=0 kill %ext0177 }
+	}
+	quit tStatusAll }
+ q
+%0dsqlA()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE ext CURSOR FOR SELECT %ID INTO :tID FROM %NOPARALLEL FCE . Payment"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","FCE",0,"",),",0,ext,","FCE.Payment.CLS",1)
+	i $g(SQLCODE) { s tID="" }
+	q %xxoref
+%ComposeOid(id) methodimpl {
+	set tCLASSNAME = $listget($g(^FCE.PaymentD(id)),1)
+	if tCLASSNAME="" { quit $select(id="":"",1:$listbuild(id_"","FCE.Payment")) }
+	set tClass=$piece(tCLASSNAME,$extract(tCLASSNAME),*-1)
+	set:tClass'["." tClass="User."_tClass
+	quit $select(id="":"",1:$listbuild(id_"",tClass)) }
+%Construct(initvalue) methodimpl {
+	Set i%%Concurrency=$zu(115,10),i%VerificationID=##class(%Library.PopulateUtils).String(5)
+	Quit 1 }
+%DeleteData(id,concurrency) methodimpl {
+ Quit $$Error^%apiOBJ(5752,$classname()) }
+%Exists(oid="") methodimpl {
+	Quit ..%ExistsId($listget(oid)) }
+%ExistsId(id) methodimpl {
+	Try { set tExists = $s(id="":0,$d(^FCE.PaymentD(id)):1,1:0) } catch tException { set tExists = 0 if '(tException.%IsA("%Exception.SystemException")) { throw tException } elseif tException.Name'="<SUBSCRIPT>" { ZT $ZE } } quit tExists }
+%FileIndices(id,pIndexHandle=0,pVectorBuffer) methodimpl {
+	try {
+		Set bsv0N2=$Get(^FCE.PaymentD(id))
+		Set bsv0N3=$listget(bsv0N2,1)
+		if bsv0N3'="" {
+			set bsv0N1=$piece(bsv0N3,"~",*-1)
+			set:bsv0N1'["." bsv0N1="User."_bsv0N1
+			if bsv0N1'="" { RETURN $classmethod(bsv0N1,"%FileIndices",id,.pIndexHandle) }
+		}
+		Set pidchunk=id\64000+1,pidoffset=id#64000+1
+		If ('pIndexHandle)||($Ascii($Get(pIndexHandle("FCE.Payment")),1)=1) {
+			Set $bit(^FCE.PaymentI("BitmapExtent",pidchunk),pidoffset)=1
+		}
+	}
+	catch {
+		RETURN $$Error^%apiOBJ(5002,$ze)
+	}
+	RETURN 1
+getbuffered(glo,&vectorbuffer,id)
+	if '$d(vectorbuffer(id)) { set vectorbuffer(id)=@glo }
+	RETURN vectorbuffer(id) }
+%FileIndicesBuffered(id,pIndexHandle=0,pIndexBuffer="",pVectorBuffer) methodimpl {
+	try {
+		Set bsv0N2=$Get(^FCE.PaymentD(id))
+		Set bsv0N3=$listget(bsv0N2,1)
+		If bsv0N3'="" {
+			Set bsv0N1=$piece(bsv0N3,$extract(bsv0N3),*-1)
+			Set:bsv0N1'["." bsv0N1="User."_bsv0N1
+			If bsv0N1'="" {
+				RETURN $classmethod(bsv0N1,"%FileIndicesBuffered",id,.pIndexHandle,.pIndexBuffer)
+			}
+		}
+		Set pidchunk=id\64000+1,pidoffset=id#64000+1
+		If ('pIndexHandle)||($Ascii($Get(pIndexHandle("FCE.Payment")),1)=1) {
+			Set $bit(pIndexBuffer(2,pidchunk),pidoffset)=1
+		}
+	}
+	catch {
+		RETURN $$Error^%apiOBJ(5002,$ze)
+	}
+	RETURN 1
+getbuffered(glo,&vectorbuffer,id)
+	if '$d(vectorbuffer(id)) { set vectorbuffer(id)=@glo }
+	RETURN vectorbuffer(id) }
+%InsertBatch(objects,concurrency=0,useTransactions=0) methodimpl {
+	QUIT $$Error^%apiOBJ(5752,$classname()) }
+%KillExtentData(killstreams=0) methodimpl
+	Set $sequence(^FCE.PaymentD)=""
+	If killstreams Set $sequence(^FCE.PaymentS)="" Kill ^FCE.PaymentS
+	Kill ^FCE.PaymentD
+	Quit 1
+%LoadData(id) methodimpl {
+ Quit $$Error^%apiOBJ(5752,$classname()) }
+%LoadDataFromMemory(id,objstate,obj) methodimpl {
+	New %s1
+	If $d(objstate(id)) {
+		Set %s1=$g(objstate(id))
+		S i%VerificationID=$lg(%s1,2)
+		Quit 1
+	} Else {
+		set i%VerificationID=""
+		Quit $$Error^%apiOBJ(5809,$classname(),id)
+	} }
+%LockExtent(shared=0) methodimpl {
+	If shared {
+		Lock +(^FCE.PaymentD#"S"):$zu(115,4) Quit:$t 1
+		Quit $$Error^%apiOBJ(5799,$classname())
+	}
+	Lock +(^FCE.PaymentD):$zu(115,4) Quit:$t 1
+	Quit $$Error^%apiOBJ(5798,$classname()) }
+%LockId(id,shared=0,timeout) methodimpl { s:'($d(timeout)#2) timeout=$zu(115,4)
+	If id="" { Quit $$Error^%apiOBJ(5812) }
+	Set sc=1
+	If 'shared {
+		Lock +(^FCE.PaymentD(id)#"E"):timeout Quit:$t 1
+		Quit $$Error^%apiOBJ(5803,id_":"_$classname())
+	}
+	Lock +(^FCE.PaymentD(id)#"SE"):timeout Quit:$t 1
+	Quit $$Error^%apiOBJ(5804,id_":"_$classname()) }
+%NormalizeObject() methodimpl {
+	If '$system.CLS.GetModified() Quit 1
+	If m%VerificationID Set:i%VerificationID'="" i%VerificationID=(..VerificationIDNormalize(i%VerificationID))
+	Quit 1 }
+%OnDetermineClass(oid,class) methodimpl {
+	Set id=$listget($get(oid))
+	RETURN:id="" $$Error^%apiOBJ(5812)
+	set idclass=$lg($get(^FCE.PaymentD(id)),1)
+	if idclass="" { set class="FCE.Payment" RETURN 1 }
+	set class=$piece(idclass,"~",*-1)
+	set:class'["." class="User."_class
+	RETURN 1 }
+%PhysicalAddress(id,paddr) methodimpl
+	if $Get(id)="" Quit $$Error^%apiOBJ(5813,$classname())
+	if (id="") { quit $$Error^%apiOBJ(5832,$classname(),id) }
+	s paddr(1)=$lb($Name(^FCE.PaymentD(id)),$classname(),"IDKEY","listnode",id)
+	s paddr=1
+	Quit 1
+%PurgeIndices(idxlist="",lockExtent=0,pIgnoreIndexList="") methodimpl {
+	Set locked=0,sc=1
+	Try {
+		if ($listlength(idxlist)=1)&&($listget(idxlist,1)="") { return 1 }
+		Set tPtr=0
+		While $listnext(idxlist,tPtr,tIndex) {
+			continue:tIndex=""
+			If '($d(^oddCOM($classname(),"i",tIndex))) {
+				Set sc=$select(+sc:$$Error^%apiOBJ(5066,$classname()_"::"_tIndex),1:$$AppendStatus^%occSystem(sc,$$Error^%apiOBJ(5066,$classname()_"::"_tIndex)))
+			}
+		}
+		If ('sc) { Return sc }
+		If lockExtent {
+			Set sc=..%LockExtent(0)
+			If ('sc) { Return sc }
+			Set locked=1
+		}
+		If $system.CLS.IsMthd("%OnBeforePurgeIndices") {
+			Set sc=..%OnBeforePurgeIndices(.idxlist)
+			If (('sc))||(($listlength(idxlist)=1)&&($listget(idxlist,1)="")) {
+				If locked {
+					Do ..%SQLReleaseTableLock(0)
+				}
+				Return sc
+			}
+		}
+		if ((idxlist="")||($listfind(idxlist,"BitmapExtent"))),'$listfind(pIgnoreIndexList,"BitmapExtent") {
+			kill ^FCE.PaymentI("BitmapExtent")
+		}
+		Set sc=1
+		If $system.CLS.IsMthd("%OnAfterPurgeIndices") { Set sc=..%OnAfterPurgeIndices(.idxlist) }
+	} Catch tException {
+		Set sc=tException.AsStatus(),$ZE=""
+	}
+	If locked { Do ..%UnlockExtent(0) }
+	Quit sc }
+%SQLAcquireLock(%rowid,s=0,unlockref=0) methodimpl
+	new %d,gotlock
+	set %d(1)=%rowid set s=$e("E",'unlockref)_$e("S",s)
+	lock +^FCE.PaymentD(%d(1))#s:$zu(115,4) set gotlock=$t
+	if gotlock,'unlockref { set:$case($SYSTEM.Lock.ReturnCode(),2:1,4:1,:0)&&($tlevel) %0CacheLock("FCE.Payment","E")=1 }
+	set:gotlock&&unlockref unlockref=unlockref+1,unlockref(unlockref)=$lb($name(^FCE.PaymentD(%d(1))),"FCE.Payment",s_"D")
+	QUIT gotlock
+%SQLAcquireTableLock(s=0,SQLCODE,to="") methodimpl
+	set s=$e("S",s) set:to="" to=$zu(115,4) lock +^FCE.PaymentD#s:to QUIT:$t 1 set SQLCODE=-110 if s="S" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler35",,"FCE"_"."_"Payment") } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler36",,"FCE"_"."_"Payment") } QUIT 0
+	Return
+%SQLBuildIndices(pIndices="",pLockFlag=0,pStartID="",pEndID="",pIgnoreIndexList="") methodimpl
+	RETURN ..%BuildIndices(pIndices,,pLockFlag,,pStartID,pEndID,pIgnoreIndexList)
+%SQLBuildPurgeIndexForRow(pIndices="",pActions="BP",pLockRow=1,%d,%e,pIgnoreIndexList="") methodimpl
+	// Purge and build index nodes for a single row using given values, return Status Code
+	new sn,tSC,tLock set tSC=1,pActions=$zcvt(pActions,"U")
+	try {
+		if $g(%d(1))="" { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'FCE.Payment'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'FCE.Payment'"))) RETURN tSC }
+		if pLockRow { if '..%SQLAcquireLock(%d(1)) { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'FCE.Payment' with %ID = '"_%d(1)_"'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'FCE.Payment' with %ID = '"_%d(1)_"'"))) RETURN tSC  } else { set tLock=1 }}
+		set %i=%d(1)\64000+1,%o=%d(1)#64000+1
+		if ((pIndices="")||($lf(pIndices,"BitmapExtent"))),'$listfind(pIgnoreIndexList,"BitmapExtent") {
+			if pActions["P" {
+				set $bit(^FCE.PaymentI("BitmapExtent",%i),%o)=0
+			}
+			if pActions["B" {
+				set $bit(^FCE.PaymentI("BitmapExtent",%i),%o)=1
+			}
+		}
+		if pLockRow { do ..%SQLReleaseLock(%d(1),0,0) set tLock=0 }
+	}
+	catch {
+		if $g(tLock) { do ..%SQLReleaseLock(%d(1),0,0) }
+		set tSC=$select(+tSC:$$Error^%apiOBJ(5594,$ze),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5594,$ze)))
+	}
+	QUIT tSC
+%SQLCheckUniqueIndices(pIndices,pOK) methodimpl
+	new d,g,n,o set d=0
+	set pOK=1 QUIT
+%SQLCopyIcolIntoName() methodimpl
+	if %oper="DELETE" {
+		set:$d(%d(1)) %f("ID")=%d(1)
+		QUIT
+	}
+	set:$d(%d(1)) %f("ID")=%d(1) set:$a(%e,2)&&$d(%d(2)) %f("VerificationID")=%d(2) set:$a(%e,3)&&$d(%d(3)) %f("x__classname")=%d(3)
+	QUIT
+%SQLDefineiDjVars(%d,subs,master) methodimpl
+	QUIT
+%SQLDelete(%rowid,%check,%tstart=1,%mv=0,%polymorphic=0,%bufferedColumns=0) methodimpl
+	// SQL DELETE method for table FCE.Payment
+	new bva,ce,%d,dc,%e,%ele,%itm,%key,%l,%nc,omcall,%oper,%pos,%s,sn,sqlcode,subs set %oper="DELETE",sqlcode=0,%ROWID=%rowid,%d(1)=%rowid,%e(1)=%rowid,%l=$c(0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check,2) {
+		new %ls lock +^FCE.PaymentD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("FCE.Payment","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"FCE"_"."_"Payment",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORDelete"
+	do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) if sqlcode { set SQLCODE=-106,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler58",,"FCE"_"."_"Payment",%rowid) do ..%SQLEExit() QUIT  }
+	if %e(3)'="" { set sn=$p(%e(3),$e(%e(3)),$l(%e(3),$e(%e(3)))-1) if "FCE.Payment"'=sn { new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLDelete",%rowid,%check,%tstart,%mv,1) QUIT  }}
+	set SQLCODE=-115,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler1",,"FCE"_"."_"Payment") QUIT
+ERRORDelete	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"FCE"_"."_"Payment",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"FCE"_"."_"Payment") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT
+	Return
+%SQLEExit() methodimpl
+	do ..%SQLUnlock() 
+	if %tstart,$zu(115,1)=1,$TLEVEL { set %tstart=0 TROLLBACK 1 } kill:$g(omcall) %0CacheSQLRA QUIT  
+	Return
+%SQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key %1.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"FCE"_"."_"Payment"_":"_"%1") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv=$d(^FCE.PaymentD(%pVal(1))) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+%SQLGetLock(pRowId,pShared=0,pUnlockRef) methodimpl
+	QUIT ..%SQLAcquireLock(pRowId,pShared,.pUnlockRef)
+%SQLGetOld(%rowid,%d,%e,sqlcode) methodimpl
+	new s set %d(1)=%rowid,s="" if '$d(^FCE.PaymentD(%d(1)),s) { set sqlcode=100 quit  }
+	 S %e(3)=$lg(s)
+	QUIT
+%SQLGetOldAll() methodimpl
+	new s set %d(1)=%rowid,s="" if '$d(^FCE.PaymentD(%d(1)),s) { set sqlcode=100 quit  }
+	 S %e(3)=$lg(s),%e(2)=$lg(s,2)
+	QUIT
+%SQLInsert(%d,%check,%inssel,%vco,%tstart=1,%mv=0,%bufferedColumns=0) methodimpl
+	// SQL INSERT method for table FCE.Payment
+	set SQLCODE=-115,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler5",,"FCE"_"."_"Payment") RETURN ""
+	RETURN ""
+%SQLInvalid(pIcol,pVal) methodimpl {
+	set:$l($g(pVal))>40 pVal=$e(pVal,1,40)_"..." do:'$d(%n) ..%SQLnBuild() set %msg=$s($g(%msg)'="":%msg_$c(13,10),1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler37",,"FCE"_"."_"Payment"_"."_$lg(%n,pIcol),$s($g(pVal)'="":$s(pVal="":"<NULL>",pVal=$c(0):"<EMPTY STRING>",1:"'"_pVal_"'"),1:"")),sqlcode=$s(%oper="INSERT":-104,1:-105)
+	QUIT sqlcode }
+%SQLPurgeIndices(pIndices="",pLockExtent=0,pIgnoreIndexList="") methodimpl
+	RETURN ..%PurgeIndices(pIndices,pLockExtent,pIgnoreIndexList)
+%SQLQuickLoad(%rowid,%nolock=0,pkey=0,qq=0) methodimpl
+	// Get fields from row where SQLRowID=%rowid
+	new d,i,il,subs set:%nolock=2 %nolock=1
+	if %nolock=0 { if '..%SQLAcquireLock(%rowid) { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler45",,"FCE"_"."_"Payment",%rowid),%ROWCOUNT=0 QUIT  } set:$zu(115,2) il=$zu(115,2,0) }
+	new s,ul set ul=0,d(1)=%rowid if $zu(115,2)=1 { lock +^FCE.PaymentD(d(1))#"S":$zu(115,4) if $t { set ul=1 } else { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler46",,"FCE"_"."_"Payment",%rowid),%ROWCOUNT=0 quit  } }
+	if '$d(^FCE.PaymentD(d(1)),s) { set SQLCODE=100,%qrc=100 if %nolock=0 { do:$g(il) $zu(115,2,il) }} else { set SQLCODE=0
+	if qq { set d(3)=$lg(s) if d(3)'="" { new sn set sn=$p(d(3),$e(d(3)),$l(d(3),$e(d(3)))-1) if "FCE.Payment"'=sn { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } kill d set:sn'["." sn="User."_sn do $classmethod(sn,"%SQLQuickLoad",%rowid,%nolock,0,1) QUIT  }}}
+	set d(2)=$lg(s,2) set d(3)=$lg(s)  }
+	do ..%SQLQuickLogicalToOdbc(.d)
+	if SQLCODE set %ROWCOUNT=0 set:SQLCODE<0 SQLCODE=-SQLCODE lock:ul -^FCE.PaymentD(d(1))#"SI" set %qrc=SQLCODE QUIT
+	set:qq d=$zobjexport("FCE.Payment",18),d=3,d=$zobjexport(d,18) set i=-1 for  { set i=$o(d(i)) quit:i=""  set d=$zobjexport(d(i),18) } set %qrc=0,%ROWCOUNT=1 lock:ul -^FCE.PaymentD(d(1))#"SI" if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,0) do:$g(il) $zu(115,2,il) } QUIT
+	Return
+%SQLReleaseLock(%rowid,s=0,i=0,e="") methodimpl
+	new %d
+	set:e="" e=1 set %d(1)=%rowid set s=$e("E",e)_$e("S",s)_$e("D",i)
+	lock -^FCE.PaymentD(%d(1))#s
+	QUIT
+%SQLReleaseTableLock(s=0,i=0) methodimpl
+	set s=$e("S",s)_$e("D",i) lock -^FCE.PaymentD#s QUIT 1
+	Return
+%SQLUnlock() methodimpl
+	lock:$a(%l) -^FCE.PaymentD(%d(1))#"E"
+	QUIT
+%SQLUpdate(%rowid,%check,%d,%vco,%tstart=1,%mv=0,%polymorphic=0,%soid,%bufferedColumns=0,%bufferedColumnsDel=0) methodimpl
+	// SQL UPDATE method for table FCE.Payment
+	new %e,bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,icol,omcall,s,sn,sqlcode,subs,t set %oper="UPDATE",sqlcode=0,%ROWID=%rowid,$e(%e,1)=$c(0),%l=$c(0,0,0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check),'$a(%check,7),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT  }
+	if $d(%d(1)),%d(1)'=%rowid { set SQLCODE=-107,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler16",,"ID","FCE"_"."_"Payment") QUIT  }
+	for icol=2:1:3 { set $e(%e,icol)=$c($d(%d(icol))) }
+	set %d(1)=%rowid,%e(1)=%rowid
+	if '$a(%check,2) {
+		new %ls lock +^FCE.PaymentD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("FCE.Payment","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"FCE"_"."_"Payment",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORUpdate"
+	if $g(%vco)="" { do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) i sqlcode { s SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"FCE"_"."_"Payment",%rowid) do ..%SQLEExit() QUIT  } set:'$d(%d(3)) %d(3)=%e(3) set:%d(3)=%e(3) $e(%e,3)=$c(0) } else { do ..%SQLGetOldAll() if sqlcode { set SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"FCE"_"."_"Payment",%rowid) do ..%SQLEExit() QUIT  } for icol=2,3 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }}
+	if %e(3)'="" set sn=$p(%e(3),$e(%e(3)),$l(%e(3),$e(%e(3)))-1) if "FCE.Payment"'=sn new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLUpdate",%rowid,%check,.%d,$g(%vco),%tstart,%mv,1) QUIT
+	set SQLCODE=-115,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler14",,"FCE"_"."_"Payment") QUIT
+ERRORUpdate	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"FCE"_"."_"Payment",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"FCE"_"."_"Payment") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT  
+	Return
+%SQLValidateFields(sqlcode) methodimpl
+	if $g(%d(2))'="",'(($l(%d(2))'>50)) { set sqlcode=..%SQLInvalid(2+1,%d(2)) } 
+	QUIT 'sqlcode
+%SQLnBuild() methodimpl {
+	set %n=$lb(,"ID","VerificationID","x__classname")
+	QUIT }
+%SaveData(id) methodimpl {
+	QUIT $$Error^%apiOBJ(5752,$classname()) }
+%SaveDirect(id="",idList="",data,concurrency=-1) methodimpl {
+	QUIT $$Error^%apiOBJ(5752,$classname()) }
+%SaveIndices(pStartId="",pEndId="",lockExtent=0) methodimpl {
+	If lockExtent {
+		Set sc=..%LockExtent(0)
+		Quit:('sc) sc
+	}
+	s id=$order(^FCE.PaymentD(pStartId),-1),tEndId=$S(pEndId'="":pEndId,1:pStartId)
+BSLoop	s id=$O(^FCE.PaymentD(id)) g:(id="")||(id]]tEndId) BSLoopDun
+	Set bsv0N1=$Get(^FCE.PaymentD(id))
+	set pidchunk=id\64000+1,pidoffset=id#64000+1
+	Set $bit(^FCE.PaymentI("BitmapExtent",pidchunk),pidoffset)=1
+	g BSLoop
+BSLoopDun
+	If lockExtent { Do ..%UnlockExtent(0) }
+	Quit 1
+CatchError	Set $ZTrap=""
+	If $ZE'="" {
+		Set sc = $$Error^%apiOBJ(5002,$ZE)
+	}
+	If lockExtent { Do ..%UnlockExtent(0) }
+	Quit sc }
+%SortBegin(idxlist="",excludeunique=0) methodimpl
+	Quit 1
+%SortEnd(idxlist="",commit=1,excludeunique=0) methodimpl {
+	Quit 1 }
+%UnlockExtent(shared=0,immediate=0) methodimpl {
+	If 'shared {
+		If 'immediate {
+			Lock -^FCE.PaymentD
+			 Quit 1
+		}
+		Lock -^FCE.PaymentD#"I"
+		Quit 1
+	}
+	If 'immediate {
+		Lock -^FCE.PaymentD#"S"
+		Quit 1
+	}
+	Lock -^FCE.PaymentD#"SI"
+	Quit 1 }
+%UnlockId(id,shared=0,immediate=0) methodimpl {
+	If 'shared {
+		If 'immediate {
+			Lock -(^FCE.PaymentD(id)#"E")
+			Quit 1
+		}
+		Lock -(^FCE.PaymentD(id)#"IE")
+		Quit 1
+	}
+	If 'immediate {
+		Lock -(^FCE.PaymentD(id)#"SE")
+		Quit 1
+	}
+	Lock -(^FCE.PaymentD(id)#"SIE")
+	Quit 1 }
+%ValidateIndices(idxList="",autoCorrect=0,lockOption=1,multiProcess=1,mapList,verbose=1,errors) methodimpl
+	if '$listvalid(idxList) { QUIT $$Error^%apiOBJ(5591,"##class(FCE.Payment).%ValidateIndices()","idxList",""""" or a $list of index names") }
+	if $case(autoCorrect,1:0,0:0,:1) { QUIT $$Error^%apiOBJ(5591,"##class(FCE.Payment).%ValidateIndices()","autoCorrect","'0' or '1'") }
+	if $case(lockOption,2:0,1:0,0:0,:1) { QUIT $$Error^%apiOBJ(5591,"##class(FCE.Payment).%ValidateIndices()","lockOption","'0', '1' or '2'") }
+	if $case(multiProcess,1:0,0:0,:1) { QUIT $$Error^%apiOBJ(5591,"##class(FCE.Payment).%ValidateIndices()","multiProcess","'0' or '1'") }
+	if $case(verbose,1:0,0:0,:1) { QUIT $$Error^%apiOBJ(5591,"##class(FCE.Payment).%ValidateIndices()","verbose","'0' or '1'") }
+	new mapList QUIT $$ValidateIndices^%SYS.SECURITY("FCE.Payment",idxList,autoCorrect,lockOption,multiProcess,,verbose,.errors)
+%ValidateObject(unused=0,checkserial=1) methodimpl {
+	set sc=1
+	If '$system.CLS.GetModified() Quit sc
+	If m%VerificationID Set iv=..VerificationID If iv'="" Set rc=(..VerificationIDIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"VerificationID",iv)
+	Quit sc }
+Process(order,paymentString="") methodimpl {
+	if (order = "") { 
+	    return $$Error^%apiOBJ(5001, "No associated currency order")}
+	elseif (order.Branch = "") {
+		return $$Error^%apiOBJ(5001, "No associated branch")}
+	else {
+		set paymentString = "Re: your request of: "
+		    _ order.AmountOut _ " " 
+        	_ order.CurrencyOut _ ", at an exchange rate of: "
+        	_ order.ExchangeRate _ " "
+        	_ order.CurrencyOut _ " per 1 "
+        	_ order.CurrencyIn _ " (Verification ID: "
+        	_ ..VerificationID _ ")..."
+        return 1
+	} }
+zXMLDTD(top,format,input,dtdlist) methodimpl
+ Quit ##class(%XML.Implementation).XMLDTD("FCE.Payment",.top,.format,.input,.dtdlist)
+zXMLGetSchemaImports(imports,classes) methodimpl
+ Quit ##class(%XML.Implementation).XMLGetSchemaImports("FCE.Payment",.imports,.classes)
+zXMLIsObjectEmpty(ignoreNull) methodimpl
+ If ..VerificationID'="" Quit 0
+ Quit 1
+zXMLNew(document,node,containerOref="") methodimpl
+	Quit (##class(FCE.Payment).%New())
+zXMLSchema(top="",format="",namespacePrefix="",input=0,refOnly=0,schema) methodimpl
+ Quit ##class(%XML.Implementation).XMLSchema("FCE.Payment",top,format,namespacePrefix,input,refOnly,.schema)
+VerificationIDGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^FCE.PaymentD(id)),2),1:"") }
+ExtentClose(%qHandle) [ SQLCODE ] methodimpl {
+	New SQLCODE Set SQLCODE=0
+	Do:$isobject($get(%qHandle)) %qHandle.%Destruct() Kill %qHandle
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentExecute(%qHandle) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set sc=1
+	 ;---&sql(DECLARE QExtent CURSOR FOR
+ 	 ;---		 SELECT ID FROM %NOPARALLEL FCE.Payment)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	 
+	 ;---&sql(OPEN QExtent)
+	if $g(%qHandle)'="" { s SQLCODE=-101 } else { try { s %qHandle="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EmLrV1X2FoK0ugcxqZc45W3F5hf",%qHandle=$classmethod(%qHandle,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%qHandle)),$ze'["<ZSQLU>" { throw } } if '$isobject(%qHandle) { s %qHandle=$$%0dsqlD() } }
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5821,"SQLCODE = "_SQLCODE_" %msg = "_$g(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentFetch(%qHandle,Row,AtEnd=0) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set Row="",AtEnd=0
+	 ;---&sql(FETCH QExtent INTO :c1)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+	If 'SQLCODE { Set Row=$lb(c1) Set sc=1 }
+	ElseIf SQLCODE=100 { Set AtEnd=1,sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) }
+	Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set AtEnd=1,sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	QUIT sc }
+ExtentFetchRows(%qHandle,FetchCount=0,RowSet,ReturnCount,AtEnd) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set RowSet="",ReturnCount=0,AtEnd=0
+	For {
+		 ;---&sql(FETCH QExtent INTO :c1)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+		if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+		If 'SQLCODE { Set RowSet=RowSet_$lb(c1),ReturnCount=ReturnCount+1 Quit:(ReturnCount=FetchCount)||(($l(RowSet)+($l(RowSet)\ReturnCount))>30000) } Else { Set AtEnd=1 Quit }
+	}
+	If 'SQLCODE { Set sc=1 } ElseIf SQLCODE=100 { Set sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) } Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	Quit sc }
+ExtentSendODBC(%qHandle,array,qacn,%qrc,piece,ColumnCount) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set %qrc=0,piece=0
+	for {
+		set rc=..ExtentFetch(.%qHandle,.row,.atend)
+		if ('rc) { set %qrc=-400 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=-400,%sqlcontext.Message=$g(%msg) do ProcessError^%ourProcedure(rc,$get(%sqlcontext),.%qrc,.%msg),Logerr^%SYS.SQLSRV(%qrc,"","SP",.%msg) RETURN  }
+		if row="" { set %qrc=100 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=100 RETURN  }
+		RETURN:$zobjexport(row,60)
+	}
+	RETURN }
+ q
+%0dsqlD()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE QExtent CURSOR FOR SELECT ID "
+	s %xxsql("S",2)="INTO  :i%sqlcol1"
+	s %xxsql("S",3)="FROM %NOPARALLEL FCE . Payment"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Runtime","","","FCE",0,"",),",1,QExtent,","FCE.Payment.CLS",1)
+	q %xxoref
+ExtentFunc() methodimpl {
+	try {
+		set tSchemaPath = ##class(%SQL.Statement).%ClassPath($classname())
+			set tStatement = ##class(%SQL.Statement).%New(,tSchemaPath)
+			do tStatement.prepare(" SELECT ID FROM %NOPARALLEL FCE . Payment /*#OPTIONS {""DynamicSQL"":1} */")
+		set tResult = tStatement.%Execute()
+	}
+	catch tException { if '$Isobject($Get(tResult)) { set tResult = ##class(%SQL.StatementResult).%New() } set tResult.%SQLCODE=tException.AsSQLCODE(),tResult.%Message=tException.AsSQLMessage() }
+	Quit tResult }
+ExtentGetInfo(colinfo,parminfo,idinfo,%qHandle,extoption=0,extinfo) methodimpl {
+ s parminfo=""
+	s:'($d(^oddCOM($classname(),"q","Extent",21),clientinfo)#2)&&'$s($d(^(2),clientinfo)#2&&(clientinfo'=$classname()):$d(^oddCOM(clientinfo,"q","Extent",21),clientinfo)#2||($d(^oddDEF(clientinfo,"q","Extent",21),clientinfo)#2),1:$d(^oddDEF($classname(),"q","Extent",21),clientinfo)#2) clientinfo=""
+	Set:extoption extinfo=$s($d(^oddCOM($classname(),"q","Extent",38))#2:^(38),$d(^oddCOM($g(^(2),$classname()),"q","Extent",38))#2:^(38),1:$s($d(^oddDEF($g(^oddCOM($classname(),"q","Extent",2),$classname()),"q","Extent",38))#2:^(38),1:""))
+	If clientinfo'="" Set colinfo=$listget(clientinfo,1),parminfo=$listget(clientinfo,2),idinfo=$listget(clientinfo,3) Quit 1
+	Set colinfo="",parminfo="",idinfo=$listbuild(0)
+	Set sc=$$externaltype^%apiOLE("%Library.Integer",.exttypes,"0")
+	Quit:('sc) sc
+	s:'($d(^oddCOM($classname(),"q","Extent",23),names)#2)&&'$s($d(^(2),names)#2&&(names'=$classname()):$d(^oddCOM(names,"q","Extent",23),names)#2||($d(^oddDEF(names,"q","Extent",23),names)#2),1:$d(^oddDEF($classname(),"q","Extent",23),names)#2) names=""
+	s:'($d(^oddCOM($classname(),"q","Extent",22),captions)#2)&&'$s($d(^(2),captions)#2&&(captions'=$classname()):$d(^oddCOM(captions,"q","Extent",22),captions)#2||($d(^oddDEF(captions,"q","Extent",22),captions)#2),1:$d(^oddDEF($classname(),"q","Extent",22),captions)#2) captions=""
+	For i=1:1:1 Set colinfo=colinfo_$listbuild($listbuild($listget(names,i),$piece(exttypes,",",i),$listget(captions,i)))
+	Set idinfo=$listbuild(1,$classname())
+	s ^oddCOM($classname(),"q","Extent",21)=$listbuild(colinfo,parminfo,idinfo)
+	Quit 1 }
+zExtentGetODBCInfo(colinfo,parminfo,qHandle) methodimpl
+	Set metadata=$lb(1,1,"ID",4,10,0,2,"ID","Payment","FCE","",$c(0,0,0,0,0,0,0,0,0,0,0,1,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	Set colinfo=$li(metadata,2,2+cmdlen)
+	Quit 1
+IDKEYCheck(K1,lockonly=0,concurrency=-1) methodimpl {
+	s id=K1,exists=..%ExistsId(id) q:'exists $s('lockonly:$$Error^%apiOBJ(5797,$classname(),"IDKEY",id),1:1) s:concurrency=-1 concurrency=$select(..#DEFAULTCONCURRENCY="$zu(115,10)":$zu(115,10),1:$xecute("q "_..#DEFAULTCONCURRENCY)) if concurrency { s status=..%LockId(id,1) q:('status) status } if 'lockonly { s exists=..%ExistsId(id) d:concurrency ..%UnlockId(id,1,0) quit $s('exists:$$Error^%apiOBJ(5797,$classname(),"IDKEY",id),1:1) } else { d:concurrency ..%UnlockId(id,1,0) q 1 }
+}
+IDKEYDelete(K1,concurrency=-1) methodimpl {
+	Quit ..%DeleteId(.K1,concurrency) }
+IDKEYExists(K1,id="") methodimpl {
+	s id=K1 q ..%ExistsId(K1) }
+IDKEYOpen(K1,concurrency=-1,sc) methodimpl { s:'($d(sc)#2) sc=1
+	Quit ..%OpenId(.K1,concurrency,.sc) }
+zIDKEYSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLCheckUnique")
+zIDKEYSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key IDKEY.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"FCE"_"."_"Payment"_":"_"IDKEY") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv=$d(^FCE.PaymentD(%pVal(1))) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+zIDKEYSQLFindPKeyByConstraint(%con) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLFindPKeyByConstraint")
+zIDKEYSQLFindRowIDByConstraint(%con,pInternal=0) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLFindRowIDByConstraint")
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlD")=""
+}

@@ -1,0 +1,155 @@
+ROUTINE FCE.PersistentPerson.1 [Type=INT,Generated]
+ ;FCE.PersistentPerson.1
+ ;Generated for class FCE.PersistentPerson.  Do NOT edit. 08/14/2023 08:17:28AM
+ ;;72625A67;FCE.PersistentPerson
+ ;
+%BindExport(dev,Seen,RegisterOref,AllowedDepth,AllowedCapacity) methodimpl {
+   i $d(Seen(+$this)) q 1
+   Set Seen(+$this)=$this
+   s sc = 1
+ s proporef=..Home
+ s proporef=..Work
+   d:RegisterOref InitObjVar^%SYS.BINDSRV($this)
+   i dev'="" s t=$io u dev i $zobjexport($this_"",3)+$zobjexport($this."%%OID",3)+$zobjexport($this,3)!1 u t
+ If AllowedDepth>0 Set AllowedDepth = AllowedDepth - 1
+ If AllowedCapacity>0 Set AllowedCapacity = AllowedCapacity - 1/2
+ s proporef=..Home
+       i proporef'="" s sc=1 i AllowedDepth'=0,AllowedCapacity'=0 s sc=proporef.%BindExport(dev,.Seen,RegisterOref,AllowedDepth,AllowedCapacity) q:('sc) sc
+ s proporef=..Work
+       i proporef'="" s sc=1 i AllowedDepth'=0,AllowedCapacity'=0 s sc=proporef.%BindExport(dev,.Seen,RegisterOref,AllowedDepth,AllowedCapacity) q:('sc) sc
+   Quit sc }
+%Construct(initvalue) methodimpl {
+	Set i%%Concurrency=$zu(115,10)
+	Kill i%Home,i%Work
+	Quit 1 }
+%ConstructCloneInit(object,deep=0,cloned,location) methodimpl {
+	Set i%"%%OID"=""
+	If deep>0 {
+		If $data(i%Home),$isobject(..Home)=1 Set r%Home=r%Home.%ConstructClone(1,.cloned),i%Home=""
+		If $data(i%Work),$isobject(..Work)=1 Set r%Work=r%Work.%ConstructClone(1,.cloned),i%Work=""
+	}
+	Quit 1 }
+%LoadInit(oid="",concurrency="",reset=0) methodimpl {
+	Set:concurrency'="" i%%Concurrency=concurrency
+	If reset {
+		Kill i%Home,i%Work
+	}
+	Set r%Home="",r%Work=""
+	If 'reset { Set gbl=..#DATALOCATIONGLOBAL If gbl="" { Set oref=$zobjoid("",$listget(oid)),sfn=$zu(40,0,41) } Else { Set oref=$zobjoid("",$listget(oid),@gbl,.sfn) } Set $zobjoid("",$listget(oid),,sfn)=$this,i%"%%OID"=oid }
+	Quit 1 }
+%NormalizeObject() methodimpl {
+	If '$system.CLS.GetModified() Quit 1
+	If m%DOB Set:i%DOB'="" i%DOB=(..DOBNormalize(i%DOB))
+	If m%Email Set:i%Email'="" i%Email=(..EmailNormalize(i%Email))
+	If m%Name Set:i%Name'="" i%Name=(..NameNormalize(i%Name))
+	Quit 1 }
+%ObjectModified() methodimpl {
+	If $system.CLS.GetModified() Quit 1
+	If r%Home'="",..Home.%ObjectModified() Quit 1
+	If r%Work'="",..Work.%ObjectModified() Quit 1
+	Quit 0 }
+%Save(related=1) methodimpl {
+	Set $ZTrap="%SaveERR"
+	New %objTX Set sc=1,traninit=0 If '$data(%objTX2) New %objTX2 Set %objTX2=1
+	If +$g(%objtxSTATUS)=0 { Set traninit=1 k %objtxSTATUS,%objtxLIST,%objtxOIDASSIGNED,%objtxOIDUNASSIGNED,%objtxMODIFIED,%objtxVERSION k:'$TLevel %objtxTID,%objtxID i '$zu(115,9) { s %objtxSTATUS=1 } else { TStart  s %objtxSTATUS=2 } }
+	If $get(%objTX2(+$this)) Set sc=..%BuildObjectGraph(1) If ('sc) { ZTrap "SG" } Set intRef=+$this,objValue=$get(%objTX(1,+$g(%objTX(0,intRef)),1)),sc=..%SerializeObject(.objValue,1) If ('sc) { ZTrap "SG" } Set %objTX(1,%objTX(0,intRef),1)=objValue GoTo %SaveCOMMIT
+	Set sc=..%BuildObjectGraph(related+2) If ('sc) ZTrap "SG"
+	If '$data(%objTX(2)) s sc=1 GoTo %SaveCOMMIT
+	Set %objTX(3)=0,i="" For  Set i=$order(%objTX(2,i),1,data) Quit:i=""  Set intRef=$li(data) If '$data(%objTX(1,+$g(%objTX(0,intRef)),2)) Set %objTX(3,$increment(%objTX(3)))=%objTX(1,%objTX(0,intRef)) Kill %objTX(2,i),%objTX(11,intRef)
+	For ptr=1:1 Quit:ptr>%objTX(3)  Set objRef=%objTX(3,ptr),objValue=$get(%objTX(1,+$g(%objTX(0,+objRef)),1)),sc=objRef.%SerializeObject(.objValue) Do  Set %objTX(1,%objTX(0,+objRef),1)=objValue Kill %objTX(1,%objTX(0,+objRef),3) Do $system.CLS.SetModified(objRef,0)
+	. If ('sc) ZTrap "SG"
+	. i $g(%objtxSTATUS)=2 { Set %objtxMODIFIED(+objRef)=$system.CLS.GetModifiedBits(objRef) }
+	. Set intSucc="" For  Set intSucc=$order(%objTX(1,%objTX(0,+objRef),3,intSucc)) Quit:intSucc=""  Kill %objTX(1,%objTX(0,+objRef),3,intSucc),%objTX(1,intSucc,2,%objTX(0,+objRef)) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$increment(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,+%objTX(1,intSucc))) %objTX(2,%objTX(11,+%objTX(1,intSucc))),%objTX(11,+%objTX(1,intSucc))
+	Kill %objTX(3) Set %objTX(3)=0 For  Set pserial=0 Do  Quit:'pserial
+	. Set i="" For  Set i=$order(%objTX(2,i),1,data) Quit:i=""  Set intPred="",intRef=$li(data) For  Set intPred=$order(%objTX(1,%objTX(0,intRef),2,intPred)) Quit:intPred=""  If $get(%objTX(1,intPred,6))=1 Set objValue=$get(%objTX(1,intPred,1)),sc=(%objTX(1,intPred)).%SerializeObject(.objValue,1) If ('sc) { If $d(%objTX(11,+%objTX(1,intPred))) { Set %objTX(2,%objTX(11,+%objTX(1,intPred)),1)=sc } Else { Set %objTX(2,$i(%objTX(2)),1)=sc,%objTX(11,+%objTX(1,intPred))=%objTX(2) } } If (''sc) Set pserial=1,%objTX(1,intPred,1)=objValue Do
+	. . Set intSucc="" For  Set intSucc=$order(%objTX(1,intPred,3,intSucc)) Quit:intSucc=""  Kill %objTX(1,intPred,3,intSucc),%objTX(1,intSucc,2,intPred) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$i(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,+%objTX(1,intSucc))) %objTX(2,%objTX(11,+%objTX(1,intSucc))),%objTX(11,+%objTX(1,intSucc))
+	. . For ptr=1:1 Quit:ptr>%objTX(3)  Set objSerialize=%objTX(3,ptr),objValue=$get(%objTX(1,+$g(%objTX(0,+objSerialize)),1)),sc=objSerialize.%SerializeObject(.objValue) Do  Set %objTX(1,%objTX(0,+objSerialize),1)=objValue Kill %objTX(1,%objTX(0,+objSerialize),3) Do $system.CLS.SetModified(objSerialize,0)
+	. . . If ('sc) ZTrap "SG"
+	. . . i $g(%objtxSTATUS)=2 { Set %objtxMODIFIED(+objSerialize)=$system.CLS.GetModifiedBits(objSerialize) }
+	. . . Set intSucc="" For  Set intSucc=$order(%objTX(1,%objTX(0,+objSerialize),3,intSucc)) Quit:intSucc=""  Kill %objTX(1,%objTX(0,+objSerialize),3,intSucc),%objTX(1,intSucc,2,%objTX(0,+objSerialize)) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$i(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,+%objTX(1,intSucc))) %objTX(2,%objTX(11,+%objTX(1,intSucc))),%objTX(11,+%objTX(1,intSucc))
+	. . Kill %objTX(3) Set %objTX(3)=0
+	If $data(%objTX(2))>2 {
+		Set sc=$$Error^%apiOBJ(5827,$classname())
+		set i="" for  set i=$order(%objTX(2,i)) quit:i=""  if ('$Get(%objTX(2,i,1),1)) set sc=$$EmbedStatus^%apiOBJ(sc,%objTX(2,i,1))
+	 	ZTrap "SG"
+	}
+	Set cmd="" For  Set cmd=$order(%objTX(9,cmd)) Quit:cmd=""  Xecute cmd
+%SaveCOMMIT	If traninit { i $g(%objtxSTATUS)=1 { k %objtxSTATUS } else { If $Tlevel { TCommit  } k %objtxSTATUS,%objtxLIST,%objtxOIDASSIGNED,%objtxOIDUNASSIGNED,%objtxMODIFIED,%objtxVERSION k:'$TLevel %objtxTID,%objtxID } }
+	Do $system.CLS.SetModified(0) Quit sc
+%SaveERR	Set $ZTrap="" If $extract($zerror,1,5)'="<ZSG>" Set sc=$$Error^%apiOBJ(5002,$ZE)
+	If $get(traninit) { i $g(%objtxSTATUS)=2 { s sc=$select(+sc:$$%TRollBack^%occTransaction(),1:$$AppendStatus^%occSystem(sc,$$%TRollBack^%occTransaction())) k %objtxTID,%objtxID } else { k %objtxSTATUS } }
+	Quit sc }
+%SerializeObject(serial,partial=0) methodimpl {
+	try {
+		If $get(%objTX2(+$this)) { Set partial = 1 } ElseIf ('partial) { Set %objTX2(+$this) = 1 }
+		Set sc=..%ValidateObject(,0) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		Set sc=..%NormalizeObject() Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		If r%Home'="" { Set:'$data(%objTX(0,+r%Home)) %objTX(0,+r%Home)=$i(%objTX(1)),%objTX(1,%objTX(0,+r%Home))=r%Home,%objTX(1,%objTX(0,+r%Home),1)=..HomeGetObject(1),%objTX(1,%objTX(0,+r%Home),6)=2 Set M%Home=1,i%Home=$listget(%objTX(1,%objTX(0,+r%Home),1)) }
+		If r%Work'="" { Set:'$data(%objTX(0,+r%Work)) %objTX(0,+r%Work)=$i(%objTX(1)),%objTX(1,%objTX(0,+r%Work))=r%Work,%objTX(1,%objTX(0,+r%Work),1)=..WorkGetObject(1),%objTX(1,%objTX(0,+r%Work),6)=2 Set M%Work=1,i%Work=$listget(%objTX(1,%objTX(0,+r%Work),1)) }
+		s:$g(%objtxSTATUS)=2 %objtxLIST(+$this)=$this
+		Set id=$listget(serial),sc=..%SaveData(.id) If ('sc) { Throw ##class(%Exception.StatusException).ThrowIfInterrupt(sc) }
+		Set serial=(..%Oid())
+		if 'partial {
+			Set %objTX2(+$this) = 0
+		}
+		set sc=1
+	}
+	catch tException {
+		If 'partial { Set %objTX2(+$this) = 0 }
+		set sc = tException.AsStatus()
+	}
+	Quit sc }
+%AddToSaveSet(depth=3,refresh=0) methodimpl {
+	Set sc=1,intOref=+$this
+	If $data(%objTX(0,intOref),index) {
+		If 'refresh RETURN 1
+		Set intPoref="" For  Set intPoref=$order(%objTX(1,index,2,intPoref)) Quit:intPoref=""  Kill %objTX(1,%objTX(0,intPoref),3,index),%objTX(1,index,2,%objTX(0,intPoref))
+	}
+	Set:'$d(index) (index,%objTX(0,intOref))=$i(%objTX(1)),%objTX(1,index)=$this Set %objTX(1,index,1)=i%"%%OID",%objTX(1,index,6)=1 If (i%"%%OID" '= "") && (depth<2) { Quit 1 } Else { Set %objTX(7,index)=$lb(intOref,1) }
+	if ('$d(i%Home))&&(..Home)
+	Set Poref=r%Home If Poref'="" Set:'$data(%objTX(0,+Poref)) %objTX(6,$i(%objTX(6)))=Poref Set %objTX(8,$i(%objTX(8)))=$lb(+Poref,intOref,3,i%Home)
+	if ('$d(i%Work))&&(..Work)
+	Set Poref=r%Work If Poref'="" Set:'$data(%objTX(0,+Poref)) %objTX(6,$i(%objTX(6)))=Poref Set %objTX(8,$i(%objTX(8)))=$lb(+Poref,intOref,3,i%Work)
+exit	Quit sc }
+%ValidateObject(unused=0,checkserial=1) methodimpl {
+	set sc=1
+	If (r%Home'="")||m%Home Set iv=..Home If checkserial Set rc=iv.%ValidateObject(,1) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Home",..Home)
+	If (r%Work'="")||m%Work Set iv=..Work If checkserial Set rc=iv.%ValidateObject(,1) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Work",..Work)
+	If '$system.CLS.GetModified() Quit sc
+	If m%DOB Set iv=..DOB If iv'="" Set rc=(..DOBIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"DOB",iv)
+	Set iv=..Email If iv="" Set rc=$$Error^%apiOBJ(5659,$classname()_"::Email("_$this_",ID="_..%Id()_")"),sc=$select(+sc:rc,1:$$AppendStatus^%occSystem(sc,rc))
+	If m%Email Set rc=(..EmailIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Email",iv)
+	Set iv=..Name If iv="" Set rc=$$Error^%apiOBJ(5659,$classname()_"::Name("_$this_",ID="_..%Id()_")"),sc=$select(+sc:rc,1:$$AppendStatus^%occSystem(sc,rc))
+	If m%Name Set rc=(..NameIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Name",iv)
+	Quit sc }
+zXMLDTD(top,format,input,dtdlist) methodimpl
+ Quit ##class(%XML.Implementation).XMLDTD("FCE.PersistentPerson",.top,.format,.input,.dtdlist)
+zXMLGetSchemaImports(imports,classes) methodimpl
+ Quit ##class(%XML.Implementation).XMLGetSchemaImports("FCE.PersistentPerson",.imports,.classes)
+zXMLNew(document,node,containerOref="") methodimpl
+	Quit (##class(FCE.PersistentPerson).%New())
+zXMLSchema(top="",format="",namespacePrefix="",input=0,refOnly=0,schema) methodimpl
+ Quit ##class(%XML.Implementation).XMLSchema("FCE.PersistentPerson",top,format,namespacePrefix,input,refOnly,.schema)
+PrintNameGet() methodimpl {
+	Quit ..PrintNameCompute($listget(i%"%%OID"),..Name) }
+EmailIndexCheck(K1,lockonly=0,concurrency=-1) methodimpl {
+	s exists=..EmailIndexExists(K1,.id) q:'exists $s('lockonly:$$Error^%apiOBJ(5797,$classname(),"EmailIndex",K1),1:1) s:concurrency=-1 concurrency=$select(..#DEFAULTCONCURRENCY="$zu(115,10)":$zu(115,10),1:$xecute("q "_..#DEFAULTCONCURRENCY)) if concurrency { s status=..%LockId(id,1) q:('status) status } if 'lockonly { s exists=..EmailIndexExists(K1,.idcheck) d:concurrency ..%UnlockId(id,1,0) quit $s(('exists)||(id'=idcheck):$$Error^%apiOBJ(5797,$classname(),"EmailIndex",K1),1:1) } else { d:concurrency ..%UnlockId(id,1,0) q 1 }
+}
+EmailIndexDelete(K1,concurrency=-1) methodimpl {
+	i ..EmailIndexExists(K1,.id){ s sc=..%DeleteId(id,concurrency) } Else { s sc=$$Error^%apiOBJ(5771,"EmailIndex",K1) }
+	QUIT sc }
+EmailIndexExists(K1,id="") methodimpl {
+	QUIT 0 }
+EmailIndexOpen(K1,concurrency=-1,sc) methodimpl { s:'($d(sc)#2) sc=1
+ i ..EmailIndexExists(K1,.id){ s return=..%OpenId(id,concurrency,.sc) } Else { s sc=$$Error^%apiOBJ(5770,"EmailIndex",K1),return="" }
+ QUIT return }
+zEmailIndexSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::EmailIndexSQLCheckUnique")
+zEmailIndexSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::EmailIndexSQLExists")
+zEmailIndexSQLFindPKeyByConstra(%con) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::EmailIndexSQLFindPKeyByConstraint")
+zEmailIndexSQLFindRowIDByConstr(%con,pInternal=0) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::EmailIndexSQLFindRowIDByConstraint")
+NameIndexExists(K1,id="") methodimpl {
+	QUIT 0 }

@@ -1,0 +1,22 @@
+ROUTINE FCE.Tests.TestCase.1 [Type=INT,Generated]
+ ;FCE.Tests.TestCase.1
+ ;Generated for class FCE.Tests.TestCase.  Do NOT edit. 08/16/2023 04:19:52PM
+ ;;58503464;FCE.Tests.TestCase
+ ;
+Run() methodimpl {
+    set testSuite = "FCETests"
+    // set up ^UnitTestRoot if not already set
+    if '$data(^UnitTestRoot) {
+    	set mainFolder = "UnitTests\FCE\" 
+	    set st = ##class(%Library.File).CreateDirectoryChain(mainFolder _ testSuite)
+	    if (''st) { set ^UnitTestRoot = mainFolder }
+	    else {
+	    	write !, "UnitTestRoot folder could not be created. Consult with instructor."
+	    	do $system.Status.DisplayError(st)
+	    }
+    }
+    set testCase = ..%ClassName(1) // this test case
+    set test = testSuite _ ":" _ testCase
+	set quals = "/noload/norecursive/nodelete"
+    do ##class(%UnitTest.Manager).RunTest(test, quals)
+    quit }

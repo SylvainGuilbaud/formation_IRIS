@@ -1,0 +1,1137 @@
+ROUTINE FCE.RealEstate.1 [Type=INT,Generated]
+ ;FCE.RealEstate.1
+ ;Generated for class FCE.RealEstate.  Do NOT edit. 08/14/2023 08:17:27AM
+ ;;6C446F4F;FCE.RealEstate
+ ;
+SQLUPPER(v,l) { quit $zu(28,v,7,$g(l,32767)) }
+ALPHAUP(v,r) { quit $zu(28,v,6) }
+STRING(v,l) { quit $zu(28,v,9,$g(l,32767)) }
+SQLSTRING(v,l) { quit $zu(28,v,8,$g(l,32767)) }
+UPPER(v) { quit $zu(28,v,5) }
+MVR(v) { quit $zu(28,v,2) }
+TRUNCATE(v,l) { quit $e(v,1,$g(l,3641144)) }
+%BuildDeferredIndices(lockFlag=0,journalFlag=1) methodimpl {
+	return $$Error^%apiOBJ(5758,"%Storage.Persistent::%BuildDeferredIndices") }
+%BuildIndices(pIndexList="",pAutoPurge=1,pLockFlag=0,pJournalFlag="",pStartID="",pEndID="",pIgnoreIndexList="") methodimpl {
+	If (pIndexList="")||(($listlength(pIndexList)=1)&&($listget(pIndexList,1)="")) { Quit 1 }
+	Quit $$Error^%apiOBJ(5066,$classname()_"::"_$ListToString(pIndexList)) }
+%BuildIndicesSegment(pStartID,pEndID,pIndexHandle=0,pLockFlag=1,pFirstRange=0,pJob="") methodimpl {
+	QUIT 1 }
+%CheckConstraints(pID,pConstraintList="",pCheckDisabled=0,pErrorInfo) methodimpl {
+	if (''..%OnDetermineClass($select(pID="":"",1:$listbuild(pID_"")),.tMSTC)) && (tMSTC '= $classname()) { quit $classmethod(tMSTC,"%CheckConstraints",pID,pConstraintList) } else { quit 1 } }
+%CheckConstraintsForExtent(pConstraintList="",pCheckDisabled=0,pErrorLog) [ SQLCODE,tID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,tID 
+	kill pErrorLog set tStatusAll = 1, pErrorLog = 0 if '$listvalid(pConstraintList) { set pConstraintList = $listfromstring(pConstraintList) }
+	 ;---&sql(declare ext cursor for select %ID into :tID FROM %NOPARALLEL FCE.RealEstate)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, tID
+	 
+	 ;---&sql(open ext)
+	if $g(%ext0332)'="" { s SQLCODE=-101 } else { try { s %ext0332="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"ELKh6PDi1B8ktf4gdjlEeQHQjpN",%ext0332=$classmethod(%ext0332,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%ext0332)),$ze'["<ZSQLU>" { throw } } if '$isobject(%ext0332) { s %ext0332=$$%0dsqlA() } }
+	if SQLCODE '< 0 {
+		for {
+			 ;---&sql(fetch ext)
+ 			 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+			if $isobject($g(%ext0332))'=1 { s SQLCODE=-102 } else { do %ext0332.FET() }
+			if SQLCODE { if SQLCODE=100 { quit } elseif SQLCODE<0 { set tStatusAll = $select(+tStatusAll:$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)),1:$$AppendStatus^%occSystem(tStatusAll,$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)))) quit } }
+			set tStatus = ..%CheckConstraints(tID,pConstraintList,pCheckDisabled,.tErrorInfo)
+			if ('tStatus) { set tStatusAll = $select(+tStatusAll:tStatus,1:$$AppendStatus^%occSystem(tStatusAll,tStatus)) set:pErrorLog<1000 pErrorLog = pErrorLog + 1, pErrorLog(pErrorLog) = tErrorInfo _ $Listbuild(tStatus) }
+		}
+		 ;---&sql(close ext)
+		if '$isobject($get(%ext0332)) { set SQLCODE=-102 } else { set SQLCODE=0 kill %ext0332 }
+	}
+	quit tStatusAll }
+ q
+%0dsqlA()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE ext CURSOR FOR SELECT %ID INTO :tID FROM %NOPARALLEL FCE . RealEstate"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%PVA")="",%xxsql("I","%callout")="",%xxsql("I","%jsonMap")=""
+	s %xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","FCE",0,"",),",0,ext,","FCE.RealEstate.CLS",1)
+	i $g(SQLCODE) { s tID="" }
+	q %xxoref
+%ComposeOid(id) methodimpl {
+	set tCLASSNAME = $listget($g(^FCE.RealEstateD(id)),1)
+	if tCLASSNAME="" { quit $select(id="":"",1:$listbuild(id_"","FCE.RealEstate")) }
+	set tClass=$piece(tCLASSNAME,$extract(tCLASSNAME),*-1)
+	set:tClass'["." tClass="User."_tClass
+	quit $select(id="":"",1:$listbuild(id_"",tClass)) }
+%DeleteData(id,concurrency) methodimpl {
+	Quit:id="" $$Error^%apiOBJ(5812)
+	set $Ztrap="DeleteDataERR" set lockok=0,sc=""
+	If concurrency {
+		Lock +(^FCE.RealEstateD(id)#"E"):$zu(115,4)
+		Set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0))
+		Set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1
+		If 'lockok {
+			Quit $$Error^%apiOBJ(5803,$classname())
+		}
+	}
+	If ($Data(^FCE.RealEstateD(id))) {
+		If $data(^oddEXTR($classname())) {
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"%1","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"%1","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",id)
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"IDKEY","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"IDKEY","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",id)
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+		}
+		Kill ^FCE.RealEstateD(id)
+		Set sc=1
+	}
+	Else { Set sc=$$Error^%apiOBJ(5810,$classname(),id) }
+DeleteDataEXIT
+	If concurrency,lockok {
+		Lock -(^FCE.RealEstateD(id)#"E")
+	}
+DeleteDataRET	Set $Ztrap = ""
+	QUIT sc
+DeleteDataERR	Set $Ztrap = "DeleteDataRET"
+	Set sc = $$Error^%apiOBJ(5002,$ZE)
+	Goto DeleteDataEXIT }
+%Exists(oid="") methodimpl {
+	Quit ..%ExistsId($listget(oid)) }
+%ExistsId(id) methodimpl {
+	Try { set tExists = $s(id="":0,$d(^FCE.RealEstateD(id)):1,1:0) } catch tException { set tExists = 0 if '(tException.%IsA("%Exception.SystemException")) { throw tException } elseif tException.Name'="<SUBSCRIPT>" { ZT $ZE } } quit tExists }
+%FileIndices(id,pIndexHandle=0,pVectorBuffer) methodimpl {
+	Quit 1 }
+%InsertBatch(objects,concurrency=0,useTransactions=0) methodimpl {
+	try {
+		set numerrs=0,errs="",cnt=0,ptr=0
+		while $listnext(objects,ptr,data) {
+			set cnt=cnt+1
+			set lock=0
+			if (useTransactions) tstart
+			set id=$i(^FCE.RealEstateD)
+			try {
+				set tInnerException = ""
+				;
+				if concurrency { lock +(^FCE.RealEstateD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				set ^FCE.RealEstateD(id)=data
+				if (useTransactions) { tcommit }
+			}
+			catch tInnerException {
+				set newerr=$lb(cnt,tInnerException.AsStatus())
+				if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+				if (useTransactions) && ($Tlevel) trollback
+			}
+			if lock lock -(^FCE.RealEstateD(id)#"E")
+		}
+	}
+	catch tException {
+		set newerr=$lb($g(cnt),tException.AsStatus())
+		if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+	}
+	QUIT ($lb(numerrs))_errs }
+%JSONExportInternal() methodimpl {
+  Set sc=1
+  Write "{" Set sep=""
+  Set value=..Street
+  If value'="" {
+    Write sep_"""Street"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+    Set $extract(sep,1)=","
+  }
+  Set value=..City
+  If value'="" {
+    Write sep_"""City"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+    Set $extract(sep,1)=","
+  }
+  Set value=..State
+  If value'="" {
+    Write sep_"""State"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+    Set $extract(sep,1)=","
+  }
+  Set value=..Zip
+  If value'="" {
+    Write sep_"""Zip"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+    Set $extract(sep,1)=","
+  }
+  Write "}"
+%JSONExportExit Quit sc }
+%JSONExportToStringInternal() methodimpl {
+  Set sc=1
+  Set %export=%export_"{" Set sep=""
+  Set value=..Street
+  If value'="" {
+    Set %export=%export_sep_"""Street"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+    Set $extract(sep,1)=","
+  }
+  Set value=..City
+  If value'="" {
+    Set %export=%export_sep_"""City"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+    Set $extract(sep,1)=","
+  }
+  Set value=..State
+  If value'="" {
+    Set %export=%export_sep_"""State"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+    Set $extract(sep,1)=","
+  }
+  Set value=..Zip
+  If value'="" {
+    Set %export=%export_sep_"""Zip"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+    Set $extract(sep,1)=","
+  }
+  Set %export=%export_"}"
+%JSONExportExitToString Quit sc }
+%JSONImportInternal() methodimpl {
+  Set sc=1
+  Set testInvalidField=1
+  Set proplist("Street")=""
+  Set field="Street" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+  If jsontype'="unassigned" {
+    If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+    If jsontype="null" {
+      Goto %JSONImportRequired
+    } Else {
+      If jsontype'="string" Goto %JSONImportError
+      Set data=%JSONObject.Street
+      If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+      If data="" Set data=$c(0)
+      Set ..Street=data
+    }
+  } Else { Goto %JSONImportRequired }
+  Set proplist("City")=""
+  Set field="City" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+  If jsontype'="unassigned" {
+    If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+    If jsontype="null" {
+      Goto %JSONImportRequired
+    } Else {
+      If jsontype'="string" Goto %JSONImportError
+      Set data=%JSONObject.City
+      If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+      If data="" Set data=$c(0)
+      Set ..City=data
+    }
+  } Else { Goto %JSONImportRequired }
+  Set proplist("State")=""
+  Set field="State" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+  If jsontype'="unassigned" {
+    If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+    If jsontype="null" {
+      Goto %JSONImportRequired
+    } Else {
+      If jsontype'="string" Goto %JSONImportError
+      Set data=%JSONObject.State
+      If ('$s(data'["-"&&("-NY-NJ-MA-TX-"[("-"_$select(data=$c(0):"",1:data)_"-")):1,1:$$Error^%apiOBJ(7205,data,"-NY-NJ-MA-TX"))) Goto %JSONImportError
+      If data="" Set data=$c(0)
+      Set ..State=data
+    }
+  } Else { Goto %JSONImportRequired }
+  Set proplist("Zip")=""
+  Set field="Zip" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+  If jsontype'="unassigned" {
+    If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+    If jsontype="null" {
+      Goto %JSONImportRequired
+    } Else {
+      If jsontype'="string" Goto %JSONImportError
+      Set data=%JSONObject.Zip
+      If ('##class(FCE.RealEstate).ZipIsValid(data)) Goto %JSONImportError
+      If data="" Set data=$c(0)
+      Set ..Zip=data
+    }
+  } Else { Goto %JSONImportRequired }
+  If $get(testInvalidField) {
+    Set invalid=0,iterator=%JSONObject.%GetIterator()
+    While iterator.%GetNext(.key,.value) { If $data(proplist(key))=0 Set invalid=1 Quit  }
+    If invalid Quit $$Error^%apiOBJ(9404,key,$select(%mappingName="":"class base",1:%mappingName))
+  }
+%JSONImportExit Quit sc
+%JSONImportError Quit $$Error^%apiOBJ(9406,field,$select(%mappingName="":"class base",1:%mappingName))
+%JSONImportRequired Quit $$Error^%apiOBJ(9405,field,$select(%mappingName="":"class base",1:%mappingName)) }
+%JSONNew(dynamicObject,containerOref="") methodimpl {
+  Quit ##class(FCE.RealEstate).%New()
+}
+%KillExtentData(killstreams=0) methodimpl
+	Set $sequence(^FCE.RealEstateD)=""
+	If killstreams Set $sequence(^FCE.RealEstateS)="" Kill ^FCE.RealEstateS
+	Kill ^FCE.RealEstateD
+	Quit 1
+%LoadData(id) methodimpl {
+	New %s1
+	set $ZTrap="CatchError",locked=0,userze=$ze,$ze=""
+	If i%%Concurrency=4 {
+		Lock +(^FCE.RealEstateD(id)#"E"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 s:$ze="" $ze=userze return $$Error^%apiOBJ(5803,$classname())
+	} ElseIf i%%Concurrency>1 {
+		Lock +(^FCE.RealEstateD(id)#"SE"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 s:$ze="" $ze=userze return $$Error^%apiOBJ(5804,$classname())
+		set locked = 1
+	}
+	If $d(^FCE.RealEstateD(id),%s1)#2 {
+		If i%%Concurrency=2 { Lock -(^FCE.RealEstateD(id)#"SIE") }
+		S i%Street=$lg(%s1,2),i%City=$lg(%s1,3),i%State=$lg(%s1,4),i%Zip=$lg(%s1,5)
+		s:$ze="" $ze=userze
+		Quit 1
+	} Else {
+		If i%%Concurrency=2 { Lock -(^FCE.RealEstateD(id)#"SIE") }
+		do init
+		set sc = $$Error^%apiOBJ(5809,$classname(),id) goto CatchError
+	}
+CatchError	set $ZTrap = "" if $ZE'="" { s sc = $$Error^%apiOBJ(5002,$ZE) }
+	If ($get(locked))&&(i%%Concurrency<3) { Lock -(^FCE.RealEstateD(id)#"SIE") }
+	if '('sc) { set sc=$$Error^%apiOBJ(5809,$classname(),id) }
+	s:$ze="" $ze=userze
+	return sc
+init	Set i%City="",i%State="",i%Street="",i%Zip=""
+	quit }
+%LoadDataFromMemory(id,objstate,obj) methodimpl {
+	New %s1
+	If $d(objstate(id)) {
+		Set %s1=$g(objstate(id))
+		S i%Street=$lg(%s1,2),i%City=$lg(%s1,3),i%State=$lg(%s1,4),i%Zip=$lg(%s1,5)
+		Quit 1
+	} Else {
+		set i%City="",i%State="",i%Street="",i%Zip=""
+		Quit $$Error^%apiOBJ(5809,$classname(),id)
+	} }
+%LockExtent(shared=0) methodimpl {
+	If shared {
+		Lock +(^FCE.RealEstateD#"S"):$zu(115,4) Quit:$t 1
+		Quit $$Error^%apiOBJ(5799,$classname())
+	}
+	Lock +(^FCE.RealEstateD):$zu(115,4) Quit:$t 1
+	Quit $$Error^%apiOBJ(5798,$classname()) }
+%LockId(id,shared=0,timeout) methodimpl { s:'($d(timeout)#2) timeout=$zu(115,4)
+	If id="" { Quit $$Error^%apiOBJ(5812) }
+	Set sc=1
+	If 'shared {
+		Lock +(^FCE.RealEstateD(id)#"E"):timeout Quit:$t 1
+		Quit $$Error^%apiOBJ(5803,id_":"_$classname())
+	}
+	Lock +(^FCE.RealEstateD(id)#"SE"):timeout Quit:$t 1
+	Quit $$Error^%apiOBJ(5804,id_":"_$classname()) }
+%NormalizeObject() methodimpl {
+	If '$system.CLS.GetModified() Quit 1
+	If m%City Set:i%City'="" i%City=(..CityNormalize(i%City))
+	If m%State Set:i%State'="" i%State=(..StateNormalize(i%State))
+	If m%Street Set:i%Street'="" i%Street=(..StreetNormalize(i%Street))
+	If m%Zip Set:i%Zip'="" i%Zip=(..ZipNormalize(i%Zip))
+	Quit 1 }
+%OnDetermineClass(oid,class) methodimpl {
+	Set id=$listget($get(oid))
+	RETURN:id="" $$Error^%apiOBJ(5812)
+	set idclass=$lg($get(^FCE.RealEstateD(id)),1)
+	if idclass="" { set class="FCE.RealEstate" RETURN 1 }
+	set class=$piece(idclass,"~",*-1)
+	set:class'["." class="User."_class
+	RETURN 1 }
+%PhysicalAddress(id,paddr) methodimpl
+	if $Get(id)="" Quit $$Error^%apiOBJ(5813,$classname())
+	if (id="") { quit $$Error^%apiOBJ(5832,$classname(),id) }
+	s paddr(1)=$lb($Name(^FCE.RealEstateD(id)),$classname(),"IDKEY","listnode",id)
+	s paddr=1
+	Quit 1
+%PurgeIndices(idxlist="",lockExtent=0,pIgnoreIndexList="") methodimpl {
+	If idxlist="" { Quit 1 }
+	Quit $$Error^%apiOBJ(5066,$classname()_"::"_$ListToString(idxlist)) }
+%SQLAcquireLock(%rowid,s=0,unlockref=0) methodimpl
+	new %d,gotlock
+	set %d(1)=%rowid set s=$e("E",'unlockref)_$e("S",s)
+	lock +^FCE.RealEstateD(%d(1))#s:$zu(115,4) set gotlock=$t
+	if gotlock,'unlockref { set:$case($SYSTEM.Lock.ReturnCode(),2:1,4:1,:0)&&($tlevel) %0CacheLock("FCE.RealEstate","E")=1 }
+	set:gotlock&&unlockref unlockref=unlockref+1,unlockref(unlockref)=$lb($name(^FCE.RealEstateD(%d(1))),"FCE.RealEstate",s_"D")
+	QUIT gotlock
+%SQLAcquireTableLock(s=0,SQLCODE,to="") methodimpl
+	set s=$e("S",s) set:to="" to=$zu(115,4) lock +^FCE.RealEstateD#s:to QUIT:$t 1 set SQLCODE=-110 if s="S" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler35",,"FCE"_"."_"RealEstate") } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler36",,"FCE"_"."_"RealEstate") } QUIT 0
+	Return
+%SQLBuildIndices(pIndices="",pLockFlag=0,pStartID="",pEndID="",pIgnoreIndexList="") methodimpl
+	RETURN ..%BuildIndices(pIndices,,pLockFlag,,pStartID,pEndID,pIgnoreIndexList)
+%SQLBuildPurgeIndexForRow(pIndices="",pActions="BP",pLockRow=1,%d,%e,pIgnoreIndexList="") methodimpl
+	// Purge and build index nodes for a single row using given values, return Status Code
+	new sn,tSC,tLock set tSC=1,pActions=$zcvt(pActions,"U")
+	try {
+		if $g(%d(1))="" { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'FCE.RealEstate'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'FCE.RealEstate'"))) RETURN tSC }
+		if pLockRow { if '..%SQLAcquireLock(%d(1)) { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'FCE.RealEstate' with %ID = '"_%d(1)_"'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'FCE.RealEstate' with %ID = '"_%d(1)_"'"))) RETURN tSC  } else { set tLock=1 }}
+		if pLockRow { do ..%SQLReleaseLock(%d(1),0,0) set tLock=0 }
+	}
+	catch {
+		if $g(tLock) { do ..%SQLReleaseLock(%d(1),0,0) }
+		set tSC=$select(+tSC:$$Error^%apiOBJ(5594,$ze),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5594,$ze)))
+	}
+	QUIT tSC
+%SQLCheckUniqueIndices(pIndices,pOK) methodimpl
+	new d,g,n,o set d=0
+	set pOK=1 QUIT
+%SQLCopyIcolIntoName() methodimpl
+	if %oper="DELETE" {
+		set:$d(%d(1)) %f("ID")=%d(1)
+		QUIT
+	}
+	set:$d(%d(1)) %f("ID")=%d(1) set:$a(%e,2)&&$d(%d(2)) %f("City")=%d(2) set:$a(%e,3)&&$d(%d(3)) %f("State")=%d(3) set:$a(%e,4)&&$d(%d(4)) %f("Street")=%d(4) set:$a(%e,5)&&$d(%d(5)) %f("Zip")=%d(5) set:$a(%e,6)&&$d(%d(6)) %f("x__classname")=%d(6)
+	QUIT
+%SQLDefineiDjVars(%d,subs,master) methodimpl
+	QUIT
+%SQLDelete(%rowid,%check,%tstart=1,%mv=0,%polymorphic=0,%bufferedColumns=0) methodimpl
+	// SQL DELETE method for table FCE.RealEstate
+	new bva,ce,%d,dc,%e,%ele,%itm,%key,%l,%nc,omcall,%oper,%pos,%s,sn,sqlcode,subs set %oper="DELETE",sqlcode=0,%ROWID=%rowid,%d(1)=%rowid,%e(1)=%rowid,%l=$c(0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check,2) {
+		new %ls lock +^FCE.RealEstateD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("FCE.RealEstate","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"FCE"_"."_"RealEstate",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORDelete"
+	do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) if sqlcode { set SQLCODE=-106,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler58",,"FCE"_"."_"RealEstate",%rowid) do ..%SQLEExit() QUIT  }
+	if %e(6)'="" { set sn=$p(%e(6),$e(%e(6)),$l(%e(6),$e(%e(6)))-1) if "FCE.RealEstate"'=sn { new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLDelete",%rowid,%check,%tstart,%mv,1) QUIT  }}
+	if '$a(%check),'$zu(115,7) do  if sqlcode set SQLCODE=sqlcode do ..%SQLEExit() QUIT  
+	. new %fk,%k,%p,%st,%t,%z set %k="",%p("%1")="%d(1),",%p("IDKEY")="%d(1),"
+	. for  quit:sqlcode<0  set %k=$o(^rINDEXEXT("F","FCE.RealEstate",%k)) quit:%k=""  set %t="" for  set %t=$o(^rINDEXEXT("F","FCE.RealEstate",%k,"f",%t)) quit:%t=""  set %st=(%t="FCE.RealEstate") set %fk="" for  set %fk=$o(^rINDEXEXT("F","FCE.RealEstate",%k,"f",%t,%fk)) quit:%fk=""  x "set %z=$classmethod(%t,%fk_""SQLFKeyRefAction"",%st,%k,$a(%check,2),"_%p(%k)_")" if %z set sqlcode=-124 quit  
+	set ce="" for  { set ce=$order(^oddSQL("FCE","RealEstate","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children
+	if '$a(%check,3) {
+	}
+	k ^FCE.RealEstateD(%d(1))
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORDelete	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"FCE"_"."_"RealEstate",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"FCE"_"."_"RealEstate") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT
+	Return
+%SQLDeleteTempStreams() methodimpl
+	// Delete all temporary streams
+	QUIT
+%SQLEExit() methodimpl
+	do ..%SQLUnlock() 
+	if %tstart,$zu(115,1)=1,$TLEVEL { set %tstart=0 TROLLBACK 1 } kill:$g(omcall) %0CacheSQLRA QUIT  
+	Return
+%SQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key %1.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"FCE"_"."_"RealEstate"_":"_"%1") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv=$d(^FCE.RealEstateD(%pVal(1))) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+%SQLGetLock(pRowId,pShared=0,pUnlockRef) methodimpl
+	QUIT ..%SQLAcquireLock(pRowId,pShared,.pUnlockRef)
+%SQLGetOld(%rowid,%d,%e,sqlcode) methodimpl
+	new s set %d(1)=%rowid,s="" if '$d(^FCE.RealEstateD(%d(1)),s) { set sqlcode=100 quit  }
+	 S %e(6)=$lg(s)
+	QUIT
+%SQLGetOldAll() methodimpl
+	new s set %d(1)=%rowid,s="" if '$d(^FCE.RealEstateD(%d(1)),s) { set sqlcode=100 quit  }
+	 S %e(6)=$lg(s),%e(4)=$lg(s,2),%e(2)=$lg(s,3),%e(3)=$lg(s,4),%e(5)=$lg(s,5)
+	QUIT
+%SQLInsert(%d,%check,%inssel,%vco,%tstart=1,%mv=0,%bufferedColumns=0) methodimpl
+	// SQL INSERT method for table FCE.RealEstate
+	new bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,sqlcode,sn,subs,icol set %oper="INSERT",sqlcode=0,%l=$c(0,0,0)
+	if $a(%check,7) { new %diu merge %diu=%d }
+	if $d(%d(1)),'$zu(115,11) { if %d(1)'="" { set SQLCODE=-111,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler6",,"ID","FCE"_"."_"RealEstate") RETURN ""  } kill %d(1) } 
+	if '$a(%check),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode RETURN "" }
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  } set $zt="ERRORInsert"
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+			do:$g(%d(2))="" ..%SQLnBuild():'$d(%n),..%SQLMissing($lg(%n,3)) do:$g(%d(3))="" ..%SQLnBuild():'$d(%n),..%SQLMissing($lg(%n,4)) do:$g(%d(4))="" ..%SQLnBuild():'$d(%n),..%SQLMissing($lg(%n,5)) do:$g(%d(5))="" ..%SQLnBuild():'$d(%n),..%SQLMissing($lg(%n,6)) 
+			quit:sqlcode<0		// A required field was missing
+		} while 0
+		if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() RETURN "" }		// A constraint failed
+	}
+	if '$d(%d(1)) { set %d(1)=$i(^FCE.RealEstateD) } elseif %d(1)>$g(^FCE.RealEstateD) { if $i(^FCE.RealEstateD,$zabs(%d(1)-$g(^FCE.RealEstateD))) {}} elseif $d(^FCE.RealEstateD(%d(1))) { set SQLCODE=-119,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler33",,"ID",%d(1),"FCE"_"."_"RealEstate"_"."_"ID") do ..%SQLEExit() RETURN "" }
+	set:'($d(%d(6))#2) %d(6)=""
+	if '$a(%check,2) {
+		new %ls lock +^FCE.RealEstateD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("FCE.RealEstate","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"FCE"_"."_"RealEstate",$g(%d(1))) do ..%SQLEExit() RETURN ""  }
+	}
+	set ^FCE.RealEstateD(%d(1))=$lb(%d(6),%d(4),%d(2),%d(3),%d(5))
+	lock:$a(%l) -^FCE.RealEstateD(%d(1))#"E"
+	TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0
+	QUIT %d(1) 			// %SQLInsert
+ERRORInsert	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"FCE"_"."_"RealEstate",$ze)
+	if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"FCE"_"."_"RealEstate") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  }
+	do ..%SQLEExit()
+	RETURN ""
+%SQLInvalid(pIcol,pVal) methodimpl {
+	set:$l($g(pVal))>40 pVal=$e(pVal,1,40)_"..." do:'$d(%n) ..%SQLnBuild() set %msg=$s($g(%msg)'="":%msg_$c(13,10),1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler37",,"FCE"_"."_"RealEstate"_"."_$lg(%n,pIcol),$s($g(pVal)'="":$s(pVal="":"<NULL>",pVal=$c(0):"<EMPTY STRING>",1:"'"_pVal_"'"),1:"")),sqlcode=$s(%oper="INSERT":-104,1:-105)
+	QUIT sqlcode }
+%SQLMissing(fname) methodimpl
+	set sqlcode=-108,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler47",,fname,"FCE"_"."_"RealEstate") quit
+%SQLPurgeIndices(pIndices="",pLockExtent=0,pIgnoreIndexList="") methodimpl
+	RETURN ..%PurgeIndices(pIndices,pLockExtent,pIgnoreIndexList)
+%SQLQuickLoad(%rowid,%nolock=0,pkey=0,qq=0) methodimpl
+	// Get fields from row where SQLRowID=%rowid
+	new d,i,il,subs set:%nolock=2 %nolock=1
+	if %nolock=0 { if '..%SQLAcquireLock(%rowid) { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler45",,"FCE"_"."_"RealEstate",%rowid),%ROWCOUNT=0 QUIT  } set:$zu(115,2) il=$zu(115,2,0) }
+	new s,ul set ul=0,d(1)=%rowid if $zu(115,2)=1 { lock +^FCE.RealEstateD(d(1))#"S":$zu(115,4) if $t { set ul=1 } else { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler46",,"FCE"_"."_"RealEstate",%rowid),%ROWCOUNT=0 quit  } }
+	if '$d(^FCE.RealEstateD(d(1)),s) { set SQLCODE=100,%qrc=100 if %nolock=0 { do:$g(il) $zu(115,2,il) }} else { set SQLCODE=0
+	if qq { set d(6)=$lg(s) if d(6)'="" { new sn set sn=$p(d(6),$e(d(6)),$l(d(6),$e(d(6)))-1) if "FCE.RealEstate"'=sn { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } kill d set:sn'["." sn="User."_sn do $classmethod(sn,"%SQLQuickLoad",%rowid,%nolock,0,1) QUIT  }}}
+	set d(2)=$lg(s,3) set d(3)=$lg(s,4) set d(4)=$lg(s,2) set d(5)=$lg(s,5) set d(6)=$lg(s)  }
+	do ..%SQLQuickLogicalToOdbc(.d)
+	if SQLCODE set %ROWCOUNT=0 set:SQLCODE<0 SQLCODE=-SQLCODE lock:ul -^FCE.RealEstateD(d(1))#"SI" set %qrc=SQLCODE QUIT
+	set:qq d=$zobjexport("FCE.RealEstate",18),d=6,d=$zobjexport(d,18) set i=-1 for  { set i=$o(d(i)) quit:i=""  set d=$zobjexport(d(i),18) } set %qrc=0,%ROWCOUNT=1 lock:ul -^FCE.RealEstateD(d(1))#"SI" if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,0) do:$g(il) $zu(115,2,il) } QUIT
+	Return
+%SQLReleaseLock(%rowid,s=0,i=0,e="") methodimpl
+	new %d
+	set:e="" e=1 set %d(1)=%rowid set s=$e("E",e)_$e("S",s)_$e("D",i)
+	lock -^FCE.RealEstateD(%d(1))#s
+	QUIT
+%SQLReleaseTableLock(s=0,i=0) methodimpl
+	set s=$e("S",s)_$e("D",i) lock -^FCE.RealEstateD#s QUIT 1
+	Return
+%SQLUnlock() methodimpl
+	lock:$a(%l) -^FCE.RealEstateD(%d(1))#"E"
+	QUIT
+%SQLUnlockError(cname) methodimpl
+	set sqlcode=-110 if %oper="DELETE" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler48",,"FCE"_"."_"RealEstate",cname) } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler49",,"FCE"_"."_"RealEstate",cname) } quit
+	Return
+%SQLUpdate(%rowid,%check,%d,%vco,%tstart=1,%mv=0,%polymorphic=0,%soid,%bufferedColumns=0,%bufferedColumnsDel=0) methodimpl
+	// SQL UPDATE method for table FCE.RealEstate
+	new %e,bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,icol,omcall,s,sn,sqlcode,subs,t set %oper="UPDATE",sqlcode=0,%ROWID=%rowid,$e(%e,1)=$c(0),%l=$c(0,0,0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check),'$a(%check,7),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT  }
+	if $d(%d(1)),%d(1)'=%rowid { set SQLCODE=-107,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler16",,"ID","FCE"_"."_"RealEstate") QUIT  }
+	for icol=2:1:6 { set $e(%e,icol)=$c($d(%d(icol))) }
+	set %d(1)=%rowid,%e(1)=%rowid
+	if '$a(%check,2) {
+		new %ls lock +^FCE.RealEstateD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("FCE.RealEstate","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"FCE"_"."_"RealEstate",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORUpdate"
+	if $g(%vco)="" { do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) i sqlcode { s SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"FCE"_"."_"RealEstate",%rowid) do ..%SQLEExit() QUIT  } set:'$d(%d(6)) %d(6)=%e(6) set:%d(6)=%e(6) $e(%e,6)=$c(0) } else { do ..%SQLGetOldAll() if sqlcode { set SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"FCE"_"."_"RealEstate",%rowid) do ..%SQLEExit() QUIT  } for icol=2,3,4,5,6 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }}
+	if %e(6)'="" set sn=$p(%e(6),$e(%e(6)),$l(%e(6),$e(%e(6)))-1) if "FCE.RealEstate"'=sn new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLUpdate",%rowid,%check,.%d,$g(%vco),%tstart,%mv,1) QUIT
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+			if $a(%e,2),$g(%d(2))="" { do ..%SQLnBuild():'$d(%n),..%SQLMissing($lg(%n,3)) }
+			if $a(%e,3),$g(%d(3))="" { do ..%SQLnBuild():'$d(%n),..%SQLMissing($lg(%n,4)) }
+			if $a(%e,4),$g(%d(4))="" { do ..%SQLnBuild():'$d(%n),..%SQLMissing($lg(%n,5)) }
+			if $a(%e,5),$g(%d(5))="" { do ..%SQLnBuild():'$d(%n),..%SQLMissing($lg(%n,6)) }
+			quit:sqlcode
+		} while 0
+		if sqlcode { set SQLCODE=sqlcode do ..%SQLEExit() QUIT  }
+	}
+	if $s($a(%e,2):1,$a(%e,3):1,$a(%e,4):1,$a(%e,5):1,1:$a(%e,6)) {
+		set ^FCE.RealEstateD(%d(1))=$listupdate($g(^FCE.RealEstateD(%d(1))),1,$a(%e,6):%d(6),$a(%e,4):%d(4),$a(%e,2):%d(2),$a(%e,3):%d(3),$a(%e,5):%d(5))
+	}
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORUpdate	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"FCE"_"."_"RealEstate",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"FCE"_"."_"RealEstate") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT  
+	Return
+%SQLValidateCompFields(sqlcode) methodimpl
+	QUIT 'sqlcode
+%SQLValidateFields(sqlcode) methodimpl
+	if $g(%d(5))'="",'(##class(FCE.RealEstate).ZipIsValid(%d(5))) { set sqlcode=..%SQLInvalid(5+1,%d(5)) } 
+	if $g(%d(3))'="",'($s(%d(3)'["-"&&("-NY-NJ-MA-TX-"[("-"_$select(%d(3)=$c(0):"",1:%d(3))_"-")):1,1:$$Error^%apiOBJ(7205,%d(3),"-NY-NJ-MA-TX"))) { set sqlcode=..%SQLInvalid(3+1,%d(3)) } 
+	new %f for %f=2,4 { if $g(%d(%f))'="",'(($l(%d(%f))'>50)) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	QUIT 'sqlcode
+%SQLnBuild() methodimpl {
+	set %n=$lb(,"ID","City","State","Street","Zip","x__classname")
+	QUIT }
+%SaveData(id) methodimpl {
+	try {
+		set id=$listget(i%"%%OID") if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,lockok=0,tSharedLock=0
+		if 'idassigned { set id=$i(^FCE.RealEstateD) do ..%IdSet(id) set:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this)="" }
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if (i%%Concurrency<4)&&(i%%Concurrency) { lock +(^FCE.RealEstateD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1 if lockok { set lock=1 } else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^FCE.RealEstateD(id))) {
+					set insert=1
+					if lock { lock -(^FCE.RealEstateD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if ('lockok&&..%Concurrency&&$tlevel)||(i%%Concurrency=4) {  lock +(^FCE.RealEstateD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:(lockok=2&&(i%%Concurrency'=4)) %0CacheLock($classname(),"E")=1 set:lockok lock=1 if 'lockok { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if i%%Concurrency=3 { lock +(^FCE.RealEstateD(id)#"ES") set tSharedLock=1 }
+				set ^FCE.RealEstateD(id)=$lb("",i%Street,i%City,i%State,i%Zip)
+			}
+			else {
+				set ^FCE.RealEstateD(id)=$lb("",i%Street,i%City,i%State,i%Zip)
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+			if ('idassigned) { Set $zobjoid("",$listget(i%"%%OID"))="",i%"%%OID"="" kill:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this) }
+			if (tSharedLock) {  lock -(^FCE.RealEstateD(id)#"ES") } elseif (lockok=1)&&(insert)&&(i%%Concurrency=4) {  lock -(^FCE.RealEstateD(id)) }
+		}
+		if lock lock -(^FCE.RealEstateD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveDirect(id="",idList="",data,concurrency=-1) methodimpl {
+	try {
+		if concurrency=-1 { set concurrency=$zu(115,10) }
+		if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,tSharedLock=0
+		if 'idassigned { set id=$i(^FCE.RealEstateD) }
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if concurrency { lock +(^FCE.RealEstateD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^FCE.RealEstateD(id))) {
+					set insert=1
+					if lock { lock -(^FCE.RealEstateD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if concurrency { lock +(^FCE.RealEstateD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				set ^FCE.RealEstateD(id)=data
+			}
+			else {
+				set ^FCE.RealEstateD(id)=data
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+		}
+		if lock lock -(^FCE.RealEstateD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveIndices(pStartId="",pEndId="",lockExtent=0) methodimpl {
+	Quit 1 }
+%SortBegin(idxlist="",excludeunique=0) methodimpl
+	Quit 1
+%SortEnd(idxlist="",commit=1,excludeunique=0) methodimpl {
+	Quit 1 }
+%UnlockExtent(shared=0,immediate=0) methodimpl {
+	If 'shared {
+		If 'immediate {
+			Lock -^FCE.RealEstateD
+			 Quit 1
+		}
+		Lock -^FCE.RealEstateD#"I"
+		Quit 1
+	}
+	If 'immediate {
+		Lock -^FCE.RealEstateD#"S"
+		Quit 1
+	}
+	Lock -^FCE.RealEstateD#"SI"
+	Quit 1 }
+%UnlockId(id,shared=0,immediate=0) methodimpl {
+	If 'shared {
+		If 'immediate {
+			Lock -(^FCE.RealEstateD(id)#"E")
+			Quit 1
+		}
+		Lock -(^FCE.RealEstateD(id)#"IE")
+		Quit 1
+	}
+	If 'immediate {
+		Lock -(^FCE.RealEstateD(id)#"SE")
+		Quit 1
+	}
+	Lock -(^FCE.RealEstateD(id)#"SIE")
+	Quit 1 }
+%ValidateIndices(idxList="",autoCorrect=0,lockOption=1,multiProcess=1,mapList,verbose=1,errors) methodimpl
+	w !,"There are no indices to validate for class 'FCE.RealEstate'"
+	QUIT 1
+%ValidateObject(unused=0,checkserial=1) methodimpl {
+	set sc=1
+	If '$system.CLS.GetModified() Quit sc
+	Set iv=..City If iv="" Set rc=$$Error^%apiOBJ(5659,$classname()_"::City("_$this_",ID="_..%Id()_")"),sc=$select(+sc:rc,1:$$AppendStatus^%occSystem(sc,rc))
+	If m%City Set rc=(..CityIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"City",iv)
+	Set iv=..State If iv="" Set rc=$$Error^%apiOBJ(5659,$classname()_"::State("_$this_",ID="_..%Id()_")"),sc=$select(+sc:rc,1:$$AppendStatus^%occSystem(sc,rc))
+	If m%State Set rc=(..StateIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"State",iv)
+	Set iv=..Street If iv="" Set rc=$$Error^%apiOBJ(5659,$classname()_"::Street("_$this_",ID="_..%Id()_")"),sc=$select(+sc:rc,1:$$AppendStatus^%occSystem(sc,rc))
+	If m%Street Set rc=(..StreetIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Street",iv)
+	Set iv=..Zip If iv="" Set rc=$$Error^%apiOBJ(5659,$classname()_"::Zip("_$this_",ID="_..%Id()_")"),sc=$select(+sc:rc,1:$$AppendStatus^%occSystem(sc,rc))
+	If m%Zip Set rc=(..ZipIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Zip",iv)
+	Quit sc }
+ByZip(state="",status) methodimpl { s:'$isobject($g(%sqlcontext)) %sqlcontext=##class(%Library.ProcedureContext).%New()
+	set resultSet = ""
+	set statement = ##class(%SQL.Statement).%New()
+	set sql = "SELECT zip, street, city, state FROM fce.realestate"
+	if (state '= "") {
+		set sql = sql _ " WHERE state = ?"
+	}
+	set sql = sql _ " ORDER BY zip"
+	set status = statement.%Prepare(sql)
+	if (''status) {
+		if (state '= "") {
+			set resultSet = statement.%Execute(state)
+		}
+		else {
+			set resultSet = statement.%Execute()
+		}
+		if (resultSet.%SQLCODE = 0) {
+			// successful %Execute
+			// for testing using Terminal
+			do resultSet.%Display()
+			// for ODBC/JDBC
+			// do %sqlcontext.AddResultSet(resultSet)
+		}
+		else {
+			// error during %Execute
+			set %sqlcontext.%SQLCODE = resultSet.%SQLCODE
+			set %sqlcontext.%Message = resultSet.%Message
+		}
+	}
+	else {
+		// error during %Prepare: bad SQL
+		set ex = ##class(%Exception.StatusException).CreateFromStatus(status)
+		set %sqlcontext.%SQLCODE = ex.AsSQLCODE()
+		// 4th ":" piece contains %msg value
+		set %sqlcontext.%Message = $piece(ex.AsSQLMessage(), ":", 4)
+	}
+	return resultSet  // return results to other server-side code
+}
+zPopulate(count=10,verbose=0,DeferIndices=1,objects=0,tune=1,deterministic=0) methodimpl
+	New errcnt,i,id,keepobjects,obj,save,saved
+	Set saved=0,keepobjects=0,errcnt=0
+	Do $ZU(165,0,$S(deterministic:481516,1:$RANDOM(99999999)))
+	If objects Set keepobjects=1,objects=0
+	If DeferIndices Do ..%SortBegin("",1)
+	Kill ^||%Populate
+	For i=1:1:count Do  if errcnt>1000 write:verbose !,"over 1,000 errors encountered with no successful save - exiting" quit
+	. Set obj=##class(FCE.RealEstate).%New()
+	. Set obj.City=##class(%Library.PopulateUtils).City()
+	. Set obj.State=##class(%Library.PopulateUtils).ValueList("-NY-NJ-MA-TX")
+	. Set obj.Street=##class(%Library.PopulateUtils).Street()
+	. Set obj.Zip=##class(%Library.PopulateUtils).USZip()
+	. If 'keepobjects Do
+	. . Set save=obj.%Save()
+	. . If (''save) Set saved=saved+1,errcnt=0 If verbose Write !,"Object saved...",saved
+	. . If ('save) set errcnt=errcnt+1 if verbose Do DisplayError^%apiOBJ(save)
+	. If keepobjects Set objects($Increment(objects))=obj
+	. Set obj=""
+	Kill ^||%Populate
+	If DeferIndices Do ..%SortEnd(,,1)
+	If tune Do TuneTable^%apiSQL("FCE.RealEstate",1,verbose,.%msg,1)
+	Quit saved
+zXMLDTD(top,format,input,dtdlist) methodimpl
+ Quit ##class(%XML.Implementation).XMLDTD("FCE.RealEstate",.top,.format,.input,.dtdlist)
+zXMLExportInternal() methodimpl
+ New tag,summary,attrsVal,savelocal,aval,k,tmpPrefix,prefixDepth,hasNoContent,hasElement,topAttrs,beginprefix,endprefix,savexsiAttrs,initialxsiAttrs,initlist,initialCR,inlineFlag,popAtEnd,saveTopPrefix,saveTypesPrefix,saveAttrsPrefix,saveUsePrefix,initlist
+ Set $ztrap="XMLExportInternalTrap",popAtEnd=0
+ Set summary=summaryArg,initialxsiAttrs=xsiAttrs
+ If group Quit $$Error^%apiOBJ(6386,"FCE.RealEstate")
+ If indentFlag Set initialCR=($extract(currentIndent,1,2)=$c(13,10))
+ Set id=createId
+ Set temp=""
+ If id'="" {
+   If $piece($get(idlist(+$this)),",",2)'="" Quit 1
+   Set idlist(+$this)=id_",1"
+ }
+ If encoded Set initlist=$lb($get(oreflist),inlineFlagArg),oreflist=1,inlineFlag=inlineFlagArg
+ If 'nocycle,('encoded||inlineFlag) {
+   If $data(oreflist($this)) Quit $$Error^%apiOBJ(6296,"FCE.RealEstate")
+   Set oreflist($this)=""
+ }
+ Set tag=$get(topArg)
+ Set tmpi=(($get(typeAttr)'="")&&(typeAttr'="FCE.RealEstate"))
+ If $IsObject(namespaces) {
+     Set popAtEnd=1,saveTopPrefix=topPrefix,saveTypesPrefix=typesPrefix,saveAttrsPrefix=attrsPrefix,saveUsePrefix=usePrefix
+     Set sc=namespaces.PushNodeForExport("",$get(local,0),(encoded||tmpi),"",,.topPrefix,.topAttrs,.typesPrefix,.attrsPrefix,.usePrefix)
+     If 'sc Quit sc
+   Set beginprefix=$select(namespaces.ElementQualified&&usePrefix:typesPrefix,1:"")
+   If topAttrs'="" Set temp=temp_" "_topAttrs
+   If tag="" Set tag="RealEstate"
+   Set xsitype=namespaces.OutputTypeAttribute
+ } Else {
+   Set saveTopPrefix=topPrefix,saveTypesPrefix=typesPrefix,saveAttrsPrefix=attrsPrefix,saveUsePrefix=usePrefix
+   Set typesPrefix=namespaces If (typesPrefix'=""),($extract(typesPrefix,*)'=":") Set typesPrefix=typesPrefix_":"
+   If 'encoded Set namespaces=""
+   Set (topPrefix,attrsPrefix,topAttrs,beginprefix)=""
+   If tag="" Set tag=typesPrefix_"RealEstate"
+   Set xsitype=0
+ }
+ Set local=+$get(local),savelocal=local
+ Set endprefix="</"_beginprefix,beginprefix="<"_beginprefix
+ If tmpi Set temp=temp_" "_xsiPrefix_"type="""_typesPrefix_"RealEstate"""_xsiAttrs,xsiAttrs=""
+   If id'="" Set temp=" "_$select($get(soap12):soapPrefix_"id",1:"id")_"=""id"_id_""""_temp
+ If encoded Set temp=temp_xsiAttrs,xsiAttrs=""
+ If indentFlag Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } Set currentIndent=$select(initialCR:"",1:$c(13,10))_currentIndent_indentChars
+ If tag[":" Set topPrefix=$piece(tag,":"),tag=$piece(tag,":",2)  If topPrefix'="" Set topPrefix=topPrefix_":"
+ Set %xmlmsg="<"_topPrefix_tag_temp if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set attrsVal=attrsArg,attrsArg="" Set %xmlmsg=attrsVal if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set %xmlmsg=">" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set val=..Street
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Street"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Street>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..City
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"City"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"City>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..State
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"State"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"State>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Zip
+ If val'="" {
+   Set temp="",temp1=$parameter("FCE.Regex","NAMESPACE")
+   Set temp1=$select((temp1'="")&&$IsObject(namespaces):namespaces.GetNamespacePrefix(temp1,.temp),1:typesPrefix)
+   Set %xmlmsg=currentIndent_beginprefix_"Zip"_$select(xsitype:" "_xsiPrefix_"type="""_temp1_"Regex"""_temp,1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Zip>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ If indentFlag { Set currentIndent=$extract(currentIndent,1,*-$length(indentChars)) Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }}
+ Set %xmlmsg="</"_topPrefix_tag_">"
+ if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } If indentFlag,'initialCR if $data(%xmlBlock) { Set %xmlmsg="" Do xeWriteLine^%occXMLInternal } else { write ! } Set $extract(currentIndent,1,2)=""
+ If '$IsObject(namespaces) || (popAtEnd=1) Set topPrefix=saveTopPrefix,typesPrefix=saveTypesPrefix,attrsPrefix=saveAttrsPrefix,usePrefix=saveUsePrefix
+ If popAtEnd Do namespaces.PopNode()
+ If encoded Set oreflist=$list(initlist),inlineFlag=$list(initlist,2)
+ If 'encoded||inlineFlag {
+   If 'nocycle Kill oreflist($this)
+ }
+ Quit sc
+XMLExportInternalTrap Set $ztrap=""
+ If $data(val) , $IsObject(val) , ($piece($ze,">",1)="<METHOD DOES NOT EXIST") {
+   Set sc=$$Error^%apiOBJ(6249,$classname(val))
+ } Else {
+   Set sc=$$Error^%apiOBJ(5002,$ze)
+ }
+XMLExportExit 
+ If '$IsObject(namespaces) || (popAtEnd=1) Set topPrefix=saveTopPrefix,typesPrefix=saveTypesPrefix,attrsPrefix=saveAttrsPrefix,usePrefix=saveUsePrefix
+ If popAtEnd Do namespaces.PopNode()
+ Quit sc
+zXMLGetSchemaImports(imports,classes) methodimpl
+ Quit ##class(%XML.Implementation).XMLGetSchemaImports("FCE.RealEstate",.imports,.classes)
+zXMLImportAttributes() methodimpl
+ ;
+ Quit 1
+XMLImportAttrErr Quit $$Error^%apiOBJ(6260,ref,$get(@(tree)@("d",$zlascii(attributeList(ref),13))),@(tree)@("d",$zlascii(nodelist,9))_$$XMLImportAttrLocation(nodelist))
+XMLImportFixedAttrErr Quit $$Error^%apiOBJ(6320,ref,$get(@(tree)@("d",$zlascii(attributeList(ref),13))),@(tree)@("d",$zlascii(nodelist,9))_$$XMLImportAttrLocation(nodelist))
+XMLImportAttrLocation(nodelist) new msg,loc
+ Set loc=$lb($zlascii(nodelist,21),$zlascii(nodelist,25))
+ If loc="" Quit ""
+ Set msg=$get(^%qMsg("%ObjectErrors",$s(""'="":$zcvt("","L"),1:$s($mvv(58)="":"en",1:$mvv(58))),"XMLImportLocation")," (%1,%2)")
+ Quit $$FormatText^%occMessages(msg,$listget(loc,1),$listget(loc,2))
+zXMLImportInternal() methodimpl
+ New child,childlist,node,nodelist,inner,innerlist,data,encodedArray,key,nsIndex,savechild,savechildlist,saveinner,saveinnnerlist,exists
+ Set $ztrap="XMLImportInternalTrap"
+ Set encoded=$case($piece(fmt,",",1),"":0,"literal":0,"encoded":1,"encoded12":1,:"")
+ If encoded="" Quit $$Error^%apiOBJ(6231,fmt)
+ Set nsIndex=$select($get(namespace)="":"",1:$get(@(tree)@("N",namespace)))
+ Set node=nodeArg,nodelist=nodeArgChildlist
+ If tag'=@(tree)@("d",$zlascii(nodelist,9)) Set inner=node Goto XMLImportMalformed
+ If bareProjection Quit $$Error^%apiOBJ(6386,"FCE.RealEstate")
+ If encoded {
+   Do XMLImportAttrnode() If $data(attributeList("id")) Set idlist(node)=$this
+ }
+ If $zboolean(+($zlascii(nodelist,13)#16),+1,1) Quit 1
+ Set sc=$$XMLImportElements()
+ If $get(checkRequired),(''sc) { Set nodelist=""
+   If '$data(exists("City")) Set nodelist=nodelist_"City, "
+   If '$data(exists("State")) Set nodelist=nodelist_"State, "
+   If '$data(exists("Street")) Set nodelist=nodelist_"Street, "
+   If '$data(exists("Zip")) Set nodelist=nodelist_"Zip, "
+   If nodelist'="" Set sc=$$Error^%apiOBJ(6318,$extract(nodelist,1,*-2))
+ }
+XMLImportExit Quit sc
+XMLImportElements() ;
+XMLLOOP1 Set descriptor=$zlascii(nodelist,$zwascii(nodelist,17)) Set child=($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)_","_$zwascii(nodelist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else { Set child="" }} For { Quit:child=""  Quit:(descriptor#16)'=2  Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(nodelist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else {Set child="" }} } Goto XMLLOOP2
+XMLLOOP For  { Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(nodelist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else {Set child="" }} Quit:child=""  Quit:(descriptor#16)'=2  }
+XMLLOOP2 If child="" Quit sc
+ If (descriptor#16)'=0 Set inner=child Goto XMLImportMalformedNoTag
+ Set childlist=@(tree)@((descriptor\16))
+ Set tag=@(tree)@("d",$zlascii(childlist,9))
+ If tag="Street" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   Set exists("Street")=1
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Street=data
+   Goto XMLLOOP } }
+ If tag="City" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   Set exists("City")=1
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..City=data
+   Goto XMLLOOP } }
+ If tag="State" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   Set exists("State")=1
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(data'["-"&&("-NY-NJ-MA-TX-"[("-"_$select(data=$c(0):"",1:data)_"-")):1,1:$$Error^%apiOBJ(7205,data,"-NY-NJ-MA-TX"))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..State=data
+   Goto XMLLOOP } }
+ If tag="Zip" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   Set exists("Zip")=1
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('##class(FCE.RealEstate).ZipIsValid(data)) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Zip=data
+   Goto XMLLOOP } }
+ Goto XMLImportBadTagchild
+XMLImportBadTagchild Set inner=child
+XMLImportBadTag Quit $$Error^%apiOBJ(6237,tag_$$XMLImportLocation(inner))
+XMLImportBadTypenode Set inner=node Goto XMLImportBadType
+XMLImportBadTypechild Set inner=child
+XMLImportBadType Quit $$Error^%apiOBJ(6277,class,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)))_$$XMLImportLocation(inner))
+XMLImportErrnode Set inner=node Goto XMLImportErr
+XMLImportErrchild Set inner=child
+XMLImportErr
+ Set data=##class(%XML.ImportHandler).GetNextChild(tree,inner,"")
+ If (data'="") {
+   If ($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))#16)'=0 {
+     Quit $$Error^%apiOBJ(6232,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner),$extract(@(tree)@("d",($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))\16)),1,200))
+   } Else {
+     Quit $$Error^%apiOBJ(6253,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner),@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))\16)),9)))
+   }
+ } Else {
+   Quit $$Error^%apiOBJ(6252,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner))
+ }
+XMLImportIdErr Set sc=$$Error^%apiOBJ(6236,id,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner)) Quit sc
+XMLImportMalformed Set sc=$$Error^%apiOBJ(6233,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)))_$$XMLImportLocation(inner)) Quit sc
+XMLImportMalformedNoTag Set node=$select($piece(inner,",",1)<=0:0,1:$zlascii(@(tree)@($piece(inner,",",1)),1)_","_$zlascii(@(tree)@($piece(inner,",",1)),5)),sc=$$Error^%apiOBJ(6254,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16))),$select(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)))_$$XMLImportLocation(node)) Quit sc
+XMLImportNSchild Set inner=child
+XMLImportNS Set sc=$$Error^%apiOBJ(6235,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner)) Quit sc
+XMLImportLocation(node) new msg,loc
+ Set loc=$lb($zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),21),$zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),25))
+ If loc="" Quit ""
+ Set msg=$get(^%qMsg("%ObjectErrors",$s(""'="":$zcvt("","L"),1:$s($mvv(58)="":"en",1:$mvv(58))),"XMLImportLocation")," (%1,%2)")
+ Quit $$FormatText^%occMessages(msg,$listget(loc,1),$listget(loc,2))
+XMLImportInternalTrap Set $ztrap=""
+ Set loc=$select($ZE["<CLASS DOES NOT EXIST>":" for element "_tag_$$XMLImportLocation(child),1:"")
+ Quit $$Error^%apiOBJ(5002,$ZE_loc)
+XMLImportIdChild() Set inner=child,innerlist=childlist,tmp=$$XMLImportId(),child=inner,childlist=innerlist Quit tmp
+XMLImportId() ;
+ Do XMLImportAttrinner()
+ If $data(attributeList("href")) {
+   Set id=$case($data(@(tree)@("d",$zlascii(attributeList("href"),13))),1:@(tree)@("d",$zlascii(attributeList("href"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("href")))
+   If $extract(id)="#" {
+     Set tmp=$select($get(@(tree)@("i",$extract(id,2,*)))="":"",1:$piece(@(tree)@("i",$extract(id,2,*)),",",1)_","_$piece(@(tree)@("i",$extract(id,2,*)),",",2)) If tmp="" Goto XMLImportIdErr
+     Set inner=tmp
+     Set descriptor=$zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2)) Set innerlist=@(tree)@((descriptor\16))
+   }
+ } ElseIf $data(attributeList("ref")),($get(@(tree)@("n",$zwascii(attributeList("ref"),9)))="http://www.w3.org/2003/05/soap-encoding") {
+   Set id=$case($data(@(tree)@("d",$zlascii(attributeList("ref"),13))),1:@(tree)@("d",$zlascii(attributeList("ref"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("ref")))
+   Set tmp=$select($get(@(tree)@("i",id))="":"",1:$piece(@(tree)@("i",id),",",1)_","_$piece(@(tree)@("i",id),",",2)) If tmp="" Goto XMLImportIdErr
+   Set inner=tmp
+   Set descriptor=$zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2)) Set innerlist=@(tree)@((descriptor\16))
+ } ElseIf '$data(attributeList("id")) {
+   Quit 0
+ }
+ Quit $data(idlist(inner))
+XMLImportAttrnode()
+ If $get(attributeList)=node Quit
+ Kill attributeList
+ Set attributeList=node
+ Set offset=29 While offset<$zwascii(nodelist,17) { Set attribute=$extract(nodelist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+XMLImportAttrchild()
+ If $get(attributeList)=child Quit
+ Kill attributeList
+ Set attributeList=child
+ Set offset=29 While offset<$zwascii(childlist,17) { Set attribute=$extract(childlist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+XMLImportAttrinner()
+ If $get(attributeList)=inner Quit
+ Kill attributeList
+ Set attributeList=inner
+ Set offset=29 While offset<$zwascii(innerlist,17) { Set attribute=$extract(innerlist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+zXMLNew(document,node,containerOref="") methodimpl
+	Quit (##class(FCE.RealEstate).%New())
+zXMLSchema(top="",format="",namespacePrefix="",input=0,refOnly=0,schema) methodimpl
+ Quit ##class(%XML.Implementation).XMLSchema("FCE.RealEstate",top,format,namespacePrefix,input,refOnly,.schema)
+CityGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^FCE.RealEstateD(id)),3),1:"") }
+StateGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^FCE.RealEstateD(id)),4),1:"") }
+StreetGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^FCE.RealEstateD(id)),2),1:"") }
+ZipGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^FCE.RealEstateD(id)),5),1:"") }
+ExtentClose(%qHandle) [ SQLCODE ] methodimpl {
+	New SQLCODE Set SQLCODE=0
+	Do:$isobject($get(%qHandle)) %qHandle.%Destruct() Kill %qHandle
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentExecute(%qHandle) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set sc=1
+	 ;---&sql(DECLARE QExtent CURSOR FOR
+ 	 ;---		 SELECT ID FROM %NOPARALLEL FCE.RealEstate)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	 
+	 ;---&sql(OPEN QExtent)
+	if $g(%qHandle)'="" { s SQLCODE=-101 } else { try { s %qHandle="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EBCsJXy3LnUJvzEY64LJoBKxrCX",%qHandle=$classmethod(%qHandle,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%qHandle)),$ze'["<ZSQLU>" { throw } } if '$isobject(%qHandle) { s %qHandle=$$%0dsqlD() } }
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5821,"SQLCODE = "_SQLCODE_" %msg = "_$g(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentFetch(%qHandle,Row,AtEnd=0) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set Row="",AtEnd=0
+	 ;---&sql(FETCH QExtent INTO :c1)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+	If 'SQLCODE { Set Row=$lb(c1) Set sc=1 }
+	ElseIf SQLCODE=100 { Set AtEnd=1,sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) }
+	Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set AtEnd=1,sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	QUIT sc }
+ExtentFetchRows(%qHandle,FetchCount=0,RowSet,ReturnCount,AtEnd) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set RowSet="",ReturnCount=0,AtEnd=0
+	For {
+		 ;---&sql(FETCH QExtent INTO :c1)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+		if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+		If 'SQLCODE { Set RowSet=RowSet_$lb(c1),ReturnCount=ReturnCount+1 Quit:(ReturnCount=FetchCount)||(($l(RowSet)+($l(RowSet)\ReturnCount))>30000) } Else { Set AtEnd=1 Quit }
+	}
+	If 'SQLCODE { Set sc=1 } ElseIf SQLCODE=100 { Set sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) } Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	Quit sc }
+ExtentSendODBC(%qHandle,array,qacn,%qrc,piece,ColumnCount) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set %qrc=0,piece=0
+	for {
+		set rc=..ExtentFetch(.%qHandle,.row,.atend)
+		if ('rc) { set %qrc=-400 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=-400,%sqlcontext.Message=$g(%msg) do ProcessError^%ourProcedure(rc,$get(%sqlcontext),.%qrc,.%msg),Logerr^%SYS.SQLSRV(%qrc,"","SP",.%msg) RETURN  }
+		if row="" { set %qrc=100 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=100 RETURN  }
+		RETURN:$zobjexport(row,60)
+	}
+	RETURN }
+ q
+%0dsqlD()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE QExtent CURSOR FOR SELECT ID "
+	s %xxsql("S",2)="INTO  :i%sqlcol1"
+	s %xxsql("S",3)="FROM %NOPARALLEL FCE . RealEstate"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","SOAP12ENCns")="0"_$c(1,1)_"0"_$c(1)_"""http://www.w3.org/2003/05/soap-encoding"""
+	s %xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1),%xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1)
+	s %xxsql("I","%PVA")="",%xxsql("I","%callout")="",%xxsql("I","%jsonMap")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Runtime","","","FCE",0,"",),",1,QExtent,","FCE.RealEstate.CLS",1)
+	q %xxoref
+ExtentFunc() methodimpl {
+	try {
+		set tSchemaPath = ##class(%SQL.Statement).%ClassPath($classname())
+			set tStatement = ##class(%SQL.Statement).%New(,tSchemaPath)
+			do tStatement.prepare(" SELECT ID FROM %NOPARALLEL FCE . RealEstate /*#OPTIONS {""DynamicSQL"":1} */")
+		set tResult = tStatement.%Execute()
+	}
+	catch tException { if '$Isobject($Get(tResult)) { set tResult = ##class(%SQL.StatementResult).%New() } set tResult.%SQLCODE=tException.AsSQLCODE(),tResult.%Message=tException.AsSQLMessage() }
+	Quit tResult }
+ExtentGetInfo(colinfo,parminfo,idinfo,%qHandle,extoption=0,extinfo) methodimpl {
+ s parminfo=""
+	s:'($d(^oddCOM($classname(),"q","Extent",21),clientinfo)#2)&&'$s($d(^(2),clientinfo)#2&&(clientinfo'=$classname()):$d(^oddCOM(clientinfo,"q","Extent",21),clientinfo)#2||($d(^oddDEF(clientinfo,"q","Extent",21),clientinfo)#2),1:$d(^oddDEF($classname(),"q","Extent",21),clientinfo)#2) clientinfo=""
+	Set:extoption extinfo=$s($d(^oddCOM($classname(),"q","Extent",38))#2:^(38),$d(^oddCOM($g(^(2),$classname()),"q","Extent",38))#2:^(38),1:$s($d(^oddDEF($g(^oddCOM($classname(),"q","Extent",2),$classname()),"q","Extent",38))#2:^(38),1:""))
+	If clientinfo'="" Set colinfo=$listget(clientinfo,1),parminfo=$listget(clientinfo,2),idinfo=$listget(clientinfo,3) Quit 1
+	Set colinfo="",parminfo="",idinfo=$listbuild(0)
+	Set sc=$$externaltype^%apiOLE("%Library.Integer",.exttypes,"0")
+	Quit:('sc) sc
+	s:'($d(^oddCOM($classname(),"q","Extent",23),names)#2)&&'$s($d(^(2),names)#2&&(names'=$classname()):$d(^oddCOM(names,"q","Extent",23),names)#2||($d(^oddDEF(names,"q","Extent",23),names)#2),1:$d(^oddDEF($classname(),"q","Extent",23),names)#2) names=""
+	s:'($d(^oddCOM($classname(),"q","Extent",22),captions)#2)&&'$s($d(^(2),captions)#2&&(captions'=$classname()):$d(^oddCOM(captions,"q","Extent",22),captions)#2||($d(^oddDEF(captions,"q","Extent",22),captions)#2),1:$d(^oddDEF($classname(),"q","Extent",22),captions)#2) captions=""
+	For i=1:1:1 Set colinfo=colinfo_$listbuild($listbuild($listget(names,i),$piece(exttypes,",",i),$listget(captions,i)))
+	Set idinfo=$listbuild(1,$classname())
+	s ^oddCOM($classname(),"q","Extent",21)=$listbuild(colinfo,parminfo,idinfo)
+	Quit 1 }
+zExtentGetODBCInfo(colinfo,parminfo,qHandle) methodimpl
+	Set metadata=$lb(1,1,"ID",4,10,0,2,"ID","RealEstate","FCE","",$c(0,0,0,0,0,0,0,0,0,0,0,1,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	Set colinfo=$li(metadata,2,2+cmdlen)
+	Quit 1
+IDKEYCheck(K1,lockonly=0,concurrency=-1) methodimpl {
+	s id=K1,exists=..%ExistsId(id) q:'exists $s('lockonly:$$Error^%apiOBJ(5797,$classname(),"IDKEY",id),1:1) s:concurrency=-1 concurrency=$select(..#DEFAULTCONCURRENCY="$zu(115,10)":$zu(115,10),1:$xecute("q "_..#DEFAULTCONCURRENCY)) if concurrency { s status=..%LockId(id,1) q:('status) status } if 'lockonly { s exists=..%ExistsId(id) d:concurrency ..%UnlockId(id,1,0) quit $s('exists:$$Error^%apiOBJ(5797,$classname(),"IDKEY",id),1:1) } else { d:concurrency ..%UnlockId(id,1,0) q 1 }
+}
+IDKEYDelete(K1,concurrency=-1) methodimpl {
+	Quit ..%DeleteId(.K1,concurrency) }
+IDKEYExists(K1,id="") methodimpl {
+	s id=K1 q ..%ExistsId(K1) }
+IDKEYOpen(K1,concurrency=-1,sc) methodimpl { s:'($d(sc)#2) sc=1
+	Quit ..%OpenId(.K1,concurrency,.sc) }
+zIDKEYSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLCheckUnique")
+zIDKEYSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key IDKEY.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"FCE"_"."_"RealEstate"_":"_"IDKEY") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv=$d(^FCE.RealEstateD(%pVal(1))) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+zIDKEYSQLFindPKeyByConstraint(%con) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLFindPKeyByConstraint")
+zIDKEYSQLFindRowIDByConstraint(%con,pInternal=0) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLFindRowIDByConstraint")
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlD")=""
+}

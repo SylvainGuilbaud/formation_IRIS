@@ -1,0 +1,9 @@
+ROUTINE FCE.PhoneNumber.1 [Type=INT,Generated]
+ ;FCE.PhoneNumber.1
+ ;Generated for class FCE.PhoneNumber.  Do NOT edit. 08/14/2023 08:17:19AM
+ ;;46474853;FCE.PhoneNumber
+ ;
+IsValid(%val) methodimpl {
+	Q $s(($l(%val)'>50)&&(%val?3n1"-"3n1"-"4n):1,$l(%val)>50:$$Error^%apiOBJ(7201,%val,50),1:$$Error^%apiOBJ(7209,%val,"3n1""-""3n1""-""4n")) }
+LogicalToDisplay(phone) methodimpl {
+	return "(" _ $piece(phone, "-") _ ")-" _ $piece(phone, "-", 2, 3) }

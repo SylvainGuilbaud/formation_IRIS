@@ -1,0 +1,17 @@
+ROUTINE unittests.dictionary.checks.checkClassDefinition.1 [Type=INT,Generated]
+ ;unittests.dictionary.checks.checkClassDefinition.1
+ ;Generated for class unittests.dictionary.checks.checkClassDefinition.  Do NOT edit. 08/16/2023 04:18:01PM
+ ;;2B2B7046;unittests.dictionary.checks.checkClassDefinition
+ ;
+TestKO() methodimpl {
+    Do ..AssertEqualsViaMacro("'##class(%Dictionary.ClassDefinition).%ExistsId(""data.commande""), 0",'##class(%Dictionary.ClassDefinition).%ExistsId("data.commande"), 0)
+    set a = ##class(%Dictionary.ClassDefinition).%OpenId("data.commande")
+    if $ISOBJECT(a) {
+        Do ..AssertEqualsViaMacro("'(a.Super = ""%Persistent,%Populate,%JSON.Adaptor,%XML.Adaptor"") , 0",'(a.Super = "%Persistent,%Populate,%JSON.Adaptor,%XML.Adaptor") , 0)
+    } }
+TestOK() methodimpl {
+    Do ..AssertEqualsViaMacro("##class(%Dictionary.ClassDefinition).%ExistsId(""data.commande""), 1",##class(%Dictionary.ClassDefinition).%ExistsId("data.commande"), 1)
+    set a = ##class(%Dictionary.ClassDefinition).%OpenId("data.commande")
+    if $ISOBJECT(a) {
+        Do ..AssertEqualsViaMacro("a.Super = ""%Persistent,%Populate,%JSON.Adaptor,%XML.Adaptor"" , 1",a.Super = "%Persistent,%Populate,%JSON.Adaptor,%XML.Adaptor" , 1)
+    } }

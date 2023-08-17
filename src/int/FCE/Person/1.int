@@ -1,0 +1,132 @@
+ROUTINE FCE.Person.1 [Type=INT,Generated]
+ ;FCE.Person.1
+ ;Generated for class FCE.Person.  Do NOT edit. 08/14/2023 08:17:28AM
+ ;;49493934;FCE.Person
+ ;
+zXMLDTD(top,format,input,dtdlist) methodimpl
+ Quit ##class(%XML.Implementation).XMLDTD("FCE.Person",.top,.format,.input,.dtdlist)
+zXMLGetSchemaImports(imports,classes) methodimpl
+ Quit ##class(%XML.Implementation).XMLGetSchemaImports("FCE.Person",.imports,.classes)
+zXMLIsObjectEmpty(ignoreNull) methodimpl
+ If ..Name'="" Quit 0
+ If ..PrintName'="" Quit 0
+ If ..Email'="" Quit 0
+ If ..DOB'="" Quit 0
+ If '..Home.XMLIsObjectEmpty() Quit 0
+ If '..Work.XMLIsObjectEmpty() Quit 0
+ Quit 1
+zXMLNew(document,node,containerOref="") methodimpl
+	Quit (##class(FCE.Person).%New())
+zXMLSchema(top="",format="",namespacePrefix="",input=0,refOnly=0,schema) methodimpl
+ Quit ##class(%XML.Implementation).XMLSchema("FCE.Person",top,format,namespacePrefix,input,refOnly,.schema)
+DOBDisplayToLogical(%val) methodimpl {
+ q:%val=""||($zu(115,13)&&(%val=$c(0))) "" quit:$isvalidnum(%val,0,-672045,2980013) %val set %val=$zdateh(%val,5,,,,,-672045,,"Error: '"_%val_"' is an invalid DISPLAY Date value") q:%val||(%val=0) %val s %msg=%val ZTRAP "ODAT" }
+DOBIsValid(%val) methodimpl {
+	Q $s($zu(115,13)&&(%val=$c(0)):1,$isvalidnum(%val,0,-672045,+$h):1,'$isvalidnum(%val):$$Error^%apiOBJ(7207,%val),%val<-672045:$$Error^%apiOBJ(7204,%val,-672045),1:$$Error^%apiOBJ(7203,%val,+$h)) }
+DOBLogicalToDisplay(%val) methodimpl {
+	Quit $select(%val="":"",%val'?0.1"-"4N1"-"2N1"-"2N.1(1" "2N1":"2N1":"2N.1(1"."0.9N)):$zdate(%val,5,,4,,,-672045),1:$$FormatJulian^%qarfunc(%val,5)) }
+DOBLogicalToOdbc(%val="") methodimpl {
+	Quit $select(%val="":"",%val'?0.1"-"4N1"-"2N1"-"2N.1(1" "2N1":"2N1":"2N.1(1"."0.9N)):$zdate(%val,3,,,,,-672045),1:$piece(%val," ",1)) }
+DOBLogicalToXSD(%val) methodimpl {
+   quit $select(%val="":"",1:$zdate(%val,3,,,,,-672045)) }
+DOBNormalize(%val) methodimpl {
+   Quit $s($zu(115,13)&&(%val=$c(0)):"",1:%val\1) }
+DOBOdbcToLogical(%val="") methodimpl {
+ quit:%val=""||($zu(115,13)&&(%val=$c(0))) "" quit:$isvalidnum(%val,0,-672045,2980013) %val set %val=$zdateh(%val,3,,,,,-672045,,"Error: '"_%val_"' is an invalid ODBC/JDBC Date value") q:%val||(%val=0) %val s %msg=%val ZTRAP "ODAT" }
+DOBXSDToLogical(%val) methodimpl {
+   Set len=$length(%val)
+   If len'=10 {
+       If $extract(%val,len)="Z" {
+           Set %val=$extract(%val,1,len-1),len=len-1
+       } ElseIf $case($extract(%val,len-5),"+":1,"-":1,:0) {
+           Set %val=$extract(%val,1,len-6),len=len-6
+       }
+   }
+   If $extract(%val,11,19)="T00:00:00" {
+       If (len=19)||(($extract(%val,20,21)=".0")&&($translate($extract(%val,22,len),"0","")="")) {
+           Set %val=$extract(%val,1,10)
+       }
+   }
+   Quit $select(%val="":"",1:$zdateh(%val,3,,,,,-672045,+$h,"")) }
+HomeGetObject(force=0) methodimpl {
+	Quit $select(r%Home=""&&($data(i%Home)):$select(i%Home="":"",1:$listbuild(i%Home_"")),(''..Home.%GetSwizzleObject(force,.oid)):oid,1:"") }
+HomeGetObjectId(force=0) methodimpl {
+	Quit $listget(..HomeGetObject(force)) }
+HomeGetSwizzled(noswizzle=0) methodimpl {
+	If noswizzle Quit r%Home
+	If '$data(i%Home) Set modstate=$system.CLS.GetSModifiedBits() Set oref=..HomeNewObject() Do $system.CLS.SetSModifiedBits(modstate) Set r%Home=0,r%Home=oref Quit oref
+	Set oref=##class(FCE.MailingAddress).%Open($select(i%Home="":"",1:$listbuild(i%Home_"")),,.sc) If ('sc) Do:$get(^%SYS("ThrowSwizzleError"),0) $zutil(96,3,19,1) Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%Home=oref Do $system.CLS.SetModifiedBits(modstate)
+	Quit oref }
+HomeIsEmpty() methodimpl {
+	Quit $listget(..HomeGetObject(1))="" }
+HomeNewObject() methodimpl {
+	Set newobject=##class(FCE.MailingAddress).%New() If newobject="" Quit ""
+	Set ..Home=newobject
+	Quit newobject }
+HomeSet(newvalue) methodimpl {
+	If newvalue="" {
+		Kill i%Home,r%Home Set r%Home=""
+	} Else {
+		If '$isobject(newvalue) { Quit $$Error^%apiOBJ(5807,newvalue) } If r%Home=newvalue { Quit 1 }
+		Set r%Home=0,i%Home=0,r%Home=newvalue,i%Home=""
+	}
+	Quit 1 }
+HomeSetObject(newvalue) methodimpl {
+	If newvalue'="",$data(i%Home,tmp),tmp=$listget(newvalue) Quit 1
+	Set i%Home=$listget(newvalue),r%Home=0,r%Home=""
+	Quit 1 }
+HomeSetObjectId(newid) methodimpl {
+	Quit ..HomeSetObject($select(newid="":"",1:$listbuild(newid_""))) }
+HomeUnSwizzle(force=0) methodimpl {
+	If r%Home="",$data(i%Home) Quit 1
+	Set sc=..Home.%GetSwizzleObject(force,.newvalue) Quit:('sc) sc
+	Set modstate=$system.CLS.GetModifiedBits() Set r%Home="" Do $system.CLS.SetModifiedBits(modstate)
+	Set i%Home=$listget(newvalue)
+	Quit 1 }
+zPrintNameCompute(%id,%d1) methodimpl
+	New %tException,%val set %val = ""
+	try {
+	 set %val=$piece(%d1,",",2)_" "_$piece(%d1,",",1)
+	} catch %tException { throw %tException }
+	Quit %val
+PrintNameGet() methodimpl {
+	Quit ..PrintNameCompute("",..Name) }
+zPrintNameSQLCompute() methodimpl
+	Quit
+WorkGetObject(force=0) methodimpl {
+	Quit $select(r%Work=""&&($data(i%Work)):$select(i%Work="":"",1:$listbuild(i%Work_"")),(''..Work.%GetSwizzleObject(force,.oid)):oid,1:"") }
+WorkGetObjectId(force=0) methodimpl {
+	Quit $listget(..WorkGetObject(force)) }
+WorkGetSwizzled(noswizzle=0) methodimpl {
+	If noswizzle Quit r%Work
+	If '$data(i%Work) Set modstate=$system.CLS.GetSModifiedBits() Set oref=..WorkNewObject() Do $system.CLS.SetSModifiedBits(modstate) Set r%Work=0,r%Work=oref Quit oref
+	Set oref=##class(FCE.MailingAddress).%Open($select(i%Work="":"",1:$listbuild(i%Work_"")),,.sc) If ('sc) Do:$get(^%SYS("ThrowSwizzleError"),0) $zutil(96,3,19,1) Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%Work=oref Do $system.CLS.SetModifiedBits(modstate)
+	Quit oref }
+WorkIsEmpty() methodimpl {
+	Quit $listget(..WorkGetObject(1))="" }
+WorkNewObject() methodimpl {
+	Set newobject=##class(FCE.MailingAddress).%New() If newobject="" Quit ""
+	Set ..Work=newobject
+	Quit newobject }
+WorkSet(newvalue) methodimpl {
+	If newvalue="" {
+		Kill i%Work,r%Work Set r%Work=""
+	} Else {
+		If '$isobject(newvalue) { Quit $$Error^%apiOBJ(5807,newvalue) } If r%Work=newvalue { Quit 1 }
+		Set r%Work=0,i%Work=0,r%Work=newvalue,i%Work=""
+	}
+	Quit 1 }
+WorkSetObject(newvalue) methodimpl {
+	If newvalue'="",$data(i%Work,tmp),tmp=$listget(newvalue) Quit 1
+	Set i%Work=$listget(newvalue),r%Work=0,r%Work=""
+	Quit 1 }
+WorkSetObjectId(newid) methodimpl {
+	Quit ..WorkSetObject($select(newid="":"",1:$listbuild(newid_""))) }
+WorkUnSwizzle(force=0) methodimpl {
+	If r%Work="",$data(i%Work) Quit 1
+	Set sc=..Work.%GetSwizzleObject(force,.newvalue) Quit:('sc) sc
+	Set modstate=$system.CLS.GetModifiedBits() Set r%Work="" Do $system.CLS.SetModifiedBits(modstate)
+	Set i%Work=$listget(newvalue)
+	Quit 1 }

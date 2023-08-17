@@ -1,0 +1,65 @@
+ROUTINE FCE.Operations.Branch.1 [Type=INT,Generated]
+ ;FCE.Operations.Branch.1
+ ;Generated for class FCE.Operations.Branch.  Do NOT edit. 08/14/2023 08:17:19AM
+ ;;4B505167;FCE.Operations.Branch
+ ;
+GetAmountOutAndFee(amountIn,exchangeRate,fee,amountOut) methodimpl { s:'$isobject($g(%sqlcontext)) %sqlcontext=##class(%Library.ProcedureContext).%New()
+	set fee = amountIn * ..#FEERATE
+	set amountOut = (amountIn - fee) * exchangeRate
+	return 1 }
+ProcessOrder(order,payment,account="",message) methodimpl {
+	if $IsObject(account) { set order.AccountHolder = account }
+	set UTCTimeStamp = $system.SYS.TimeStamp()
+	set order.DateStamp = $p(UTCTimeStamp, ",", 1)
+	set order.TimeStamp = $p(UTCTimeStamp, ",", 2)
+	set status = 1, message = "" // initialize
+	// check that account has valid and sufficient currency
+	if $IsObject(account) &&
+	       ( (account.Currency '= order.CurrencyIn) ||
+	         (account.Balance < order.AmountIn) ) {
+		set order.Status = "Rejected"
+	}
+	else {
+		tstart // start a nested transaction
+		set status = payment.Process(order, .message)
+		if ('status)
+		{
+			set order.Status = "Problem"
+			trollback 1
+		}
+		else {
+			set order.Payment = payment
+			set order.Status = "Completed"
+			tcommit
+		}
+	}
+	set orderSaved = order.%Save()
+	set finalStatus = $select(+status: orderSaved,1:$$AppendStatus^%occSystem(status, orderSaved))
+	if (('finalStatus)) {return finalStatus}
+	else {
+		do ..SendConfirmation(order)
+		return 1
+	} }
+SendConfirmation(order) methodimpl {
+	//disabled for now; comment following line to enable
+	return 1
+	// define an smtp server
+	set mailServer = ##class(%Net.SMTP).%New()
+	set mailServer.smtpserver = "localhost" ; use MailSlurper in ReadyTech VM by default
+	set mailServer.timezone = "-0500"  ; your timezone
+	// define a message
+	set message = ##class(%Net.MailMessage).%New()
+	set message.Subject = "Confirmation of " _ order.Status _ " currency exchange"
+	set message.From = "auto-confirm@fcxbank.com"
+	do message.To.Insert(order.RequestorEmail)
+	// add text
+	set line(1) = "Hello " _ order.Requestor
+	set line(2) = $c(13,10) _ $c(13,10) _ "Your exchange of " _ order.AmountIn _ " " _ order.CurrencyIn
+	set line(3) = $c(13,10) _ $justify("for ",17) _ order.AmountOut _ " " _ order.CurrencyOut
+	set line(4) = $c(13,10) _ "has been " _ order.Status _ "."
+	for i=1:1:4 {
+		do message.TextData.Write(line(i))
+	}
+	// send the email
+	set status = mailServer.Send(message)
+	return status }

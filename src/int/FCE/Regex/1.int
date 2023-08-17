@@ -1,0 +1,16 @@
+ROUTINE FCE.Regex.1 [Type=INT,Generated]
+ ;FCE.Regex.1
+ ;Generated for class FCE.Regex.  Do NOT edit. 08/14/2023 08:17:19AM
+ ;;74544F53;FCE.Regex
+ ;
+IsValid(%val) methodimpl {
+	if (..#REGEX '= "") {
+		try {
+			if '$match(%val, ..#REGEX) {
+				return $$Error^%apiOBJ(7209, %val, ..#REGEX)
+			}
+		} catch Ex {
+			return $$Error^%apiOBJ(8311)
+		}
+	}
+	return 1 }

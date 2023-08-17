@@ -1,0 +1,15 @@
+ROUTINE FCE.CurrencyName.1 [Type=INT,Generated]
+ ;FCE.CurrencyName.1
+ ;Generated for class FCE.CurrencyName.  Do NOT edit. 08/14/2023 08:17:19AM
+ ;;646C722B;FCE.CurrencyName
+ ;
+DisplayToLogical(%val) methodimpl {
+	RETURN $case(%val,"US Dollars":"USD","Euros":"EUR","Indian Rupees":"INR","Great British Pounds":"GBP","Japanese Yen":"JPY","Mexican Pesos":"MXN","South African Rands":"ZAR","Brazilian Reais":"BRL","Canadian Dollars":"CAD","Swiss Francs":"CHF",:%val) }
+IsValid(%val) methodimpl {
+	Quit $select(%val'["-"&&("-USD-EUR-INR-GBP-JPY-MXN-ZAR-BRL-CAD-CHF-"[("-"_%val_"-")):1,1:$$Error^%apiOBJ(7205,%val,"-USD-EUR-INR-GBP-JPY-MXN-ZAR-BRL-CAD-CHF")) }
+LogicalToDisplay(%val) methodimpl {
+	RETURN $case(%val,"USD":"US Dollars","EUR":"Euros","INR":"Indian Rupees","GBP":"Great British Pounds","JPY":"Japanese Yen","MXN":"Mexican Pesos","ZAR":"South African Rands","BRL":"Brazilian Reais","CAD":"Canadian Dollars","CHF":"Swiss Francs",:%val) }
+LogicalToOdbc(%val) methodimpl {
+	RETURN $case(%val,"USD":"US Dollars","EUR":"Euros","INR":"Indian Rupees","GBP":"Great British Pounds","JPY":"Japanese Yen","MXN":"Mexican Pesos","ZAR":"South African Rands","BRL":"Brazilian Reais","CAD":"Canadian Dollars","CHF":"Swiss Francs",:%val) }
+OdbcToLogical(%val) methodimpl {
+	RETURN $case(%val,"US Dollars":"USD","Euros":"EUR","Indian Rupees":"INR","Great British Pounds":"GBP","Japanese Yen":"JPY","Mexican Pesos":"MXN","South African Rands":"ZAR","Brazilian Reais":"BRL","Canadian Dollars":"CAD","Swiss Francs":"CHF",:%val) }
