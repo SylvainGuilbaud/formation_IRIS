@@ -1,6 +1,7 @@
 Class temp.python
 {
 
+/// This method doesn't return ByRef/Output parameters
 ClassMethod production() As %Status [ Language = python ]
 {
 import os
@@ -16,6 +17,7 @@ print("Status: {}".format(status))
 print("Success? -- {}".format(productionState != None))
 }
 
+/// This method returns ByRef/Output parameters correctly through iris.ref
 ClassMethod production2() As %Status [ Language = python ]
 {
 import os
