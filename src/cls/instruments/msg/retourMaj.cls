@@ -1,0 +1,4 @@
+Class instruments.msg.retourMaj
+{
+
+}
