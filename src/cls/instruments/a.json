@@ -1,0 +1,91 @@
+{
+    "nInstrument": "instrument",
+    "nTypeArticle": "nTypeArticle",
+    "nTypeMaj": "nTypeMaj",
+    "sDateAnalyse": "sDateAnalyse",
+    "sOperateur": "sOperateur",
+    "sCodeEchantillon": "sCodeEchantillon",
+    "tTests": [
+        15600.95455,
+        7407.9386,
+        4518.54762,
+        8975.9,
+        9714.5,
+        7580.76316,
+        10973.54054
+    ]
+}
+{
+    "nInstrument": "instrument",
+    "nTypeArticle": "nTypeArticle",
+    "nTypeMaj": "nTypeMaj",
+    "sDateAnalyse": "sDateAnalyse",
+    "sOperateur": "sOperateur",
+    "sCodeEchantillon": "sCodeEchantillon",
+    "tTests": [
+        {
+            "mesure": 7045.30579
+        },
+        {
+            "mesure": 7371.05806
+        },
+        {
+            "mesure": 2431.24064
+        },
+        {
+            "mesure": 28388.86486
+        }
+    ]
+}
+
+{
+    "nInstrument": "instrument",
+    "nTypeArticle": "nTypeArticle",
+    "nTypeMaj": "nTypeMaj",
+    "sDateAnalyse": "sDateAnalyse",
+    "sOperateur": "sOperateur",
+    "sCodeEchantillon": "sCodeEchantillon",
+    "tTests": {
+        "1": {
+            "mesure": 7045.30579
+        },
+        "2": {
+            "mesure": 7371.05806
+        },
+        "3": {
+            "mesure": 2431.24064
+        },
+        "4": {
+            "mesure": 28388.86486
+        }
+    }
+}
+
+{
+    "nInstrument": "instrument",
+    "nTypeArticle": "nTypeArticle",
+    "nTypeMaj": "nTypeMaj",
+    "sDateAnalyse": "sDateAnalyse",
+    "sOperateur": "sOperateur",
+    "sCodeEchantillon": "sCodeEchantillon",
+    "tTests": {
+        "1": {
+            "mesure": 8984.20106
+        },
+        "2": {
+            "mesure": 10207.51111
+        },
+        "3": {
+            "mesure": 16730.55814
+        },
+        "4": {
+            "mesure": 1995.74011
+        },
+        "5": {
+            "mesure": 6063.47541
+        },
+        "6": {
+            "mesure": 13299.33333
+        }
+    }
+}
