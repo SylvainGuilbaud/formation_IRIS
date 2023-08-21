@@ -5,9 +5,9 @@ Property nInstrument As %String;
 
 Property nTypeArticle As %String;
 
-Property nTypeMaj As %String;
+Property nTypeMaj As %String [ InitialExpression = {$zdt($h,3)} ];
 
-Property sDateAnalyse As %String;
+Property sDateAnalyse As %Date [ InitialExpression = {+$h} ];
 
 Property sOperateur As %String;
 
