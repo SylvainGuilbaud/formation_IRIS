@@ -9,6 +9,7 @@ Method importerAnalyses(pRequest As instruments.msg.analyses, Output pResponse A
         Set tHttpResponse = ##class(%Net.HttpResponse).%New()
  
         /// Methode plus simple à écrire :
+        /// si tPayload < 3.6Mo
         Set sc = pRequest.%JSONExportToString(.tPayload)
 
         Set tHttpRequest.ContentType = "application/json"
@@ -21,9 +22,12 @@ ClassMethod a(pRequest As instruments.msg.analyses) As %Status
         Set sc = $$$OK
  
         /// Methode plus simple à écrire :
+        /// si tPayload < 3.6Mo
+
         Set sc = pRequest.%JSONExportToString(.tPayload)
         
         #; write !!,"payload:",!,tPayload,!
+
         write !!,"size:",!,$LENGTH(tPayload),!
         set now = $translate($zdt($h,3)," :","__")
         set file = ##class(%File).%New("/data/instruments_"_now_".json")
