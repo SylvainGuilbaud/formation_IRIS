@@ -3,11 +3,11 @@ Class common.tasks.export Extends %SYS.Task.Definition
 
 Property directory As %VarString [ InitialExpression = "/tmp/", Required ];
 
-Property classname As %VarString[ InitialExpression = "Sample.Person", Required ];
+Property classname As %VarString [ InitialExpression = "Sample.Person", Required ];
 
-Property format As %String(VALUELIST = ",CSV,JSON,XML")[ InitialExpression = "CSV", Required ];
+Property format As %String(VALUELIST = ",CSV,JSON,XML") [ InitialExpression = "CSV", Required ];
 
-Property minID As %Integer(MINVAL = 1) [ InitialExpression = 1 , Required];
+Property minID As %Integer(MINVAL = 1) [ InitialExpression = 1, Required ];
 
 Property maxID As %Integer;
 

@@ -1,7 +1,6 @@
 Class instruments.msg.analyses Extends (Ens.Request, %JSON.Adaptor)
 {
 
-
 Property nInstrument As %String;
 
 Property nTypeArticle As %String;
