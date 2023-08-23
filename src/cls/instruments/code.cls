@@ -1,4 +1,4 @@
-Class instruments.code Extends Ens.BusinessOperation
+Class instruments.code Extends EnsLib.REST.Operation
 {
 
 /// Description
@@ -24,6 +24,8 @@ ClassMethod sendJSON() As %Status
 {
     Set sc = $$$OK
 
+    #; set a = ..%New("test")
+
     set json={
         "retours":[
             {
@@ -40,7 +42,10 @@ ClassMethod sendJSON() As %Status
             }
         ]
     }
+
     set sc = ..parseJSON(json)
+
+   
     
     Return sc
 }

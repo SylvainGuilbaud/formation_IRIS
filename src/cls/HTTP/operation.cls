@@ -24,14 +24,18 @@ Method gender(pRequest As HTTP.msg.genderRequest, Output pResponse As HTTP.msg.g
         
         #; $$$ThrowOnError(..Adapter.GetURL(..Adapter.HTTPServer,.pHttpResponse))
         $$$ThrowOnError(..Adapter.SendFormDataArray(.httpResponse,"GET",httpRequest,,,url))
-        set sc = ..JSONStreamToObject(httpResponse.Data, .json)
-       
+
+        #; set sc = ..JSONStreamToObject(httpResponse.Data, .json) ; retourne un %ZEN.proxyObject (deprecated)
+        #; set sc = json.SaveDocument("^aTRACE",$INCREMENT(^aTRACE))
+        set json={}.%FromJSON(httpResponse.Data)
+        $$$TRACE(json.%ClassName(1))
+
+        $$$TRACE(json.%ToJSON())
         set pResponse.name=json.name
         set pResponse.gender=json.gender
         set pResponse.probability=json.probability
         set pResponse.count=json.count
-
-        $$$TRACE(json.%ToJSON())
+      
         $$$TRACE("gender of :" _ pRequest.firstName _ " is " _ pResponse.gender)
 
 	} catch exp{
