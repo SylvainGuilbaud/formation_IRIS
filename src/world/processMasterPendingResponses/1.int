@@ -1,0 +1,385 @@
+ROUTINE world.processMasterPendingResponses.1 [Type=INT,Generated]
+ ;world.processMasterPendingResponses.1
+ ;Generated for class world.processMasterPendingResponses.  Do NOT edit. 08/23/2023 10:07:28AM
+ ;;67336C77;world.processMasterPendingResponses
+ ;
+SQLUPPER(v,l) { quit $zu(28,v,7,$g(l,32767)) }
+ALPHAUP(v,r) { quit $zu(28,v,6) }
+STRING(v,l) { quit $zu(28,v,9,$g(l,32767)) }
+SQLSTRING(v,l) { quit $zu(28,v,8,$g(l,32767)) }
+UPPER(v) { quit $zu(28,v,5) }
+MVR(v) { quit $zu(28,v,2) }
+TRUNCATE(v,l) { quit $e(v,1,$g(l,3641144)) }
+%SQLAcquireLock(%rowid,s=0,unlockref=0) methodimpl
+	new %d,gotlock,subs
+	set %d(1)=%rowid,%d(0)=$p(%d(1),"||",1),%d(3)=$p(%d(1),"||",2),subs(6)=$p(%d(0),"||",1) set s=$e("S",s)
+	lock +^Ens.BusinessProcessD(subs(6),"pending",%d(3))#s:$zu(115,4) set gotlock=$t
+	set:gotlock&&unlockref unlockref=unlockref+1,unlockref(unlockref)=$lb($name(^Ens.BusinessProcessD(subs(6),"pending",%d(3))),"world.processMasterPendingResponses",s_"D")
+	QUIT gotlock
+%SQLAcquireTableLock(s=0,SQLCODE,to="") methodimpl
+	set s=$e("S",s) set:to="" to=$zu(115,4) lock +^Ens.BusinessProcessD#s:to QUIT:$t 1 set SQLCODE=-110 if s="S" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler35",,"world"_"."_"process_MasterPendingResponses") } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler36",,"world"_"."_"process_MasterPendingResponses") } QUIT 0
+	Return
+%SQLAfterTriggers() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLAfterTriggers")
+%SQLBeforeTriggers() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLBeforeTriggers")
+%SQLBuildIndices(pIndices="",pLockFlag=0,pStartID="",pEndID="",pIgnoreIndexList="") methodimpl
+	RETURN ##class(world.process).%BuildIndices(pIndices,,pLockFlag,,pStartID,pEndID,pIgnoreIndexList)
+%SQLBuildPurgeIndexForRow(pIndices="",pActions="BP",pLockRow=1,%d,%e,pIgnoreIndexList="") methodimpl
+	// Purge and build index nodes for a single row using given values, return Status Code
+	new sn,tSC,tLock set tSC=1,pActions=$zcvt(pActions,"U")
+	try {
+		if $g(%d(1))="" { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'world.process_MasterPendingResponses'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'world.process_MasterPendingResponses'"))) RETURN tSC }
+		if pLockRow { if '..%SQLAcquireLock(%d(1)) { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'world.process_MasterPendingResponses' with %ID = '"_%d(1)_"'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'world.process_MasterPendingResponses' with %ID = '"_%d(1)_"'"))) RETURN tSC  } else { set tLock=1 }}
+		set %d(0)=$p(%d(1),"||",1),%d(3)=$p(%d(1),"||",2)
+		set subs(6)=$p(%d(0),"||",1)
+		if pLockRow { do ..%SQLReleaseLock(%d(1),0,0) set tLock=0 }
+	}
+	catch {
+		if $g(tLock) { do ..%SQLReleaseLock(%d(1),0,0) }
+		set tSC=$select(+tSC:$$Error^%apiOBJ(5594,$ze),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5594,$ze)))
+	}
+	QUIT tSC
+%SQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+	 ;---&sql(SELECT ID FROM world.process_MasterPendingResponses WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %pID, %pVals, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Ee5ra8QodDn87dVtBYHc4zAJiZy","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Ee5ra8QodDn87dVtBYHc4zAJiZy"))||($ze["<ZSQLU>") { d %0dsqlA } else { throw } } QUIT SQLCODE=100
+ q
+%0dsqlA	n %xxsql
+	s %xxsql("S",1)="SELECT ID FROM world . process_MasterPendingResponses WHERE ID = :%pVals(1) AND ( %ID <> :%pID OR :%pID IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.processMasterPendingResponses.CLS")
+	return
+%SQLCheckUniqueIndices(pIndices,pOK) methodimpl
+	new d,g,n,o set d=0
+	set pOK=1 QUIT
+%SQLCheckUniqueKeys(pConNumber,pFromOrig=0,pUpdate=0,pVals...) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLCheckUniqueKeys")
+%SQLCopyIcolIntoName() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLCopyIcolIntoName")
+%SQLCopyNameIntoIcol() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLCopyNameToIcol")
+%SQLCreateInsDelTables(pInsTrigObj,pDelTrigObj) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLCreateInsDelTables")
+%SQLDefineiDjVars(%d,subs,master) methodimpl
+	QUIT
+%SQLDelete(%rowid,%check,%tstart=1,%mv=0,%polymorphic=0,%bufferedColumns=0) methodimpl
+	// SQL DELETE method for table world.process_MasterPendingResponses
+	new bva,ce,%d,dc,%e,%ele,%itm,%key,%l,%nc,omcall,%oper,%pos,%s,sn,sqlcode,subs set %oper="DELETE",sqlcode=0,%ROWID=%rowid,%d(1)=%rowid,%e(1)=%rowid,%d(0)=$p(%d(1),"||",1),%d(3)=$p(%d(1),"||",2),subs(6)=$p(%d(0),"||",1),%l=$c(0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check,2) { new %ls if $tlevel,$i(%0CacheLock("world.processMasterPendingResponses"))>$zu(156,50,1) { lock +^Ens.BusinessProcessD:$zu(115,4) lock:$t -^Ens.BusinessProcessD set %ls=$s($t:2,1:0) } else { lock +^Ens.BusinessProcessD(subs(6),"pending",%d(3)):$zu(115,4) set %ls=$t } set:%ls=2 $e(%check,2)=$c(1) set:%ls=1 $e(%l)=$c(1) if '%ls { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler40",,%oper,"world"_"."_"process_MasterPendingResponses",$g(%d(1))) RETURN  }} if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORDelete"
+	if '$a(%check),'$zu(115,7) do  if sqlcode set SQLCODE=sqlcode do ..%SQLEExit() QUIT  
+	. new %fk,%k,%p,%st,%t,%z set %k="",%p("%1")="%d(1),",%p("IDKEY")="%d(0),%d(3),,"
+	. for  quit:sqlcode<0  set %k=$o(^rINDEXEXT("F","world.processMasterPendingResponses",%k)) quit:%k=""  set %t="" for  set %t=$o(^rINDEXEXT("F","world.processMasterPendingResponses",%k,"f",%t)) quit:%t=""  set %st=(%t="world.processMasterPendingResponses") set %fk="" for  set %fk=$o(^rINDEXEXT("F","world.processMasterPendingResponses",%k,"f",%t,%fk)) quit:%fk=""  x "set %z=$classmethod(%t,%fk_""SQLFKeyRefAction"",%st,%k,$a(%check,2),"_%p(%k)_")" if %z set sqlcode=-124 quit  
+	set ce="" for  { set ce=$order(^oddSQL("world","process_MasterPendingResponses","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children
+	if '$a(%check,3) {
+	}
+	k ^Ens.BusinessProcessD(subs(6),"pending",%d(3))
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORDelete	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"process_MasterPendingResponses",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"process_MasterPendingResponses") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT
+	Return
+%SQLDeleteBufferedColumns(%bufferedColumns) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLDeleteBufferedColumns")
+%SQLDeleteChildren(%parent,%check,sqlcode) methodimpl
+	// Delete all rows where process = :%parent
+	new %ROWCOUNT,%ROWID,SQLCODE
+	set:$a(%check,2)=2 $e(%check,2)=$c(0)
+	 ;---&sql(DELETE %USECHECKVARIABLE FROM world.process_MasterPendingResponses WHERE process = :%parent)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %parent, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E2lZi5kSj1MARgVGRVBQuZcLCPS","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E2lZi5kSj1MARgVGRVBQuZcLCPS"))||($ze["<ZSQLU>") { d %0dsqlC } else { throw } }
+	set:SQLCODE<0 sqlcode=SQLCODE QUIT  
+ q
+%0dsqlC	n %xxsql
+	s %xxsql("S",1)="DELETE %USECHECKVARIABLE FROM world . process_MasterPendingResponses WHERE process = :%parent"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.processMasterPendingResponses.CLS")
+	return
+%SQLDeleteTempStreams() methodimpl
+	// Delete all temporary streams
+	QUIT
+%SQLEExit() methodimpl
+	do:%oper'="DELETE" ..%SQLUnlock2() do ..%SQLUnlock() 
+	do ..%SQLUnlockRef()
+	if %tstart,$zu(115,1)=1,$TLEVEL { set %tstart=0 TROLLBACK 1 } kill:$g(omcall) %0CacheSQLRA QUIT  
+	Return
+%SQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key %1.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"world"_"."_"process_MasterPendingResponses"_":"_"%1") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv='..%SQLCheckUnique(0,,%pVal(1)) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+%SQLFKeyDelLock() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLFKeyDelLock")
+%SQLFastInsert(%check) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLFastInsert")
+%SQLFieldValidate() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLFieldValidate")
+%SQLGetLock(pRowId,pShared=0,pUnlockRef) methodimpl
+	if $tlevel,$i(%0CacheLock("world.processMasterPendingResponses"))>$zu(156,50,1) { new s set s=$e("S",pShared) lock +^Ens.BusinessProcessD#s:$zu(115,4) lock:$t -^Ens.BusinessProcessD#s QUIT $s($t:2,1:0) } 
+	QUIT ..%SQLAcquireLock(pRowId,pShared,.pUnlockRef)
+%SQLGetOld(%rowid,%d,%e,sqlcode) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLGetOld")
+%SQLGetOldAll() methodimpl
+	// Get all old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT MasterPendingResponses INTO :%e() FROM %IGNOREINDEX * world.process_MasterPendingResponses WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %e, %msg, %rowid, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EJMioxq5Lx9Tltxn0j7plaJ2HSg","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EJMioxq5Lx9Tltxn0j7plaJ2HSg"))||($ze["<ZSQLU>") { d %0dsqlE } else { throw } }
+	set sqlcode=SQLCODE QUIT:sqlcode'=0
+	QUIT
+ q
+%0dsqlE	n %xxsql
+	s %xxsql("S",1)="SELECT MasterPendingResponses INTO :%e() FROM %IGNOREINDEX * world . process_MasterPendingResponses WHERE ID = :%rowid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.processMasterPendingResponses.CLS")
+	return
+%SQLGetOldIndex(%rowid,%e,pF=0,sqlcode,%buffervector=0,fld="") methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLGetOldIndex")
+%SQLInsert(%d,%check,%inssel,%vco,%tstart=1,%mv=0,%bufferedColumns=0) methodimpl
+	// SQL INSERT method for table world.process_MasterPendingResponses
+	new bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,sqlcode,sn,subs,unlockref set %oper="INSERT",sqlcode=0,%l=$c(0,0,0),unlockref=1
+	if $a(%check,7) { new %diu merge %diu=%d }
+	set:$d(%d(0)) subs(6)=$p(%d(0),"||",1)
+	if '$a(%check),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode RETURN "" }
+	do:'$a(%check,8) ..%SQLNormalizeFields()
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  } set $zt="ERRORInsert"
+	if '$a(%check),$g(%d(0))'="",'##class(world.process).%SQLExists($s($a(%check,2)=1:-1,1:0),.unlockref,%d(0)) {
+		if sqlcode<0 { set SQLCODE=sqlcode if SQLCODE=-114 { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler56",,%oper,"world"_"."_"process",$g(%d(0))) } } else { set SQLCODE=-104,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler9",,"world"_"."_"process_MasterPendingResponses") }
+		do ..%SQLEExit() RETURN ""
+	}
+	if '$a(%check) { if $g(%d(0))="" { do ..%SQLMissing("process") set SQLCODE=sqlcode do ..%SQLEExit() RETURN "" } }
+	if '$d(%d(3)) { if '$a(%check,2) { lock +^Ens.BusinessProcessD(subs(6),"pending"):$zu(115,4) if '$t { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler61",,"INSERT","world"_"."_"process_MasterPendingResponses") do ..%SQLEExit() RETURN "" }} set (%d(3),^Ens.BusinessProcessD(subs(6),"pending"))=$g(^Ens.BusinessProcessD(subs(6),"pending"))+1 lock:'$a(%check,2) -^Ens.BusinessProcessD(subs(6),"pending") } /* Increment element_key counter */ set %d(1)=%d(0)_"||"_%d(3),subs(6)=$p(%d(0),"||",1)
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+			new %unlockcon
+				// Constraint IDKEY
+				if '$a(%check,2) { lock +^Ens.BusinessProcessD("IDKEY",%d(0),%d(3)):$zu(115,4) if $t { set %unlockcon(10)=$name(^Ens.BusinessProcessD("IDKEY",%d(0),%d(3))),$e(%l,2)=$c(1) } else { do ..%SQLUnlockError("IDKEY") quit  } }
+				if $a(%check,7) { new tID set tID=..IDKEYSQLFindRowIDByConstraint($lb(%d(0),%d(3)),1) if tID'="" { kill %d merge %d=%diu kill %diu do ..%SQLUpdate(tID,%check,.%d),..%SQLUnlock2(),..%SQLUnlockRef() set $e(%check,7)=$c(2) quit  }} // INSERT OR UPDATE
+				if '..IDKEYSQLCheckUnique(0,,%d(0),%d(3)) { set sqlcode=-119,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler10",,"world"_"."_"process_MasterPendingResponses","IDKEY","process"_"="_$$quoter^%apiSQL($g(%d(0)))_","_"element_key"_"="_$$quoter^%apiSQL($g(%d(3)))) quit  } // INSERT
+		} while 0
+		QUIT:$a(%check,7)=2 $s('SQLCODE:tID,1:"")				// INSERT became UPDATE
+		if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() RETURN "" }		// A constraint failed
+	}
+	if '$a(%check,2) { new %ls if $tlevel,$i(%0CacheLock("world.processMasterPendingResponses"))>$zu(156,50,1) { lock +^Ens.BusinessProcessD:$zu(115,4) lock:$t -^Ens.BusinessProcessD set %ls=$s($t:2,1:0) } else { lock +^Ens.BusinessProcessD(subs(6),"pending",%d(3)):$zu(115,4) set %ls=$t } set:%ls=2 $e(%check,2)=$c(1) set:%ls=1 $e(%l)=$c(1) if '%ls set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler40",,%oper,"world"_"."_"process_MasterPendingResponses",$g(%d(1))) do ..%SQLEExit() RETURN ""  }
+	set ^Ens.BusinessProcessD(subs(6),"pending",%d(3))=$g(%d(2))
+	lock:$a(%l,2) -@(%unlockcon(10)_"#""D""") 
+	lock:$a(%l) -^Ens.BusinessProcessD(subs(6),"pending",%d(3))
+	TCOMMIT:%tstart&&($zu(115,1)=1)
+	do ..%SQLUnlockRef()
+	set SQLCODE=0
+	QUIT %d(1) 			// %SQLInsert
+ERRORInsert	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"process_MasterPendingResponses",$ze)
+	if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"process_MasterPendingResponses") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  }
+	do ..%SQLEExit()
+	RETURN ""
+%SQLInsertBufferedColumns(%bufferedColumns) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLInsertBufferedColumns")
+%SQLInsertComputes(view=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLInsertComputes")
+%SQLInsertStreams(pVal,pClassname,pProperty,pField,pChangeEmptyToNull,pOIDType,sqlcode,%msg) methodimpl {
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLInsertStreams") }
+%SQLInvalid(pIcol,pVal) methodimpl {
+	set:$l($g(pVal))>40 pVal=$e(pVal,1,40)_"..." do:'$d(%n) ..%SQLnBuild() set %msg=$s($g(%msg)'="":%msg_$c(13,10),1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler37",,"world"_"."_"process_MasterPendingResponses"_"."_$lg(%n,pIcol),$s($g(pVal)'="":$s(pVal="":"<NULL>",pVal=$c(0):"<EMPTY STRING>",1:"'"_pVal_"'"),1:"")),sqlcode=$s(%oper="INSERT":-104,1:-105)
+	QUIT sqlcode }
+%SQLInvalid2(ficol,val,char) [ sqlcode ] methodimpl {
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLInvalid2") }
+%SQLMVDelete(oref,flags,%rowid,oldrec) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLMVDelete")
+%SQLMVIndexDelete(%e) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLMVIndexDelete")
+%SQLMVIndexInsert(%d) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLMVIndexInsert")
+%SQLMVIndexUpdate(%d,%e) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLMVIndexUpdate")
+%SQLMVInsert(oref,flags,%rowid,newrec) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLMVInsert")
+%SQLMVUpdate(oref,flags,%rowid,newrec,oldrec) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLMVUpdate")
+%SQLMissing(fname) methodimpl
+	set sqlcode=-108,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler47",,fname,"world"_"."_"process_MasterPendingResponses") quit
+%SQLNormalizeCompFields() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLNormalizeCompFields")
+%SQLNormalizeFields() methodimpl
+	set:$g(%d(0))'="" %d(0)=$$NormalizeField0(%d(0))
+	QUIT
+NormalizeField0(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+	Return
+%SQLPurgeIndices(pIndices="",pLockExtent=0,pIgnoreIndexList="") methodimpl
+	RETURN ##class(world.process).%PurgeIndices(pIndices,pLockExtent,pIgnoreIndexList)
+%SQLQuickBulkInsert(%nolock=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickBulkInsert")
+%SQLQuickBulkLoad(%rowidlist,%nolock=0,pkey=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickBulkLoad")
+%SQLQuickBulkSave(%nolock=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickBulkSave")
+%SQLQuickBulkUpdate(%nolock=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickBulkUpdate")
+%SQLQuickDelete(%rowid,%nolock=0,pkey=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickDelete")
+%SQLQuickDeleteChildren(%parent,%nolock=0,pkey=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickDeleteChildren")
+%SQLQuickFindPKeyByRowID(%rowid) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickFindPKeyByRowID")
+%SQLQuickFindRowIDByPKey(pPKey,pOutput=1,pInternal=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickFindRowIDByPKey")
+%SQLQuickInsert(d,%nolock=0,pkey=0,parentpkey=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickInsert")
+%SQLQuickLoad(%rowid,%nolock=0,pkey=0,qq=0) methodimpl
+	// Get fields from row where SQLRowID=%rowid
+	new d,i,il,subs set:%nolock=2 %nolock=1
+	if %nolock=0 { if '..%SQLAcquireLock(%rowid) { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler45",,"world"_"."_"process_MasterPendingResponses",%rowid),%ROWCOUNT=0 QUIT  } set:$zu(115,2) il=$zu(115,2,0) }
+	set d(1)=%rowid,d(0)=$p(d(1),"||",1),d(3)=$p(d(1),"||",2),subs(6)=$p(d(0),"||",1)
+	new s,ul set ul=0,d(1)=%rowid if $zu(115,2)=1 { lock +^Ens.BusinessProcessD(subs(6),"pending",d(3))#"S":$zu(115,4) if $t { set ul=1 } else { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler46",,"world"_"."_"process_MasterPendingResponses",%rowid),%ROWCOUNT=0 quit  } }
+	if '$d(^Ens.BusinessProcessD(subs(6),"pending",d(3)),s) { set SQLCODE=100,%qrc=100 if %nolock=0 { do:$g(il) $zu(115,2,il) }} else { set SQLCODE=0
+	if %nolock=0 { if $zu(115,1)=1 { TSTART  } elseif '$TLEVEL,$zu(115,1)=2 { TSTART  }} set d(2)=s  }
+	do ..%SQLQuickLogicalToOdbc(.d)
+	if SQLCODE set %ROWCOUNT=0 set:SQLCODE<0 SQLCODE=-SQLCODE lock:ul -^Ens.BusinessProcessD(subs(6),"pending",d(3))#"SI" set %qrc=SQLCODE QUIT
+	set:qq d=$zobjexport("world.processMasterPendingResponses",18),d=4,d=$zobjexport(d,18) set i=-1 for  { set i=$o(d(i)) quit:i=""  set d=$zobjexport(d(i),18) } set %qrc=0,%ROWCOUNT=1 lock:ul -^Ens.BusinessProcessD(subs(6),"pending",d(3))#"SI" if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,0) do:$g(il) $zu(115,2,il) } QUIT
+	Return
+%SQLQuickLoadChildren(%parref,%nolock=0,pkey=0,returnpkey=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickLoadChildren")
+%SQLQuickLogicalToOdbc(%d) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLLogicalToOdbcFields")
+%SQLQuickOdbcToLogical(%d) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickOdbcToLogical")
+%SQLQuickUpdate(%rowid,d,%nolock=0,pkey=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLQuickUpdate")
+%SQLReleaseLock(%rowid,s=0,i=0,e="") methodimpl
+	new %d,subs
+	set %d(1)=%rowid,%d(0)=$p(%d(1),"||",1),%d(3)=$p(%d(1),"||",2),subs(6)=$p(%d(0),"||",1) set s=$e("S",s)_$e("D",i)
+	lock -^Ens.BusinessProcessD(subs(6),"pending",%d(3))#s
+	set:i&&($g(%0CacheLock("world.processMasterPendingResponses"))) %0CacheLock("world.processMasterPendingResponses")=%0CacheLock("world.processMasterPendingResponses")-1
+	QUIT
+%SQLReleaseTableLock(s=0,i=0) methodimpl
+	set s=$e("S",s)_$e("D",i) lock -^Ens.BusinessProcessD#s QUIT 1
+	Return
+%SQLStorageValidation() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLStorageValidation")
+%SQLTrigDelTab() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLTrigDelTab")
+%SQLTrigInsTab() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLTrigInsTab")
+%SQLUnlock() methodimpl
+	lock:$a(%l) -^Ens.BusinessProcessD(subs(6),"pending",%d(3))
+	QUIT
+%SQLUnlock2() methodimpl
+	lock:$a(%l,2) -@(%unlockcon(10)_"#""D""") QUIT
+%SQLUnlockError(cname) methodimpl
+	set sqlcode=-110 if %oper="DELETE" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler48",,"world"_"."_"process_MasterPendingResponses",cname) } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler49",,"world"_"."_"process_MasterPendingResponses",cname) } quit
+	Return
+%SQLUnlockRef() methodimpl
+	for %itm=2:1:$g(unlockref) {
+		if $lg(unlockref(%itm))'="%UnlockId" { lock -@$lg(unlockref(%itm))#$lg(unlockref(%itm),3) }
+		else { do $classmethod($lg(unlockref(%itm),2),$lg(unlockref(%itm)),$lg(unlockref(%itm),3),1,1) }
+		set:$g(%0CacheLock($lg(unlockref(%itm),2))) %0CacheLock($lg(unlockref(%itm),2))=%0CacheLock($lg(unlockref(%itm),2))-1
+	}
+	QUIT
+%SQLUpdate(%rowid,%check,%d,%vco,%tstart=1,%mv=0,%polymorphic=0,%soid,%bufferedColumns=0,%bufferedColumnsDel=0) methodimpl
+	// SQL UPDATE method for table world.process_MasterPendingResponses
+	new %e,bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,icol,omcall,s,sn,sqlcode,subs,t set %oper="UPDATE",sqlcode=0,%ROWID=%rowid,$e(%e,1)=$c(0),%l=$c(0,0,0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check),'$a(%check,7),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT  }
+	do:'$a(%check,8) ..%SQLNormalizeFields()
+	if ($d(%d(1))&&($g(%d(1))'=%rowid))||($d(%d(0))&&($g(%d(0))'=$p(%rowid,"||",1)))||($d(%d(3))&&($g(%d(3))'=$p(%rowid,"||",2))) { set SQLCODE=-107,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler17",,"'ID', 'process', or 'element_key'","world"_"."_"process_MasterPendingResponses") QUIT  }
+	for icol=2:1:3 { set $e(%e,icol)=$c($d(%d(icol))) }
+	set %d(1)=%rowid,%e(1)=%rowid,%d(0)=$p(%d(1),"||",1),%d(3)=$p(%d(1),"||",2),subs(6)=$p(%d(0),"||",1)
+	if '$a(%check,2) { new %ls if $tlevel,$i(%0CacheLock("world.processMasterPendingResponses"))>$zu(156,50,1) { lock +^Ens.BusinessProcessD:$zu(115,4) lock:$t -^Ens.BusinessProcessD set %ls=$s($t:2,1:0) } else { lock +^Ens.BusinessProcessD(subs(6),"pending",%d(3)):$zu(115,4) set %ls=$t } set:%ls=2 $e(%check,2)=$c(1) set:%ls=1 $e(%l)=$c(1) if '%ls { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler40",,%oper,"world"_"."_"process_MasterPendingResponses",$g(%d(1))) RETURN  }} if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORUpdate"
+	if $g(%vco)'="" { do ..%SQLGetOldAll() if sqlcode { set SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"world"_"."_"process_MasterPendingResponses",%rowid) do ..%SQLEExit() QUIT  } set:'$d(%d(2)) %d(2)=%e(2) set:%d(2)=%e(2) $e(%e,2)=$c(0)}
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode { set SQLCODE=sqlcode do ..%SQLEExit() QUIT  }
+	}
+	set:$a(%e,2) ^Ens.BusinessProcessD(subs(6),"pending",%d(3))=$g(%d(2))
+	do ..%SQLUnlock2()
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORUpdate	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"process_MasterPendingResponses",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"process_MasterPendingResponses") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT  
+	Return
+%SQLUpdateComputes(view=0) methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLUpdateComputes")
+%SQLUpdateStreams(pNew,pOld,pClassname,pProperty,pField,pChangeEmptyToNull,pOIDType,sqlcode,%msg,pAllowOid=0) methodimpl {
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLUpdateStreams") }
+%SQLValidateCompFields(sqlcode) methodimpl
+	QUIT 'sqlcode
+%SQLValidateFields(sqlcode) methodimpl
+	if $g(%d(3))'="",'(($l(%d(3))'>50)) { set sqlcode=..%SQLInvalid(3+1,%d(3)) } 
+	QUIT 'sqlcode
+%SQLicompView() methodimpl
+	QUIT $$Error^%apiOBJ(5758,"%Storage::%SQLicompView")
+%SQLnBuild() methodimpl {
+	set %n=$lb("ID","ID","MasterPendingResponses","element_key")
+	QUIT }
+%ValidateIndices(idxList="",autoCorrect=0,lockOption=1,multiProcess=1,mapList,verbose=1,errors) methodimpl
+	w !,"There are no indices to validate for class 'world.processMasterPendingResponses'"
+	QUIT 1
+zIDKEYSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+	 ;---&sql(SELECT process,element_key FROM world.process_MasterPendingResponses WHERE  process=:%pVals(1) AND element_key=:%pVals(2) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %pID, %pVals, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EZ3K1hoWEhmqiY2TvTwnIMV7w6X","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EZ3K1hoWEhmqiY2TvTwnIMV7w6X"))||($ze["<ZSQLU>") { d %0dsqlG } else { throw } } QUIT SQLCODE=100
+ q
+%0dsqlG	n %xxsql
+	s %xxsql("S",1)="SELECT process , element_key FROM world . process_MasterPendingResponses WHERE process = :%pVals(1) AND element_key = :%pVals(2) AND ( %ID <> :%pID OR :%pID IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.processMasterPendingResponses.CLS")
+	return
+zIDKEYSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key IDKEY.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=..IDKEYSQLFindRowIDByConstraint($lb(%pVal(1),%pVal(2)),1) QUIT:SQLCODE $s('pLockOnly:0,1:1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"world"_"."_"process_MasterPendingResponses"_":"_"IDKEY") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv='..IDKEYSQLCheckUnique(0,,%pVal(1),%pVal(2)) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+zIDKEYSQLFindRowIDByConstraint(%con,pInternal=0) methodimpl
+	// Get ROWID value for UNIQUE Key IDKEY value given in %con
+	new %d,id,rtm set rtm=$zu(115,5,$s(pInternal:0,1:1)) set %d(0)=$lg(%con,1) set %d(3)=$lg(%con,2)
+	set %ROWCOUNT=0 set:'pInternal %qrc=0
+	 ;---&sql(SELECT %ID INTO :id FROM world.process_MasterPendingResponses WHERE process = :%d(0) AND element_key = :%d(3))
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %d, %msg, SQLCODE, id
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EmIabY6kOJHi001ta2ggZuCzqxY","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EmIabY6kOJHi001ta2ggZuCzqxY"))||($ze["<ZSQLU>") { d %0dsqlI } else { throw } }
+	do $zu(115,5,rtm)
+	if pInternal { QUIT:'SQLCODE $g(id) RETURN "" }
+	if SQLCODE { set:SQLCODE<0 %qrc=-SQLCODE set:'%ROWCOUNT&&(SQLCODE=100) id="",%qrc=0 } set d=$zobjexport(id,18) QUIT
+	Return
+ q
+%0dsqlI	n %xxsql
+	s %xxsql("S",1)="SELECT %ID INTO :id FROM world . process_MasterPendingResponses WHERE process = :%d(0) AND element_key = :%d(3)"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Runtime","","","world",0,"",),,"world.processMasterPendingResponses.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set id="" } catch {} }
+	return
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlC")="",t("%0dsqlE")="",t("%0dsqlG")="",t("%0dsqlI")=""
+}

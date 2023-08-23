@@ -1,0 +1,1074 @@
+ROUTINE world.process.1 [Type=INT,Generated]
+ ;world.process.1
+ ;Generated for class world.process.  Do NOT edit. 08/16/2023 01:54:23PM
+ ;;36713857;world.process
+ ;
+SQLUPPER(v,l) { quit $zu(28,v,7,$g(l,32767)) }
+ALPHAUP(v,r) { quit $zu(28,v,6) }
+STRING(v,l) { quit $zu(28,v,9,$g(l,32767)) }
+SQLSTRING(v,l) { quit $zu(28,v,8,$g(l,32767)) }
+UPPER(v) { quit $zu(28,v,5) }
+MVR(v) { quit $zu(28,v,2) }
+TRUNCATE(v,l) { quit $e(v,1,$g(l,3641144)) }
+%CheckConstraintsForExtent(pConstraintList="",pCheckDisabled=0,pErrorLog) [ SQLCODE,tID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,tID 
+	kill pErrorLog set tStatusAll = 1, pErrorLog = 0 if '$listvalid(pConstraintList) { set pConstraintList = $listfromstring(pConstraintList) }
+	 ;---&sql(declare ext cursor for select %ID into :tID FROM %NOPARALLEL world.process)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, tID
+	 
+	 ;---&sql(open ext)
+	if $g(%ext0629)'="" { s SQLCODE=-101 } else { try { s %ext0629="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EhijGnwScg8redTQFDhVk8o2FQ8",%ext0629=$classmethod(%ext0629,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%ext0629)),$ze'["<ZSQLU>" { throw } } if '$isobject(%ext0629) { s %ext0629=$$%0dsqlA() } }
+	if SQLCODE '< 0 {
+		for {
+			 ;---&sql(fetch ext)
+ 			 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+			if $isobject($g(%ext0629))'=1 { s SQLCODE=-102 } else { do %ext0629.FET() }
+			if SQLCODE { if SQLCODE=100 { quit } elseif SQLCODE<0 { set tStatusAll = $select(+tStatusAll:$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)),1:$$AppendStatus^%occSystem(tStatusAll,$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)))) quit } }
+			set tStatus = ..%CheckConstraints(tID,pConstraintList,pCheckDisabled,.tErrorInfo)
+			if ('tStatus) { set tStatusAll = $select(+tStatusAll:tStatus,1:$$AppendStatus^%occSystem(tStatusAll,tStatus)) set:pErrorLog<1000 pErrorLog = pErrorLog + 1, pErrorLog(pErrorLog) = tErrorInfo _ $Listbuild(tStatus) }
+		}
+		 ;---&sql(close ext)
+		if '$isobject($get(%ext0629)) { set SQLCODE=-102 } else { set SQLCODE=0 kill %ext0629 }
+	}
+	quit tStatusAll }
+ q
+%0dsqlA()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE ext CURSOR FOR SELECT %ID INTO :tID FROM %NOPARALLEL world . process"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),",0,ext,","world.process.CLS",1)
+	i $g(SQLCODE) { s tID="" }
+	q %xxoref
+%FileIndices(id,pIndexHandle=0,pVectorBuffer) methodimpl {
+	try {
+		Set bsv0N2=$Get(^Ens.BusinessProcessD(id))
+		Set bsv0N3=$listget(bsv0N2,1)
+		RETURN:$select(bsv0N3="":1,bsv0N3'[($extract(bsv0N3)_"world.process"_$extract(bsv0N3)):1,1:0) 1
+		if bsv0N3'="~Ens.BusinessProcessBPL~world.process~" {
+			set bsv0N1=$piece(bsv0N3,"~",*-1)
+			set:bsv0N1'["." bsv0N1="User."_bsv0N1
+			if bsv0N1'="" { RETURN $classmethod(bsv0N1,"%FileIndices",id,.pIndexHandle) }
+		}
+		Set bsv0N4=..%TimeCreatedStorageToLogical($listget(bsv0N2,13))
+		Set bsv0N5=..%TimeCompletedStorageToLogical($listget(bsv0N2,12))
+		Set bsv0N6=$listget(bsv0N2,22)
+		Set bsv0N7=$listget(bsv0N2,21)
+		Set bsv0N8=$listget(bsv0N2,4)
+		If ('pIndexHandle)||($Ascii($Get(pIndexHandle("Ens.BusinessProcess")),1)=1) {
+			Set bsv0N9=$listget(bsv0N2,11)
+			Set bsv0N10=$s(bsv0N9'="":bsv0N9,1:-1E14)
+			Set ^Ens.BusinessProcessI("SessionId",bsv0N10,id)=$listget(bsv0N2,1)
+		}
+		If ('pIndexHandle)||($Ascii($Get(pIndexHandle("Ens.BusinessProcess")),2)=1) {
+			Set bsv0N11=$s(bsv0N4'="":bsv0N4,1:-1E14)
+			Set ^Ens.BusinessProcessI("TimeCreated",bsv0N11,id)=$listget(bsv0N2,1)
+		}
+	}
+	catch {
+		RETURN $$Error^%apiOBJ(5002,$ze)
+	}
+	RETURN 1
+getbuffered(glo,&vectorbuffer,id)
+	if '$d(vectorbuffer(id)) { set vectorbuffer(id)=@glo }
+	RETURN vectorbuffer(id) }
+%SQLAcquireLock(%rowid,s=0,unlockref=0) methodimpl
+	new %d,gotlock
+	set %d(1)=%rowid set s=$e("E",'unlockref)_$e("S",s)
+	lock +^Ens.BusinessProcessD(%d(1))#s:$zu(115,4) set gotlock=$t
+	if gotlock,'unlockref { set:$case($SYSTEM.Lock.ReturnCode(),2:1,4:1,:0)&&($tlevel) %0CacheLock("world.process","E")=1 }
+	set:gotlock&&unlockref unlockref=unlockref+1,unlockref(unlockref)=$lb($name(^Ens.BusinessProcessD(%d(1))),"world.process",s_"D")
+	QUIT gotlock
+%SQLAcquireTableLock(s=0,SQLCODE,to="") methodimpl
+	set s=$e("S",s) set:to="" to=$zu(115,4) lock +^Ens.BusinessProcessD#s:to QUIT:$t 1 set SQLCODE=-110 if s="S" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler35",,"world"_"."_"process") } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler36",,"world"_"."_"process") } QUIT 0
+	Return
+%SQLBeforeTriggers() methodimpl
+	new %ok,pChanged,pNew,pOld set %ok=1 //  'BEFORE' trigger(s)
+	if %oper="INSERT" {
+		set pNew(4)=%d(4),pNew(1)=%d(1)
+	}
+	if %oper="UPDATE" {
+		set pNew(4)=$g(%d(4)),pNew(1)=$g(%d(1))
+	}
+	if %oper="DELETE" {
+		set pNew(4)=$g(%e(4)),pNew(1)=%d(1)
+	}
+	if ("DELETE"[%oper)&&('$a(%check,6)) { do ..OnDeleteExecute(%oper,.pNew,.pOld,.pChanged,.%ok,.%msg) if '%ok { set sqlcode=-13_$s(%oper="INSERT":0,%oper="UPDATE":2,1:4) quit  }}	// Call Trigger OnDelete
+	RETURN
+%SQLBuildIndices(pIndices="",pLockFlag=0,pStartID="",pEndID="",pIgnoreIndexList="") methodimpl
+	RETURN ..%BuildIndices(pIndices,,pLockFlag,,pStartID,pEndID,pIgnoreIndexList)
+%SQLBuildPurgeIndexForRow(pIndices="",pActions="BP",pLockRow=1,%d,%e,pIgnoreIndexList="") methodimpl
+	// Purge and build index nodes for a single row using given values, return Status Code
+	new sn,tSC,tLock set tSC=1,pActions=$zcvt(pActions,"U")
+	try {
+		if $g(%d(1))="" { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'world.process'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'world.process'"))) RETURN tSC }
+		if pLockRow { if '..%SQLAcquireLock(%d(1)) { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'world.process' with %ID = '"_%d(1)_"'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'world.process' with %ID = '"_%d(1)_"'"))) RETURN tSC  } else { set tLock=1 }}
+		if ((pIndices="")||($lf(pIndices,"SessionId"))),'$listfind(pIgnoreIndexList,"SessionId") {
+			if pActions["P" {
+				set sn(1)=%e(16) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))
+			}
+			if pActions["B" {
+				set sn(1)=%d(16) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))=%d(38)
+			}
+		}
+		if ((pIndices="")||($lf(pIndices,"TimeCreated"))),'$listfind(pIgnoreIndexList,"TimeCreated") {
+			if pActions["P" {
+				set sn(1)=%e(21) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))
+			}
+			if pActions["B" {
+				set sn(1)=%d(21) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))=%d(38)
+			}
+		}
+		if pLockRow { do ..%SQLReleaseLock(%d(1),0,0) set tLock=0 }
+	}
+	catch {
+		if $g(tLock) { do ..%SQLReleaseLock(%d(1),0,0) }
+		set tSC=$select(+tSC:$$Error^%apiOBJ(5594,$ze),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5594,$ze)))
+	}
+	QUIT tSC
+%SQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+	 ;---&sql(SELECT ID FROM world.process WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %pID, %pVals, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eak5NH8amIFR3GKEdQ68ojHBx7m","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eak5NH8amIFR3GKEdQ68ojHBx7m"))||($ze["<ZSQLU>") { d %0dsqlD } else { throw } } QUIT SQLCODE=100
+ q
+%0dsqlD	n %xxsql
+	s %xxsql("S",1)="SELECT ID FROM world . process WHERE ID = :%pVals(1) AND ( %ID <> :%pID OR :%pID IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.process.CLS")
+	return
+%SQLCheckUniqueIndices(pIndices,pOK) methodimpl
+	new d,g,n,o set d=0
+	set pOK=1 QUIT
+%SQLCopyIcolIntoName() methodimpl
+	if %oper="DELETE" {
+		set:$d(%d(1)) %f("ID")=%d(1)
+		QUIT
+	}
+	set:$d(%d(1)) %f("ID")=%d(1) set:$a(%e,2)&&$d(%d(2)) %f("%ConfigName")=%d(2) set:$a(%e,3)&&$d(%d(3)) %f("%ConfigQueueName")=%d(3) set:$a(%e,4)&&$d(%d(4)) %f("%Context")=%d(4) set:$a(%e,5)&&$d(%d(5)) %f("%Counter")=%d(5) set:$a(%e,6)&&$d(%d(6)) %f("%IsCompleted")=%d(6) set:$a(%e,7)&&$d(%d(7)) %f("%IsTerminated")=%d(7) set:$a(%e,8)&&$d(%d(8)) %f("%IsTimerInterrupted")=%d(8) set:$a(%e,9)&&$d(%d(9)) %f("%MasterPendingResponsesOld")=%d(9) set:$a(%e,10)&&$d(%d(10)) %f("%MessagesReceivedOld")=%d(10) set:$a(%e,11)&&$d(%d(11)) %f("%MessagesSentOld")=%d(11) set:$a(%e,12)&&$d(%d(12)) %f("%PrimaryRequestHeader")=%d(12) set:$a(%e,13)&&$d(%d(13)) %f("%PrimaryResponseHeader")=%d(13) set:$a(%e,14)&&$d(%d(14)) %f("%QuitTask")=%d(14) set:$a(%e,15)&&$d(%d(15)) %f("%RepliedStatus")=%d(15) set:$a(%e,16)&&$d(%d(16)) %f("%SessionId")=%d(16) set:$a(%e,17)&&$d(%d(17)) %f("%StatusCode")=%d(17) set:$a(%e,18)&&$d(%d(18)) %f("%SuperSession")=%d(18) set:$a(%e,19)&&$d(%d(19)) %f("%Thread")=%d(19) set:$a(%e,20)&&$d(%d(20)) %f("%TimeCompleted")=%d(20) set:$a(%e,21)&&$d(%d(21)) %f("%TimeCreated")=%d(21) set:$a(%e,22)&&$d(%d(22)) %f("%responseClassName")=%d(22) set:$a(%e,23)&&$d(%d(23)) %f("%responseId")=%d(23) set:$a(%e,24)&&$d(%d(24)) %f("Adapter")=%d(24) set:$a(%e,25)&&$d(%d(25)) %f("AlertGroups")=%d(25) set:$a(%e,26)&&$d(%d(26)) %f("AlertOnError")=%d(26) set:$a(%e,27)&&$d(%d(27)) %f("AlertRetryGracePeriod")=%d(27) set:$a(%e,28)&&$d(%d(28)) %f("BusinessPartner")=%d(28) set:$a(%e,29)&&$d(%d(29)) %f("FailureTimeout")=%d(29) set:$a(%e,30)&&$d(%d(30)) %f("InactivityTimeout")=%d(30) set:$a(%e,31)&&$d(%d(31)) %f("QueueCountAlert")=%d(31) set:$a(%e,32)&&$d(%d(32)) %f("QueueWaitAlert")=%d(32) set:$a(%e,33)&&$d(%d(33)) %f("ReplyCodeActions")=%d(33) set:$a(%e,34)&&$d(%d(34)) %f("Retry")=%d(34) set:$a(%e,35)&&$d(%d(35)) %f("RetryInterval")=%d(35) set:$a(%e,36)&&$d(%d(36)) %f("RuleLogging")=%d(36) set:$a(%e,37)&&$d(%d(37)) %f("SuspendMessage")=%d(37) set:$a(%e,38)&&$d(%d(38)) %f("x__classname")=%d(38)
+	QUIT
+%SQLCopyNameIntoIcol() methodimpl
+	k %d,%e set:$d(%f("ID"))#2 %d(1)=%f("ID") set:$d(%f("%ConfigName"))#2 %d(2)=%f("%ConfigName") set:$d(%f("%ConfigQueueName"))#2 %d(3)=%f("%ConfigQueueName") set:$d(%f("%Context"))#2 %d(4)=%f("%Context") set:$d(%f("%Counter"))#2 %d(5)=%f("%Counter") set:$d(%f("%IsCompleted"))#2 %d(6)=%f("%IsCompleted") set:$d(%f("%IsTerminated"))#2 %d(7)=%f("%IsTerminated") set:$d(%f("%IsTimerInterrupted"))#2 %d(8)=%f("%IsTimerInterrupted") set:$d(%f("%MasterPendingResponsesOld"))#2 %d(9)=%f("%MasterPendingResponsesOld") set:$d(%f("%MessagesReceivedOld"))#2 %d(10)=%f("%MessagesReceivedOld") set:$d(%f("%MessagesSentOld"))#2 %d(11)=%f("%MessagesSentOld") set:$d(%f("%PrimaryRequestHeader"))#2 %d(12)=%f("%PrimaryRequestHeader") set:$d(%f("%PrimaryResponseHeader"))#2 %d(13)=%f("%PrimaryResponseHeader") set:$d(%f("%QuitTask"))#2 %d(14)=%f("%QuitTask") set:$d(%f("%RepliedStatus"))#2 %d(15)=%f("%RepliedStatus") set:$d(%f("%SessionId"))#2 %d(16)=%f("%SessionId") set:$d(%f("%StatusCode"))#2 %d(17)=%f("%StatusCode") set:$d(%f("%SuperSession"))#2 %d(18)=%f("%SuperSession") set:$d(%f("%Thread"))#2 %d(19)=%f("%Thread") set:$d(%f("%TimeCompleted"))#2 %d(20)=%f("%TimeCompleted") set:$d(%f("%TimeCreated"))#2 %d(21)=%f("%TimeCreated") set:$d(%f("%responseClassName"))#2 %d(22)=%f("%responseClassName") set:$d(%f("%responseId"))#2 %d(23)=%f("%responseId") set:$d(%f("Adapter"))#2 %d(24)=%f("Adapter") set:$d(%f("AlertGroups"))#2 %d(25)=%f("AlertGroups") set:$d(%f("AlertOnError"))#2 %d(26)=%f("AlertOnError") set:$d(%f("AlertRetryGracePeriod"))#2 %d(27)=%f("AlertRetryGracePeriod") set:$d(%f("BusinessPartner"))#2 %d(28)=%f("BusinessPartner") set:$d(%f("FailureTimeout"))#2 %d(29)=%f("FailureTimeout") set:$d(%f("InactivityTimeout"))#2 %d(30)=%f("InactivityTimeout") set:$d(%f("QueueCountAlert"))#2 %d(31)=%f("QueueCountAlert") set:$d(%f("QueueWaitAlert"))#2 %d(32)=%f("QueueWaitAlert") set:$d(%f("ReplyCodeActions"))#2 %d(33)=%f("ReplyCodeActions") set:$d(%f("Retry"))#2 %d(34)=%f("Retry") set:$d(%f("RetryInterval"))#2 %d(35)=%f("RetryInterval") set:$d(%f("RuleLogging"))#2 %d(36)=%f("RuleLogging") set:$d(%f("SuspendMessage"))#2 %d(37)=%f("SuspendMessage") set:$d(%f("x__classname"))#2 %d(38)=%f("x__classname")  kill %f QUIT
+%SQLDefineiDjVars(%d,subs,master) methodimpl
+	QUIT
+%SQLDelete(%rowid,%check,%tstart=1,%mv=0,%polymorphic=0,%bufferedColumns=0) methodimpl
+	// SQL DELETE method for table world.process
+	if %polymorphic { do ..%SQLCopyNameIntoIcol() set %d(1)=%rowid,%e(1)=%rowid  goto %SQLDeletePD }
+	new bva,ce,%d,dc,%e,%ele,%itm,%key,%l,%nc,omcall,%oper,%pos,%s,sn,sqlcode,subs,%SkipFiling set %oper="DELETE",sqlcode=0,%ROWID=%rowid,%d(1)=%rowid,%e(1)=%rowid,%l=$c(0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BusinessProcessD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("world.process","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"world"_"."_"process",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORDelete"
+%SQLDeletePD	// Entry point for Polymorphic Dispatch from a super-table
+	do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) if sqlcode { set SQLCODE=-106,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler58",,"world"_"."_"process",%rowid) do ..%SQLEExit() QUIT  }
+	if %e(38)'="" { set sn=$p(%e(38),$e(%e(38)),$l(%e(38),$e(%e(38)))-1) if "world.process"'=sn { new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLDelete",%rowid,%check,%tstart,%mv,1) QUIT  }}
+	if '$a(%check),'$zu(115,7) do  if sqlcode set SQLCODE=sqlcode do ..%SQLEExit() QUIT  
+	. new %fk,%k,%p,%st,%t,%z set %k="",%p("%1")="%d(1),",%p("IDKEY")="%d(1),"
+	. for  quit:sqlcode<0  set %k=$o(^rINDEXEXT("F","world.process",%k)) quit:%k=""  set %t="" for  set %t=$o(^rINDEXEXT("F","world.process",%k,"f",%t)) quit:%t=""  set %st=(%t="world.process") set %fk="" for  set %fk=$o(^rINDEXEXT("F","world.process",%k,"f",%t,%fk)) quit:%fk=""  x "set %z=$classmethod(%t,%fk_""SQLFKeyRefAction"",%st,%k,$a(%check,2),"_%p(%k)_")" if %z set sqlcode=-124 quit  
+	if '$a(%check,4) { do ..%SQLBeforeTriggers() if sqlcode { set SQLCODE=sqlcode do ..%SQLEExit() QUIT }}
+	set ce="" for  { set ce=$order(^oddSQL("world","process","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children
+	set ce="" for  { set ce=$order(^oddSQL("Ens","BusinessProcessBPL","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children of the root extent
+	set ce="" for  { set ce=$order(^oddSQL("Ens","BusinessProcess","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children of the root extent
+	if '$a(%check,3),'$g(%SkipFiling) {
+		set sn(1)=%e(16) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))
+		set sn(1)=%e(21) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))
+	}
+	goto:$g(%SkipFiling) %SQLDeleteSkip
+	k ^Ens.BusinessProcessD(%d(1))
+%SQLDeleteSkip	//
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORDelete	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"process",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"process") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT
+	Return
+%SQLDeleteTempStreams() methodimpl
+	// Delete all temporary streams
+	QUIT
+%SQLEExit() methodimpl
+	do ..%SQLUnlock() 
+	if %tstart,$zu(115,1)=1,$TLEVEL { set %tstart=0 TROLLBACK 1 } kill:$g(omcall) %0CacheSQLRA QUIT  
+	Return
+%SQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key %1.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"world"_"."_"process"_":"_"%1") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv='..%SQLCheckUnique(0,,%pVal(1)) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+%SQLGetLock(pRowId,pShared=0,pUnlockRef) methodimpl
+	QUIT ..%SQLAcquireLock(pRowId,pShared,.pUnlockRef)
+%SQLGetOld(%rowid,%d,%e,sqlcode) methodimpl
+	// Get old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT x__classname,%SessionId,%TimeCreated,%Context INTO :%e() FROM %IGNOREINDEX * world.process WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %e, %msg, %rowid, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"ECzjuEWpCqjUAPm7xngqOtRXX1D","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"ECzjuEWpCqjUAPm7xngqOtRXX1D"))||($ze["<ZSQLU>") { d %0dsqlF } else { throw } }
+	set sqlcode=SQLCODE QUIT:sqlcode'=0
+	QUIT
+ q
+%0dsqlF	n %xxsql
+	s %xxsql("S",1)="SELECT x__classname , %SessionId , %TimeCreated , %Context INTO :%e() FROM %IGNOREINDEX * world . process WHERE ID = :%rowid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.process.CLS")
+	return
+%SQLGetOldAll() methodimpl
+	// Get all old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT %ConfigName,%ConfigQueueName,%Context,%Counter,%IsCompleted,%IsTerminated,%IsTimerInterrupted,%MasterPendingResponsesOld,%MessagesReceivedOld,%MessagesSentOld,%PrimaryRequestHeader,%PrimaryResponseHeader,%QuitTask,%RepliedStatus,%SessionId,%StatusCode,%SuperSession,%Thread,%TimeCompleted,%TimeCreated,%responseClassName,%responseId,Adapter,AlertGroups,AlertOnError,AlertRetryGracePeriod,BusinessPartner,FailureTimeout,InactivityTimeout,QueueCountAlert,QueueWaitAlert,ReplyCodeActions,Retry,RetryInterval,RuleLogging,SuspendMessage,x__classname INTO :%e() FROM %IGNOREINDEX * world.process WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %e, %msg, %rowid, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Ecaii70wttfekCq2gFBDZtats8w","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Ecaii70wttfekCq2gFBDZtats8w"))||($ze["<ZSQLU>") { d %0dsqlH } else { throw } }
+	set sqlcode=SQLCODE QUIT:sqlcode'=0
+	QUIT
+ q
+%0dsqlH	n %xxsql
+	s %xxsql("S",1)="SELECT %ConfigName , %ConfigQueueName , %Context , %Counter , %IsCompleted , %IsTerminated , %IsTimerInterrupted , %MasterPendingResponsesOld , %MessagesReceivedOld , %MessagesSentOld , %PrimaryRequestHeader , %PrimaryResponseHeader , %QuitTask , %RepliedStatus , %SessionId , %StatusCode , %SuperSession , %Thread , %TimeCompleted , %TimeCreated , %responseClassName , %responseId , Adapter , AlertGroups , AlertOnError , AlertRetryGracePeriod , BusinessPartner , FailureTimeout , InactivityTimeout , QueueCountAlert , QueueWaitAlert , ReplyCodeActions , Retry , RetryInterval , RuleLogging , SuspendMessage , x__classname INTO :%e() FROM %IGNOREINDEX * world . process WHERE ID = :%rowid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.process.CLS")
+	return
+%SQLGetOldIndex(%rowid,%e,pF=0,sqlcode,%buffervector=0,fld="") methodimpl
+	try {
+		new tClass,tF,tOid,tSC
+		set tOid=..%ComposeOid(%rowid)
+		if ''..%OnDetermineClass(tOid,.tClass),tClass'=$classname() {
+			set tF=1 do $classmethod(tClass,"%SQLGetOldIndex",%rowid,,.tF,.sqlcode)
+			set:$d(tF("%SessionId")) %d(16)=tF("%SessionId") set:$d(tF("x__classname")) %d(38)=tF("x__classname") set:$d(tF("%TimeCreated")) %d(21)=tF("%TimeCreated") 
+			RETURN
+		}
+	}
+	catch { }
+	// Get index old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT %SessionId,x__classname,%TimeCreated INTO :%d() FROM %IGNOREINDEX * world.process WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %d, %msg, %rowid, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EUT7i2Czi39x0ny8vogUvKmG176","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EUT7i2Czi39x0ny8vogUvKmG176"))||($ze["<ZSQLU>") { d %0dsqlJ } else { throw } }
+	if pF { set:$d(%d(16)) pF("%SessionId")=%d(16) set:$d(%d(38)) pF("x__classname")=%d(38) set:$d(%d(21)) pF("%TimeCreated")=%d(21)  }
+	set sqlcode=SQLCODE QUIT:sqlcode'=0
+	QUIT
+ q
+%0dsqlJ	n %xxsql
+	s %xxsql("S",1)="SELECT %SessionId , x__classname , %TimeCreated INTO :%d() FROM %IGNOREINDEX * world . process WHERE ID = :%rowid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.process.CLS")
+	return
+%SQLInsert(%d,%check,%inssel,%vco,%tstart=1,%mv=0,%bufferedColumns=0) methodimpl
+	// SQL INSERT method for table world.process
+	new bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,sqlcode,sn,subs,icol set %oper="INSERT",sqlcode=0,%l=$c(0,0,0)
+	if $a(%check,7) { new %diu merge %diu=%d }
+	if $d(%d(1)),'$zu(115,11) { if %d(1)'="" { set SQLCODE=-111,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler6",,"ID","world"_"."_"process") RETURN ""  } kill %d(1) } 
+	if '$a(%check),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode RETURN "" }
+	do:'$a(%check,8) ..%SQLNormalizeFields()
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  } set $zt="ERRORInsert"
+	set:'$d(%d(6)) %d(6)=0 set:'$d(%d(7)) %d(7)=0 set:'$d(%d(8)) %d(8)=0 set:'$d(%d(14)) %d(14)=0 set:'$d(%d(15)) %d(15)=1 set:'$d(%d(17)) %d(17)=1 set:'$d(%d(26)) %d(26)=0 set:'$d(%d(27)) %d(27)=0 set:'$d(%d(29)) %d(29)=15 set:'$d(%d(30)) %d(30)=0 set:'$d(%d(31)) %d(31)=0 set:'$d(%d(32)) %d(32)=0 set:'$d(%d(34)) %d(34)=0 set:'$d(%d(35)) %d(35)=5 set:'$d(%d(36)) %d(36)="r" set:'$d(%d(37)) %d(37)=0 set:'$d(%d(38)) %d(38)="~Ens.BusinessProcessBPL~world.process~"
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() RETURN "" }		// A constraint failed
+	}
+	if '$d(%d(1)) { set %d(1)=$i(^Ens.BusinessProcessD) } elseif %d(1)>$g(^Ens.BusinessProcessD) { if $i(^Ens.BusinessProcessD,$zabs(%d(1)-$g(^Ens.BusinessProcessD))) {}} elseif $d(^Ens.BusinessProcessD(%d(1))) { set SQLCODE=-119,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler33",,"ID",%d(1),"world"_"."_"process"_"."_"ID") do ..%SQLEExit() RETURN "" }
+	for icol=38,16,21,4 { set:'($d(%d(icol))#2) %d(icol)="" }
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BusinessProcessD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("world.process","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"world"_"."_"process",$g(%d(1))) do ..%SQLEExit() RETURN ""  }
+	}
+	set ^Ens.BusinessProcessD(%d(1))=$lb(%d(38),%d(3),%d(6),%d(9),,%d(12),%d(13),%d(15),%d(23),%d(24),%d(16),%d(20),%d(21),%d(2),%d(14),%d(26),%d(22),%d(8),%d(7),%d(17),%d(10),%d(11),%d(33),%d(35),%d(27),%d(29),%d(34),%d(37),%d(31),%d(32),%d(30),%d(28),%d(25),%d(18))
+	set:$s((%d(4)'=""):1,($g(%d(5))'=""):1,($g(%d(19))'=""):1,1:($g(%d(36))'="")) ^Ens.BusinessProcessD(%d(1),"BusinessProcessBPL")=$lb(%d(4),%d(19),%d(5),%d(36))
+	if '$a(%check,3) {
+		set sn(1)=%d(16) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))=%d(38)
+		set sn(1)=%d(21) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))=%d(38)
+	}
+	lock:$a(%l) -^Ens.BusinessProcessD(%d(1))#"E"
+	TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0
+	QUIT %d(1) 			// %SQLInsert
+ERRORInsert	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"process",$ze)
+	if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"process") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  }
+	do ..%SQLEExit()
+	RETURN ""
+%SQLInvalid(pIcol,pVal) methodimpl {
+	set:$l($g(pVal))>40 pVal=$e(pVal,1,40)_"..." do:'$d(%n) ..%SQLnBuild() set %msg=$s($g(%msg)'="":%msg_$c(13,10),1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler37",,"world"_"."_"process"_"."_$lg(%n,pIcol),$s($g(pVal)'="":$s(pVal="":"<NULL>",pVal=$c(0):"<EMPTY STRING>",1:"'"_pVal_"'"),1:"")),sqlcode=$s(%oper="INSERT":-104,1:-105)
+	QUIT sqlcode }
+%SQLMissing(fname) methodimpl
+	set sqlcode=-108,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler47",,fname,"world"_"."_"process") quit
+%SQLNormalizeFields() methodimpl
+	set:$g(%d(12))'="" %d(12)=$$NormalizeField12(%d(12))
+	set:$g(%d(13))'="" %d(13)=$$NormalizeField13(%d(13))
+	set:$g(%d(19))'="" %d(19)=$$NormalizeField19(%d(19))
+	set:$g(%d(20))'="" %d(20)=$$NormalizeField20(%d(20))
+	set:$g(%d(21))'="" %d(21)=$$NormalizeField21(%d(21))
+	set:$g(%d(4))'="" %d(4)=$$NormalizeField4(%d(4))
+	new %f for %f=6,7,8,26,34,37 { set:$g(%d(%f))'="" %d(%f)=$s(%d(%f)="":"",1:%d(%f)\1) }
+	for %f=27,29,30,31,32,35 { set:$g(%d(%f))'="" %d(%f)=$select($zu(115,13)&&(%d(%f)=$c(0)):"",1:$normalize($decimal(%d(%f)),2)) }
+	for %f=5,14,15,16 { set:$g(%d(%f))'="" %d(%f)=$select(%d(%f)=$c(0)&&$zu(115,13):"",1:%d(%f)\1) }
+	QUIT
+NormalizeField4(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+NormalizeField12(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+NormalizeField13(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+NormalizeField19(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+NormalizeField20(%val) {	if $p(%val,":",3)'["." quit %val
+	for i=1:1:3 quit:$e(%val,*)'="0"  set %val=$e(%val,1,*-1)
+	if $e(%val,*)="." set %val=$e(%val,1,*-1)
+	quit %val
+}
+NormalizeField21(%val) {	if $p(%val,":",3)'["." quit %val
+	for i=1:1:3 quit:$e(%val,*)'="0"  set %val=$e(%val,1,*-1)
+	if $e(%val,*)="." set %val=$e(%val,1,*-1)
+	quit %val
+}
+	Return
+%SQLPurgeIndices(pIndices="",pLockExtent=0,pIgnoreIndexList="") methodimpl
+	RETURN ..%PurgeIndices(pIndices,pLockExtent,pIgnoreIndexList)
+%SQLQuickLoad(%rowid,%nolock=0,pkey=0,qq=0) methodimpl
+	// Get fields from row where SQLRowID=%rowid
+	new d,i,il,subs set:%nolock=2 %nolock=1
+	if %nolock=0 { if '..%SQLAcquireLock(%rowid) { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler45",,"world"_"."_"process",%rowid),%ROWCOUNT=0 QUIT  } set:$zu(115,2) il=$zu(115,2,0) }
+	 ;---&sql(SELECT %INTERNAL(ID),%ConfigName,%ConfigQueueName,%INTERNAL(%Context),%Counter,%IsCompleted,%IsTerminated,%IsTimerInterrupted,%INTERNAL(%MasterPendingResponsesOld),%INTERNAL(%MessagesReceivedOld),%INTERNAL(%MessagesSentOld),%INTERNAL(%PrimaryRequestHeader),%INTERNAL(%PrimaryResponseHeader),%QuitTask,%RepliedStatus,%SessionId,%StatusCode,%SuperSession,%INTERNAL(%Thread),%TimeCompleted,%TimeCreated,%responseClassName,%responseId,Adapter,AlertGroups,AlertOnError,AlertRetryGracePeriod,BusinessPartner,FailureTimeout,InactivityTimeout,QueueCountAlert,QueueWaitAlert,ReplyCodeActions,Retry,RetryInterval,RuleLogging,SuspendMessage,x__classname INTO :d(1),:d(2),:d(3),:d(4),:d(5),:d(6),:d(7),:d(8),:d(9),:d(10),:d(11),:d(12),:d(13),:d(14),:d(15),:d(16),:d(17),:d(18),:d(19),:d(20),:d(21),:d(22),:d(23),:d(24),:d(25),:d(26),:d(27),:d(28),:d(29),:d(30),:d(31),:d(32),:d(33),:d(34),:d(35),:d(36),:d(37),:d(38) FROM world.process WHERE %ID = :%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %rowid, SQLCODE, d
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EiATbgfxAlOgxuKrsODcDuGYfvh","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EiATbgfxAlOgxuKrsODcDuGYfvh"))||($ze["<ZSQLU>") { d %0dsqlL } else { throw } }
+	if SQLCODE { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } set %ROWCOUNT=0 set:SQLCODE<0 SQLCODE=-SQLCODE set %qrc=SQLCODE QUIT  }
+	if qq,d(38)'="" { new sn set sn=$p(d(38),$e(d(38)),$l(d(38),$e(d(38)))-1) if "world.process"'=sn { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } kill d set:sn'["." sn="User."_sn  do $classmethod(sn,"%SQLQuickLoad",%rowid,%nolock,0,1) QUIT  }}
+	if %nolock=0 { if $zu(115,1)=1 { TSTART  } elseIf '$TLEVEL,$zu(115,1)=2 { TSTART  }}
+	set:qq d=$zobjexport("world.process",18),d=38,d=$zobjexport(d,18) set i=-1 for  { set i=$o(d(i)) quit:i=""  set d=$zobjexport(d(i),18) } set %qrc=0,%ROWCOUNT=1 if %nolock=0 { d ..%SQLReleaseLock(%rowid,0,0) do:$g(il) $zu(115,2,il) } quit
+	Return
+ q
+%0dsqlL	n %xxsql
+	s %xxsql("S",1)="SELECT %INTERNAL ( ID ) , %ConfigName , %ConfigQueueName , %INTERNAL ( %Context ) , %Counter , %IsCompleted , %IsTerminated , %IsTimerInterrupted , %INTERNAL ( %MasterPendingResponsesOld ) , %INTERNAL ( %MessagesReceivedOld ) , %INTERNAL ( %MessagesSentOld ) , %INTERNAL ( %PrimaryRequestHeader ) , %INTERNAL ( %PrimaryResponseHeader ) , %QuitTask , %RepliedStatus , %SessionId , %StatusCode , %SuperSession , %INTERNAL ( %Thread ) , %TimeCompleted , %TimeCreated , %responseClassName , %responseId , Adapter , AlertGroups , AlertOnError , AlertRetryGracePeriod , BusinessPartner , FailureTimeout , InactivityTimeout , QueueCountAlert , QueueWaitAlert , ReplyCodeActions , Retry , RetryInterval , RuleLogging , SuspendMessage , x__classname INTO :d(1) , :d(2) , :d(3) , :d(4) , :d(5) , :d(6) , :d(7) , :d(8) , :d(9) , :d(10) , :d(11) , :d(12) , :d(13) , :d(14) , :d(15) , :d(16) , :d(17) , :d(18) , :d(19) , :d(20) , :d(21) , :d(22) , :d(23) , :d(24) , :d(25) , :d(26) , :d(27) , :d(28) , :d(29) , :d(30) , :d(31) , :d(32) ,"
+	s %xxsql("S",1)=%xxsql("S",1)_" :d(33) , :d(34) , :d(35) , :d(36) , :d(37) , :d(38) FROM world . process WHERE %ID = :%rowid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("ODBC","","","world",0,"",),,"world.process.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set d(1)="",d(2)="",d(3)="",d(4)="",d(5)="",d(6)="",d(7)="",d(8)="",d(9)="",d(10)="",d(11)="",d(12)="",d(13)="",d(14)="",d(15)="",d(16)="",d(17)="",d(18)="",d(19)="",d(20)="",d(21)="",d(22)="",d(23)="",d(24)="",d(25)="",d(26)="",d(27)="",d(28)="",d(29)="",d(30)="",d(31)="",d(32)="",d(33)="",d(34)="",d(35)="",d(36)="",d(37)="",d(38)="" } catch {} }
+	return
+%SQLReleaseLock(%rowid,s=0,i=0,e="") methodimpl
+	new %d
+	set:e="" e=1 set %d(1)=%rowid set s=$e("E",e)_$e("S",s)_$e("D",i)
+	lock -^Ens.BusinessProcessD(%d(1))#s
+	QUIT
+%SQLReleaseTableLock(s=0,i=0) methodimpl
+	set s=$e("S",s)_$e("D",i) lock -^Ens.BusinessProcessD#s QUIT 1
+	Return
+%SQLUnlock() methodimpl
+	lock:$a(%l) -^Ens.BusinessProcessD(%d(1))#"E"
+	QUIT
+%SQLUnlockError(cname) methodimpl
+	set sqlcode=-110 if %oper="DELETE" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler48",,"world"_"."_"process",cname) } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler49",,"world"_"."_"process",cname) } quit
+	Return
+%SQLUpdate(%rowid,%check,%d,%vco,%tstart=1,%mv=0,%polymorphic=0,%soid,%bufferedColumns=0,%bufferedColumnsDel=0) methodimpl
+	// SQL UPDATE method for table world.process
+	if %polymorphic { do ..%SQLCopyNameIntoIcol() set %d(1)=%rowid,%e(1)=%rowid,$e(%e,1)=$c(0) new icol for icol=2:1:38 { set $e(%e,icol)=$c($d(%d(icol))) }  goto %SQLUpdatePD }
+	new %e,bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,icol,omcall,s,sn,sqlcode,subs,t set %oper="UPDATE",sqlcode=0,%ROWID=%rowid,$e(%e,1)=$c(0),%l=$c(0,0,0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check),'$a(%check,7),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT  }
+	do:'$a(%check,8) ..%SQLNormalizeFields()
+	if $d(%d(1)),%d(1)'=%rowid { set SQLCODE=-107,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler16",,"ID","world"_"."_"process") QUIT  }
+	for icol=2:1:38 { set $e(%e,icol)=$c($d(%d(icol))) }
+	set %d(1)=%rowid,%e(1)=%rowid
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BusinessProcessD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("world.process","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"world"_"."_"process",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORUpdate"
+%SQLUpdatePD		// Entry point for Polymorphic Dispatch from a super-table
+	if $g(%vco)="" { do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) i sqlcode { s SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"world"_"."_"process",%rowid) do ..%SQLEExit() QUIT  } for icol=38,16,21,4 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }} else { do ..%SQLGetOldAll() if sqlcode { set SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"world"_"."_"process",%rowid) do ..%SQLEExit() QUIT  } for icol=2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }}
+	if %e(38)'="" set sn=$p(%e(38),$e(%e(38)),$l(%e(38),$e(%e(38)))-1) if "world.process"'=sn new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLUpdate",%rowid,%check,.%d,$g(%vco),%tstart,%mv,1) QUIT
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode { set SQLCODE=sqlcode do ..%SQLEExit() QUIT  }
+	}
+	if ($zboolean(%e,$c(0,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1),1)[$c(1)) {
+		set ^Ens.BusinessProcessD(%d(1))=$listupdate($g(^Ens.BusinessProcessD(%d(1))),1,$a(%e,38):%d(38),$a(%e,3):%d(3),$a(%e,6):%d(6),$a(%e,9):%d(9),,$a(%e,12):%d(12),$a(%e,13):%d(13),$a(%e,15):%d(15),$a(%e,23):%d(23),$a(%e,24):%d(24),$a(%e,16):%d(16),$a(%e,20):%d(20),$a(%e,21):%d(21),$a(%e,2):%d(2),$a(%e,14):%d(14),$a(%e,26):%d(26),$a(%e,22):%d(22),$a(%e,8):%d(8),$a(%e,7):%d(7),$a(%e,17):%d(17),$a(%e,10):%d(10),$a(%e,11):%d(11),$a(%e,33):%d(33),$a(%e,35):%d(35),$a(%e,27):%d(27),$a(%e,29):%d(29),$a(%e,34):%d(34),$a(%e,37):%d(37),$a(%e,31):%d(31),$a(%e,32):%d(32),$a(%e,30):%d(30),$a(%e,28):%d(28),$a(%e,25):%d(25),$a(%e,18):%d(18))
+	}
+	if $s($a(%e,4):1,$a(%e,5):1,$a(%e,19):1,1:$a(%e,36)) {
+		set ^Ens.BusinessProcessD(%d(1),"BusinessProcessBPL")=$listupdate($g(^Ens.BusinessProcessD(%d(1),"BusinessProcessBPL")),1,$a(%e,4):%d(4),$a(%e,19):%d(19),$a(%e,5):%d(5),$a(%e,36):%d(36))
+	}
+	if '$a(%check,3) { 
+		if $a(%e,16)||$a(%e,38) {	// SessionId index map
+			if $a(%e,16) { set sn(1)=%e(16) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("SessionId",sn(1),sn(2)) }
+			set sn(1)=%d(16) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("SessionId",sn(1),sn(2))=%d(38)
+		}
+		if $a(%e,21)||$a(%e,38) {	// TimeCreated index map
+			if $a(%e,21) { set sn(1)=%e(21) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) k ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2)) }
+			set sn(1)=%d(21) set:sn(1)="" sn(1)=-1E14 set sn(2)=%d(1) set ^Ens.BusinessProcessI("TimeCreated",sn(1),sn(2))=%d(38)
+		}
+	}
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORUpdate	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"process",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"process") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT  
+	Return
+%SQLValidateCompFields(sqlcode) methodimpl
+	QUIT 'sqlcode
+%SQLValidateFields(sqlcode) methodimpl
+	if $g(%d(26))'="",'($$ValidateField26(%d(26))) { set sqlcode=..%SQLInvalid(26+1,%d(26)) } 
+	if $g(%d(34))'="",'($$ValidateField34(%d(34))) { set sqlcode=..%SQLInvalid(34+1,%d(34)) } 
+	if $g(%d(37))'="",'($$ValidateField37(%d(37))) { set sqlcode=..%SQLInvalid(37+1,%d(37)) } 
+	if $g(%d(6))'="",'($$ValidateField6(%d(6))) { set sqlcode=..%SQLInvalid(6+1,%d(6)) } 
+	if $g(%d(7))'="",'($$ValidateField7(%d(7))) { set sqlcode=..%SQLInvalid(7+1,%d(7)) } 
+	if $g(%d(8))'="",'($$ValidateField8(%d(8))) { set sqlcode=..%SQLInvalid(8+1,%d(8)) } 
+	if $g(%d(29))'="",'($select($zu(115,13)&&(%d(29)=$c(0)):1,$isvalidnum(%d(29),2,-1,):1,'$isvalidnum(%d(29)):$$Error^%apiOBJ(7207,%d(29)),1:$$Error^%apiOBJ(7204,%d(29),-1))) { set sqlcode=..%SQLInvalid(29+1,%d(29)) } 
+	new %f for %f=27,30,31,32,35 { if $g(%d(%f))'="",'($select($zu(115,13)&&(%d(%f)=$c(0)):1,$isvalidnum(%d(%f),2,0,):1,'$isvalidnum(%d(%f)):$$Error^%apiOBJ(7207,%d(%f)),1:$$Error^%apiOBJ(7204,%d(%f),0))) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	for %f=5,14,15,16 { if $g(%d(%f))'="",'($select(%d(%f)=$c(0)&&$zu(115,13):1,$isvalidnum(%d(%f),0):1,1:$$Error^%apiOBJ(7207,%d(%f)))) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	if $g(%d(33))'="",'(($l(%d(33))'>1000)) { set sqlcode=..%SQLInvalid(33+1,%d(33)) } 
+	for %f=2,3,22,28 { if $g(%d(%f))'="",'(($l(%d(%f))'>128)) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	if $g(%d(25))'="",'(($l(%d(25))'>2500)) { set sqlcode=..%SQLInvalid(25+1,%d(25)) } 
+	if $g(%d(18))'="",'(($l(%d(18))'>300)) { set sqlcode=..%SQLInvalid(18+1,%d(18)) } 
+	if $g(%d(36))'="",'(($l(%d(36))'>50)) { set sqlcode=..%SQLInvalid(36+1,%d(36)) } 
+	QUIT 'sqlcode
+ValidateField6(%val="") {	Quit $case(%val,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,%val))
+}
+ValidateField7(%val="") {	Quit $case(%val,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,%val))
+}
+ValidateField8(%val="") {	Quit $case(%val,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,%val))
+}
+ValidateField26(%val="") {	Quit $case(%val,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,%val))
+}
+ValidateField34(%val="") {	Quit $case(%val,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,%val))
+}
+ValidateField37(%val="") {	Quit $case(%val,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,%val))
+}
+	Return
+%SQLnBuild() methodimpl {
+	set %n=$lb(,"ID","%ConfigName","%ConfigQueueName","%Context","%Counter","%IsCompleted","%IsTerminated","%IsTimerInterrupted","%MasterPendingResponsesOld","%MessagesReceivedOld","%MessagesSentOld","%PrimaryRequestHeader","%PrimaryResponseHeader","%QuitTask","%RepliedStatus","%SessionId","%StatusCode","%SuperSession","%Thread","%TimeCompleted","%TimeCreated","%responseClassName","%responseId","Adapter","AlertGroups","AlertOnError","AlertRetryGracePeriod","BusinessPartner","FailureTimeout","InactivityTimeout","QueueCountAlert","QueueWaitAlert","ReplyCodeActions","Retry","RetryInterval","RuleLogging","SuspendMessage","x__classname")
+	QUIT }
+%SaveData(id) methodimpl {
+	try {
+		set id=$listget(i%"%%OID") if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,lockok=0,tSharedLock=0
+		if 'idassigned { set id=$i(^Ens.BusinessProcessD) do ..%IdSet(id) set:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this)="" }
+		set zzc10v1=$s(i%%TimeCreated'="":i%%TimeCreated,1:-1E14)
+		set zzc10v2=$s(i%%SessionId'="":i%%SessionId,1:-1E14)
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if (i%%Concurrency<4)&&(i%%Concurrency) { lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1 if lockok { set lock=1 } else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^Ens.BusinessProcessD(id))) {
+					set insert=1
+					if lock { lock -(^Ens.BusinessProcessD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				set zzc20v1="",ptr="" for  set ptr=$order(i%%MessagesSentOld(ptr),1,val) Quit:ptr=""  set zzc20v1=zzc20v1_$listbuild(val)
+				set zzc20v2="",ptr="" for  set ptr=$order(i%%MessagesReceivedOld(ptr),1,val) Quit:ptr=""  set zzc20v2=zzc20v2_$listbuild(val)
+				set zzc20v3="",ptr="" for  set ptr=$order(i%%MasterPendingResponsesOld(ptr),1,val) Quit:ptr=""  set zzc20v3=zzc20v3_$listbuild(val)
+				if i%%Concurrency&&$tlevel {  lock +(^Ens.BusinessProcessD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:(lockok=2&&(i%%Concurrency'=4)) %0CacheLock($classname(),"E")=1 set:lockok lock=1 if 'lockok { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if i%%Concurrency=3 { lock +(^Ens.BusinessProcessD(id)#"ES") set tSharedLock=1 }
+				set:i%%Concurrency=4 lock=0
+				set zzc39v1="" For counter=0:1 { Set zzc39v1 = $Order(i%%MasterPendingResponses(zzc39v1),1,val) Quit:zzc39v1=""  Set ^Ens.BusinessProcessD(id,"pending",zzc39v1)=val }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"pending")=counter
+				set zzc39v2="" For counter=0:1 { Set zzc39v2 = $Order(i%%MessagesReceived(zzc39v2),1,val) Quit:zzc39v2=""  Set ^Ens.BusinessProcessD(id,"received",zzc39v2)=val }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"received")=counter
+				set zzc39v3="" For counter=0:1 { Set zzc39v3 = $Order(i%%MessagesSent(zzc39v3),1,val) Quit:zzc39v3=""  Set ^Ens.BusinessProcessD(id,"sent",zzc39v3)=val }
+				Set:counter>0 ^Ens.BusinessProcessD(id,"sent")=counter
+				set zzc39v4="" For  { Set zzc39v4 = $Order(i%%SynchronizedResponses(zzc39v4),1,val) Quit:zzc39v4=""  Set ^Ens.BusinessProcessD(id,"%SynchronizedResponses",zzc39v4)=val }
+				set ^Ens.BusinessProcessD(id,"BusinessProcessBPL")=$lb(i%%Context,i%%Thread,i%%Counter,i%RuleLogging)
+				set ^Ens.BusinessProcessD(id)=$lb("~Ens.BusinessProcessBPL~world.process~",i%%ConfigQueueName,i%%IsCompleted,zzc20v3,,i%%PrimaryRequestHeader,i%%PrimaryResponseHeader,i%%RepliedStatus,i%%responseId,i%Adapter,i%%SessionId,i%%TimeCompleted,i%%TimeCreated,i%%ConfigName,i%%QuitTask,i%AlertOnError,i%%responseClassName,i%%IsTimerInterrupted,i%%IsTerminated,i%%StatusCode,zzc20v2,zzc20v1,i%ReplyCodeActions,i%RetryInterval,i%AlertRetryGracePeriod,i%FailureTimeout,i%Retry,i%SuspendMessage,i%QueueCountAlert,i%QueueWaitAlert,i%InactivityTimeout,i%BusinessPartner,i%AlertGroups,i%%SuperSession)
+				set ^Ens.BusinessProcessI("SessionId",zzc10v2,id)="~Ens.BusinessProcessBPL~world.process~"
+				set ^Ens.BusinessProcessI("TimeCreated",zzc10v1,id)="~Ens.BusinessProcessBPL~world.process~"
+			}
+			else {
+				set zzc31v1=$G(^Ens.BusinessProcessD(id))
+				set zzc31v2=..%TimeCreatedStorageToLogical($listget(zzc31v1,13))
+				set zzc31v3=$listget(zzc31v1,11)
+				if (i%%SessionId'=zzc31v3) {
+					kill ^Ens.BusinessProcessI("SessionId",$s(zzc31v3'="":zzc31v3,1:-1E14),id)
+					set ^Ens.BusinessProcessI("SessionId",zzc10v2,id)="~Ens.BusinessProcessBPL~world.process~"
+				}
+				if (i%%TimeCreated'=zzc31v2) {
+					kill ^Ens.BusinessProcessI("TimeCreated",$s(zzc31v2'="":zzc31v2,1:-1E14),id)
+					set ^Ens.BusinessProcessI("TimeCreated",zzc10v1,id)="~Ens.BusinessProcessBPL~world.process~"
+				}
+				set zzc40v5="",ptr="" for  set ptr=$order(i%%MessagesSentOld(ptr),1,val) Quit:ptr=""  set zzc40v5=zzc40v5_$listbuild(val)
+				set zzc40v6="",ptr="" for  set ptr=$order(i%%MessagesReceivedOld(ptr),1,val) Quit:ptr=""  set zzc40v6=zzc40v6_$listbuild(val)
+				set zzc40v7="",ptr="" for  set ptr=$order(i%%MasterPendingResponsesOld(ptr),1,val) Quit:ptr=""  set zzc40v7=zzc40v7_$listbuild(val)
+				kill nodes merge nodes=i%%MasterPendingResponses
+				set counter=0,zzc40v1="" for { set zzc40v1 = $Order(^Ens.BusinessProcessD(id,"pending",zzc40v1),1,data) Quit:zzc40v1=""  if $data(nodes(zzc40v1),val) { if data=val kill nodes(zzc40v1)  set counter=counter+1 } else { kill ^Ens.BusinessProcessD(id,"pending",zzc40v1) } }
+				set zzc40v1="" for { set zzc40v1 = $Order(nodes(zzc40v1),1,val) Quit:zzc40v1=""  set ^Ens.BusinessProcessD(id,"pending",zzc40v1)=val,counter=counter+1 }
+				if counter=0 { zkill ^Ens.BusinessProcessD(id,"pending") } else { Set ^Ens.BusinessProcessD(id,"pending")=counter }
+				kill nodes merge nodes=i%%MessagesReceived
+				set counter=0,zzc40v2="" for { set zzc40v2 = $Order(^Ens.BusinessProcessD(id,"received",zzc40v2),1,data) Quit:zzc40v2=""  if $data(nodes(zzc40v2),val) { if data=val kill nodes(zzc40v2)  set counter=counter+1 } else { kill ^Ens.BusinessProcessD(id,"received",zzc40v2) } }
+				set zzc40v2="" for { set zzc40v2 = $Order(nodes(zzc40v2),1,val) Quit:zzc40v2=""  set ^Ens.BusinessProcessD(id,"received",zzc40v2)=val,counter=counter+1 }
+				if counter=0 { zkill ^Ens.BusinessProcessD(id,"received") } else { Set ^Ens.BusinessProcessD(id,"received")=counter }
+				kill nodes merge nodes=i%%MessagesSent
+				set counter=0,zzc40v3="" for { set zzc40v3 = $Order(^Ens.BusinessProcessD(id,"sent",zzc40v3),1,data) Quit:zzc40v3=""  if $data(nodes(zzc40v3),val) { if data=val kill nodes(zzc40v3)  set counter=counter+1 } else { kill ^Ens.BusinessProcessD(id,"sent",zzc40v3) } }
+				set zzc40v3="" for { set zzc40v3 = $Order(nodes(zzc40v3),1,val) Quit:zzc40v3=""  set ^Ens.BusinessProcessD(id,"sent",zzc40v3)=val,counter=counter+1 }
+				if counter=0 { zkill ^Ens.BusinessProcessD(id,"sent") } else { Set ^Ens.BusinessProcessD(id,"sent")=counter }
+				kill nodes merge nodes=i%%SynchronizedResponses
+				set zzc40v4="" for { set zzc40v4 = $Order(^Ens.BusinessProcessD(id,"%SynchronizedResponses",zzc40v4),1,data) Quit:zzc40v4=""  if $data(nodes(zzc40v4),val) { if data=val kill nodes(zzc40v4) } else { kill ^Ens.BusinessProcessD(id,"%SynchronizedResponses",zzc40v4) } }
+				merge ^Ens.BusinessProcessD(id,"%SynchronizedResponses")=nodes
+				set ^Ens.BusinessProcessD(id,"BusinessProcessBPL")=$lb(i%%Context,i%%Thread,i%%Counter,i%RuleLogging)
+				set ^Ens.BusinessProcessD(id)=$lb("~Ens.BusinessProcessBPL~world.process~",i%%ConfigQueueName,i%%IsCompleted,zzc40v7,,i%%PrimaryRequestHeader,i%%PrimaryResponseHeader,i%%RepliedStatus,i%%responseId,i%Adapter,i%%SessionId,i%%TimeCompleted,i%%TimeCreated,i%%ConfigName,i%%QuitTask,i%AlertOnError,i%%responseClassName,i%%IsTimerInterrupted,i%%IsTerminated,i%%StatusCode,zzc40v6,zzc40v5,i%ReplyCodeActions,i%RetryInterval,i%AlertRetryGracePeriod,i%FailureTimeout,i%Retry,i%SuspendMessage,i%QueueCountAlert,i%QueueWaitAlert,i%InactivityTimeout,i%BusinessPartner,i%AlertGroups,i%%SuperSession)
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+			if ('idassigned) { Set $zobjoid("",$listget(i%"%%OID"))="",i%"%%OID"="" kill:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this) }
+			if (tSharedLock) {  lock -(^Ens.BusinessProcessD(id)#"ES") } elseif (lockok=1)&&(insert)&&(i%%Concurrency=4) {  lock -(^Ens.BusinessProcessD(id)) }
+		}
+		if lock lock -(^Ens.BusinessProcessD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%ValidateIndices(idxList="",autoCorrect=0,lockOption=1,multiProcess=1,mapList,verbose=1,errors) methodimpl
+	w !,"There are no indices to validate for class 'world.process'"
+	QUIT 1
+GetRequestClassList() methodimpl {
+ Quit $lb("Ens.Request") }
+GetResponseClassList(pRequest="") methodimpl {
+ If pRequest=""||(pRequest="Ens.Request") Quit $lb("world.data")
+ Quit "" }
+GetSettingRow(pSettingName="",pSourceClass="") methodimpl {
+	Set tRow = ""
+	// Check if the class has been compiled with the new generator
+	If (pSourceClass = "world.process") {
+		Set tRow = $case(pSettingName,
+			"AlertGroups": $LB("AlertGroups","The Alert Groups to which this item belongs.","%Library.String","",2500,"","","","",0,"Alert Groups","Alerting","Alerting Control","selector?multiSelect=1&context={Ens.ContextSearch/ProductionAlertGroups?productionName=@productionId}"),
+			"AlertOnError": $LB("AlertOnError","Send an Alert message whenever an error occurs here","%Library.Boolean",0,"","","","","",0,"Alert On Error","Alerting","Alerting Control",""),
+			"AlertRetryGracePeriod": $LB("AlertRetryGracePeriod","When AlertOnError is True and the Process is retrying, refrain from alerting if the Process succeeds within this number of seconds after an error","%Library.Numeric",0,"",0,"","","",0,"Alert Retry Grace Period","Alerting","Alerting Control",""),
+			"BusinessPartner": $LB("BusinessPartner","Name of a Business Partner Profile associated with this item","%Library.String","",128,"","","","",0,"Business Partner","Info","Informational Settings","partnerSelector"),
+			"FailureTimeout": $LB("FailureTimeout","How long to keep retrying before giving up and returning an error code. <br/>"_$char(13,10)_"-1 means never give up.","%Library.Numeric",15,"",-1,"","","",0,"Failure Timeout","Additional","Additional Settings",""),
+			"InactivityTimeout": $LB("InactivityTimeout","Send an Alert message if this number of seconds elapses with no messages being processed by this item. <br/>"_$char(13,10)_"Note that this alert will be sent even if AlertOnError is False. <br/>"_$char(13,10)_"Zero means no alerts of this type will be sent.","%Library.Numeric",0,"",0,"","","",0,"Inactivity Timeout","Alerting","Alerting Control",""),
+			"QueueCountAlert": $LB("QueueCountAlert","Number of messages on this item's queue needed to trigger an Alert message to be sent. Note that no further"_$char(13,10)_"alerts will be sent unless the number of messages on the queue drops below 80% of this number and then rises again to this number. <br/>"_$char(13,10)_"Note that this alert will be sent even if AlertOnError is False. <br/>"_$char(13,10)_"Zero means no alerts of this type will be sent.","%Library.Numeric",0,"",0,"","","",0,"Queue Count Alert","Alerting","Alerting Control",""),
+			"QueueWaitAlert": $LB("QueueWaitAlert","The number of seconds a message at the front of the queue may have waited since being queued before an alert is triggered.<br/>"_$char(13,10)_"Only one alert will be raised per host item per sequential trigger of the queue wait threshold. <br/>"_$char(13,10)_"Note that this alert will be sent even if AlertOnError is False. <br/>"_$char(13,10)_"Zero means no alerts of this type will be sent.","%Library.Numeric",0,"",0,"","","",0,"Queue Wait Alert","Alerting","Alerting Control",""),
+			"ReplyCodeActions": $LB("ReplyCodeActions","<p>A comma-separated list of codes specifying what action this Process will take on various reply status conditions."_$char(13,10)_"The format of the list is: <br /> &lt;code&gt;=&lt;actions&gt;,(&lt;code&gt;,&lt;code&gt;)=&lt;actions&gt;,...<br/>"_$char(13,10)_"Types of reply status condition are identified by a specification code:"_$char(13,10)_"<ul style=""list-style-type: none;"">"_$char(13,10)_"<li><b>E</b> - Error status returned from message handler</li>"_$char(13,10)_"<li><b>E#&lt;statuscode&gt;</b> - Error status returned from message handler has status code equal to &lt;statuscode&gt;</li>"_$char(13,10)_"<li><b>E*&lt;text&gt;</b> - Error status returned from message handler contains text string &lt;text&gt;</li>"_$char(13,10)_"<li><b>X</b> - there is no reply message at all</li>"_$char(13,10)_"</ul></p>"_$char(13,10)_"<p>The following values for &lt;actions&gt; may be used alone or in combinations:"_$char(13,10)_"<ul style=""list-style-type: none;"">"_$char(13,10)_"<li><b>C</b> - Treat the message as Completed OK.</li>"_$char(13,10)_"<li><b>W</b> - Log a warning. If no other non-warning &lt;actions&gt; are triggered, the message will be treated as Completed OK.</li>"_$char(13,10)_"<li><b>R</b> - Retry the message according to the configured RetryInterval and FailureTimeout; finally Fail unless a "_$char(13,10)_"different action is also specified. Note this setting is separate from the Retry property.</li>"_$char(13,10)_"<li><b>S</b> - Suspend the message, log an error, and move on to try the next message.</li>"_$char(13,10)_"<li><b>D</b> - Disable the Process, log an error and restore the original incoming message to the front of the Process's queue.</li>"_$char(13,10)_"<li><b>F</b> - Fail with an error and move on to try the next message from the Process's queue subject to the <property>Retry</property>"_$char(13,10)_"property value set in the code. If the Retry property is set in the code then moving on to try the next message will be subject to "_$char(13,10)_"the configured RetryInterval and FailureTimeout.</li></ul>"_$char(13,10)_"<b>NOTE:</b> the D action can only immediately stop all instances of a Business Process if the BP is configured with PoolSize=1."_$char(13,10)_"If PoolSize=0 this action will disable all Business Processes that share the Actor pool.</p>"_$char(13,10)_"<p>An example of a valid ReplyCodeActions specification is 'E#6301=R,E#&lt;Ens&gt;ErrGeneral=RD,E=F'. This specification will result in a "_$char(13,10)_"retry when error code 6301 is encountered. When error code &lt;Ens&gt;ErrGeneral is encountered, the Process first retries to send "_$char(13,10)_"the message until FailureTimeout and then, if the error continues, it disables the Process instead of failing. Any other errors will "_$char(13,10)_"cause the Process to fail processing of the current message and return the error status to the caller, without retrying first"_$char(13,10)_"unless the property Retry has been set to true by the Process code.</p>"_$char(13,10)_"<p><b>The default behavior is equivalent to 'E=F'.</b> If the Retry property has been set by the Process code then retrying will be subject to "_$char(13,10)_"the configured RetryInterval and FailureTimeout.</p>"_$char(13,10)_"<p>All codes where &lt;actions&gt; consists of only 'W' (for 'log a Warning') will be evaluated, and a warning will be"_$char(13,10)_"generated for each matching &lt;code&gt;. Other &lt;code&gt; values will be evaluated in left-to-right order, executing the"_$char(13,10)_"first matching &lt;code&gt; that has a non-warning &lt;actions&gt; value. As noted in the details for the 'W' flag, an error"_$char(13,10)_"that only triggers 'W' &lt;actions&gt; will be treated as Completed OK.</p>","%Library.String","",1000,"","","","",0,"Reply Code Actions","Additional","Additional Settings",""),
+			"RetryInterval": $LB("RetryInterval","How frequently to retry access to the output system","%Library.Numeric",5,"",0,"","","",0,"Retry Interval","Additional","Additional Settings",""),
+			"RuleLogging": $LB("RuleLogging","This set of flags controls the logging performed by the rule engine whenever a Rule activity is executed."_$char(13,10)_"The following flags are available:"_$char(13,10)_"<ul><li>'e' - log errors only. All errors will be logged irrespective of other flags, so "_$char(13,10)_"setting the value to 'e' or leaving the value empty will only log errors.</li>"_$char(13,10)_"<li>'r' - log return values. This is the default value for the setting, and is "_$char(13,10)_"also automatic whenever the 'd' or 'c' flags are specified.</li>"_$char(13,10)_"<li>'d' - log user-defined debug actions in the rule. This will also include 'r'.</li>"_$char(13,10)_"<li>'c' - log details of the conditions that are evaluated in the rule. This will also include 'r'.</li>"_$char(13,10)_"<li>'a' - log all available information. This is equivalent to 'rcd'.</li></ul>","%Library.String","r",50,"","","","",0,"RuleLogging","Dev","Development and Debugging",""),
+			: "")
+	}
+	Else { // Fall back on getting the data dynamically 
+		Set tRow = ..GetDynamicSettingRow(pSettingName,pSourceClass)
+	}
+	Quit tRow }
+MessageHeaderHandler(pRequestHeader,pResponseHeader,pResponseIsError) methodimpl {
+ Set tSC=1, pResponseIsError=""
+ Set $EC=""  try {
+	If '..#SKIPMESSAGEHISTORY Do ..%MessagesReceived.Insert(pRequestHeader.%Id())
+	If pRequestHeader.Type = 1 {
+		If '(..%PrimaryRequestHeader="") { Do ##class(Ens.Util.Log).LogAssert($classname(),"MessageHeaderHandler","Assert Condition Failed: "_"..%PrimaryRequestHeader="""""_$char(13,10)) BREAK }
+		Set ..%PrimaryRequestHeader=pRequestHeader, %Ensemble("CurrentHeaderId")=pRequestHeader.%Id()
+		Set ..%Concurrency=4
+		Set tSC=..%Save()  Quit:('tSC)
+		Set (..%SessionId,%Ensemble("SessionId"))=pRequestHeader.SessionId
+		Set ..%SuperSession=pRequestHeader.SuperSession
+		Set ..%TimeCreated = $zdatetime($ztimestamp,3,,3)
+		Do pRequestHeader.SetStatus(3)
+		Set tResponse=""
+		If $D(^Ens.Runtime("CrashedMessage",pRequestHeader.%Id())) {
+			Kill ^Ens.Runtime("CrashedMessage",pRequestHeader.%Id())
+			Set tSC=##class(Ens.Util.Error).EnsError($classname(),"MessageHeaderHandler","<Ens>ErrPreviouslyCrashedMessage",pRequestHeader.%Id())
+		} Else {
+			Set $EC=""  try {
+				Set tSC=..OnRequest(..%request,.tResponse)
+			} catch ex {
+				Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler"))
+			}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnRequest(); committing before proceeding")
+		}
+		Set:(''tSC) tSC=..%responseSet(tResponse)
+		Quit:('tSC)
+	} ElseIf pRequestHeader.Type = 3 {
+		Set %Ensemble("CurrentHeaderId")=pRequestHeader.%Id()
+		Do pRequestHeader.SetStatus(3)
+		Do ..%MasterPendingResponses.Clear()
+		Set ..%IsTerminated=1
+		Set tSC=$classmethod(pRequestHeader.MessageBodyClassName,"%OpenId",pRequestHeader.MessageBodyId).StringValue
+	} Else {
+		Set ..%CurrentResponseHeader=pRequestHeader, %Ensemble("CurrentHeaderId")=pRequestHeader.%Id()
+		Set %Ensemble("SessionId")=..%SessionId
+		If ..%IsCompleted {
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("system",$classname(),"MessageHeaderHandler","Discarding response '"_pRequestHeader.%Id()_"' to already-completed process "_..%Id())
+			Do pRequestHeader.SetStatus(4)
+			Quit
+		}
+		Set tCallRequestHeader = ##class(Ens.MessageHeader).%OpenId(pRequestHeader.CorrespondingMessageId)
+		If tCallRequestHeader.MessageBodyClassName'="" {
+			Set tCallRequest = $classmethod(tCallRequestHeader.MessageBodyClassName,"%OpenId",tCallRequestHeader.MessageBodyId,,.tSC)
+			If '$IsObject(tCallRequest) Set tSC=$$Error^%apiOBJ("<Ens>ErrGeneral","Could not open callrequest MessageBody "_tCallRequestHeader.MessageBodyId_" for MessageHeader #"_tCallRequestHeader.%Id()_" with body class "_tCallRequestHeader.MessageBodyClassName_":"_$$getAllErrorTexts^EnsUtil(tSC))  Quit
+		} Else {
+			Set tCallRequest=""
+		}
+		Set tIndex=0 For i=1:1:..%MasterPendingResponses.Count() {
+			Set tEntry=..%MasterPendingResponses.GetAt(i)
+			If $li(tEntry,1)=pRequestHeader.CorrespondingMessageId Set tIndex=i,tCompletionKey=$li(tEntry,2),tIsTimer=$li(tEntry,3),pControlledCompletionKeys=$li(tEntry,4) Quit
+		}
+		If tIndex=0 {
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("system",$classname(),"MessageHeaderHandler","Discarding response '"_pRequestHeader.%Id()_"' belonging to message '"_pRequestHeader.CorrespondingMessageId_"' while in process "_..%Id())
+			Do pRequestHeader.SetStatus(4)
+			Quit
+		}
+		Do pRequestHeader.SetStatus(3)
+		Set pResponseIsError = pRequestHeader.IsError
+		If pResponseIsError {
+			Set tResponse=..%response
+			Set tErroredResponseStatus=pRequestHeader.ErrorStatus
+			Set $EC=""  try {
+				Set tSC=..OnError(..%request,.tResponse,tCallRequest,tErroredResponseStatus,tCompletionKey)
+				If ..WillHandleErroredResponse() {
+					Set tSC=1
+				} Else {
+					Set:(''tSC) pResponseIsError=0
+				}
+			} catch ex {
+				Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler")), pResponseIsError="" ; new tSC for which OnError() has not been called
+			}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnError(); committing before proceeding")
+			Quit:('tSC)
+			Set tSC=..%responseSet(tResponse)  If ('tSC) Set pResponseIsError=""  Quit
+		}
+		Do ..%MasterPendingResponses.RemoveAt(tIndex)
+		If tIsTimer {
+			Set tResponse=..%response
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling OnTimeout")
+			Set $EC=""  try {
+				Set tSC=..OnTimeout(..%request,.tResponse,tCallRequest,tCompletionKey)
+			} catch ex {
+				Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler"))
+			}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnTimeout(); committing before proceeding")
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from OnTimeout")
+			Set:(''tSC) tSC=..%responseSet(tResponse)
+			Quit:('tSC)
+			For i=..%MasterPendingResponses.Count():-1:1 {
+				Set tEntry=..%MasterPendingResponses.GetAt(i)
+				If (pControlledCompletionKeys="*")||$listfind(pControlledCompletionKeys,$li(tEntry,2)) {
+					Do ..%MasterPendingResponses.RemoveAt(i)
+					Set tRequestHeader=##class(Ens.MessageHeader).%OpenId($li(tEntry,1))
+					If tRequestHeader.MessageBodyClassName'="" {
+						Set tMessageBody=$classmethod(tRequestHeader.MessageBodyClassName,"%OpenId",tRequestHeader.MessageBodyId,,.tSC1)
+						If '$IsObject(tMessageBody) {
+							Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler","Could not open pending MessageBody "_tRequestHeader.MessageBodyId_" for MessageHeader #"_tRequestHeader.%Id()_" with body class "_tRequestHeader.MessageBodyClassName_":"_$$getAllErrorTexts^EnsUtil(tSC1))
+						} Else {
+							Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling body %OnTimeout")
+							Set $EC=""  try {
+								Set tSC1 = tMessageBody.%OnTimeout()
+								If ('tSC1) Do ##class(Ens.Util.Log).LogStatus($classname(),"MessageHeaderHandler",tSC1)
+								Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from body %OnTimeout")
+							} catch ex {
+								If ex.Name '= "<METHOD DOES NOT EXIST>" Do ##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler")
+							}
+							If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after body %OnTimeout(); committing before proceeding")
+						}
+					}
+				}
+			}
+		}
+		If ..%MasterPendingResponses.Count()>0 {
+			Set tHasNonTimer=0
+			For i=1:1:..%MasterPendingResponses.Count() {
+				Set tEntry=..%MasterPendingResponses.GetAt(i)
+				If $li(tEntry,3)=0 Set tHasNonTimer=1 Quit
+			}
+			If tHasNonTimer=0 Do ..%MasterPendingResponses.Clear()
+		}
+		If 'pResponseIsError {
+			Set tResponse=..%response, pResponseIsError="" ; new tSC coming up for which OnError() has not been called
+			If pRequestHeader.MessageBodyClassName'="" {
+				Set tMessageBody = $classmethod(pRequestHeader.MessageBodyClassName,"%OpenId",pRequestHeader.MessageBodyId,,.tSC)
+				If '$IsObject(tMessageBody) Set tSC=$$Error^%apiOBJ("<Ens>ErrGeneral","Could not open request MessageBody "_pRequestHeader.MessageBodyId_" for MessageHeader #"_pRequestHeader.%Id()_" with body class "_pRequestHeader.MessageBodyClassName_":"_$$getAllErrorTexts^EnsUtil(tSC))  Quit
+				Set:tIsTimer ..%IsTimerInterrupted=tMessageBody.IsInterrupted
+			} Else {
+				Set tMessageBody = ""
+			}
+			If $D(^Ens.Runtime("CrashedMessage",pRequestHeader.%Id())) {
+				Kill ^Ens.Runtime("CrashedMessage",pRequestHeader.%Id())
+				Set tSC=##class(Ens.Util.Error).EnsError($classname(),"MessageHeaderHandler","<Ens>ErrPreviouslyCrashedMessage",pRequestHeader.%Id())
+			} Else {
+				Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling OnResponse")
+				Set $EC=""  try {
+					Set tSC=..OnResponse(..%request,.tResponse,tCallRequest,tMessageBody,tCompletionKey)
+				} catch ex {
+					Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler"))
+				}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnResponse(); committing before proceeding")
+				Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from OnResponse")
+			}
+			Set:(''tSC) tSC=..%responseSet(tResponse)
+		} Else {
+			Set tResponse=..%response
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling OnErroredResponse")
+			Set $EC=""  try {
+				Set tSC=..OnErroredResponse(tErroredResponseStatus,..%request,.tResponse,tCompletionKey)
+				Set pResponseIsError=('tSC)
+			} catch ex {
+				Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler")), pResponseIsError="" ; new tSC for which OnError() has not been called
+			}
+			If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnErroredResponse(); committing before proceeding")
+			Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from OnErroredResponse")
+			Quit:('tSC)
+			Set tSC=..%responseSet(tResponse)
+		}
+		Quit:('tSC)
+	} ; Else
+	Do pRequestHeader.SetStatus(9)
+	If ..%MasterPendingResponses.Count()=0 {
+		Set tResponse=..%response
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","calling OnComplete")
+		Set $EC=""  try {
+			Set tSC=..OnComplete(..%request,.tResponse)
+		} catch ex {
+			Set tSC=$Select($ZE="":ex.AsStatus(),1:##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler"))
+		}
+		If $TLevel>0 Set tTL=$TLevel  While $TLevel>0 { TCommit } Do ##class(Ens.Util.Log).LogWarning($classname(),"MessageHeaderHandler",tTL_" open user transaction"_$S(tTL>1:"s",1:"")_" found after OnComplete(); committing before proceeding")
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("bproc",$classname(),"MessageHeaderHandler","returned from OnComplete")
+		Set:(''tSC) tSC=..%responseSet(tResponse)
+		Quit:('tSC)
+		If ..%MasterPendingResponses.Count()=0 {
+			Set ..%IsCompleted = 1, ..%TimeCompleted = $zdatetime($ztimestamp,3,,3)
+			If ..%RepliedStatus=1 Set tSC=..Reply(..%response)
+		}
+	}
+ } catch {
+	Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"MessageHeaderHandler")
+ }
+ If ('tSC)&&(pRequestHeader.Type=2)&&(pRequestHeader.Status=3) {
+	Do pRequestHeader.SetStatus(8)
+ }
+ Quit tSC }
+OnErroredResponse(pErroredResponseStatus,request,response,pCompletionKey) methodimpl {
+ Set $ZT="Trap",tSC=1 do {
+ Set tSC=..%Thread.AnyHandlerActive(.tActive)
+ If ('tSC)
+ If tActive = 0 Set tSC=pErroredResponseStatus Quit
+ Set ..%Context.%LastError=pErroredResponseStatus
+ Set tSC=..%Thread.SwitchState(.tStatus,request,.response,pCompletionKey,1)
+ Kill %BPLVARS
+ If ('tSC) Quit
+ If '(tStatus=2||(tStatus=3)) { Do ##class(Ens.Util.Log).LogAssert($classname(),"OnErroredResponse","Assert Condition Failed: "_"tStatus=2||(tStatus=3)"_$char(13,10)) BREAK }
+ Set tSC=..UpdateSynchronizedResponses()
+ If ('tSC) Quit
+ } while (0)
+Exit Quit tSC
+Trap Set $ZT="",tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"OnErroredResponse") Goto Exit }
+OnGetReplyAction(pRequest,pResponse,pSC) methodimpl {
+ 	Set (tFullAction,tText)="", nActions=$S(""=$ZStrip(..ReplyCodeActions,"<>W"):0, 1:$L(..ReplyCodeActions,","))
+	For i=1:1:nActions { Set tType=$P(..ReplyCodeActions,",",i)  Continue:""=tType
+		Set tAction="", tCode=$ZStrip($P(tType,"="),"<>W"), tCodeU=$ZCVT(tCode,"U")
+		Set tKnown=$Case($E(tCodeU)
+						,"E":$Case($E(tCode,2)
+								,"#":1
+								,"*":1
+								,"":1
+								,:0)
+						,"X":$Case($E(tCode,2),"":1, :0)
+						,:0
+						)
+		If 'tKnown {
+			Do ##class(Ens.Util.Log).LogWarning($classname(),"OnGetReplyAction","Unrecognized reply code:'"_tType_"'")
+			Continue
+		}
+		Set tMatch=$Case($E(tCodeU)
+						,"E":('pSC)
+						,"X":'($Data(pResponse)#2&&$IsObject(pResponse))
+						,:0)
+				 && $Case($E(tCode,2)
+						,"#":$$StatusEquals^%apiOBJ(pSC,$E(tCode,3,*))
+						,"*":$$getAllErrorTexts^EnsUtil(pSC)[$E(tCode,3,*)
+						,:1)
+		If tMatch {
+			If $E(tCodeU)="X" {
+				Set tMatchText="Empty Response object matched ReplyCodeAction "_i_" : ':"_tType_"'"
+			} Else {
+				Set tMatchText="Status '"_$$getAllErrorTexts^EnsUtil(pSC)_"' matched ReplyCodeAction "_i_" : '"_tType_"'"
+			}
+			Set tAction=$ZCVT($ZStrip($P(tType,"=",2),"<>W"),"U")
+			Set:tAction'?1.(1"R",1"C",1"W",1"S",1"D",1"F") tAction=""
+			If ""=tAction {
+				Do ##class(Ens.Util.Log).LogWarning($classname(),"OnGetReplyAction","Unrecognized reply code action:'"_tType_"'")
+				Continue
+			}
+			Set:""'=tMatchText tText=tText_$S(""'=tText:" and ",1:"")_tMatchText
+			Set:tAction["W" tFullAction=""
+			Set tFullAction=tAction_$S(tAction["W":"",1:tFullAction)
+			Quit:tFullAction'?1."W"
+		}
+	}
+	Set:""'=tText ..%ActionHint("CodeReason")=
+		"Message body "_pRequest_" / "_pRequest.%Id()_" because "_
+		$S('$IsObject(pResponse):"",1:"response "_pResponse_$S(""=pResponse.%Id():"",1:" / "_pResponse.%Id())_" ")_
+		tText_" resulting in Action code "_tFullAction
+	Quit tFullAction }
+OnRequest(request,response) methodimpl {
+ Set $ZT="Trap",tSC=1 do {
+ Set ..%Thread=$zobjclassmethod("world.process.Thread1","%New",$this)
+ If '($IsObject(..%Thread)) { Do ##class(Ens.Util.Log).LogAssert($classname(),"OnRequest","Assert Condition Failed: "_"$IsObject(..%Thread)"_$char(13,10)) BREAK }
+ Set response=$zobjclassmethod("world.data","%New")
+ If '($IsObject(response)) { Do ##class(Ens.Util.Log).LogAssert($classname(),"OnRequest","Assert Condition Failed: "_"$IsObject(response)"_$char(13,10)) BREAK }
+ Set ..%Context=$zobjclassmethod("world.process.Context","%New",$this)
+ If '($IsObject(..%Context)) { Do ##class(Ens.Util.Log).LogAssert($classname(),"OnRequest","Assert Condition Failed: "_"$IsObject(..%Context)"_$char(13,10)) BREAK }
+ Set tSC=..%Thread.SwitchState(.tStatus,request,.response,"",0)
+ Kill %BPLVARS
+ If ('tSC) Quit
+ If '(tStatus=2||(tStatus=3)||(tStatus=4)) { Do ##class(Ens.Util.Log).LogAssert($classname(),"OnRequest","Assert Condition Failed: "_"tStatus=2||(tStatus=3)||(tStatus=4)"_$char(13,10)) BREAK }
+ If tStatus'=3&&(..%Context.%Id()'="")&&(..%SessionId'="") Kill ^Ens.BPL.Milestone(..%SessionId,..%Context.%Id())
+ } while (0)
+Exit Quit tSC
+Trap Set $ZT="",tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"OnRequest") Goto Exit }
+OnResponse(request,response,callrequest,callresponse,pCompletionKey) methodimpl {
+ Set $ZT="Trap",tSC=1 do {
+   If pCompletionKey'="" {
+     Set tResponseHandler=..%Context.%ResponseHandlers.GetAt(pCompletionKey)
+     If tResponseHandler'="" {
+       Set tSC=$zobjmethod(..%Context,tResponseHandler,$this,..%Context,request,.response,callrequest,callresponse,pCompletionKey)
+       If ('tSC) Quit
+    }
+  }
+  Set tSC=..%Thread.SwitchState(.tStatus,request,.response,pCompletionKey,0,callresponse)
+  Kill %BPLVARS
+  If ('tSC) Quit
+  If '(tStatus=2||(tStatus=3)) { Do ##class(Ens.Util.Log).LogAssert($classname(),"OnResponse","Assert Condition Failed: "_"tStatus=2||(tStatus=3)"_$char(13,10)) BREAK }
+  Set tSC=..UpdateSynchronizedResponses()
+  If ('tSC) Quit
+  If tStatus=2&&(..%Context.%Id()'="")&&(..%SessionId'="") Kill ^Ens.BPL.Milestone(..%SessionId,..%Context.%Id())
+ } while (0)
+Exit Quit tSC
+Trap Set $ZT="",tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"OnResponse") Goto Exit }
+%MasterPendingResponsesGetSwizz(noswizzle=0) methodimpl {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MasterPendingResponses=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="world.process:%MasterPendingResponses",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MasterPendingResponses%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MasterPendingResponsesOldGetSw(noswizzle=0) methodimpl {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MasterPendingResponsesOld=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="world.process:%MasterPendingResponsesOld",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MasterPendingResponsesOld%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MessagesReceivedGetSwizzled(noswizzle=0) methodimpl {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MessagesReceived=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="world.process:%MessagesReceived",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MessagesReceived%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MessagesReceivedOldGetSwizzled(noswizzle=0) methodimpl {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MessagesReceivedOld=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="world.process:%MessagesReceivedOld",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MessagesReceivedOld%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MessagesSentGetSwizzled(noswizzle=0) methodimpl {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MessagesSent=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="world.process:%MessagesSent",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MessagesSent%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%MessagesSentOldGetSwizzled(noswizzle=0) methodimpl {
+	Set oref=##class(%Collection.ListOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%MessagesSentOld=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="world.process:%MessagesSentOld",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%MessagesSentOld%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+%SynchronizedResponsesGetSwizzl(noswizzle=0) methodimpl {
+	Set oref=##class(%Collection.ArrayOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%SynchronizedResponses=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="world.process:%SynchronizedResponses",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%SynchronizedResponses%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+EnumerateSettingsGetInfo(colinfo,parminfo,idinfo,qHandle,extoption=0,extinfo) methodimpl {
+	Set colinfo=$lb($lb("Name",10,"Name"),$lb("Description",10,"Description"),$lb("Type",10,"Type"),$lb("Default",10,"Default"),$lb("MAXLEN",10,"MAXLEN"),$lb("MINVAL",10,"MINVAL"),$lb("MAXVAL",10,"MAXVAL"),$lb("VALUELIST",10,"VALUELIST"),$lb("DISPLAYLIST",10,"DISPLAYLIST"),$lb("IsRequired",10,"IsRequired"),$lb("LocalizedName",10,"LocalizedName"),$lb("Category",10,"Category"),$lb("LocalizedCategory",10,"LocalizedCategory"),$lb("EditorContext",10,"EditorContext"))
+	Set parminfo=""
+	Set idinfo=$lb(0,"")
+	If extoption {
+		Set extinfo=$lb("",$lb($lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("","")))
+	}
+	Quit 1 }
+EnumerateSettingsGetODBCInfo(colinfo,parminfo,qHandle) methodimpl {
+	Set metadata=$lb(1,14,"Name",12,50,0,2,"Name","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"Description",12,50,0,2,"Description","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"Type",12,50,0,2,"Type","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"Default",12,50,0,2,"Default","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"MAXLEN",12,50,0,2,"MAXLEN","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"MINVAL",12,50,0,2,"MINVAL","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"MAXVAL",12,50,0,2,"MAXVAL","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"VALUELIST",12,50,0,2,"VALUELIST","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"DISPLAYLIST",12,50,0,2,"DISPLAYLIST","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"IsRequired",12,50,0,2,"IsRequired","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedName",12,50,0,2,"LocalizedName","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"Category",12,50,0,2,"Category","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedCategory",12,50,0,2,"LocalizedCategory","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"EditorContext",12,50,0,2,"EditorContext","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	Set colinfo=$li(metadata,2,2+cmdlen)
+	Quit 1 }
+ExtentExecute(%qHandle) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set sc=1
+	 ;---&sql(DECLARE QExtent CURSOR FOR
+ 	 ;---		 SELECT ID FROM %NOPARALLEL world.process)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	 
+	 ;---&sql(OPEN QExtent)
+	if $g(%qHandle)'="" { s SQLCODE=-101 } else { try { s %qHandle="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EPnSmGi1PIt1laWVPKCuXbvgJuB",%qHandle=$classmethod(%qHandle,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%qHandle)),$ze'["<ZSQLU>" { throw } } if '$isobject(%qHandle) { s %qHandle=$$%0dsqlN() } }
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5821,"SQLCODE = "_SQLCODE_" %msg = "_$g(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentFetch(%qHandle,Row,AtEnd=0) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set Row="",AtEnd=0
+	 ;---&sql(FETCH QExtent INTO :c1)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+	If 'SQLCODE { Set Row=$lb(c1) Set sc=1 }
+	ElseIf SQLCODE=100 { Set AtEnd=1,sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) }
+	Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set AtEnd=1,sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	QUIT sc }
+ExtentFetchRows(%qHandle,FetchCount=0,RowSet,ReturnCount,AtEnd) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set RowSet="",ReturnCount=0,AtEnd=0
+	For {
+		 ;---&sql(FETCH QExtent INTO :c1)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+		if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+		If 'SQLCODE { Set RowSet=RowSet_$lb(c1),ReturnCount=ReturnCount+1 Quit:(ReturnCount=FetchCount)||(($l(RowSet)+($l(RowSet)\ReturnCount))>30000) } Else { Set AtEnd=1 Quit }
+	}
+	If 'SQLCODE { Set sc=1 } ElseIf SQLCODE=100 { Set sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) } Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	Quit sc }
+ExtentSendODBC(%qHandle,array,qacn,%qrc,piece,ColumnCount) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set %qrc=0,piece=0
+	for {
+		set rc=..ExtentFetch(.%qHandle,.row,.atend)
+		if ('rc) { set %qrc=-400 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=-400,%sqlcontext.Message=$g(%msg) do ProcessError^%ourProcedure(rc,$get(%sqlcontext),.%qrc,.%msg),Logerr^%SYS.SQLSRV(%qrc,"","SP",.%msg) RETURN  }
+		if row="" { set %qrc=100 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=100 RETURN  }
+		RETURN:$zobjexport(row,60)
+	}
+	RETURN }
+ q
+%0dsqlN()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE QExtent CURSOR FOR SELECT ID "
+	s %xxsql("S",2)="INTO  :i%sqlcol1"
+	s %xxsql("S",3)="FROM %NOPARALLEL world . process"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Runtime","","","world",0,"",),",1,QExtent,","world.process.CLS",1)
+	q %xxoref
+ExtentFunc() methodimpl {
+	try {
+		set tSchemaPath = ##class(%SQL.Statement).%ClassPath($classname())
+			set tStatement = ##class(%SQL.Statement).%New(,tSchemaPath)
+			do tStatement.prepare(" SELECT ID FROM %NOPARALLEL world . process /*#OPTIONS {""DynamicSQL"":1} */")
+		set tResult = tStatement.%Execute()
+	}
+	catch tException { if '$Isobject($Get(tResult)) { set tResult = ##class(%SQL.StatementResult).%New() } set tResult.%SQLCODE=tException.AsSQLCODE(),tResult.%Message=tException.AsSQLMessage() }
+	Quit tResult }
+zExtentGetODBCInfo(colinfo,parminfo,qHandle) methodimpl
+	Set metadata=$lb(1,1,"ID",4,10,0,2,"ID","process","world","",$c(0,0,0,0,0,0,0,0,0,0,0,1,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	Set colinfo=$li(metadata,2,2+cmdlen)
+	Quit 1
+zIDKEYSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+	 ;---if pFromOrig &sql(SELECT ID FROM Ens.BusinessProcess WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %pID, %pVals, SQLCODE
+	if pFromOrig try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EKhVzppcghXjh0U0o2ZvrVU7ANu","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EKhVzppcghXjh0U0o2ZvrVU7ANu"))||($ze["<ZSQLU>") { d %0dsqlR } else { throw } } QUIT SQLCODE=100
+	 ;---&sql(SELECT ID FROM world.process WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %pID, %pVals, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eak5NH8amIFR3GKEdQ68ojHBx7m","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eak5NH8amIFR3GKEdQ68ojHBx7m"))||($ze["<ZSQLU>") { d %0dsqlT } else { throw } } QUIT SQLCODE=100
+ q
+%0dsqlR	n %xxsql
+	s %xxsql("S",1)="SELECT ID FROM Ens . BusinessProcess WHERE ID = :%pVals(1) AND ( %ID <> :%pID OR :%pID IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.process.CLS")
+	return
+%0dsqlT	n %xxsql
+	s %xxsql("S",1)="SELECT ID FROM world . process WHERE ID = :%pVals(1) AND ( %ID <> :%pID OR :%pID IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.process.CLS")
+	return
+zIDKEYSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key IDKEY.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"world"_"."_"process"_":"_"IDKEY") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv='..IDKEYSQLCheckUnique(0,,%pVal(1)) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+SessionIdExists(K1,id="") [ K1,SQLCODE,id ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	 ;---&sql(SELECT %ID INTO :id FROM world.process WHERE (:K1 is not null and %SessionId = :K1) OR (:K1 IS NULL AND %SessionId IS NULL))
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, K1, SQLCODE, id
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E3g2m1fj2tQvgDTgg63EEOB40HS","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E3g2m1fj2tQvgDTgg63EEOB40HS"))||($ze["<ZSQLU>") { d %0dsqlV } else { throw } }
+	Quit $select('SQLCODE:1,1:0) }
+ q
+%0dsqlV	n %xxsql
+	s %xxsql("S",1)="SELECT %ID INTO :id FROM world . process WHERE ( :K1 IS NOT NULL AND %SessionId = :K1 ) OR ( :K1 IS NULL AND %SessionId IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.process.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set id="" } catch {} }
+	return
+TimeCreatedExists(K1,id="") [ K1,SQLCODE,id ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	 ;---&sql(SELECT %ID INTO :id FROM world.process WHERE (:K1 is not null and %TimeCreated = :K1) OR (:K1 IS NULL AND %TimeCreated IS NULL))
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, K1, SQLCODE, id
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Ejf3OlrKmHy82hNiqmuDX8PXrfA","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Ejf3OlrKmHy82hNiqmuDX8PXrfA"))||($ze["<ZSQLU>") { d %0dsqlX } else { throw } }
+	Quit $select('SQLCODE:1,1:0) }
+ q
+%0dsqlX	n %xxsql
+	s %xxsql("S",1)="SELECT %ID INTO :id FROM world . process WHERE ( :K1 IS NOT NULL AND %TimeCreated = :K1 ) OR ( :K1 IS NULL AND %TimeCreated IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),,"world.process.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set id="" } catch {} }
+	return
+zOnDeleteExecute(%oper=0,pNew,pOld,pChanged,%ok,%msg) methodimpl
+     ;---&sql(DELETE from Ens_BP.Context where %ID = :pNew(4) )
+      ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, pNew
+    try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EFgiGH9no2WHUqtDbNrURPdo5kE","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EFgiGH9no2WHUqtDbNrURPdo5kE"))||($ze["<ZSQLU>") { d %0dsqlZ } else { throw } }
+     ;---&sql(DELETE from Ens_BP.Thread where %Process = :pNew(1))
+      ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, pNew
+    try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EqLKCNQdSmQ70Bmy5tK7ycWIyef","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EqLKCNQdSmQ70Bmy5tK7ycWIyef"))||($ze["<ZSQLU>") { d %0dsql1 } else { throw } }
+	QUIT
+ q
+%0dsqlZ	n %xxsql
+	s %xxsql("S",1)="DELETE FROM Ens_BP . Context WHERE %ID = :pNew(4)"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Ens,world",0,"",),,"world.process.CLS")
+	return
+%0dsql1	n %xxsql
+	s %xxsql("S",1)="DELETE FROM Ens_BP . Thread WHERE %Process = :pNew(1)"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")=""
+	s %xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Ens,world",0,"",),,"world.process.CLS")
+	return
+%sqllistUCQ(t) public	{
+	s t("%0dsql1")="",t("%0dsqlA")="",t("%0dsqlD")="",t("%0dsqlF")="",t("%0dsqlH")="",t("%0dsqlJ")="",t("%0dsqlL")="",t("%0dsqlN")=""
+	s t("%0dsqlR")="",t("%0dsqlT")="",t("%0dsqlV")="",t("%0dsqlX")="",t("%0dsqlZ")=""
+}

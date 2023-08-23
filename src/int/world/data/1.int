@@ -1,0 +1,2876 @@
+ROUTINE world.data.1 [Type=INT,Generated]
+ ;world.data.1
+ ;Generated for class world.data.  Do NOT edit. 08/16/2023 01:18:42PM
+ ;;4B38324A;world.data
+ ;
+SQLUPPER(v,l) { quit $zu(28,v,7,$g(l,32767)) }
+ALPHAUP(v,r) { quit $zu(28,v,6) }
+STRING(v,l) { quit $zu(28,v,9,$g(l,32767)) }
+SQLSTRING(v,l) { quit $zu(28,v,8,$g(l,32767)) }
+UPPER(v) { quit $zu(28,v,5) }
+MVR(v) { quit $zu(28,v,2) }
+TRUNCATE(v,l) { quit $e(v,1,$g(l,3641144)) }
+%BuildDeferredIndices(lockFlag=0,journalFlag=1) methodimpl {
+	return $$Error^%apiOBJ(5758,"%Storage.Persistent::%BuildDeferredIndices") }
+%BuildIndices(pIndexList="",pAutoPurge=1,pLockFlag=0,pJournalFlag="",pStartID="",pEndID="",pIgnoreIndexList="") methodimpl {
+	If (pIndexList="")||(($listlength(pIndexList)=1)&&($listget(pIndexList,1)="")) { Quit 1 }
+	Quit $$Error^%apiOBJ(5066,$classname()_"::"_$ListToString(pIndexList)) }
+%BuildIndicesSegment(pStartID,pEndID,pIndexHandle=0,pLockFlag=1,pFirstRange=0,pJob="") methodimpl {
+	QUIT 1 }
+%CheckConstraints(pID,pConstraintList="",pCheckDisabled=0,pErrorInfo) methodimpl {
+	if (''..%OnDetermineClass($select(pID="":"",1:$listbuild(pID_"")),.tMSTC)) && (tMSTC '= $classname()) { quit $classmethod(tMSTC,"%CheckConstraints",pID,pConstraintList) } else { quit 1 } }
+%CheckConstraintsForExtent(pConstraintList="",pCheckDisabled=0,pErrorLog) [ SQLCODE,tID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,tID 
+	kill pErrorLog set tStatusAll = 1, pErrorLog = 0 if '$listvalid(pConstraintList) { set pConstraintList = $listfromstring(pConstraintList) }
+	 ;---&sql(declare ext cursor for select %ID into :tID FROM %NOPARALLEL world.data)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, tID
+	 
+	 ;---&sql(open ext)
+	if $g(%ext0622)'="" { s SQLCODE=-101 } else { try { s %ext0622="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eg229PmNf3VF1snsWxq3JJTe2LD",%ext0622=$classmethod(%ext0622,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%ext0622)),$ze'["<ZSQLU>" { throw } } if '$isobject(%ext0622) { s %ext0622=$$%0dsqlA() } }
+	if SQLCODE '< 0 {
+		for {
+			 ;---&sql(fetch ext)
+ 			 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+			if $isobject($g(%ext0622))'=1 { s SQLCODE=-102 } else { do %ext0622.FET() }
+			if SQLCODE { if SQLCODE=100 { quit } elseif SQLCODE<0 { set tStatusAll = $select(+tStatusAll:$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)),1:$$AppendStatus^%occSystem(tStatusAll,$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)))) quit } }
+			set tStatus = ..%CheckConstraints(tID,pConstraintList,pCheckDisabled,.tErrorInfo)
+			if ('tStatus) { set tStatusAll = $select(+tStatusAll:tStatus,1:$$AppendStatus^%occSystem(tStatusAll,tStatus)) set:pErrorLog<1000 pErrorLog = pErrorLog + 1, pErrorLog(pErrorLog) = tErrorInfo _ $Listbuild(tStatus) }
+		}
+		 ;---&sql(close ext)
+		if '$isobject($get(%ext0622)) { set SQLCODE=-102 } else { set SQLCODE=0 kill %ext0622 }
+	}
+	quit tStatusAll }
+ q
+%0dsqlA()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE ext CURSOR FOR SELECT %ID INTO :tID FROM %NOPARALLEL world . data"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%PVA")="",%xxsql("I","%callout")="",%xxsql("I","%jsonMap")=""
+	s %xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","world",0,"",),",0,ext,","world.data.CLS",1)
+	i $g(SQLCODE) { s tID="" }
+	q %xxoref
+%ComposeOid(id) methodimpl {
+	set tCLASSNAME = $listget($g(^world.dataD(id)),1)
+	if tCLASSNAME="" { quit $select(id="":"",1:$listbuild(id_"","world.data")) }
+	set tClass=$piece(tCLASSNAME,$extract(tCLASSNAME),*-1)
+	set:tClass'["." tClass="User."_tClass
+	quit $select(id="":"",1:$listbuild(id_"",tClass)) }
+%DeleteData(id,concurrency) methodimpl {
+	Quit:id="" $$Error^%apiOBJ(5812)
+	set $Ztrap="DeleteDataERR" set lockok=0,sc=""
+	If concurrency {
+		Lock +(^world.dataD(id)#"E"):$zu(115,4)
+		Set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0))
+		Set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1
+		If 'lockok {
+			Quit $$Error^%apiOBJ(5803,$classname())
+		}
+	}
+	If ($Data(^world.dataD(id))) {
+		If $data(^oddEXTR($classname())) {
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"%1","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"%1","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",id)
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"IDKEY","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"IDKEY","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",id)
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+		}
+		Kill ^world.dataD(id)
+		Set sc=1
+	}
+	Else { Set sc=$$Error^%apiOBJ(5810,$classname(),id) }
+DeleteDataEXIT
+	If concurrency,lockok {
+		Lock -(^world.dataD(id)#"E")
+	}
+DeleteDataRET	Set $Ztrap = ""
+	QUIT sc
+DeleteDataERR	Set $Ztrap = "DeleteDataRET"
+	Set sc = $$Error^%apiOBJ(5002,$ZE)
+	Goto DeleteDataEXIT }
+%Exists(oid="") methodimpl {
+	Quit ..%ExistsId($listget(oid)) }
+%ExistsId(id) methodimpl {
+	Try { set tExists = $s(id="":0,$d(^world.dataD(id)):1,1:0) } catch tException { set tExists = 0 if '(tException.%IsA("%Exception.SystemException")) { throw tException } elseif tException.Name'="<SUBSCRIPT>" { ZT $ZE } } quit tExists }
+%FileIndices(id,pIndexHandle=0,pVectorBuffer) methodimpl {
+	Quit 1 }
+%InsertBatch(objects,concurrency=0,useTransactions=0) methodimpl {
+	try {
+		set numerrs=0,errs="",cnt=0,ptr=0
+		while $listnext(objects,ptr,data) {
+			set cnt=cnt+1
+			set lock=0
+			if (useTransactions) tstart
+			set id=$i(^world.dataD)
+			try {
+				set tInnerException = ""
+				;
+				if concurrency { lock +(^world.dataD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				set ^world.dataD(id)=data
+				if (useTransactions) { tcommit }
+			}
+			catch tInnerException {
+				set newerr=$lb(cnt,tInnerException.AsStatus())
+				if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+				if (useTransactions) && ($Tlevel) trollback
+			}
+			if lock lock -(^world.dataD(id)#"E")
+		}
+	}
+	catch tException {
+		set newerr=$lb($g(cnt),tException.AsStatus())
+		if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+	}
+	QUIT ($lb(numerrs))_errs }
+%JSONExportInternal() methodimpl {
+  Set sc=1
+  Write "{" Set sep=""
+  If %mappingName="Cible1" {
+    Set value=..Country
+    If value'="" {
+      Write sep_"""Le Pays"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+  } ElseIf %mappingName="Cible2" {
+    Set value=..Country
+    If value'="" {
+      Write sep_"""Le Pays Cible2"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..AgriculturalLand
+    If value'="" {
+      Write sep_"""AgriculturalLand"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..BirthRate
+    If value'="" {
+      Write sep_"""BirthRate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+  } ElseIf %mappingName="Julia" {
+    Set value=..Country
+    If value'="" {
+      Write sep_"""Le Pays"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+  } Else {
+    Set value=..Country
+    If value'="" {
+      Write sep_"""Pays"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..DensityPKm2
+    If value'="" {
+      Write sep_"""DensityPKm2"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Abbreviation
+    If value'="" {
+      Write sep_"""Abbreviation"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..AgriculturalLand
+    If value'="" {
+      Write sep_"""AgriculturalLand"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..LandAreaKm2
+    If value'="" {
+      Write sep_"""LandAreaKm2"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..ArmedForcessize
+    If value'="" {
+      Write sep_"""ArmedForcessize"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..BirthRate
+    If value'="" {
+      Write sep_"""BirthRate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CallingCode
+    If value'="" {
+      Write sep_"""CallingCode"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CapitalMajorCity
+    If value'="" {
+      Write sep_"""CapitalMajorCity"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Co2Emissions
+    If value'="" {
+      Write sep_"""Co2Emissions"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CPI
+    If value'="" {
+      Write sep_"""CPI"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CPIChange
+    If value'="" {
+      Write sep_"""CPIChange"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CurrencyCode
+    If value'="" {
+      Write sep_"""CurrencyCode"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..FertilityRate
+    If value'="" {
+      Write sep_"""FertilityRate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..ForestedArea
+    If value'="" {
+      Write sep_"""ForestedArea"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..GasolinePrice
+    If value'="" {
+      Write sep_"""GasolinePrice"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..GDP
+    If value'="" {
+      Write sep_"""GDP"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Grossprimaryeducationenrollment
+    If value'="" {
+      Write sep_"""Grossprimaryeducationenrollment"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Grosstertiaryeducationenrollment
+    If value'="" {
+      Write sep_"""Grosstertiaryeducationenrollment"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Infantmortality
+    If value'="" {
+      Write sep_"""Infantmortality"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Largestcity
+    If value'="" {
+      Write sep_"""Largestcity"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Lifeexpectancy
+    If value'="" {
+      Write sep_"""Lifeexpectancy"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Maternalmortalityratio
+    If value'="" {
+      Write sep_"""Maternalmortalityratio"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Minimumwage
+    If value'="" {
+      Write sep_"""Minimumwage"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Officiallanguage
+    If value'="" {
+      Write sep_"""Officiallanguage"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Outofpockethealthexpenditure
+    If value'="" {
+      Write sep_"""Outofpockethealthexpenditure"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Physiciansperthousand
+    If value'="" {
+      Write sep_"""Physiciansperthousand"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Population
+    If value'="" {
+      Write sep_"""Population"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..PopulationLaborforceparticipation
+    If value'="" {
+      Write sep_"""PopulationLaborforceparticipation"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Taxrevenue
+    If value'="" {
+      Write sep_"""Taxrevenue"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Totaltaxrate
+    If value'="" {
+      Write sep_"""Totaltaxrate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Unemploymentrate
+    If value'="" {
+      Write sep_"""Unemploymentrate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Urbanpopulation
+    If value'="" {
+      Write sep_"""Urbanpopulation"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Latitude
+    If value'="" {
+      Write sep_"""Latitude"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Longitude
+    If value'="" {
+      Write sep_"""Longitude"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+  }
+  Write "}"
+%JSONExportExit Quit sc }
+%JSONExportToStringInternal() methodimpl {
+  Set sc=1
+  Set %export=%export_"{" Set sep=""
+  If %mappingName="Cible1" {
+    Set value=..Country
+    If value'="" {
+      Set %export=%export_sep_"""Le Pays"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+  } ElseIf %mappingName="Cible2" {
+    Set value=..Country
+    If value'="" {
+      Set %export=%export_sep_"""Le Pays Cible2"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..AgriculturalLand
+    If value'="" {
+      Set %export=%export_sep_"""AgriculturalLand"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..BirthRate
+    If value'="" {
+      Set %export=%export_sep_"""BirthRate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+  } ElseIf %mappingName="Julia" {
+    Set value=..Country
+    If value'="" {
+      Set %export=%export_sep_"""Le Pays"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+  } Else {
+    Set value=..Country
+    If value'="" {
+      Set %export=%export_sep_"""Pays"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..DensityPKm2
+    If value'="" {
+      Set %export=%export_sep_"""DensityPKm2"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Abbreviation
+    If value'="" {
+      Set %export=%export_sep_"""Abbreviation"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..AgriculturalLand
+    If value'="" {
+      Set %export=%export_sep_"""AgriculturalLand"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..LandAreaKm2
+    If value'="" {
+      Set %export=%export_sep_"""LandAreaKm2"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..ArmedForcessize
+    If value'="" {
+      Set %export=%export_sep_"""ArmedForcessize"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..BirthRate
+    If value'="" {
+      Set %export=%export_sep_"""BirthRate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CallingCode
+    If value'="" {
+      Set %export=%export_sep_"""CallingCode"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CapitalMajorCity
+    If value'="" {
+      Set %export=%export_sep_"""CapitalMajorCity"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Co2Emissions
+    If value'="" {
+      Set %export=%export_sep_"""Co2Emissions"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CPI
+    If value'="" {
+      Set %export=%export_sep_"""CPI"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CPIChange
+    If value'="" {
+      Set %export=%export_sep_"""CPIChange"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..CurrencyCode
+    If value'="" {
+      Set %export=%export_sep_"""CurrencyCode"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..FertilityRate
+    If value'="" {
+      Set %export=%export_sep_"""FertilityRate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..ForestedArea
+    If value'="" {
+      Set %export=%export_sep_"""ForestedArea"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..GasolinePrice
+    If value'="" {
+      Set %export=%export_sep_"""GasolinePrice"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..GDP
+    If value'="" {
+      Set %export=%export_sep_"""GDP"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Grossprimaryeducationenrollment
+    If value'="" {
+      Set %export=%export_sep_"""Grossprimaryeducationenrollment"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Grosstertiaryeducationenrollment
+    If value'="" {
+      Set %export=%export_sep_"""Grosstertiaryeducationenrollment"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Infantmortality
+    If value'="" {
+      Set %export=%export_sep_"""Infantmortality"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Largestcity
+    If value'="" {
+      Set %export=%export_sep_"""Largestcity"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Lifeexpectancy
+    If value'="" {
+      Set %export=%export_sep_"""Lifeexpectancy"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Maternalmortalityratio
+    If value'="" {
+      Set %export=%export_sep_"""Maternalmortalityratio"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Minimumwage
+    If value'="" {
+      Set %export=%export_sep_"""Minimumwage"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Officiallanguage
+    If value'="" {
+      Set %export=%export_sep_"""Officiallanguage"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Outofpockethealthexpenditure
+    If value'="" {
+      Set %export=%export_sep_"""Outofpockethealthexpenditure"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Physiciansperthousand
+    If value'="" {
+      Set %export=%export_sep_"""Physiciansperthousand"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Population
+    If value'="" {
+      Set %export=%export_sep_"""Population"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..PopulationLaborforceparticipation
+    If value'="" {
+      Set %export=%export_sep_"""PopulationLaborforceparticipation"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Taxrevenue
+    If value'="" {
+      Set %export=%export_sep_"""Taxrevenue"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Totaltaxrate
+    If value'="" {
+      Set %export=%export_sep_"""Totaltaxrate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Unemploymentrate
+    If value'="" {
+      Set %export=%export_sep_"""Unemploymentrate"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Urbanpopulation
+    If value'="" {
+      Set %export=%export_sep_"""Urbanpopulation"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Latitude
+    If value'="" {
+      Set %export=%export_sep_"""Latitude"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+    Set value=..Longitude
+    If value'="" {
+      Set %export=%export_sep_"""Longitude"":"""_$select((value=$c(0)):"",1:$zcvt(value,"O","JSON"))_""""
+      Set $extract(sep,1)=","
+    }
+  }
+  Set %export=%export_"}"
+%JSONExportExitToString Quit sc }
+%JSONImportInternal() methodimpl {
+  Set sc=1
+  If %mappingName="Cible1" {
+    Set testInvalidField=1
+    Set proplist("Le Pays")=""
+    Set field="Le Pays" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Country=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject."Le Pays"
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Country=data
+      }
+    }
+    Set proplist("AgriculturalLand")=""
+    Set field="AgriculturalLand" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..AgriculturalLand=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.AgriculturalLand
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..AgriculturalLand=data
+      }
+    }
+  } ElseIf %mappingName="Cible2" {
+    Set testInvalidField=1
+    Set proplist("Le Pays Cible2")=""
+    Set field="Le Pays Cible2" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Country=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject."Le Pays Cible2"
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Country=data
+      }
+    }
+    Set proplist("AgriculturalLand")=""
+    Set field="AgriculturalLand" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..AgriculturalLand=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.AgriculturalLand
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..AgriculturalLand=data
+      }
+    }
+    Set proplist("BirthRate")=""
+    Set field="BirthRate" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..BirthRate=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.BirthRate
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..BirthRate=data
+      }
+    }
+  } ElseIf %mappingName="Julia" {
+    Set testInvalidField=1
+    Set proplist("Le Pays")=""
+    Set field="Le Pays" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Country=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject."Le Pays"
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Country=data
+      }
+    }
+    Set proplist("AgriculturalLand")=""
+    Set field="AgriculturalLand" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..AgriculturalLand=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.AgriculturalLand
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..AgriculturalLand=data
+      }
+    }
+  } Else {
+    Set testInvalidField=1
+    Set proplist("Pays")=""
+    Set field="Pays" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Country=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Pays
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Country=data
+      }
+    }
+    Set proplist("DensityPKm2")=""
+    Set field="DensityPKm2" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..DensityPKm2=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.DensityPKm2
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..DensityPKm2=data
+      }
+    }
+    Set proplist("Abbreviation")=""
+    Set field="Abbreviation" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Abbreviation=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Abbreviation
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Abbreviation=data
+      }
+    }
+    Set proplist("AgriculturalLand")=""
+    Set field="AgriculturalLand" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..AgriculturalLand=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.AgriculturalLand
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..AgriculturalLand=data
+      }
+    }
+    Set proplist("LandAreaKm2")=""
+    Set field="LandAreaKm2" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..LandAreaKm2=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.LandAreaKm2
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..LandAreaKm2=data
+      }
+    }
+    Set proplist("ArmedForcessize")=""
+    Set field="ArmedForcessize" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..ArmedForcessize=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.ArmedForcessize
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..ArmedForcessize=data
+      }
+    }
+    Set proplist("BirthRate")=""
+    Set field="BirthRate" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..BirthRate=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.BirthRate
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..BirthRate=data
+      }
+    }
+    Set proplist("CallingCode")=""
+    Set field="CallingCode" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..CallingCode=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.CallingCode
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..CallingCode=data
+      }
+    }
+    Set proplist("CapitalMajorCity")=""
+    Set field="CapitalMajorCity" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..CapitalMajorCity=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.CapitalMajorCity
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..CapitalMajorCity=data
+      }
+    }
+    Set proplist("Co2Emissions")=""
+    Set field="Co2Emissions" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Co2Emissions=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Co2Emissions
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Co2Emissions=data
+      }
+    }
+    Set proplist("CPI")=""
+    Set field="CPI" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..CPI=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.CPI
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..CPI=data
+      }
+    }
+    Set proplist("CPIChange")=""
+    Set field="CPIChange" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..CPIChange=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.CPIChange
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..CPIChange=data
+      }
+    }
+    Set proplist("CurrencyCode")=""
+    Set field="CurrencyCode" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..CurrencyCode=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.CurrencyCode
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..CurrencyCode=data
+      }
+    }
+    Set proplist("FertilityRate")=""
+    Set field="FertilityRate" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..FertilityRate=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.FertilityRate
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..FertilityRate=data
+      }
+    }
+    Set proplist("ForestedArea")=""
+    Set field="ForestedArea" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..ForestedArea=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.ForestedArea
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..ForestedArea=data
+      }
+    }
+    Set proplist("GasolinePrice")=""
+    Set field="GasolinePrice" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..GasolinePrice=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.GasolinePrice
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..GasolinePrice=data
+      }
+    }
+    Set proplist("GDP")=""
+    Set field="GDP" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..GDP=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.GDP
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..GDP=data
+      }
+    }
+    Set proplist("Grossprimaryeducationenrollment")=""
+    Set field="Grossprimaryeducationenrollment" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Grossprimaryeducationenrollment=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Grossprimaryeducationenrollment
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Grossprimaryeducationenrollment=data
+      }
+    }
+    Set proplist("Grosstertiaryeducationenrollment")=""
+    Set field="Grosstertiaryeducationenrollment" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Grosstertiaryeducationenrollment=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Grosstertiaryeducationenrollment
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Grosstertiaryeducationenrollment=data
+      }
+    }
+    Set proplist("Infantmortality")=""
+    Set field="Infantmortality" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Infantmortality=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Infantmortality
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Infantmortality=data
+      }
+    }
+    Set proplist("Largestcity")=""
+    Set field="Largestcity" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Largestcity=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Largestcity
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Largestcity=data
+      }
+    }
+    Set proplist("Lifeexpectancy")=""
+    Set field="Lifeexpectancy" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Lifeexpectancy=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Lifeexpectancy
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Lifeexpectancy=data
+      }
+    }
+    Set proplist("Maternalmortalityratio")=""
+    Set field="Maternalmortalityratio" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Maternalmortalityratio=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Maternalmortalityratio
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Maternalmortalityratio=data
+      }
+    }
+    Set proplist("Minimumwage")=""
+    Set field="Minimumwage" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Minimumwage=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Minimumwage
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Minimumwage=data
+      }
+    }
+    Set proplist("Officiallanguage")=""
+    Set field="Officiallanguage" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Officiallanguage=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Officiallanguage
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Officiallanguage=data
+      }
+    }
+    Set proplist("Outofpockethealthexpenditure")=""
+    Set field="Outofpockethealthexpenditure" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Outofpockethealthexpenditure=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Outofpockethealthexpenditure
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Outofpockethealthexpenditure=data
+      }
+    }
+    Set proplist("Physiciansperthousand")=""
+    Set field="Physiciansperthousand" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Physiciansperthousand=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Physiciansperthousand
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Physiciansperthousand=data
+      }
+    }
+    Set proplist("Population")=""
+    Set field="Population" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Population=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Population
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Population=data
+      }
+    }
+    Set proplist("PopulationLaborforceparticipation")=""
+    Set field="PopulationLaborforceparticipation" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..PopulationLaborforceparticipation=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.PopulationLaborforceparticipation
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..PopulationLaborforceparticipation=data
+      }
+    }
+    Set proplist("Taxrevenue")=""
+    Set field="Taxrevenue" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Taxrevenue=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Taxrevenue
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Taxrevenue=data
+      }
+    }
+    Set proplist("Totaltaxrate")=""
+    Set field="Totaltaxrate" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Totaltaxrate=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Totaltaxrate
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Totaltaxrate=data
+      }
+    }
+    Set proplist("Unemploymentrate")=""
+    Set field="Unemploymentrate" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Unemploymentrate=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Unemploymentrate
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Unemploymentrate=data
+      }
+    }
+    Set proplist("Urbanpopulation")=""
+    Set field="Urbanpopulation" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Urbanpopulation=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Urbanpopulation
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Urbanpopulation=data
+      }
+    }
+    Set proplist("Latitude")=""
+    Set field="Latitude" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Latitude=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Latitude
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Latitude=data
+      }
+    }
+    Set proplist("Longitude")=""
+    Set field="Longitude" Set jsontype=$CASE(%JSONObject.%GetTypeCodeOf(field),0:"null",1:"boolean",2:"boolean",3:"number",4:"number",6:"array",7:"object",8:"string",9:"number",10:"string",11:"number",12:"oref",13:"unassigned",14:"number",15:"number",16:"string",18:"number",19:"number",20:"string",31:"unassigned",:"UNKNOWN")
+    If jsontype'="unassigned" {
+      If (jsontype="string")&&(%JSONObject.%Get(field)="") Set jsontype="null"
+      If jsontype="null" {
+        Set ..Longitude=""
+      } Else {
+        If jsontype'="string" Goto %JSONImportError
+        Set data=%JSONObject.Longitude
+        If ('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) Goto %JSONImportError
+        If data="" Set data=$c(0)
+        Set ..Longitude=data
+      }
+    }
+  }
+  If $get(testInvalidField) {
+    Set invalid=0,iterator=%JSONObject.%GetIterator()
+    While iterator.%GetNext(.key,.value) { If $data(proplist(key))=0 Set invalid=1 Quit  }
+    If invalid Quit $$Error^%apiOBJ(9404,key,$select(%mappingName="":"class base",1:%mappingName))
+  }
+%JSONImportExit Quit sc
+%JSONImportError Quit $$Error^%apiOBJ(9406,field,$select(%mappingName="":"class base",1:%mappingName)) }
+%JSONNew(dynamicObject,containerOref="") methodimpl {
+  Quit ##class(world.data).%New()
+}
+%KillExtentData(killstreams=0) methodimpl
+	Set $sequence(^world.dataD)=""
+	If killstreams Set $sequence(^world.dataS)="" Kill ^world.dataS
+	Kill ^world.dataD
+	Quit 1
+%LoadData(id) methodimpl {
+	New %s1
+	set $ZTrap="CatchError",locked=0,userze=$ze,$ze=""
+	If i%%Concurrency=4 {
+		Lock +(^world.dataD(id)#"E"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 s:$ze="" $ze=userze return $$Error^%apiOBJ(5803,$classname())
+	} ElseIf i%%Concurrency>1 {
+		Lock +(^world.dataD(id)#"SE"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 s:$ze="" $ze=userze return $$Error^%apiOBJ(5804,$classname())
+		set locked = 1
+	}
+	If $d(^world.dataD(id),%s1)#2 {
+		If i%%Concurrency=2 { Lock -(^world.dataD(id)#"SIE") }
+		S i%Country=$lg(%s1,2),i%DensityPKm2=$lg(%s1,3),i%Abbreviation=$lg(%s1,4),i%AgriculturalLand=$lg(%s1,5),i%LandAreaKm2=$lg(%s1,6),i%ArmedForcessize=$lg(%s1,7),i%BirthRate=$lg(%s1,8),i%CallingCode=$lg(%s1,9)
+		Set iscpos=$l($li(%s1,1,9))+1,isctmp=$li($e(%s1,iscpos,*),1,9),i%CapitalMajorCity=$lg(isctmp),i%Co2Emissions=$lg(isctmp,2),i%CPI=$lg(isctmp,3),i%CPIChange=$lg(isctmp,4),i%CurrencyCode=$lg(isctmp,5),i%FertilityRate=$lg(isctmp,6),i%ForestedArea=$lg(isctmp,7),i%GasolinePrice=$lg(isctmp,8),i%GDP=$lg(isctmp,9)
+		Set iscpos=iscpos+$l(isctmp),isctmp=$li($e(%s1,iscpos,*),1,9),i%Grossprimaryeducationenrollment=$lg(isctmp),i%Grosstertiaryeducationenrollment=$lg(isctmp,2),i%Infantmortality=$lg(isctmp,3),i%Largestcity=$lg(isctmp,4),i%Lifeexpectancy=$lg(isctmp,5),i%Maternalmortalityratio=$lg(isctmp,6),i%Minimumwage=$lg(isctmp,7),i%Officiallanguage=$lg(isctmp,8),i%Outofpockethealthexpenditure=$lg(isctmp,9)
+		S isctmp=$e(%s1,iscpos+$l(isctmp),*),i%Physiciansperthousand=$lg(isctmp),i%Population=$lg(isctmp,2),i%PopulationLaborforceparticipation=$lg(isctmp,3),i%Taxrevenue=$lg(isctmp,4),i%Totaltaxrate=$lg(isctmp,5),i%Unemploymentrate=$lg(isctmp,6),i%Urbanpopulation=$lg(isctmp,7),i%Latitude=$lg(isctmp,8),i%Longitude=$lg(isctmp,9)
+		s:$ze="" $ze=userze
+		Quit 1
+	} Else {
+		If i%%Concurrency=2 { Lock -(^world.dataD(id)#"SIE") }
+		do init
+		set sc = $$Error^%apiOBJ(5809,$classname(),id) goto CatchError
+	}
+CatchError	set $ZTrap = "" if $ZE'="" { s sc = $$Error^%apiOBJ(5002,$ZE) }
+	If ($get(locked))&&(i%%Concurrency<3) { Lock -(^world.dataD(id)#"SIE") }
+	if '('sc) { set sc=$$Error^%apiOBJ(5809,$classname(),id) }
+	s:$ze="" $ze=userze
+	return sc
+init	Set i%Abbreviation="",i%AgriculturalLand="",i%ArmedForcessize="",i%BirthRate="",i%CPI="",i%CPIChange="",i%CallingCode="",i%CapitalMajorCity="",i%Co2Emissions="",i%Country="",i%CurrencyCode="",i%DensityPKm2="",i%FertilityRate="",i%ForestedArea="",i%GDP="",i%GasolinePrice="",i%Grossprimaryeducationenrollment="",i%Grosstertiaryeducationenrollment="",i%Infantmortality="",i%LandAreaKm2="",i%Largestcity="",i%Latitude="",i%Lifeexpectancy="",i%Longitude="",i%Maternalmortalityratio="",i%Minimumwage="",i%Officiallanguage=""
+	Set i%Outofpockethealthexpenditure="",i%Physiciansperthousand="",i%Population="",i%PopulationLaborforceparticipation="",i%Taxrevenue="",i%Totaltaxrate="",i%Unemploymentrate="",i%Urbanpopulation=""
+	quit }
+%LoadDataFromMemory(id,objstate,obj) methodimpl {
+	New %s1
+	If $d(objstate(id)) {
+		Set %s1=$g(objstate(id))
+		S i%Country=$lg(%s1,2),i%DensityPKm2=$lg(%s1,3),i%Abbreviation=$lg(%s1,4),i%AgriculturalLand=$lg(%s1,5),i%LandAreaKm2=$lg(%s1,6),i%ArmedForcessize=$lg(%s1,7),i%BirthRate=$lg(%s1,8),i%CallingCode=$lg(%s1,9)
+		Set iscpos=$l($li(%s1,1,9))+1,isctmp=$li($e(%s1,iscpos,*),1,9),i%CapitalMajorCity=$lg(isctmp),i%Co2Emissions=$lg(isctmp,2),i%CPI=$lg(isctmp,3),i%CPIChange=$lg(isctmp,4),i%CurrencyCode=$lg(isctmp,5),i%FertilityRate=$lg(isctmp,6),i%ForestedArea=$lg(isctmp,7),i%GasolinePrice=$lg(isctmp,8),i%GDP=$lg(isctmp,9)
+		Set iscpos=iscpos+$l(isctmp),isctmp=$li($e(%s1,iscpos,*),1,9),i%Grossprimaryeducationenrollment=$lg(isctmp),i%Grosstertiaryeducationenrollment=$lg(isctmp,2),i%Infantmortality=$lg(isctmp,3),i%Largestcity=$lg(isctmp,4),i%Lifeexpectancy=$lg(isctmp,5),i%Maternalmortalityratio=$lg(isctmp,6),i%Minimumwage=$lg(isctmp,7),i%Officiallanguage=$lg(isctmp,8),i%Outofpockethealthexpenditure=$lg(isctmp,9)
+		S isctmp=$e(%s1,iscpos+$l(isctmp),*),i%Physiciansperthousand=$lg(isctmp),i%Population=$lg(isctmp,2),i%PopulationLaborforceparticipation=$lg(isctmp,3),i%Taxrevenue=$lg(isctmp,4),i%Totaltaxrate=$lg(isctmp,5),i%Unemploymentrate=$lg(isctmp,6),i%Urbanpopulation=$lg(isctmp,7),i%Latitude=$lg(isctmp,8),i%Longitude=$lg(isctmp,9)
+		Quit 1
+	} Else {
+		set i%Abbreviation="",i%AgriculturalLand="",i%ArmedForcessize="",i%BirthRate="",i%CPI="",i%CPIChange="",i%CallingCode="",i%CapitalMajorCity="",i%Co2Emissions="",i%Country="",i%CurrencyCode="",i%DensityPKm2="",i%FertilityRate="",i%ForestedArea="",i%GDP="",i%GasolinePrice="",i%Grossprimaryeducationenrollment="",i%Grosstertiaryeducationenrollment="",i%Infantmortality="",i%LandAreaKm2="",i%Largestcity="",i%Latitude="",i%Lifeexpectancy="",i%Longitude="",i%Maternalmortalityratio="",i%Minimumwage="",i%Officiallanguage=""
+		set i%Outofpockethealthexpenditure="",i%Physiciansperthousand="",i%Population="",i%PopulationLaborforceparticipation="",i%Taxrevenue="",i%Totaltaxrate="",i%Unemploymentrate="",i%Urbanpopulation=""
+		Quit $$Error^%apiOBJ(5809,$classname(),id)
+	} }
+%LockExtent(shared=0) methodimpl {
+	If shared {
+		Lock +(^world.dataD#"S"):$zu(115,4) Quit:$t 1
+		Quit $$Error^%apiOBJ(5799,$classname())
+	}
+	Lock +(^world.dataD):$zu(115,4) Quit:$t 1
+	Quit $$Error^%apiOBJ(5798,$classname()) }
+%LockId(id,shared=0,timeout) methodimpl { s:'($d(timeout)#2) timeout=$zu(115,4)
+	If id="" { Quit $$Error^%apiOBJ(5812) }
+	Set sc=1
+	If 'shared {
+		Lock +(^world.dataD(id)#"E"):timeout Quit:$t 1
+		Quit $$Error^%apiOBJ(5803,id_":"_$classname())
+	}
+	Lock +(^world.dataD(id)#"SE"):timeout Quit:$t 1
+	Quit $$Error^%apiOBJ(5804,id_":"_$classname()) }
+%NormalizeObject() methodimpl {
+	If '$system.CLS.GetModified() Quit 1
+	If m%Abbreviation Set:i%Abbreviation'="" i%Abbreviation=(..AbbreviationNormalize(i%Abbreviation))
+	If m%AgriculturalLand Set:i%AgriculturalLand'="" i%AgriculturalLand=(..AgriculturalLandNormalize(i%AgriculturalLand))
+	If m%ArmedForcessize Set:i%ArmedForcessize'="" i%ArmedForcessize=(..ArmedForcessizeNormalize(i%ArmedForcessize))
+	If m%BirthRate Set:i%BirthRate'="" i%BirthRate=(..BirthRateNormalize(i%BirthRate))
+	If m%CPI Set:i%CPI'="" i%CPI=(..CPINormalize(i%CPI))
+	If m%CPIChange Set:i%CPIChange'="" i%CPIChange=(..CPIChangeNormalize(i%CPIChange))
+	If m%CallingCode Set:i%CallingCode'="" i%CallingCode=(..CallingCodeNormalize(i%CallingCode))
+	If m%CapitalMajorCity Set:i%CapitalMajorCity'="" i%CapitalMajorCity=(..CapitalMajorCityNormalize(i%CapitalMajorCity))
+	If m%Co2Emissions Set:i%Co2Emissions'="" i%Co2Emissions=(..Co2EmissionsNormalize(i%Co2Emissions))
+	If m%Country Set:i%Country'="" i%Country=(..CountryNormalize(i%Country))
+	If m%CurrencyCode Set:i%CurrencyCode'="" i%CurrencyCode=(..CurrencyCodeNormalize(i%CurrencyCode))
+	If m%DensityPKm2 Set:i%DensityPKm2'="" i%DensityPKm2=(..DensityPKm2Normalize(i%DensityPKm2))
+	If m%FertilityRate Set:i%FertilityRate'="" i%FertilityRate=(..FertilityRateNormalize(i%FertilityRate))
+	If m%ForestedArea Set:i%ForestedArea'="" i%ForestedArea=(..ForestedAreaNormalize(i%ForestedArea))
+	If m%GDP Set:i%GDP'="" i%GDP=(..GDPNormalize(i%GDP))
+	If m%GasolinePrice Set:i%GasolinePrice'="" i%GasolinePrice=(..GasolinePriceNormalize(i%GasolinePrice))
+	If m%Grossprimaryeducationenrollment Set:i%Grossprimaryeducationenrollment'="" i%Grossprimaryeducationenrollment=(..GrossprimaryeducationenrollmentNormalize(i%Grossprimaryeducationenrollment))
+	If m%Grosstertiaryeducationenrollment Set:i%Grosstertiaryeducationenrollment'="" i%Grosstertiaryeducationenrollment=(..GrosstertiaryeducationenrollmentNormalize(i%Grosstertiaryeducationenrollment))
+	If m%Infantmortality Set:i%Infantmortality'="" i%Infantmortality=(..InfantmortalityNormalize(i%Infantmortality))
+	If m%LandAreaKm2 Set:i%LandAreaKm2'="" i%LandAreaKm2=(..LandAreaKm2Normalize(i%LandAreaKm2))
+	If m%Largestcity Set:i%Largestcity'="" i%Largestcity=(..LargestcityNormalize(i%Largestcity))
+	If m%Latitude Set:i%Latitude'="" i%Latitude=(..LatitudeNormalize(i%Latitude))
+	If m%Lifeexpectancy Set:i%Lifeexpectancy'="" i%Lifeexpectancy=(..LifeexpectancyNormalize(i%Lifeexpectancy))
+	If m%Longitude Set:i%Longitude'="" i%Longitude=(..LongitudeNormalize(i%Longitude))
+	If m%Maternalmortalityratio Set:i%Maternalmortalityratio'="" i%Maternalmortalityratio=(..MaternalmortalityratioNormalize(i%Maternalmortalityratio))
+	If m%Minimumwage Set:i%Minimumwage'="" i%Minimumwage=(..MinimumwageNormalize(i%Minimumwage))
+	If m%Officiallanguage Set:i%Officiallanguage'="" i%Officiallanguage=(..OfficiallanguageNormalize(i%Officiallanguage))
+	If m%Outofpockethealthexpenditure Set:i%Outofpockethealthexpenditure'="" i%Outofpockethealthexpenditure=(..OutofpockethealthexpenditureNormalize(i%Outofpockethealthexpenditure))
+	If m%Physiciansperthousand Set:i%Physiciansperthousand'="" i%Physiciansperthousand=(..PhysiciansperthousandNormalize(i%Physiciansperthousand))
+	If m%Population Set:i%Population'="" i%Population=(..PopulationNormalize(i%Population))
+	If m%PopulationLaborforceparticipation Set:i%PopulationLaborforceparticipation'="" i%PopulationLaborforceparticipation=(..PopulationLaborforceparticipationNormalize(i%PopulationLaborforceparticipation))
+	If m%Taxrevenue Set:i%Taxrevenue'="" i%Taxrevenue=(..TaxrevenueNormalize(i%Taxrevenue))
+	If m%Totaltaxrate Set:i%Totaltaxrate'="" i%Totaltaxrate=(..TotaltaxrateNormalize(i%Totaltaxrate))
+	If m%Unemploymentrate Set:i%Unemploymentrate'="" i%Unemploymentrate=(..UnemploymentrateNormalize(i%Unemploymentrate))
+	If m%Urbanpopulation Set:i%Urbanpopulation'="" i%Urbanpopulation=(..UrbanpopulationNormalize(i%Urbanpopulation))
+	Quit 1 }
+%OnDetermineClass(oid,class) methodimpl {
+	Set id=$listget($get(oid))
+	RETURN:id="" $$Error^%apiOBJ(5812)
+	set idclass=$lg($get(^world.dataD(id)),1)
+	if idclass="" { set class="world.data" RETURN 1 }
+	set class=$piece(idclass,"~",*-1)
+	set:class'["." class="User."_class
+	RETURN 1 }
+%PhysicalAddress(id,paddr) methodimpl
+	if $Get(id)="" Quit $$Error^%apiOBJ(5813,$classname())
+	if (id="") { quit $$Error^%apiOBJ(5832,$classname(),id) }
+	s paddr(1)=$lb($Name(^world.dataD(id)),$classname(),"IDKEY","listnode",id)
+	s paddr=1
+	Quit 1
+%PurgeIndices(idxlist="",lockExtent=0,pIgnoreIndexList="") methodimpl {
+	If idxlist="" { Quit 1 }
+	Quit $$Error^%apiOBJ(5066,$classname()_"::"_$ListToString(idxlist)) }
+%SQLAcquireLock(%rowid,s=0,unlockref=0) methodimpl
+	new %d,gotlock
+	set %d(1)=%rowid set s=$e("E",'unlockref)_$e("S",s)
+	lock +^world.dataD(%d(1))#s:$zu(115,4) set gotlock=$t
+	if gotlock,'unlockref { set:$case($SYSTEM.Lock.ReturnCode(),2:1,4:1,:0)&&($tlevel) %0CacheLock("world.data","E")=1 }
+	set:gotlock&&unlockref unlockref=unlockref+1,unlockref(unlockref)=$lb($name(^world.dataD(%d(1))),"world.data",s_"D")
+	QUIT gotlock
+%SQLAcquireTableLock(s=0,SQLCODE,to="") methodimpl
+	set s=$e("S",s) set:to="" to=$zu(115,4) lock +^world.dataD#s:to QUIT:$t 1 set SQLCODE=-110 if s="S" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler35",,"world"_"."_"data") } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler36",,"world"_"."_"data") } QUIT 0
+	Return
+%SQLBuildIndices(pIndices="",pLockFlag=0,pStartID="",pEndID="",pIgnoreIndexList="") methodimpl
+	RETURN ..%BuildIndices(pIndices,,pLockFlag,,pStartID,pEndID,pIgnoreIndexList)
+%SQLBuildPurgeIndexForRow(pIndices="",pActions="BP",pLockRow=1,%d,%e,pIgnoreIndexList="") methodimpl
+	// Purge and build index nodes for a single row using given values, return Status Code
+	new sn,tSC,tLock set tSC=1,pActions=$zcvt(pActions,"U")
+	try {
+		if $g(%d(1))="" { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'world.data'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'world.data'"))) RETURN tSC }
+		if pLockRow { if '..%SQLAcquireLock(%d(1)) { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'world.data' with %ID = '"_%d(1)_"'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'world.data' with %ID = '"_%d(1)_"'"))) RETURN tSC  } else { set tLock=1 }}
+		if pLockRow { do ..%SQLReleaseLock(%d(1),0,0) set tLock=0 }
+	}
+	catch {
+		if $g(tLock) { do ..%SQLReleaseLock(%d(1),0,0) }
+		set tSC=$select(+tSC:$$Error^%apiOBJ(5594,$ze),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5594,$ze)))
+	}
+	QUIT tSC
+%SQLCheckUniqueIndices(pIndices,pOK) methodimpl
+	new d,g,n,o set d=0
+	set pOK=1 QUIT
+%SQLCopyIcolIntoName() methodimpl
+	if %oper="DELETE" {
+		set:$d(%d(1)) %f("ID")=%d(1)
+		QUIT
+	}
+	set:$d(%d(1)) %f("ID")=%d(1) set:$a(%e,2)&&$d(%d(2)) %f("Country")=%d(2) set:$a(%e,3)&&$d(%d(3)) %f("DensityPKm2")=%d(3) set:$a(%e,4)&&$d(%d(4)) %f("Abbreviation")=%d(4) set:$a(%e,5)&&$d(%d(5)) %f("AgriculturalLand")=%d(5) set:$a(%e,6)&&$d(%d(6)) %f("LandAreaKm2")=%d(6) set:$a(%e,7)&&$d(%d(7)) %f("ArmedForcessize")=%d(7) set:$a(%e,8)&&$d(%d(8)) %f("BirthRate")=%d(8) set:$a(%e,9)&&$d(%d(9)) %f("CallingCode")=%d(9) set:$a(%e,10)&&$d(%d(10)) %f("CapitalMajorCity")=%d(10) set:$a(%e,11)&&$d(%d(11)) %f("Co2Emissions")=%d(11) set:$a(%e,12)&&$d(%d(12)) %f("CPI")=%d(12) set:$a(%e,13)&&$d(%d(13)) %f("CPIChange")=%d(13) set:$a(%e,14)&&$d(%d(14)) %f("CurrencyCode")=%d(14) set:$a(%e,15)&&$d(%d(15)) %f("FertilityRate")=%d(15) set:$a(%e,16)&&$d(%d(16)) %f("ForestedArea")=%d(16) set:$a(%e,17)&&$d(%d(17)) %f("GasolinePrice")=%d(17) set:$a(%e,18)&&$d(%d(18)) %f("GDP")=%d(18) set:$a(%e,19)&&$d(%d(19)) %f("Grossprimaryeducationenrollment")=%d(19) set:$a(%e,20)&&$d(%d(20)) %f("Grosstertiaryeducationenrollment")=%d(20) set:$a(%e,21)&&$d(%d(21)) %f("Infantmortality")=%d(21) set:$a(%e,22)&&$d(%d(22)) %f("Largestcity")=%d(22) set:$a(%e,23)&&$d(%d(23)) %f("Lifeexpectancy")=%d(23) set:$a(%e,24)&&$d(%d(24)) %f("Maternalmortalityratio")=%d(24) set:$a(%e,25)&&$d(%d(25)) %f("Minimumwage")=%d(25) set:$a(%e,26)&&$d(%d(26)) %f("Officiallanguage")=%d(26) set:$a(%e,27)&&$d(%d(27)) %f("Outofpockethealthexpenditure")=%d(27) set:$a(%e,28)&&$d(%d(28)) %f("Physiciansperthousand")=%d(28) set:$a(%e,29)&&$d(%d(29)) %f("Population")=%d(29) set:$a(%e,30)&&$d(%d(30)) %f("PopulationLaborforceparticipation")=%d(30) set:$a(%e,31)&&$d(%d(31)) %f("Taxrevenue")=%d(31) set:$a(%e,32)&&$d(%d(32)) %f("Totaltaxrate")=%d(32) set:$a(%e,33)&&$d(%d(33)) %f("Unemploymentrate")=%d(33) set:$a(%e,34)&&$d(%d(34)) %f("Urbanpopulation")=%d(34) set:$a(%e,35)&&$d(%d(35)) %f("Latitude")=%d(35) set:$a(%e,36)&&$d(%d(36)) %f("Longitude")=%d(36) set:$a(%e,37)&&$d(%d(37)) %f("x__classname")=%d(37)
+	QUIT
+%SQLDefineiDjVars(%d,subs,master) methodimpl
+	QUIT
+%SQLDelete(%rowid,%check,%tstart=1,%mv=0,%polymorphic=0,%bufferedColumns=0) methodimpl
+	// SQL DELETE method for table world.data
+	new bva,ce,%d,dc,%e,%ele,%itm,%key,%l,%nc,omcall,%oper,%pos,%s,sn,sqlcode,subs set %oper="DELETE",sqlcode=0,%ROWID=%rowid,%d(1)=%rowid,%e(1)=%rowid,%l=$c(0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check,2) {
+		new %ls lock +^world.dataD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("world.data","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"world"_"."_"data",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORDelete"
+	do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) if sqlcode { set SQLCODE=-106,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler58",,"world"_"."_"data",%rowid) do ..%SQLEExit() QUIT  }
+	if %e(37)'="" { set sn=$p(%e(37),$e(%e(37)),$l(%e(37),$e(%e(37)))-1) if "world.data"'=sn { new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLDelete",%rowid,%check,%tstart,%mv,1) QUIT  }}
+	if '$a(%check),'$zu(115,7) do  if sqlcode set SQLCODE=sqlcode do ..%SQLEExit() QUIT  
+	. new %fk,%k,%p,%st,%t,%z set %k="",%p("%1")="%d(1),",%p("IDKEY")="%d(1),"
+	. for  quit:sqlcode<0  set %k=$o(^rINDEXEXT("F","world.data",%k)) quit:%k=""  set %t="" for  set %t=$o(^rINDEXEXT("F","world.data",%k,"f",%t)) quit:%t=""  set %st=(%t="world.data") set %fk="" for  set %fk=$o(^rINDEXEXT("F","world.data",%k,"f",%t,%fk)) quit:%fk=""  x "set %z=$classmethod(%t,%fk_""SQLFKeyRefAction"",%st,%k,$a(%check,2),"_%p(%k)_")" if %z set sqlcode=-124 quit  
+	set ce="" for  { set ce=$order(^oddSQL("world","data","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children
+	if '$a(%check,3) {
+	}
+	k ^world.dataD(%d(1))
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORDelete	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"data",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"data") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT
+	Return
+%SQLDeleteTempStreams() methodimpl
+	// Delete all temporary streams
+	QUIT
+%SQLEExit() methodimpl
+	do ..%SQLUnlock() 
+	if %tstart,$zu(115,1)=1,$TLEVEL { set %tstart=0 TROLLBACK 1 } kill:$g(omcall) %0CacheSQLRA QUIT  
+	Return
+%SQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key %1.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"world"_"."_"data"_":"_"%1") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv=$d(^world.dataD(%pVal(1))) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+%SQLGetLock(pRowId,pShared=0,pUnlockRef) methodimpl
+	QUIT ..%SQLAcquireLock(pRowId,pShared,.pUnlockRef)
+%SQLGetOld(%rowid,%d,%e,sqlcode) methodimpl
+	new s set %d(1)=%rowid,s="" if '$d(^world.dataD(%d(1)),s) { set sqlcode=100 quit  }
+	 S %e(37)=$lg(s)
+	QUIT
+%SQLGetOldAll() methodimpl
+	new s set %d(1)=%rowid,s="" if '$d(^world.dataD(%d(1)),s) { set sqlcode=100 quit  }
+	new chunk,epos
+	 S %e(37)=$lg(s),%e(2)=$lg(s,2),%e(3)=$lg(s,3),%e(4)=$lg(s,4),%e(5)=$lg(s,5),%e(6)=$lg(s,6),%e(7)=$lg(s,7),%e(8)=$lg(s,8),%e(9)=$lg(s,9)
+	 Set epos=$l($li(s,1,9))+1,chunk=$li($e(s,epos,*),1,9),%e(10)=$lg(chunk),%e(11)=$lg(chunk,2),%e(12)=$lg(chunk,3),%e(13)=$lg(chunk,4),%e(14)=$lg(chunk,5),%e(15)=$lg(chunk,6),%e(16)=$lg(chunk,7),%e(17)=$lg(chunk,8),%e(18)=$lg(chunk,9)
+	 Set epos=epos+$l(chunk),chunk=$li($e(s,epos,*),1,9),%e(19)=$lg(chunk),%e(20)=$lg(chunk,2),%e(21)=$lg(chunk,3),%e(22)=$lg(chunk,4),%e(23)=$lg(chunk,5),%e(24)=$lg(chunk,6),%e(25)=$lg(chunk,7),%e(26)=$lg(chunk,8),%e(27)=$lg(chunk,9)
+	 S chunk=$e(s,epos+$l(chunk),*),%e(28)=$lg(chunk),%e(29)=$lg(chunk,2),%e(30)=$lg(chunk,3),%e(31)=$lg(chunk,4),%e(32)=$lg(chunk,5),%e(33)=$lg(chunk,6),%e(34)=$lg(chunk,7),%e(35)=$lg(chunk,8),%e(36)=$lg(chunk,9)
+	QUIT
+%SQLInsert(%d,%check,%inssel,%vco,%tstart=1,%mv=0,%bufferedColumns=0) methodimpl
+	// SQL INSERT method for table world.data
+	new bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,sqlcode,sn,subs,icol set %oper="INSERT",sqlcode=0,%l=$c(0,0,0)
+	if $a(%check,7) { new %diu merge %diu=%d }
+	if $d(%d(1)),'$zu(115,11) { if %d(1)'="" { set SQLCODE=-111,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler6",,"ID","world"_"."_"data") RETURN ""  } kill %d(1) } 
+	if '$a(%check),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode RETURN "" }
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  } set $zt="ERRORInsert"
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() RETURN "" }		// A constraint failed
+	}
+	if '$d(%d(1)) { set %d(1)=$i(^world.dataD) } elseif %d(1)>$g(^world.dataD) { if $i(^world.dataD,$zabs(%d(1)-$g(^world.dataD))) {}} elseif $d(^world.dataD(%d(1))) { set SQLCODE=-119,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler33",,"ID",%d(1),"world"_"."_"data"_"."_"ID") do ..%SQLEExit() RETURN "" }
+	set:'($d(%d(37))#2) %d(37)=""
+	if '$a(%check,2) {
+		new %ls lock +^world.dataD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("world.data","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"world"_"."_"data",$g(%d(1))) do ..%SQLEExit() RETURN ""  }
+	}
+	set ^world.dataD(%d(1))=$lb(%d(37),%d(2),%d(3),%d(4),%d(5),%d(6),%d(7),%d(8),%d(9),%d(10),%d(11),%d(12),%d(13),%d(14),%d(15),%d(16),%d(17),%d(18),%d(19),%d(20),%d(21),%d(22),%d(23),%d(24),%d(25),%d(26),%d(27),%d(28),%d(29),%d(30),%d(31),%d(32),%d(33),%d(34),%d(35),%d(36))
+	lock:$a(%l) -^world.dataD(%d(1))#"E"
+	TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0
+	QUIT %d(1) 			// %SQLInsert
+ERRORInsert	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"data",$ze)
+	if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"data") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  }
+	do ..%SQLEExit()
+	RETURN ""
+%SQLInvalid(pIcol,pVal) methodimpl {
+	set:$l($g(pVal))>40 pVal=$e(pVal,1,40)_"..." do:'$d(%n) ..%SQLnBuild() set %msg=$s($g(%msg)'="":%msg_$c(13,10),1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler37",,"world"_"."_"data"_"."_$lg(%n,pIcol),$s($g(pVal)'="":$s(pVal="":"<NULL>",pVal=$c(0):"<EMPTY STRING>",1:"'"_pVal_"'"),1:"")),sqlcode=$s(%oper="INSERT":-104,1:-105)
+	QUIT sqlcode }
+%SQLMissing(fname) methodimpl
+	set sqlcode=-108,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler47",,fname,"world"_"."_"data") quit
+%SQLPurgeIndices(pIndices="",pLockExtent=0,pIgnoreIndexList="") methodimpl
+	RETURN ..%PurgeIndices(pIndices,pLockExtent,pIgnoreIndexList)
+%SQLQuickLoad(%rowid,%nolock=0,pkey=0,qq=0) methodimpl
+	// Get fields from row where SQLRowID=%rowid
+	new d,i,il,subs set:%nolock=2 %nolock=1
+	if %nolock=0 { if '..%SQLAcquireLock(%rowid) { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler45",,"world"_"."_"data",%rowid),%ROWCOUNT=0 QUIT  } set:$zu(115,2) il=$zu(115,2,0) }
+	new s,ul set ul=0,d(1)=%rowid if $zu(115,2)=1 { lock +^world.dataD(d(1))#"S":$zu(115,4) if $t { set ul=1 } else { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler46",,"world"_"."_"data",%rowid),%ROWCOUNT=0 quit  } }
+	if '$d(^world.dataD(d(1)),s) { set SQLCODE=100,%qrc=100 if %nolock=0 { do:$g(il) $zu(115,2,il) }} else { set SQLCODE=0
+	if qq { set d(37)=$lg(s) if d(37)'="" { new sn set sn=$p(d(37),$e(d(37)),$l(d(37),$e(d(37)))-1) if "world.data"'=sn { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } kill d set:sn'["." sn="User."_sn do $classmethod(sn,"%SQLQuickLoad",%rowid,%nolock,0,1) QUIT  }}}
+	set d(2)=$lg(s,2) set d(3)=$lg(s,3) set d(4)=$lg(s,4) set d(5)=$lg(s,5) set d(6)=$lg(s,6) set d(7)=$lg(s,7) set d(8)=$lg(s,8) set d(9)=$lg(s,9) set d(10)=$lg(s,10) set d(11)=$lg(s,11) set d(12)=$lg(s,12) set d(13)=$lg(s,13) set d(14)=$lg(s,14) set d(15)=$lg(s,15) set d(16)=$lg(s,16) set d(17)=$lg(s,17) set d(18)=$lg(s,18) set d(19)=$lg(s,19) set d(20)=$lg(s,20) set d(21)=$lg(s,21) set d(22)=$lg(s,22) set d(23)=$lg(s,23) set d(24)=$lg(s,24) set d(25)=$lg(s,25) set d(26)=$lg(s,26) set d(27)=$lg(s,27) set d(28)=$lg(s,28) set d(29)=$lg(s,29) set d(30)=$lg(s,30) set d(31)=$lg(s,31) set d(32)=$lg(s,32) set d(33)=$lg(s,33) set d(34)=$lg(s,34) set d(35)=$lg(s,35) set d(36)=$lg(s,36) set d(37)=$lg(s)  }
+	do ..%SQLQuickLogicalToOdbc(.d)
+	if SQLCODE set %ROWCOUNT=0 set:SQLCODE<0 SQLCODE=-SQLCODE lock:ul -^world.dataD(d(1))#"SI" set %qrc=SQLCODE QUIT
+	set:qq d=$zobjexport("world.data",18),d=37,d=$zobjexport(d,18) set i=-1 for  { set i=$o(d(i)) quit:i=""  set d=$zobjexport(d(i),18) } set %qrc=0,%ROWCOUNT=1 lock:ul -^world.dataD(d(1))#"SI" if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,0) do:$g(il) $zu(115,2,il) } QUIT
+	Return
+%SQLReleaseLock(%rowid,s=0,i=0,e="") methodimpl
+	new %d
+	set:e="" e=1 set %d(1)=%rowid set s=$e("E",e)_$e("S",s)_$e("D",i)
+	lock -^world.dataD(%d(1))#s
+	QUIT
+%SQLReleaseTableLock(s=0,i=0) methodimpl
+	set s=$e("S",s)_$e("D",i) lock -^world.dataD#s QUIT 1
+	Return
+%SQLUnlock() methodimpl
+	lock:$a(%l) -^world.dataD(%d(1))#"E"
+	QUIT
+%SQLUnlockError(cname) methodimpl
+	set sqlcode=-110 if %oper="DELETE" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler48",,"world"_"."_"data",cname) } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler49",,"world"_"."_"data",cname) } quit
+	Return
+%SQLUpdate(%rowid,%check,%d,%vco,%tstart=1,%mv=0,%polymorphic=0,%soid,%bufferedColumns=0,%bufferedColumnsDel=0) methodimpl
+	// SQL UPDATE method for table world.data
+	new %e,bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,icol,omcall,s,sn,sqlcode,subs,t set %oper="UPDATE",sqlcode=0,%ROWID=%rowid,$e(%e,1)=$c(0),%l=$c(0,0,0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check),'$a(%check,7),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT  }
+	if $d(%d(1)),%d(1)'=%rowid { set SQLCODE=-107,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler16",,"ID","world"_"."_"data") QUIT  }
+	for icol=2:1:37 { set $e(%e,icol)=$c($d(%d(icol))) }
+	set %d(1)=%rowid,%e(1)=%rowid
+	if '$a(%check,2) {
+		new %ls lock +^world.dataD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("world.data","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"world"_"."_"data",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORUpdate"
+	if $g(%vco)="" { do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) i sqlcode { s SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"world"_"."_"data",%rowid) do ..%SQLEExit() QUIT  } set:'$d(%d(37)) %d(37)=%e(37) set:%d(37)=%e(37) $e(%e,37)=$c(0) } else { do ..%SQLGetOldAll() if sqlcode { set SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"world"_"."_"data",%rowid) do ..%SQLEExit() QUIT  } for icol=2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }}
+	if %e(37)'="" set sn=$p(%e(37),$e(%e(37)),$l(%e(37),$e(%e(37)))-1) if "world.data"'=sn new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLUpdate",%rowid,%check,.%d,$g(%vco),%tstart,%mv,1) QUIT
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode { set SQLCODE=sqlcode do ..%SQLEExit() QUIT  }
+	}
+	if ($zboolean(%e,$c(0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1),1)[$c(1)) {
+		set ^world.dataD(%d(1))=$listupdate($g(^world.dataD(%d(1))),1,$a(%e,37):%d(37),$a(%e,2):%d(2),$a(%e,3):%d(3),$a(%e,4):%d(4),$a(%e,5):%d(5),$a(%e,6):%d(6),$a(%e,7):%d(7),$a(%e,8):%d(8),$a(%e,9):%d(9),$a(%e,10):%d(10),$a(%e,11):%d(11),$a(%e,12):%d(12),$a(%e,13):%d(13),$a(%e,14):%d(14),$a(%e,15):%d(15),$a(%e,16):%d(16),$a(%e,17):%d(17),$a(%e,18):%d(18),$a(%e,19):%d(19),$a(%e,20):%d(20),$a(%e,21):%d(21),$a(%e,22):%d(22),$a(%e,23):%d(23),$a(%e,24):%d(24),$a(%e,25):%d(25),$a(%e,26):%d(26),$a(%e,27):%d(27),$a(%e,28):%d(28),$a(%e,29):%d(29),$a(%e,30):%d(30),$a(%e,31):%d(31),$a(%e,32):%d(32),$a(%e,33):%d(33),$a(%e,34):%d(34),$a(%e,35):%d(35),$a(%e,36):%d(36))
+	}
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORUpdate	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"world"_"."_"data",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"world"_"."_"data") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT  
+	Return
+%SQLValidateCompFields(sqlcode) methodimpl
+	QUIT 'sqlcode
+%SQLValidateFields(sqlcode) methodimpl
+	new %f for %f=2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36 { if $g(%d(%f))'="",'(($l(%d(%f))'>50)) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	QUIT 'sqlcode
+%SQLnBuild() methodimpl {
+	set %n=$lb(,"ID","Country","DensityPKm2","Abbreviation","AgriculturalLand","LandAreaKm2","ArmedForcessize","BirthRate","CallingCode","CapitalMajorCity","Co2Emissions","CPI","CPIChange","CurrencyCode","FertilityRate","ForestedArea","GasolinePrice","GDP","Grossprimaryeducationenrollment","Grosstertiaryeducationenrollment","Infantmortality","Largestcity","Lifeexpectancy","Maternalmortalityratio","Minimumwage","Officiallanguage","Outofpockethealthexpenditure","Physiciansperthousand","Population","PopulationLaborforceparticipation","Taxrevenue","Totaltaxrate","Unemploymentrate","Urbanpopulation","Latitude","Longitude","x__classname")
+	QUIT }
+%SaveData(id) methodimpl {
+	try {
+		set id=$listget(i%"%%OID") if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,lockok=0,tSharedLock=0
+		if 'idassigned { set id=$i(^world.dataD) do ..%IdSet(id) set:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this)="" }
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if (i%%Concurrency<4)&&(i%%Concurrency) { lock +(^world.dataD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1 if lockok { set lock=1 } else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^world.dataD(id))) {
+					set insert=1
+					if lock { lock -(^world.dataD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if ('lockok&&..%Concurrency&&$tlevel)||(i%%Concurrency=4) {  lock +(^world.dataD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:(lockok=2&&(i%%Concurrency'=4)) %0CacheLock($classname(),"E")=1 set:lockok lock=1 if 'lockok { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if i%%Concurrency=3 { lock +(^world.dataD(id)#"ES") set tSharedLock=1 }
+				set ^world.dataD(id)=$lb("",i%Country,i%DensityPKm2,i%Abbreviation,i%AgriculturalLand,i%LandAreaKm2,i%ArmedForcessize,i%BirthRate,i%CallingCode,i%CapitalMajorCity,i%Co2Emissions,i%CPI,i%CPIChange,i%CurrencyCode,i%FertilityRate,i%ForestedArea,i%GasolinePrice,i%GDP,i%Grossprimaryeducationenrollment,i%Grosstertiaryeducationenrollment,i%Infantmortality,i%Largestcity,i%Lifeexpectancy,i%Maternalmortalityratio,i%Minimumwage,i%Officiallanguage,i%Outofpockethealthexpenditure,i%Physiciansperthousand,i%Population,i%PopulationLaborforceparticipation,i%Taxrevenue,i%Totaltaxrate,i%Unemploymentrate,i%Urbanpopulation,i%Latitude,i%Longitude)
+			}
+			else {
+				set ^world.dataD(id)=$lb("",i%Country,i%DensityPKm2,i%Abbreviation,i%AgriculturalLand,i%LandAreaKm2,i%ArmedForcessize,i%BirthRate,i%CallingCode,i%CapitalMajorCity,i%Co2Emissions,i%CPI,i%CPIChange,i%CurrencyCode,i%FertilityRate,i%ForestedArea,i%GasolinePrice,i%GDP,i%Grossprimaryeducationenrollment,i%Grosstertiaryeducationenrollment,i%Infantmortality,i%Largestcity,i%Lifeexpectancy,i%Maternalmortalityratio,i%Minimumwage,i%Officiallanguage,i%Outofpockethealthexpenditure,i%Physiciansperthousand,i%Population,i%PopulationLaborforceparticipation,i%Taxrevenue,i%Totaltaxrate,i%Unemploymentrate,i%Urbanpopulation,i%Latitude,i%Longitude)
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+			if ('idassigned) { Set $zobjoid("",$listget(i%"%%OID"))="",i%"%%OID"="" kill:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this) }
+			if (tSharedLock) {  lock -(^world.dataD(id)#"ES") } elseif (lockok=1)&&(insert)&&(i%%Concurrency=4) {  lock -(^world.dataD(id)) }
+		}
+		if lock lock -(^world.dataD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveDirect(id="",idList="",data,concurrency=-1) methodimpl {
+	try {
+		if concurrency=-1 { set concurrency=$zu(115,10) }
+		if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,tSharedLock=0
+		if 'idassigned { set id=$i(^world.dataD) }
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if concurrency { lock +(^world.dataD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^world.dataD(id))) {
+					set insert=1
+					if lock { lock -(^world.dataD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if concurrency { lock +(^world.dataD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				set ^world.dataD(id)=data
+			}
+			else {
+				set ^world.dataD(id)=data
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+		}
+		if lock lock -(^world.dataD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveIndices(pStartId="",pEndId="",lockExtent=0) methodimpl {
+	Quit 1 }
+%SortBegin(idxlist="",excludeunique=0) methodimpl
+	Quit 1
+%SortEnd(idxlist="",commit=1,excludeunique=0) methodimpl {
+	Quit 1 }
+%UnlockExtent(shared=0,immediate=0) methodimpl {
+	If 'shared {
+		If 'immediate {
+			Lock -^world.dataD
+			 Quit 1
+		}
+		Lock -^world.dataD#"I"
+		Quit 1
+	}
+	If 'immediate {
+		Lock -^world.dataD#"S"
+		Quit 1
+	}
+	Lock -^world.dataD#"SI"
+	Quit 1 }
+%UnlockId(id,shared=0,immediate=0) methodimpl {
+	If 'shared {
+		If 'immediate {
+			Lock -(^world.dataD(id)#"E")
+			Quit 1
+		}
+		Lock -(^world.dataD(id)#"IE")
+		Quit 1
+	}
+	If 'immediate {
+		Lock -(^world.dataD(id)#"SE")
+		Quit 1
+	}
+	Lock -(^world.dataD(id)#"SIE")
+	Quit 1 }
+%ValidateIndices(idxList="",autoCorrect=0,lockOption=1,multiProcess=1,mapList,verbose=1,errors) methodimpl
+	w !,"There are no indices to validate for class 'world.data'"
+	QUIT 1
+%ValidateObject(unused=0,checkserial=1) methodimpl {
+	set sc=1
+	If '$system.CLS.GetModified() Quit sc
+	If m%Abbreviation Set iv=..Abbreviation If iv'="" Set rc=(..AbbreviationIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Abbreviation",iv)
+	If m%AgriculturalLand Set iv=..AgriculturalLand If iv'="" Set rc=(..AgriculturalLandIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"AgriculturalLand",iv)
+	If m%ArmedForcessize Set iv=..ArmedForcessize If iv'="" Set rc=(..ArmedForcessizeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"ArmedForcessize",iv)
+	If m%BirthRate Set iv=..BirthRate If iv'="" Set rc=(..BirthRateIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"BirthRate",iv)
+	If m%CPI Set iv=..CPI If iv'="" Set rc=(..CPIIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"CPI",iv)
+	If m%CPIChange Set iv=..CPIChange If iv'="" Set rc=(..CPIChangeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"CPIChange",iv)
+	If m%CallingCode Set iv=..CallingCode If iv'="" Set rc=(..CallingCodeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"CallingCode",iv)
+	If m%CapitalMajorCity Set iv=..CapitalMajorCity If iv'="" Set rc=(..CapitalMajorCityIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"CapitalMajorCity",iv)
+	If m%Co2Emissions Set iv=..Co2Emissions If iv'="" Set rc=(..Co2EmissionsIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Co2Emissions",iv)
+	If m%Country Set iv=..Country If iv'="" Set rc=(..CountryIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Country",iv)
+	If m%CurrencyCode Set iv=..CurrencyCode If iv'="" Set rc=(..CurrencyCodeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"CurrencyCode",iv)
+	If m%DensityPKm2 Set iv=..DensityPKm2 If iv'="" Set rc=(..DensityPKm2IsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"DensityPKm2",iv)
+	If m%FertilityRate Set iv=..FertilityRate If iv'="" Set rc=(..FertilityRateIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"FertilityRate",iv)
+	If m%ForestedArea Set iv=..ForestedArea If iv'="" Set rc=(..ForestedAreaIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"ForestedArea",iv)
+	If m%GDP Set iv=..GDP If iv'="" Set rc=(..GDPIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"GDP",iv)
+	If m%GasolinePrice Set iv=..GasolinePrice If iv'="" Set rc=(..GasolinePriceIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"GasolinePrice",iv)
+	If m%Grossprimaryeducationenrollment Set iv=..Grossprimaryeducationenrollment If iv'="" Set rc=(..GrossprimaryeducationenrollmentIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Grossprimaryeducationenrollment",iv)
+	If m%Grosstertiaryeducationenrollment Set iv=..Grosstertiaryeducationenrollment If iv'="" Set rc=(..GrosstertiaryeducationenrollmentIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Grosstertiaryeducationenrollment",iv)
+	If m%Infantmortality Set iv=..Infantmortality If iv'="" Set rc=(..InfantmortalityIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Infantmortality",iv)
+	If m%LandAreaKm2 Set iv=..LandAreaKm2 If iv'="" Set rc=(..LandAreaKm2IsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"LandAreaKm2",iv)
+	If m%Largestcity Set iv=..Largestcity If iv'="" Set rc=(..LargestcityIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Largestcity",iv)
+	If m%Latitude Set iv=..Latitude If iv'="" Set rc=(..LatitudeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Latitude",iv)
+	If m%Lifeexpectancy Set iv=..Lifeexpectancy If iv'="" Set rc=(..LifeexpectancyIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Lifeexpectancy",iv)
+	If m%Longitude Set iv=..Longitude If iv'="" Set rc=(..LongitudeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Longitude",iv)
+	If m%Maternalmortalityratio Set iv=..Maternalmortalityratio If iv'="" Set rc=(..MaternalmortalityratioIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Maternalmortalityratio",iv)
+	If m%Minimumwage Set iv=..Minimumwage If iv'="" Set rc=(..MinimumwageIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Minimumwage",iv)
+	If m%Officiallanguage Set iv=..Officiallanguage If iv'="" Set rc=(..OfficiallanguageIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Officiallanguage",iv)
+	If m%Outofpockethealthexpenditure Set iv=..Outofpockethealthexpenditure If iv'="" Set rc=(..OutofpockethealthexpenditureIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Outofpockethealthexpenditure",iv)
+	If m%Physiciansperthousand Set iv=..Physiciansperthousand If iv'="" Set rc=(..PhysiciansperthousandIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Physiciansperthousand",iv)
+	If m%Population Set iv=..Population If iv'="" Set rc=(..PopulationIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Population",iv)
+	If m%PopulationLaborforceparticipation Set iv=..PopulationLaborforceparticipation If iv'="" Set rc=(..PopulationLaborforceparticipationIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"PopulationLaborforceparticipation",iv)
+	If m%Taxrevenue Set iv=..Taxrevenue If iv'="" Set rc=(..TaxrevenueIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Taxrevenue",iv)
+	If m%Totaltaxrate Set iv=..Totaltaxrate If iv'="" Set rc=(..TotaltaxrateIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Totaltaxrate",iv)
+	If m%Unemploymentrate Set iv=..Unemploymentrate If iv'="" Set rc=(..UnemploymentrateIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Unemploymentrate",iv)
+	If m%Urbanpopulation Set iv=..Urbanpopulation If iv'="" Set rc=(..UrbanpopulationIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Urbanpopulation",iv)
+	Quit sc }
+zXMLDTD(top,format,input,dtdlist) methodimpl
+ Quit ##class(%XML.Implementation).XMLDTD("world.data",.top,.format,.input,.dtdlist)
+zXMLExportInternal() methodimpl
+ New tag,summary,attrsVal,savelocal,aval,k,tmpPrefix,prefixDepth,hasNoContent,hasElement,topAttrs,beginprefix,endprefix,savexsiAttrs,initialxsiAttrs,initlist,initialCR,inlineFlag,popAtEnd,saveTopPrefix,saveTypesPrefix,saveAttrsPrefix,saveUsePrefix,initlist
+ Set $ztrap="XMLExportInternalTrap",popAtEnd=0
+ Set summary=summaryArg,initialxsiAttrs=xsiAttrs
+ If group Quit $$Error^%apiOBJ(6386,"world.data")
+ If indentFlag Set initialCR=($extract(currentIndent,1,2)=$c(13,10))
+ Set id=createId
+ Set temp=""
+ If id'="" {
+   If $piece($get(idlist(+$this)),",",2)'="" Quit 1
+   Set idlist(+$this)=id_",1"
+ }
+ If encoded Set initlist=$lb($get(oreflist),inlineFlagArg),oreflist=1,inlineFlag=inlineFlagArg
+ If 'nocycle,('encoded||inlineFlag) {
+   If $data(oreflist($this)) Quit $$Error^%apiOBJ(6296,"world.data")
+   Set oreflist($this)=""
+ }
+ Set tag=$get(topArg)
+ Set tmpi=(($get(typeAttr)'="")&&(typeAttr'="world.data"))
+ If $IsObject(namespaces) {
+     Set popAtEnd=1,saveTopPrefix=topPrefix,saveTypesPrefix=typesPrefix,saveAttrsPrefix=attrsPrefix,saveUsePrefix=usePrefix
+     Set sc=namespaces.PushNodeForExport("",$get(local,0),(encoded||tmpi),"",,.topPrefix,.topAttrs,.typesPrefix,.attrsPrefix,.usePrefix)
+     If 'sc Quit sc
+   Set beginprefix=$select(namespaces.ElementQualified&&usePrefix:typesPrefix,1:"")
+   If topAttrs'="" Set temp=temp_" "_topAttrs
+   If tag="" Set tag="data"
+   Set xsitype=namespaces.OutputTypeAttribute
+ } Else {
+   Set saveTopPrefix=topPrefix,saveTypesPrefix=typesPrefix,saveAttrsPrefix=attrsPrefix,saveUsePrefix=usePrefix
+   Set typesPrefix=namespaces If (typesPrefix'=""),($extract(typesPrefix,*)'=":") Set typesPrefix=typesPrefix_":"
+   If 'encoded Set namespaces=""
+   Set (topPrefix,attrsPrefix,topAttrs,beginprefix)=""
+   If tag="" Set tag=typesPrefix_"data"
+   Set xsitype=0
+ }
+ Set local=+$get(local),savelocal=local
+ Set endprefix="</"_beginprefix,beginprefix="<"_beginprefix
+ If tmpi Set temp=temp_" "_xsiPrefix_"type="""_typesPrefix_"data"""_xsiAttrs,xsiAttrs=""
+   If id'="" Set temp=" "_$select($get(soap12):soapPrefix_"id",1:"id")_"=""id"_id_""""_temp
+ If encoded Set temp=temp_xsiAttrs,xsiAttrs=""
+ If indentFlag Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } Set currentIndent=$select(initialCR:"",1:$c(13,10))_currentIndent_indentChars
+ If tag[":" Set topPrefix=$piece(tag,":"),tag=$piece(tag,":",2)  If topPrefix'="" Set topPrefix=topPrefix_":"
+ Set %xmlmsg="<"_topPrefix_tag_temp if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set attrsVal=attrsArg,attrsArg="" Set %xmlmsg=attrsVal if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set %xmlmsg=">" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set val=..Country
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Country"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Country>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..DensityPKm2
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"DensityPKm2"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"DensityPKm2>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Abbreviation
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Abbreviation"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Abbreviation>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..AgriculturalLand
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"AgriculturalLand"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"AgriculturalLand>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..LandAreaKm2
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"LandAreaKm2"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"LandAreaKm2>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..ArmedForcessize
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"ArmedForcessize"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"ArmedForcessize>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..BirthRate
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"BirthRate"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"BirthRate>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..CallingCode
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"CallingCode"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"CallingCode>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..CapitalMajorCity
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"CapitalMajorCity"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"CapitalMajorCity>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Co2Emissions
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Co2Emissions"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Co2Emissions>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..CPI
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"CPI"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"CPI>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..CPIChange
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"CPIChange"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"CPIChange>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..CurrencyCode
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"CurrencyCode"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"CurrencyCode>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..FertilityRate
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"FertilityRate"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"FertilityRate>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..ForestedArea
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"ForestedArea"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"ForestedArea>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..GasolinePrice
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"GasolinePrice"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"GasolinePrice>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..GDP
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"GDP"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"GDP>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Grossprimaryeducationenrollment
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Grossprimaryeducationenrollment"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Grossprimaryeducationenrollment>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Grosstertiaryeducationenrollment
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Grosstertiaryeducationenrollment"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Grosstertiaryeducationenrollment>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Infantmortality
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Infantmortality"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Infantmortality>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Largestcity
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Largestcity"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Largestcity>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Lifeexpectancy
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Lifeexpectancy"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Lifeexpectancy>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Maternalmortalityratio
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Maternalmortalityratio"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Maternalmortalityratio>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Minimumwage
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Minimumwage"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Minimumwage>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Officiallanguage
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Officiallanguage"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Officiallanguage>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Outofpockethealthexpenditure
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Outofpockethealthexpenditure"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Outofpockethealthexpenditure>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Physiciansperthousand
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Physiciansperthousand"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Physiciansperthousand>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Population
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Population"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Population>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..PopulationLaborforceparticipation
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"PopulationLaborforceparticipation"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"PopulationLaborforceparticipation>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Taxrevenue
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Taxrevenue"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Taxrevenue>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Totaltaxrate
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Totaltaxrate"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Totaltaxrate>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Unemploymentrate
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Unemploymentrate"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Unemploymentrate>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Urbanpopulation
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Urbanpopulation"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Urbanpopulation>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Latitude
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Latitude"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Latitude>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..Longitude
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"Longitude"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"Longitude>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ If indentFlag { Set currentIndent=$extract(currentIndent,1,*-$length(indentChars)) Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }}
+ Set %xmlmsg="</"_topPrefix_tag_">"
+ if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } If indentFlag,'initialCR if $data(%xmlBlock) { Set %xmlmsg="" Do xeWriteLine^%occXMLInternal } else { write ! } Set $extract(currentIndent,1,2)=""
+ If '$IsObject(namespaces) || (popAtEnd=1) Set topPrefix=saveTopPrefix,typesPrefix=saveTypesPrefix,attrsPrefix=saveAttrsPrefix,usePrefix=saveUsePrefix
+ If popAtEnd Do namespaces.PopNode()
+ If encoded Set oreflist=$list(initlist),inlineFlag=$list(initlist,2)
+ If 'encoded||inlineFlag {
+   If 'nocycle Kill oreflist($this)
+ }
+ Quit sc
+XMLExportInternalTrap Set $ztrap=""
+ If $data(val) , $IsObject(val) , ($piece($ze,">",1)="<METHOD DOES NOT EXIST") {
+   Set sc=$$Error^%apiOBJ(6249,$classname(val))
+ } Else {
+   Set sc=$$Error^%apiOBJ(5002,$ze)
+ }
+XMLExportExit 
+ If '$IsObject(namespaces) || (popAtEnd=1) Set topPrefix=saveTopPrefix,typesPrefix=saveTypesPrefix,attrsPrefix=saveAttrsPrefix,usePrefix=saveUsePrefix
+ If popAtEnd Do namespaces.PopNode()
+ Quit sc
+zXMLGetSchemaImports(imports,classes) methodimpl
+ Quit ##class(%XML.Implementation).XMLGetSchemaImports("world.data",.imports,.classes)
+zXMLImportAttributes() methodimpl
+ ;
+ Quit 1
+XMLImportAttrErr Quit $$Error^%apiOBJ(6260,ref,$get(@(tree)@("d",$zlascii(attributeList(ref),13))),@(tree)@("d",$zlascii(nodelist,9))_$$XMLImportAttrLocation(nodelist))
+XMLImportFixedAttrErr Quit $$Error^%apiOBJ(6320,ref,$get(@(tree)@("d",$zlascii(attributeList(ref),13))),@(tree)@("d",$zlascii(nodelist,9))_$$XMLImportAttrLocation(nodelist))
+XMLImportAttrLocation(nodelist) new msg,loc
+ Set loc=$lb($zlascii(nodelist,21),$zlascii(nodelist,25))
+ If loc="" Quit ""
+ Set msg=$get(^%qMsg("%ObjectErrors",$s(""'="":$zcvt("","L"),1:$s($mvv(58)="":"en",1:$mvv(58))),"XMLImportLocation")," (%1,%2)")
+ Quit $$FormatText^%occMessages(msg,$listget(loc,1),$listget(loc,2))
+zXMLImportInternal() methodimpl
+ New child,childlist,node,nodelist,inner,innerlist,data,encodedArray,key,nsIndex,savechild,savechildlist,saveinner,saveinnnerlist,exists
+ Set $ztrap="XMLImportInternalTrap"
+ Set encoded=$case($piece(fmt,",",1),"":0,"literal":0,"encoded":1,"encoded12":1,:"")
+ If encoded="" Quit $$Error^%apiOBJ(6231,fmt)
+ Set nsIndex=$select($get(namespace)="":"",1:$get(@(tree)@("N",namespace)))
+ Set node=nodeArg,nodelist=nodeArgChildlist
+ If tag'=@(tree)@("d",$zlascii(nodelist,9)) Set inner=node Goto XMLImportMalformed
+ If bareProjection Quit $$Error^%apiOBJ(6386,"world.data")
+ If encoded {
+   Do XMLImportAttrnode() If $data(attributeList("id")) Set idlist(node)=$this
+ }
+ If $zboolean(+($zlascii(nodelist,13)#16),+1,1) Quit 1
+ Set sc=$$XMLImportElements()
+XMLImportExit Quit sc
+XMLImportElements() ;
+XMLLOOP1 Set descriptor=$zlascii(nodelist,$zwascii(nodelist,17)) Set child=($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)_","_$zwascii(nodelist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else { Set child="" }} For { Quit:child=""  Quit:(descriptor#16)'=2  Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(nodelist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else {Set child="" }} } Goto XMLLOOP2
+XMLLOOP For  { Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(nodelist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else {Set child="" }} Quit:child=""  Quit:(descriptor#16)'=2  }
+XMLLOOP2 If child="" Quit sc
+ If (descriptor#16)'=0 Set inner=child Goto XMLImportMalformedNoTag
+ Set childlist=@(tree)@((descriptor\16))
+ Set tag=@(tree)@("d",$zlascii(childlist,9))
+ If tag="Country" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Country=data
+   Goto XMLLOOP } }
+ If tag="DensityPKm2" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..DensityPKm2=data
+   Goto XMLLOOP } }
+ If tag="Abbreviation" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Abbreviation=data
+   Goto XMLLOOP } }
+ If tag="AgriculturalLand" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..AgriculturalLand=data
+   Goto XMLLOOP } }
+ If tag="LandAreaKm2" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..LandAreaKm2=data
+   Goto XMLLOOP } }
+ If tag="ArmedForcessize" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..ArmedForcessize=data
+   Goto XMLLOOP } }
+ If tag="BirthRate" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..BirthRate=data
+   Goto XMLLOOP } }
+ If tag="CallingCode" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..CallingCode=data
+   Goto XMLLOOP } }
+ If tag="CapitalMajorCity" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..CapitalMajorCity=data
+   Goto XMLLOOP } }
+ If tag="Co2Emissions" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Co2Emissions=data
+   Goto XMLLOOP } }
+ If tag="CPI" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..CPI=data
+   Goto XMLLOOP } }
+ If tag="CPIChange" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..CPIChange=data
+   Goto XMLLOOP } }
+ If tag="CurrencyCode" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..CurrencyCode=data
+   Goto XMLLOOP } }
+ If tag="FertilityRate" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..FertilityRate=data
+   Goto XMLLOOP } }
+ If tag="ForestedArea" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..ForestedArea=data
+   Goto XMLLOOP } }
+ If tag="GasolinePrice" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..GasolinePrice=data
+   Goto XMLLOOP } }
+ If tag="GDP" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..GDP=data
+   Goto XMLLOOP } }
+ If tag="Grossprimaryeducationenrollment" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Grossprimaryeducationenrollment=data
+   Goto XMLLOOP } }
+ If tag="Grosstertiaryeducationenrollment" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Grosstertiaryeducationenrollment=data
+   Goto XMLLOOP } }
+ If tag="Infantmortality" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Infantmortality=data
+   Goto XMLLOOP } }
+ If tag="Largestcity" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Largestcity=data
+   Goto XMLLOOP } }
+ If tag="Lifeexpectancy" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Lifeexpectancy=data
+   Goto XMLLOOP } }
+ If tag="Maternalmortalityratio" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Maternalmortalityratio=data
+   Goto XMLLOOP } }
+ If tag="Minimumwage" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Minimumwage=data
+   Goto XMLLOOP } }
+ If tag="Officiallanguage" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Officiallanguage=data
+   Goto XMLLOOP } }
+ If tag="Outofpockethealthexpenditure" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Outofpockethealthexpenditure=data
+   Goto XMLLOOP } }
+ If tag="Physiciansperthousand" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Physiciansperthousand=data
+   Goto XMLLOOP } }
+ If tag="Population" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Population=data
+   Goto XMLLOOP } }
+ If tag="PopulationLaborforceparticipation" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..PopulationLaborforceparticipation=data
+   Goto XMLLOOP } }
+ If tag="Taxrevenue" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Taxrevenue=data
+   Goto XMLLOOP } }
+ If tag="Totaltaxrate" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Totaltaxrate=data
+   Goto XMLLOOP } }
+ If tag="Unemploymentrate" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Unemploymentrate=data
+   Goto XMLLOOP } }
+ If tag="Urbanpopulation" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Urbanpopulation=data
+   Goto XMLLOOP } }
+ If tag="Latitude" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Latitude=data
+   Goto XMLLOOP } }
+ If tag="Longitude" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..Longitude=data
+   Goto XMLLOOP } }
+ Goto XMLImportBadTagchild
+XMLImportBadTagchild Set inner=child
+XMLImportBadTag Quit $$Error^%apiOBJ(6237,tag_$$XMLImportLocation(inner))
+XMLImportBadTypenode Set inner=node Goto XMLImportBadType
+XMLImportBadTypechild Set inner=child
+XMLImportBadType Quit $$Error^%apiOBJ(6277,class,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)))_$$XMLImportLocation(inner))
+XMLImportErrnode Set inner=node Goto XMLImportErr
+XMLImportErrchild Set inner=child
+XMLImportErr
+ Set data=##class(%XML.ImportHandler).GetNextChild(tree,inner,"")
+ If (data'="") {
+   If ($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))#16)'=0 {
+     Quit $$Error^%apiOBJ(6232,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner),$extract(@(tree)@("d",($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))\16)),1,200))
+   } Else {
+     Quit $$Error^%apiOBJ(6253,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner),@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))\16)),9)))
+   }
+ } Else {
+   Quit $$Error^%apiOBJ(6252,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner))
+ }
+XMLImportIdErr Set sc=$$Error^%apiOBJ(6236,id,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner)) Quit sc
+XMLImportMalformed Set sc=$$Error^%apiOBJ(6233,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)))_$$XMLImportLocation(inner)) Quit sc
+XMLImportMalformedNoTag Set node=$select($piece(inner,",",1)<=0:0,1:$zlascii(@(tree)@($piece(inner,",",1)),1)_","_$zlascii(@(tree)@($piece(inner,",",1)),5)),sc=$$Error^%apiOBJ(6254,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16))),$select(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)))_$$XMLImportLocation(node)) Quit sc
+XMLImportNSchild Set inner=child
+XMLImportNS Set sc=$$Error^%apiOBJ(6235,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner)) Quit sc
+XMLImportLocation(node) new msg,loc
+ Set loc=$lb($zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),21),$zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),25))
+ If loc="" Quit ""
+ Set msg=$get(^%qMsg("%ObjectErrors",$s(""'="":$zcvt("","L"),1:$s($mvv(58)="":"en",1:$mvv(58))),"XMLImportLocation")," (%1,%2)")
+ Quit $$FormatText^%occMessages(msg,$listget(loc,1),$listget(loc,2))
+XMLImportInternalTrap Set $ztrap=""
+ Set loc=$select($ZE["<CLASS DOES NOT EXIST>":" for element "_tag_$$XMLImportLocation(child),1:"")
+ Quit $$Error^%apiOBJ(5002,$ZE_loc)
+XMLImportIdChild() Set inner=child,innerlist=childlist,tmp=$$XMLImportId(),child=inner,childlist=innerlist Quit tmp
+XMLImportId() ;
+ Do XMLImportAttrinner()
+ If $data(attributeList("href")) {
+   Set id=$case($data(@(tree)@("d",$zlascii(attributeList("href"),13))),1:@(tree)@("d",$zlascii(attributeList("href"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("href")))
+   If $extract(id)="#" {
+     Set tmp=$select($get(@(tree)@("i",$extract(id,2,*)))="":"",1:$piece(@(tree)@("i",$extract(id,2,*)),",",1)_","_$piece(@(tree)@("i",$extract(id,2,*)),",",2)) If tmp="" Goto XMLImportIdErr
+     Set inner=tmp
+     Set descriptor=$zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2)) Set innerlist=@(tree)@((descriptor\16))
+   }
+ } ElseIf $data(attributeList("ref")),($get(@(tree)@("n",$zwascii(attributeList("ref"),9)))="http://www.w3.org/2003/05/soap-encoding") {
+   Set id=$case($data(@(tree)@("d",$zlascii(attributeList("ref"),13))),1:@(tree)@("d",$zlascii(attributeList("ref"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("ref")))
+   Set tmp=$select($get(@(tree)@("i",id))="":"",1:$piece(@(tree)@("i",id),",",1)_","_$piece(@(tree)@("i",id),",",2)) If tmp="" Goto XMLImportIdErr
+   Set inner=tmp
+   Set descriptor=$zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2)) Set innerlist=@(tree)@((descriptor\16))
+ } ElseIf '$data(attributeList("id")) {
+   Quit 0
+ }
+ Quit $data(idlist(inner))
+XMLImportAttrnode()
+ If $get(attributeList)=node Quit
+ Kill attributeList
+ Set attributeList=node
+ Set offset=29 While offset<$zwascii(nodelist,17) { Set attribute=$extract(nodelist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+XMLImportAttrchild()
+ If $get(attributeList)=child Quit
+ Kill attributeList
+ Set attributeList=child
+ Set offset=29 While offset<$zwascii(childlist,17) { Set attribute=$extract(childlist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+XMLImportAttrinner()
+ If $get(attributeList)=inner Quit
+ Kill attributeList
+ Set attributeList=inner
+ Set offset=29 While offset<$zwascii(innerlist,17) { Set attribute=$extract(innerlist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+zXMLIsObjectEmpty(ignoreNull) methodimpl
+ If ..Country'="" Quit 0
+ If ..DensityPKm2'="" Quit 0
+ If ..Abbreviation'="" Quit 0
+ If ..AgriculturalLand'="" Quit 0
+ If ..LandAreaKm2'="" Quit 0
+ If ..ArmedForcessize'="" Quit 0
+ If ..BirthRate'="" Quit 0
+ If ..CallingCode'="" Quit 0
+ If ..CapitalMajorCity'="" Quit 0
+ If ..Co2Emissions'="" Quit 0
+ If ..CPI'="" Quit 0
+ If ..CPIChange'="" Quit 0
+ If ..CurrencyCode'="" Quit 0
+ If ..FertilityRate'="" Quit 0
+ If ..ForestedArea'="" Quit 0
+ If ..GasolinePrice'="" Quit 0
+ If ..GDP'="" Quit 0
+ If ..Grossprimaryeducationenrollment'="" Quit 0
+ If ..Grosstertiaryeducationenrollment'="" Quit 0
+ If ..Infantmortality'="" Quit 0
+ If ..Largestcity'="" Quit 0
+ If ..Lifeexpectancy'="" Quit 0
+ If ..Maternalmortalityratio'="" Quit 0
+ If ..Minimumwage'="" Quit 0
+ If ..Officiallanguage'="" Quit 0
+ If ..Outofpockethealthexpenditure'="" Quit 0
+ If ..Physiciansperthousand'="" Quit 0
+ If ..Population'="" Quit 0
+ If ..PopulationLaborforceparticipation'="" Quit 0
+ If ..Taxrevenue'="" Quit 0
+ If ..Totaltaxrate'="" Quit 0
+ If ..Unemploymentrate'="" Quit 0
+ If ..Urbanpopulation'="" Quit 0
+ If ..Latitude'="" Quit 0
+ If ..Longitude'="" Quit 0
+ Quit 1
+zXMLNew(document,node,containerOref="") methodimpl
+	Quit (##class(world.data).%New())
+zXMLSchema(top="",format="",namespacePrefix="",input=0,refOnly=0,schema) methodimpl
+ Quit ##class(%XML.Implementation).XMLSchema("world.data",top,format,namespacePrefix,input,refOnly,.schema)
+AbbreviationGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),4),1:"") }
+AgriculturalLandGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),5),1:"") }
+ArmedForcessizeGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),7),1:"") }
+BirthRateGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),8),1:"") }
+CPIGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),12),1:"") }
+CPIChangeGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),13),1:"") }
+CallingCodeGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),9),1:"") }
+CapitalMajorCityGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),10),1:"") }
+Co2EmissionsGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),11),1:"") }
+CountryGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),2),1:"") }
+CurrencyCodeGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),14),1:"") }
+DensityPKm2GetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),3),1:"") }
+FertilityRateGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),15),1:"") }
+ForestedAreaGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),16),1:"") }
+GDPGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),18),1:"") }
+GasolinePriceGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),17),1:"") }
+Grossprimaryeducationenrollment(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),19),1:"") }
+Grosstertiaryeducationenrollmen(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),20),1:"") }
+InfantmortalityGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),21),1:"") }
+LandAreaKm2GetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),6),1:"") }
+LargestcityGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),22),1:"") }
+LatitudeGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),35),1:"") }
+LifeexpectancyGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),23),1:"") }
+LongitudeGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),36),1:"") }
+MaternalmortalityratioGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),24),1:"") }
+MinimumwageGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),25),1:"") }
+OfficiallanguageGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),26),1:"") }
+OutofpockethealthexpenditureGet(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),27),1:"") }
+PhysiciansperthousandGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),28),1:"") }
+PopulationGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),29),1:"") }
+PopulationLaborforceparticipati(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),30),1:"") }
+TaxrevenueGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),31),1:"") }
+TotaltaxrateGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),32),1:"") }
+UnemploymentrateGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),33),1:"") }
+UrbanpopulationGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^world.dataD(id)),34),1:"") }
+ExtentClose(%qHandle) [ SQLCODE ] methodimpl {
+	New SQLCODE Set SQLCODE=0
+	Do:$isobject($get(%qHandle)) %qHandle.%Destruct() Kill %qHandle
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentExecute(%qHandle) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set sc=1
+	 ;---&sql(DECLARE QExtent CURSOR FOR
+ 	 ;---		 SELECT ID FROM %NOPARALLEL world.data)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	 
+	 ;---&sql(OPEN QExtent)
+	if $g(%qHandle)'="" { s SQLCODE=-101 } else { try { s %qHandle="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EipOtEHxpgAHq53dRN6OAMrim2j",%qHandle=$classmethod(%qHandle,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%qHandle)),$ze'["<ZSQLU>" { throw } } if '$isobject(%qHandle) { s %qHandle=$$%0dsqlD() } }
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5821,"SQLCODE = "_SQLCODE_" %msg = "_$g(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentFetch(%qHandle,Row,AtEnd=0) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set Row="",AtEnd=0
+	 ;---&sql(FETCH QExtent INTO :c1)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+	If 'SQLCODE { Set Row=$lb(c1) Set sc=1 }
+	ElseIf SQLCODE=100 { Set AtEnd=1,sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) }
+	Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set AtEnd=1,sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	QUIT sc }
+ExtentFetchRows(%qHandle,FetchCount=0,RowSet,ReturnCount,AtEnd) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set RowSet="",ReturnCount=0,AtEnd=0
+	For {
+		 ;---&sql(FETCH QExtent INTO :c1)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+		if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+		If 'SQLCODE { Set RowSet=RowSet_$lb(c1),ReturnCount=ReturnCount+1 Quit:(ReturnCount=FetchCount)||(($l(RowSet)+($l(RowSet)\ReturnCount))>30000) } Else { Set AtEnd=1 Quit }
+	}
+	If 'SQLCODE { Set sc=1 } ElseIf SQLCODE=100 { Set sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) } Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	Quit sc }
+ExtentSendODBC(%qHandle,array,qacn,%qrc,piece,ColumnCount) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set %qrc=0,piece=0
+	for {
+		set rc=..ExtentFetch(.%qHandle,.row,.atend)
+		if ('rc) { set %qrc=-400 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=-400,%sqlcontext.Message=$g(%msg) do ProcessError^%ourProcedure(rc,$get(%sqlcontext),.%qrc,.%msg),Logerr^%SYS.SQLSRV(%qrc,"","SP",.%msg) RETURN  }
+		if row="" { set %qrc=100 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=100 RETURN  }
+		RETURN:$zobjexport(row,60)
+	}
+	RETURN }
+ q
+%0dsqlD()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE QExtent CURSOR FOR SELECT ID "
+	s %xxsql("S",2)="INTO  :i%sqlcol1"
+	s %xxsql("S",3)="FROM %NOPARALLEL world . data"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","SOAP12ENCns")="0"_$c(1,1)_"0"_$c(1)_"""http://www.w3.org/2003/05/soap-encoding"""
+	s %xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1),%xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1)
+	s %xxsql("I","%PVA")="",%xxsql("I","%callout")="",%xxsql("I","%jsonMap")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Runtime","","","world",0,"",),",1,QExtent,","world.data.CLS",1)
+	q %xxoref
+ExtentFunc() methodimpl {
+	try {
+		set tSchemaPath = ##class(%SQL.Statement).%ClassPath($classname())
+			set tStatement = ##class(%SQL.Statement).%New(,tSchemaPath)
+			do tStatement.prepare(" SELECT ID FROM %NOPARALLEL world . data /*#OPTIONS {""DynamicSQL"":1} */")
+		set tResult = tStatement.%Execute()
+	}
+	catch tException { if '$Isobject($Get(tResult)) { set tResult = ##class(%SQL.StatementResult).%New() } set tResult.%SQLCODE=tException.AsSQLCODE(),tResult.%Message=tException.AsSQLMessage() }
+	Quit tResult }
+ExtentGetInfo(colinfo,parminfo,idinfo,%qHandle,extoption=0,extinfo) methodimpl {
+ s parminfo=""
+	s:'($d(^oddCOM($classname(),"q","Extent",21),clientinfo)#2)&&'$s($d(^(2),clientinfo)#2&&(clientinfo'=$classname()):$d(^oddCOM(clientinfo,"q","Extent",21),clientinfo)#2||($d(^oddDEF(clientinfo,"q","Extent",21),clientinfo)#2),1:$d(^oddDEF($classname(),"q","Extent",21),clientinfo)#2) clientinfo=""
+	Set:extoption extinfo=$s($d(^oddCOM($classname(),"q","Extent",38))#2:^(38),$d(^oddCOM($g(^(2),$classname()),"q","Extent",38))#2:^(38),1:$s($d(^oddDEF($g(^oddCOM($classname(),"q","Extent",2),$classname()),"q","Extent",38))#2:^(38),1:""))
+	If clientinfo'="" Set colinfo=$listget(clientinfo,1),parminfo=$listget(clientinfo,2),idinfo=$listget(clientinfo,3) Quit 1
+	Set colinfo="",parminfo="",idinfo=$listbuild(0)
+	Set sc=$$externaltype^%apiOLE("%Library.Integer",.exttypes,"0")
+	Quit:('sc) sc
+	s:'($d(^oddCOM($classname(),"q","Extent",23),names)#2)&&'$s($d(^(2),names)#2&&(names'=$classname()):$d(^oddCOM(names,"q","Extent",23),names)#2||($d(^oddDEF(names,"q","Extent",23),names)#2),1:$d(^oddDEF($classname(),"q","Extent",23),names)#2) names=""
+	s:'($d(^oddCOM($classname(),"q","Extent",22),captions)#2)&&'$s($d(^(2),captions)#2&&(captions'=$classname()):$d(^oddCOM(captions,"q","Extent",22),captions)#2||($d(^oddDEF(captions,"q","Extent",22),captions)#2),1:$d(^oddDEF($classname(),"q","Extent",22),captions)#2) captions=""
+	For i=1:1:1 Set colinfo=colinfo_$listbuild($listbuild($listget(names,i),$piece(exttypes,",",i),$listget(captions,i)))
+	Set idinfo=$listbuild(1,$classname())
+	s ^oddCOM($classname(),"q","Extent",21)=$listbuild(colinfo,parminfo,idinfo)
+	Quit 1 }
+zExtentGetODBCInfo(colinfo,parminfo,qHandle) methodimpl
+	Set metadata=$lb(1,1,"ID",4,10,0,2,"ID","data","world","",$c(0,0,0,0,0,0,0,0,0,0,0,1,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	Set colinfo=$li(metadata,2,2+cmdlen)
+	Quit 1
+IDKEYCheck(K1,lockonly=0,concurrency=-1) methodimpl {
+	s id=K1,exists=..%ExistsId(id) q:'exists $s('lockonly:$$Error^%apiOBJ(5797,$classname(),"IDKEY",id),1:1) s:concurrency=-1 concurrency=$select(..#DEFAULTCONCURRENCY="$zu(115,10)":$zu(115,10),1:$xecute("q "_..#DEFAULTCONCURRENCY)) if concurrency { s status=..%LockId(id,1) q:('status) status } if 'lockonly { s exists=..%ExistsId(id) d:concurrency ..%UnlockId(id,1,0) quit $s('exists:$$Error^%apiOBJ(5797,$classname(),"IDKEY",id),1:1) } else { d:concurrency ..%UnlockId(id,1,0) q 1 }
+}
+IDKEYDelete(K1,concurrency=-1) methodimpl {
+	Quit ..%DeleteId(.K1,concurrency) }
+IDKEYExists(K1,id="") methodimpl {
+	s id=K1 q ..%ExistsId(K1) }
+IDKEYOpen(K1,concurrency=-1,sc) methodimpl { s:'($d(sc)#2) sc=1
+	Quit ..%OpenId(.K1,concurrency,.sc) }
+zIDKEYSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLCheckUnique")
+zIDKEYSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key IDKEY.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"world"_"."_"data"_":"_"IDKEY") QUIT 0 } }
+	if pLockOnly<1 {
+		new qv set qv=$d(^world.dataD(%pVal(1))) QUIT:pLockOnly=-1 qv
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) quit qv
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) QUIT 1 }
+	Return
+zIDKEYSQLFindPKeyByConstraint(%con) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLFindPKeyByConstraint")
+zIDKEYSQLFindRowIDByConstraint(%con,pInternal=0) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLFindRowIDByConstraint")
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlD")=""
+}
