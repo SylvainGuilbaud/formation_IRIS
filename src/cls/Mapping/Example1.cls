@@ -35,6 +35,24 @@ Index Master On Sub2 [ IdKey ];
 
 Index HireDateIndex On HireDate;
 
+/// Description
+ClassMethod init() As %Status
+{
+    Set sc = $$$OK
+    set ^mapping("Simple",1)="Brendan Bannon^55192^SQL Manager"
+    set ^mapping("Simple",2)="Nicole Aaron^63375^Support Specialist"
+    set ^mapping("Simple",3)="Kyle Baxter^61155^Senior Support Specialist"
+    set ^mapping("Simple",4)="Prasad Kari^58471^Support Specialist"
+    set ^mapping("Simple",5)="Clive Morgan^57982^Senior Support Specialist"
+    
+    set ^index("Simple","HireDate",55192,1)=""
+    set ^index("Simple","HireDate",57982,5)=""
+    set ^index("Simple","HireDate",58471,4)=""
+    set ^index("Simple","HireDate",61155,3)=""
+    set ^index("Simple","HireDate",63375,2)=""
+    Return sc
+}
+
 /// Every class can only have 1 active Storage Definition.  
 /// Each Storage Definition can have more than one map.
 Storage NewStorage1
