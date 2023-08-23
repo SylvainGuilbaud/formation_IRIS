@@ -2,6 +2,50 @@ Class instruments.code Extends Ens.BusinessOperation
 {
 
 /// Description
+ClassMethod parseJSON(json As %DynamicObject) As %Status
+{
+    Set sc = $$$OK
+    #; write json,!
+    #; write json.retours,!
+    write json.retours.%Size()," retours reçus",!
+    set retours = json.retours.%GetIterator()
+    while retours.%GetNext(.key, .value) { 
+        #; write key_"="_value,!
+        write "IdTest:",value."IdTest",!
+        write ?5,"Resultat : ",value."Resultat",!
+        write ?5,"sMessage : ",value."sMessage",!
+        write ?5,"nCodeRetour : ",value."nCodeRetour",!
+    }
+
+    Return sc
+}
+
+ClassMethod sendJSON() As %Status
+{
+    Set sc = $$$OK
+
+    set json={
+        "retours":[
+            {
+                "IdTest":10,
+                "Resultat":0.986,
+                "sMessage":"Pas de mise à jour nécessaire",
+                "nCodeRetour":8
+            },
+            {
+                "IdTest":9,
+                "Resultat":1.475,
+                "sMessage":"Pas de mise à jour nécessaire",
+                "nCodeRetour":8
+            }
+        ]
+    }
+    set sc = ..parseJSON(json)
+    
+    Return sc
+}
+
+/// Description
 Method importerAnalyses(pRequest As instruments.msg.analyses, Output pResponse As instruments.msg.retourMaj) As %Status
 {
         Set sc = $$$OK
