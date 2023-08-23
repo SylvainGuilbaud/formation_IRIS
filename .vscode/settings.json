@@ -8,7 +8,7 @@
     "addCategory": false,
     "map": {},
     "atelier": true,
-    "generated": true,
+    "generated": false,
     "filter": "",
     "exactFilter": "",
     "category": "*",
