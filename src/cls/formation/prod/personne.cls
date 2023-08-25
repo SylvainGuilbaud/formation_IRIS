@@ -70,8 +70,6 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="DSN">oracle</Setting>
     <Setting Target="Adapter" Name="JGService">JG</Setting>
   </Item>
-  <Item Name="process.test" Category="" ClassName="process.test" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-  </Item>
   <Item Name="from personne EMAIL" Category="" ClassName="formation.service.personne" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Host" Name="TargetConfigNames">personnes</Setting>
     <Setting Target="Adapter" Name="POP3Port">110</Setting>
