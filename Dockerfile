@@ -1,9 +1,9 @@
 ARG IMAGE=intersystemsdc/irishealth-community:latest
-ARG IMAGE=intersystemsdc/iris-community:latest
-ARG IMAGE=containers.intersystems.com/intersystems/iris-community:2023.1.1.380.0
-ARG IMAGE=containers.intersystems.com/intersystems/iris-community-arm64:2023.1.1.380.0
-ARG IMAGE=containers.intersystems.com/intersystems/iris-community:latest-cd
-ARG IMAGE=containers.intersystems.com/intersystems/iris-community-arm64:latest-cd
+# ARG IMAGE=intersystemsdc/iris-community:latest
+# ARG IMAGE=containers.intersystems.com/intersystems/iris-community:2023.1.1.380.0
+# ARG IMAGE=containers.intersystems.com/intersystems/iris-community-arm64:2023.1.1.380.0
+# ARG IMAGE=containers.intersystems.com/intersystems/iris-community:latest-cd
+# ARG IMAGE=containers.intersystems.com/intersystems/iris-community-arm64:latest-cd
 
 FROM $IMAGE as builder
 
@@ -21,7 +21,7 @@ FROM $IMAGE as builder
 
 WORKDIR /home/irisowner/dev
 
-ARG TESTS=1
+ARG TESTS=0
 ARG MODULE="formation-iris"
 ARG NAMESPACE="IRISAPP"
 

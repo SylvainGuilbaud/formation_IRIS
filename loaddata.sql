@@ -18,6 +18,10 @@ USING
 }
 
 
+LOAD DATA FROM FILE '/data/persons.csv'
+into data.person (ID,DateNaissance,Nom,Prenom,Sexe)
+USING {"from": { "file": {"columnseparator": ";"}}}
+
 -- SELECT TOP 5 * FROM %SQL_Diag.Result ORDER BY createTime DESC
 
 -- SELECT actor,message,severity,sqlcode
