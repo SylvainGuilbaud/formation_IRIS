@@ -8,3 +8,4 @@ chronyk
 requests
 mysql.connector
 folium
+openpyxl
