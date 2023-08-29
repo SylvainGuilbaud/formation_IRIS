@@ -47,8 +47,8 @@ ClassMethod getData(episode As %String) As %Status
             }
         } else {
             set json = {
-            "SQLCODE": (result.%SQLCODE) 
-            ,"Message": (result.%Message) 
+                "SQLCODE": (result.%SQLCODE) 
+                ,"Message": (result.%Message) 
             }
         }
         do json.%ToJSON()
