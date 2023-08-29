@@ -2,11 +2,11 @@ Class common.conversion
 {
 
 /// Convert an Excel file to a CSV file
-ClassMethod XLStoCSV(source As %String = "/data/a.xlsx", target As %String = "/data/a.csv") As %Status [ Language = python ]
+ClassMethod XLStoCSV(source As %String = "/data/sample.xlsx") As %Status [ Language = python ]
 {
   import pandas as pd
   read_file = pd.read_excel(source)
-  read_file.to_csv(target, index = None, header=True)
+  read_file.to_csv(source+'.csv', index = None, header=True)
 }
 
 /// Convert Celsius to Fahrenheit
