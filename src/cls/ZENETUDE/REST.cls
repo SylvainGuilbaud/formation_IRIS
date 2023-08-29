@@ -46,9 +46,10 @@ ClassMethod getData(episode As %String) As %Status
                 }
             }
         } else {
-            set json = {}
-            set json.SQLCODE = (result.%SQLCODE) 
-            set json.Message = (result.%Message) 
+            set json = {
+            "SQLCODE": (result.%SQLCODE) 
+            ,"Message": (result.%Message) 
+            }
         }
         do json.%ToJSON()
     }
