@@ -15,6 +15,22 @@
  }
  zn "%SYS"
  do ##class(Security.Users).UnExpireUserPasswords("*")
+ set tRes = ##class(%SQL.Statement).%ExecDirect(,"update security.events set enabled=1")
+ if tRes.%SQLCODE=0 {
+   set ^["USER"]TRACE("%SYS Security.Events")=tRes.%ROWCOUNT_" successfully enabled"
+ } else {
+   set ^["USER"]TRACE("%SYS Security.Events")=tRes.%Message_" SQLCODE:"_tRes.%SQLCODE
+ }
+ set username="interop"
+ set roles="%EnsRole_Developer,%DB_IRISAPP-CODE,%DB_IRISAPP-DATA"
+ set password="SYS"
+ set sc = ##class(Security.Users).Create(username,roles,password,,"IRISAPP",,"",0,1,,,,,,1,1)
+ if 'sc {
+    set ^["USER"]TRACE("%SYS Create User "_username)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+ } else {
+    set ^["USER"]TRACE("%SYS Create User "_username)="successful"
+ }
+
 #;  set ^%SYS("sql","ODBCCONNECTION","DATA")	=	1
 #;  set ^%SYS("sql","ODBCCONNECTION","DATA",1)	=	$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/app/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
 #;  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MYSQL",1)	=	""
@@ -95,5 +111,6 @@
  set ^Ens.Config.DefaultSettingsD("formation.prod.personne","to personne SQL","*","DSN") = $lb("mysql","",0)
  zpm "install alwo-enshelper"
  zpm "install dataset-countries"
+ 
 
 halt
