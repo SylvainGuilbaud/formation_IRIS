@@ -56,15 +56,23 @@ ClassMethod test() As %Status
 
 ClassMethod log(name As %String, type As %String, msg As %String, content As %ArrayOfDataTypes) As %Status
 {
-    set sc = $$$OK
-    set a = ..%New()
-    set a.name = name
-    set a.type = type
-    set a.msg = msg
-    set key = ""
-    if $Data(content) { 
-        set a.content = content 
+    Try {
+        set sc = $$$OK
+        set a = ..%New()
+        set a.name = name
+        set a.type = type
+        set a.msg = msg
+        set key = ""
+        if $Data(content) { 
+            set a.content = content 
     }
+        
+    }
+    Catch ex {
+        Set sc=ex.AsStatus()
+        set sc = $SYSTEM.Security.Audit("Business Service get EMAIL","pb de droits","exception 5",a.%XMLEXport(), a.%JSONExport())
+    }
+ 
     set sc = a.%Save()
     return sc
 }
