@@ -46,8 +46,8 @@ services:
         CHOWN_HOME: 'yes'
         CHOWN_HOME_OPTS: -R
     ports:
-    - "4200:8888" # where Jupyter will be listening
-    - "4201:6006"
+    - "14200:8888" # where Jupyter will be listening
+    - "14201:6006"
     volumes:
       - ./data:/data
   mysql: 
