@@ -39,7 +39,7 @@ ClassMethod set() As %Status
     set sc = $$$OK
 
     kill ^AFO
-    
+
     s ^AFO("Site","Ville")="66722,3743"
     s ^AFO("Site","Ville","111BB","OBT")=",MMM,XXX,"
     s ^AFO("Site","Ville","111OW","OBT")=",XXX,MMM,"
@@ -51,13 +51,27 @@ ClassMethod set() As %Status
     kill ^AAA
 
     s ^AAA(1,2)="66722,3743"
-    s ^AAA(1,2,"3","4")=",MMM,XXX,"
-    s ^AAA(1,2,"4","5")=",XXX,MMM,"
-    s ^AAA(1,2,3,4)    =    "1^^1"
-    s ^AAA(1,2,3,4,"*","dut")    =    "*afhalen waar gevonden"
-    s ^AAA(1,2,3,4,"*","eng")    =    "*Pickup where found"
-    s ^AAA(1,2,3,4,"*","fre")    =    "*Lieu où trouvé"
+    s ^AAA(1,2,"3","4")         =",MMM,XXX,"
+    s ^AAA(1,2,"4","5")         =",XXX,MMM,"
+    s ^AAA(1,2,3,4)             =    "1^^1"
+    s ^AAA(1,2,3,4,"*","dut")   =    "*afhalen waar gevonden"
+    s ^AAA(1,2,3,4,"*","eng")   =    "*Pickup where found"
+    s ^AAA(1,2,3,4,"*","fre")   =    "*Lieu où trouvé"
 
+    kill ^BBB
+
+    s ^BBB("en")                ="Hello"
+    s ^BBB("en","sub")          ="World"
+    s ^BBB(1,2,3)               ="BBB"
+    s ^BBB(1,2,3,4)             =    "BBB^^BBB"
+
+    kill ^CCC
+
+    s ^CCC("fr")                ="Bonjour"
+    s ^CCC("fr","sub")          ="la Communauté"
+    s ^CCC(1,2,3,"QUATRE","CINQ","SIX")   ="6"
+    s ^CCC(1,2,3,4,"5","6")     ="6"
+    s ^CCC("UN","DEUX","TROIS")               ="3"
     return sc
 }
 
