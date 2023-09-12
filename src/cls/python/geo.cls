@@ -3,9 +3,9 @@ Class python.geo
 
 // Parameter ADDRESSES = "Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
 
-// Parameter ADDRESSES = "20 avenue Andre Prothin 92400 Courbevoie,Abidjan,Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
+Parameter ADDRESSES = "Sainte Anastasie,20 avenue Andre Prothin 92400 Courbevoie,Abidjan,Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
 
-Parameter ADDRESSES = "20 avenue Andre Prothin 92400 Courbevoie";
+// Parameter ADDRESSES = "20 avenue Andre Prothin 92400 Courbevoie";
 
 Parameter LOCATIONMAP = "/data/locations_map.html";
 

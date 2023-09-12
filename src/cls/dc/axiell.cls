@@ -1,13 +1,13 @@
 Class dc.axiell
 {
 
-Query data(p1 As %String) As %Query(ROWSPEC = "key1:%String,key2:%String,key3:%String,key4:%String,key5:%String,key6:%String,datavalue:%String") [ SqlProc ]
+Query data(globalName As %String) As %Query(ROWSPEC = "key1:%String,key2:%String,key3:%String,key4:%String,key5:%String,key6:%String,datavalue:%String") [ SqlProc ]
 {
 }
 
-ClassMethod dataExecute(ByRef qHandle As %Binary, p1 As %String) As %Status
+ClassMethod dataExecute(ByRef qHandle As %Binary, globalName As %String) As %Status
 {
-    Set qHandle("node") = p1
+    Set qHandle("node") = globalName
     Quit $$$OK
 }
 
