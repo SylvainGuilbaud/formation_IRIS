@@ -1,6 +1,6 @@
-ID,DateNaissance,Nom,Prenom,Sexe
-1,2008-03-06,Smith,Pam,F
-2,1945-02-08,Diavolo,Pam,M
-3,2028-11-02,Allen,Ralph,F
-4,1985-02-13,Bach,Umberto,M
-5,1976-01-17,Malkovich,Pat,F
+ID\DateNaissance\Nom\Prenom\Sexe
+1\2008-03-06\Smith\Pam\F
+2\1945-02-08\Diavolo\Pam\M
+3\2028-11-02\Allen\Ralph\F
+4\1985-02-13\Bach\Umberto\M
+5\1976-01-17\Malkovich\Pat\F
