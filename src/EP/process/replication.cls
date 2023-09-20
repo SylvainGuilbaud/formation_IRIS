@@ -19,7 +19,8 @@ Method OnRequest(pRequest As Ens.Request, Output pResponse As Ens.StringContaine
     set tHttpRequest.Port        = ..Port
     set location                 = "/common/list/" _ ..classname _ "/json"
 
-    set tHttpRequest.ContentType   ="application/json"
+    set tHttpRequest.ContentType = "application/json"
+    set tHttpRequest.Timeout     = 900
     
     set tSC = tHttpRequest.Get(location)
   
