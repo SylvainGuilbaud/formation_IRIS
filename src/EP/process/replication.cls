@@ -27,6 +27,8 @@ Method OnRequest(pRequest As Ens.Request, Output pResponse As Ens.StringContaine
     Set jsonObject               = [].%FromJSON(tHttpRequest.HttpResponse.Data)
     Do jsonObject.%ToJSON(.stream)
     set pContainer.Stream = stream
+    $$$TRACE("stream size:"_stream.Size)
+    $$$TRACE("stream data:"_stream.Read(1000))
 
     set sc = ..SendRequestSync("EP.operation.replication",pContainer,.pResponse)
     
