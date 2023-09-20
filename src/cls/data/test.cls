@@ -29,6 +29,8 @@ Property extension As %String [ InitialExpression = "svg" ];
 
 Property created As %TimeStamp [ InitialExpression = {$zdt($now(),3,,6)} ];
 
+Property rawString As %RawString;
+
 Index StringIndex On String;
 
 Index BStreamIndex On BStream;
@@ -186,6 +188,9 @@ Storage Default
 </Value>
 <Value name="14">
 <Value>MT</Value>
+</Value>
+<Value name="15">
+<Value>rawString</Value>
 </Value>
 </Data>
 <DataLocation>^data.testD</DataLocation>

@@ -1,0 +1,15 @@
+<test>
+    <personneBatch>
+        <Records>
+            <Record>
+                <Nom>Jimmy</Nom>
+            </Record>
+            <Record>
+                <Nom>Jamie</Nom>
+            </Record>
+            <Record>
+                <Nom>Julia</Nom>
+            </Record>
+        </Records>
+    </personneBatch>
+</test>

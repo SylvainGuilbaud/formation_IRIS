@@ -608,14 +608,16 @@ ClassMethod listTop(classname As %String, format As %String, min As %Integer, ma
             if min > max {
                 set json = {"ERROR":(min _ ">" _max)}
             } else {
-                set json = {"tablename": (classname)}
-                set json.data = []
+                #; set json = {"tablename": (classname)}
+                #; set json.data = []
+                set json=[]
                 while i <= max { 
                     if $CLASSMETHOD(classname,"%ExistsId",i) {
                         set a = $CLASSMETHOD(classname,"%OpenId",i)
                         if $ISOBJECT(a) {
                             set sc = a.%JSONExportToStream(.str)
-                            do json.data.%Push({}.%FromJSON(str))
+                            #; do json.data.%Push({}.%FromJSON(str))
+                            do json.%Push({}.%FromJSON(str))
                         }
                     }
                     do $INCREMENT(i)
