@@ -1,0 +1,36 @@
+ROUTINE MT.transfo.XML.1 [Type=INT,Generated]
+ ;MT.transfo.XML.1
+ ;Generated for class MT.transfo.XML.  Do NOT edit. 09/26/2023 12:45:34PM
+ ;;77772F74;MT.transfo.XML
+ ;
+GetSourceDocType() methodimpl {
+ Quit "file:File" }
+GetSourceType() methodimpl {
+ Quit "EnsLib.EDI.XML.Document" }
+GetTargetType(pCreate) methodimpl {
+ Set pCreate="new"
+ Quit "data.client" }
+Transform(source,target,aux="") [ process,context ] methodimpl {
+	Set (tSC,tSCTrans,tSCGet)=1
+	Try {
+		Set:""=source.DocType tBlankSrc=1, source.DocType="file:File"
+		Set target = ##class(data.client).%New()
+		If '$IsObject(target) Set tSC=%objlasterror Quit
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("xform",$classname(),"Transform","transform from source "_source_$S(source.%Extends("%Persistent"):"/"_source.%Id(),1:"")_" to target "_target_$S(target.%Extends("%Persistent"):"/"_target.%Id(),1:"")_"")
+		Try { Set target.code=source.GetValueAt("conf.CodeArticle",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Try { Set target.description=source.GetValueAt("conf.PrixConf",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+	} Catch thrownErr {
+		If $ZE="" {
+			Set tSC=thrownErr.AsStatus()
+			Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSC)
+		} Else {
+			Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"Transform")
+		}
+	}
+	If ('tSCTrans) Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSCTrans)  Quit:(''tSC) tSCTrans
+	Set:$G(tBlankSrc) source.DocType=""
+	Quit tSC }

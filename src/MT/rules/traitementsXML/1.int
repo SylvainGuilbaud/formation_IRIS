@@ -1,0 +1,41 @@
+ROUTINE MT.rules.traitementsXML.1 [Type=INT,Generated]
+ ;MT.rules.traitementsXML.1
+ ;Generated for class MT.rules.traitementsXML.  Do NOT edit. 09/26/2023 12:50:04PM
+ ;;2B584448;MT.rules.traitementsXML
+ ;
+evaluateRuleDefinition(pContext,pRuleSet,pEffectiveBegin,pEffectiveEnd,pReturnValue,pReason,pLogLevel,pDebugId="") methodimpl { s:'($d(pLogLevel)#2) pLogLevel="r"
+    set tSC=1,$ZE=""
+    try {
+        set pReturnValue="",pReason=""
+        ; Initialize temporary variables
+        ; No ruleSet dispatching code generated.
+        set pEffectiveBegin=""
+        set pEffectiveEnd=""
+        set pRuleSet=""
+        ;
+ruleSet1 ; effectiveBegin = (not-specified); effectiveEnd = (not-specified)
+        if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","","Executing ruleSet1: effectiveBegin = (not-specified); effectiveEnd = (not-specified)",0) quit:('tSC)
+        ;
+        ; Evaluating rule: rule#1(MT file XML)
+        kill tConstraints
+        set tConstraints("source")="from MT XML structure File"
+        set tSC=##class(EnsLib.MsgRouter.RuleAssist).RuntimeConstraintCheck(.tConstraints,pContext,.pPassed) quit:('tSC)
+        if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#1(MT file XML)","Constraints for rule 'MT file XML' "_$select(pPassed: "passed",1: "failed"),0) quit:('tSC)
+        if pPassed {
+            if ((1)) {
+                set pReason=pReason_",rule#1(MT file XML):when#1"
+                if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#1(MT file XML):when#1","When (1) succeeded",0) quit:('tSC)
+                set pReturnValue=pReturnValue_$s(pReturnValue'="":";",1:"")_"send:to personne SQL:"
+            } elseif (pLogLevel [ "c") {
+                set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#1(MT file XML)","For rule 'MT file XML', no whens matched and no otherwise defined",0) quit:('tSC)
+            }
+        }
+        quit
+        ;
+    } catch err {
+        if $ZE="" {set tSC=err.AsStatus()} Else {set tSC=##class(Ens.Util.Error).ExceptionStatus()}
+    }
+    set pReason=$e(pReason,2,*)
+    quit tSC
+    ;
+}

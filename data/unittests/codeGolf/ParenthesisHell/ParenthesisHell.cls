@@ -3,7 +3,7 @@ Class unittests.codeGolf.ParenthesisHell.ParenthesisHell Extends %UnitTest.TestC
 
 Method TestValid()
 {
-    Do $$$AssertEquals(##class(codeGolf.ParenthesisHell).IsValid("()"), $$$YES)
+    Do $$$AssertEquals(##class(codeGolf.ParenthesisHell).IsValid("())"), $$$YES)
     Do $$$AssertEquals(##class(codeGolf.ParenthesisHell).IsValid("(()())"), $$$YES)
     Do $$$AssertEquals(##class(codeGolf.ParenthesisHell).IsValid("(((())))"), $$$YES)
     Do $$$AssertEquals(##class(codeGolf.ParenthesisHell).IsValid("()(())((()))(())()"), $$$YES)

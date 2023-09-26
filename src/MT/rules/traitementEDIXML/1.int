@@ -1,0 +1,65 @@
+ROUTINE MT.rules.traitementEDIXML.1 [Type=INT,Generated]
+ ;MT.rules.traitementEDIXML.1
+ ;Generated for class MT.rules.traitementEDIXML.  Do NOT edit. 09/26/2023 01:27:12PM
+ ;;54433974;MT.rules.traitementEDIXML
+ ;
+evaluateRuleDefinition(pContext,pRuleSet,pEffectiveBegin,pEffectiveEnd,pReturnValue,pReason,pLogLevel,pDebugId="") methodimpl { s:'($d(pLogLevel)#2) pLogLevel="r"
+    set tSC=1,$ZE=""
+    try {
+        set pReturnValue="",pReason=""
+        ; Initialize temporary variables
+        ; No ruleSet dispatching code generated.
+        set pEffectiveBegin=""
+        set pEffectiveEnd=""
+        set pRuleSet=""
+        ;
+ruleSet1 ; effectiveBegin = (not-specified); effectiveEnd = (not-specified)
+        if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","","Executing ruleSet1: effectiveBegin = (not-specified); effectiveEnd = (not-specified)",0) quit:('tSC)
+        ;
+        ; Evaluating rule: rule#1
+        kill tConstraints
+        set tConstraints("source")="from MT XML structure File"
+        set tConstraints("msgClass")="EnsLib.EDI.XML.Document"
+        set tConstraints("docCategory")="file"
+        set tConstraints("docName")="File"
+        set tSC=##class(EnsLib.MsgRouter.VDocRuleAssist).RuntimeConstraintCheck(.tConstraints,pContext,.pPassed) quit:('tSC)
+        if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#1","Constraints for rule 'rule#1' "_$select(pPassed: "passed",1: "failed"),0) quit:('tSC)
+        if pPassed {
+            if (((pContext.Document.GetValueAt("conf.PrixConf"))>=(10))) {
+                set pReason=pReason_",rule#1:when#1"
+                if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#1:when#1","When (Document.{conf.PrixConf}>=10) succeeded",0) quit:('tSC)
+                set pReturnValue=pReturnValue_$s(pReturnValue'="":";",1:"")_"send:to personne SQL:MT.transfo.EDIXMLtoSQLPersonne"
+                set tReturn = 1
+                quit
+            } elseif (pLogLevel [ "c") {
+                set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#1","For rule 'rule#1', no whens matched and no otherwise defined",0) quit:('tSC)
+            }
+        }
+        ; Evaluating rule: rule#2
+        kill tConstraints
+        set tConstraints("source")="from MT FTP"
+        set tConstraints("msgClass")="EnsLib.EDI.XML.Document"
+        set tConstraints("docCategory")="file"
+        set tConstraints("docName")="File"
+        set tSC=##class(EnsLib.MsgRouter.VDocRuleAssist).RuntimeConstraintCheck(.tConstraints,pContext,.pPassed) quit:('tSC)
+        if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#2","Constraints for rule 'rule#2' "_$select(pPassed: "passed",1: "failed"),0) quit:('tSC)
+        if pPassed {
+            if (((pContext.Document.GetValueAt("conf.PrixConf"))>=(10))) {
+                set pReason=pReason_",rule#2:when#1"
+                if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#2:when#1","When (Document.{conf.PrixConf}>=10) succeeded",0) quit:('tSC)
+                set pReturnValue=pReturnValue_$s(pReturnValue'="":";",1:"")_"send:to personne SQL:MT.transfo.EDIXMLtoSQLPersonne"
+                set tReturn = 1
+                quit
+            } elseif (pLogLevel [ "c") {
+                set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#2","For rule 'rule#2', no whens matched and no otherwise defined",0) quit:('tSC)
+            }
+        }
+        quit
+        ;
+    } catch err {
+        if $ZE="" {set tSC=err.AsStatus()} Else {set tSC=##class(Ens.Util.Error).ExceptionStatus()}
+    }
+    set pReason=$e(pReason,2,*)
+    quit tSC
+    ;
+}

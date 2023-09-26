@@ -3,7 +3,7 @@ Class python.geo
 
 // Parameter ADDRESSES = "Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
 
-Parameter ADDRESSES = "Sainte Anastasie,20 avenue Andre Prothin 92400 Courbevoie,Abidjan,Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
+Parameter ADDRESSES = "Sion Suisse,8 rue Anatole France 59800 Lille,Sainte Anastasie,20 avenue Andre Prothin 92400 Courbevoie,Abidjan,Kortenberg,Helmond,Ratingen,Sevilla,London,18 RUE JACQUELINE AURIOL 78280 GUYANCOURT,San Martino In Rio,Prague, Hvidovre, Gdansk, Bucharest, Shangai,Taipei, Gyeonggi-do, Adelaide,Canada,Roseville,Santiago,Sao Paolo";
 
 // Parameter ADDRESSES = "20 avenue Andre Prothin 92400 Courbevoie";
 
@@ -30,7 +30,7 @@ ClassMethod MarkGeoDetails(addr As %String, filepath As %String) As %Status [ La
     #split address in order to mark on the map
     locs = addr.split(",")
     if len(locs) == 0:
-    	print("Please enter address")
+        print("Please enter address")
     elif len(locs) == 1:
     	location = geolocator.geocode(locs[0])
     	point = location.point

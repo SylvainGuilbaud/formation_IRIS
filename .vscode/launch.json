@@ -21,8 +21,6 @@
             "request": "launch",
             "name": "aaa",
             "program": "##class(aaa.aaa).MyMethode()"
-        },
-      
-
+        }
     ]
 }

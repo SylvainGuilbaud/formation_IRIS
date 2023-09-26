@@ -27,6 +27,7 @@
       "internalPort": 52773
     },
     "links": {
+      "calyps": "http://www.calyps.ch",
       "terminal": "http://${host}:${port}/terminal/",
       "class explorer": "http://${host}:${port}/classexplorer/",
       "api management": "http://${host}:${port}/api/mgmnt/",
