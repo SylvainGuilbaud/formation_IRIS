@@ -144,6 +144,27 @@ ClassMethod extractCharacter(id As %Integer, extension As %String = "txt", direc
     return sc
 }
 
+ClassMethod kill() As %Status
+{
+    set status = $$$OK
+    kill ^data.testD
+    kill ^data.testS
+    kill ^data.testI("BStreamIndex")
+    kill ^data.testI("BooleanIndex")
+    kill ^data.testI("CStreamIndex")
+    kill ^data.testI("DateIndex")
+    kill ^data.testI("DoubleIndex")
+    kill ^data.testI("FloatIndex")
+    kill ^data.testI("IntegerIndex")
+    kill ^data.testI("NumericIndex")
+    kill ^data.testI("StringIndex")
+    kill ^data.testI("TimestampIndex")
+
+    set status = ..%BuildIndices()
+
+    return status
+}
+
 Storage Default
 {
 <Data name="testDefaultData">
