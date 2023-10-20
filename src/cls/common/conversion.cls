@@ -28,7 +28,7 @@ ClassMethod FahrenheitToCelsius(input As %Numeric = 0) As %Numeric
   return $num((input - 32) * (5/9),4)
 }
 
-ClassMethod convertirXLSRudo1toCSV(source As %String) As %Status [ Language = python ]
+ClassMethod convertirXLStoCSV(source As %String) As %Status [ Language = python ]
 {
 
     import pandas as pd

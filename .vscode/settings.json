@@ -22,10 +22,11 @@
     "username": "_SYSTEM",
     "password": "SYS",
     "active": true,
-    "host": "144.33",
-    "port": 52773,
+    "docker-compose": {
+      "service": "iris",
+      "internalPort": 52773
+    },
     "links": {
-      "le monde":"http://www.lemonde.fr",
       "terminal": "http://${host}:${port}/terminal/",
       "class explorer": "http://${host}:${port}/classexplorer/",
       "api management": "http://${host}:${port}/api/mgmnt/",
