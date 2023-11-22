@@ -23,7 +23,7 @@ services:
     #   - ISC_DATA_DIRECTORY=/irisdata
     volumes:
       - ./data:/data
-      - ./jdbc:/app/jdbc
+      - ./jdbc:/jdbc
       # - ./src:/app/src
       # - ./:/home/irisowner/dev
       # - ./volumes/irisdata:/irisdata
@@ -68,7 +68,6 @@ services:
         ipv4_address: 172.0.0.11
   postgres:
     container_name: ${iris_container_name}-postgres
-    # image: postgres:13.4-alpine3.14
     image: postgres
     environment:
       POSTGRES_PASSWORD: postgres

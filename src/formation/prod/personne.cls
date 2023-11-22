@@ -6,6 +6,7 @@ XData ProductionDefinition
 <Production Name="formation.prod.personne" TestingEnabled="true" LogGeneralTraceEvents="true">
   <Description>aaaaa</Description>
   <ActorPoolSize>2</ActorPoolSize>
+  <Setting Target="Adapter" Name="ShutdownTimeout">900</Setting>
   <Item Name="get gender" Category="transfo + traitements" ClassName="HTTP.operation" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Adapter" Name="HTTPServer">api.genderize.io</Setting>
     <Setting Target="Adapter" Name="SSLConfig">API</Setting>
@@ -72,36 +73,20 @@ XData ProductionDefinition
     <Setting Target="Host" Name="ArchiveIO">1</Setting>
     <Setting Target="Adapter" Name="Credentials">email</Setting>
   </Item>
-  <Item Name="EP.service.replication" Category="" ClassName="EP.service.replication" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
-    <Setting Target="Host" Name="TargetConfigNames">EP.operation.replication</Setting>
-    <Setting Target="Host" Name="ArchiveIO">1</Setting>
-    <Setting Target="Host" Name="Server">host.docker.internal</Setting>
-  </Item>
-  <Item Name="EP.operation.replication" Category="" ClassName="EP.operation.replication" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
-  </Item>
-  <Item Name="from MT XML structure File" Category="" ClassName="EnsLib.EDI.XML.Service.FileService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="DocSchemaCategory">file</Setting>
-    <Setting Target="Host" Name="TargetConfigNames">traitementEDIXML</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/MT/in/</Setting>
-    <Setting Target="Adapter" Name="FileSpec">*.xml</Setting>
+  <Item Name="EP.operation.replication" Category="" ClassName="EP.operation.replication" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
   </Item>
   <Item Name="traitementsXML" Category="" ClassName="EnsLib.MsgRouter.VDocRoutingEngine" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">MT.rules.traitementsXML</Setting>
   </Item>
-  <Item Name="from MT XML FTP structure File" Category="" ClassName="EnsLib.EDI.XML.Service.FTPService" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Host" Name="DocSchemaCategory">file</Setting>
-  </Item>
   <Item Name="traitementEDIXML" Category="" ClassName="EnsLib.MsgRouter.VDocRoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">MT.rules.traitementEDIXML</Setting>
   </Item>
-  <Item Name="from MT FTP" Category="" ClassName="EnsLib.EDI.XML.Service.FTPService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
-    <Setting Target="Adapter" Name="ArchivePath">/data/personne/archive</Setting>
-    <Setting Target="Adapter" Name="FilePath">./ftp/in</Setting>
-    <Setting Target="Adapter" Name="FileSpec">*.xml</Setting>
-    <Setting Target="Host" Name="TargetConfigNames">traitementEDIXML</Setting>
-    <Setting Target="Adapter" Name="FTPServer">172.0.0.100</Setting>
-    <Setting Target="Adapter" Name="Credentials">ftp</Setting>
-    <Setting Target="Host" Name="DocSchemaCategory">file</Setting>
+  <Item Name="from personne EMAIL FREE.FR" Category="" ClassName="formation.service.personne" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">personnes</Setting>
+    <Setting Target="Adapter" Name="POP3Port">110</Setting>
+    <Setting Target="Adapter" Name="POP3Server">pop.free.fr</Setting>
+    <Setting Target="Host" Name="ArchiveIO">1</Setting>
+    <Setting Target="Adapter" Name="Credentials">email</Setting>
   </Item>
 </Production>
 }

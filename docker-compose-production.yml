@@ -22,6 +22,7 @@ services:
     #   - ISC_DATA_DIRECTORY=/irisdata
     volumes:
       - ./data:/data
+       - ./jdbc:/jdbc
       # - ./volumes/irisdata:/irisdata
       - ./key/iris.key:/key/iris.key
     networks:

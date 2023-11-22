@@ -22,13 +22,15 @@ services:
     #   - ISC_DATA_DIRECTORY=/irisdata
     volumes:
       - ./data:/data
+      - ./jdbc:/jdbc
       # - ./volumes/irisdata:/irisdata
       # - ./key/iris.key:/key/iris.key
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.10
   mysql: 
-    image: mysql:8.0.30
+    # image: mysql:8.0.30
+    image: mysql
     command: --default-authentication-plugin=mysql_native_password
     hostname: mysql
     init: true
@@ -44,7 +46,8 @@ services:
         ipv4_address: 172.0.0.11
   postgres:
     container_name: postgres
-    image: postgres:13.4-alpine3.14
+    # image: postgres:13.4-alpine3.14
+    image: postgres
     environment:
       POSTGRES_PASSWORD: postgres
     volumes:

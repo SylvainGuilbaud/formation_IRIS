@@ -18,13 +18,11 @@
     "mapped": true
   },
   "objectscript.conn" :{
-    "ns": "IRISAPP",
-    "username": "_system",
+    "ns": "ROFIM_INTEROP",
+    "username": "sguilbaud",
     "active": true,
-    "docker-compose": {
-      "service": "iris",
-      "internalPort": 52773
-    },
+    "host": "54.170.101.179",
+    "port": 52773,
     "links": {
       "terminal": "http://${host}:${port}/terminal/",
       "class explorer": "http://${host}:${port}/classexplorer/",

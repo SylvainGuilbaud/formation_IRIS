@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for UNIX (Ubuntu Server LTS for ARM64 Containers) 2023.2 (Build 227U)" ts="2023-11-16 11:22:22">
+<Class name="Hm.mars.biologie.RM.Record">
+<Description><![CDATA[
+THIS IS GENERATED CODE. DO NOT EDIT.<br/>
+RECORDMAP: Generated from RecordMap 'Hm.mars.biologie.RM'
+on 2023-11-16 at 11:20:35.982 [2023-11-16 11:20:35.982 UTC]
+by user _SYSTEM]]></Description>
+<ProcedureBlock>1</ProcedureBlock>
+<Super>%Persistent,%XML.Adaptor,Ens.Request,EnsLib.RecordMap.Base</Super>
+<TimeChanged>66794,40835.987286959</TimeChanged>
+<TimeCreated>66794,40835.982500375</TimeCreated>
+<Inheritance>right</Inheritance>
+
+<Parameter name="INCLUDETOPFIELDS">
+<Default>1</Default>
+</Parameter>
+
+<Property name="IDTYPACTE">
+<Type>%String</Type>
+</Property>
+
+<Property name="IDTYPEACTECODE">
+<Type>%String</Type>
+</Property>
+
+<Property name="IDEMETTEURLIB">
+<Type>%String</Type>
+</Property>
+
+<Property name="IDEMETTEUR">
+<Type>%String</Type>
+</Property>
+
+<Property name="IPP">
+<Type>%String</Type>
+</Property>
+
+<Property name="DatePrelevement">
+<Type>%String</Type>
+</Property>
+
+<Property name="IdentifiantAnalyse">
+<Type>%String</Type>
+</Property>
+
+<Property name="TypeResultat">
+<Type>%String</Type>
+</Property>
+
+<Property name="Analyses">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="IDTYPEANALYSE">
+<Type>%String</Type>
+</Property>
+
+<Property name="IDTYPEANALYSECODE">
+<Type>%String</Type>
+</Property>
+
+<Property name="Resultat">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="Unite">
+<Type>%String</Type>
+</Property>
+
+<Property name="Normales">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="IndicateurAnormalite">
+<Type>%String</Type>
+</Property>
+
+<Property name="NatureNormales">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Property name="StatutResultats">
+<Type>%String</Type>
+</Property>
+
+<Property name="DateResultat">
+<Type>%String</Type>
+</Property>
+
+<Property name="Commentaire">
+<Type>%String</Type>
+<Parameter name="MAXLEN"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^Hm.mars.biologie.RM.RecordD</DataLocation>
+<DefaultData>RecordDefaultData</DefaultData>
+<IdLocation>^Hm.mars.biologie.RM.RecordD</IdLocation>
+<IndexLocation>^Hm.mars.biologie.RM.RecordI</IndexLocation>
+<StreamLocation>^Hm.mars.biologie.RM.RecordS</StreamLocation>
+<ExtentSize>2000000</ExtentSize>
+<Data name="RecordDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>IDTYPACTE</Value>
+</Value>
+<Value name="3">
+<Value>%Source</Value>
+</Value>
+<Value name="4">
+<Value>IDEMETTEURLIB</Value>
+</Value>
+<Value name="5">
+<Value>IDEMETTEUR</Value>
+</Value>
+<Value name="6">
+<Value>IPP</Value>
+</Value>
+<Value name="7">
+<Value>DatePrelevement</Value>
+</Value>
+<Value name="8">
+<Value>IdentifiantAnalyse</Value>
+</Value>
+<Value name="9">
+<Value>TypeResultat</Value>
+</Value>
+<Value name="10">
+<Value>Analyses</Value>
+</Value>
+<Value name="11">
+<Value>IDTYPEANALYSE</Value>
+</Value>
+<Value name="12">
+<Value>IDTYPEANALYSECODE</Value>
+</Value>
+<Value name="13">
+<Value>Resultat</Value>
+</Value>
+<Value name="14">
+<Value>Unite</Value>
+</Value>
+<Value name="15">
+<Value>Normales</Value>
+</Value>
+<Value name="16">
+<Value>IndicateurAnormalite</Value>
+</Value>
+<Value name="17">
+<Value>NatureNormales</Value>
+</Value>
+<Value name="18">
+<Value>StatutResultats</Value>
+</Value>
+<Value name="19">
+<Value>DateResultat</Value>
+</Value>
+<Value name="20">
+<Value>Commentaire</Value>
+</Value>
+<Value name="21">
+<Value>IDTYPEACTECODE</Value>
+</Value>
+</Data>
+</Storage>
+
+<Parameter name="RECORDMAPGENERATED">
+<Default>1</Default>
+</Parameter>
+</Class>
+
+
+<Class name="Hm.mars.biologie.RM">
+<Description>
+RECORDMAP: Modified during compilation of RecordMap 'Hm.mars.biologie.RM'
+on 2023-11-16 at 11:20:35.990 [2023-11-16 11:20:35.990 UTC]
+by user _SYSTEM</Description>
+<Super>EnsLib.RecordMap.RecordMap</Super>
+<TimeChanged>66794,40835.991234084</TimeChanged>
+<TimeCreated>66792,53673.745998632</TimeCreated>
+
+<Method name="GetObject">
+<Description><![CDATA[
+THIS IS GENERATED CODE. DO NOT EDIT.<br/>
+Method to retrieve a record from a stream or device. This method will be generated based on the
+structure of the RecordMap. For testing purposes, a file name may be passed in the pStream argument.]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[pStream:%IO.DeviceStream,*pObject:%RegisteredObject,pTimeout:%Numeric=-1,&pLookAhead:%String="",pLabelFound:%Boolean=0]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Try {
+		Set tStatus = $$$OK
+		Set pObject = $$$NULLOREF
+		If '$IsObject(pStream) {
+			Set tFilename = pStream
+			Set pStream = ##class(%IO.FileStream).%New()
+			Do pStream.Open(tFilename,,pTimeout,"UTF-8", .tStatus)
+			If $$$ISERR(tStatus) Quit
+		}
+		Set tObjectName = $parameter($this,"OBJECTNAME")
+		Set tObject = $classmethod(tObjectName,"%New")
+		If '$IsObject(tObject) {
+			Set tStatus = $$$ERROR($$$CannotCreateObject,tObjectName)
+			Quit
+		}
+		Set tObject.%Source = pStream.Name
+		Set tGetTopFields = $parameter(tObject,"INCLUDETOPFIELDS")
+		If pStream.AtEnd && (""=pLookAhead) {
+			Set tStatus = $$$ERROR($$$EnsRecordMapErrStreamAtEnd, pStream.Name)
+			Quit
+		}
+		Set pStream.CharEncoding = "UTF-8"
+
+		#; Parse incoming stream
+		Set tStatus = ..GetRecord(pStream, tObject, tGetTopFields, pTimeout, .pLookAhead, pLabelFound)
+		If $$$ISERR(tStatus) Quit
+	}
+	Catch ex {
+		Set tStatus = ex.AsStatus()
+	}
+	If $$$ISERR(tStatus) { Set pObject = $$$NULLOREF }
+	Else { Set pObject = tObject }
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="PutObject">
+<Description><![CDATA[
+THIS IS GENERATED CODE. DO NOT EDIT.<br/>
+Method to write a record to a stream or device. This method will be generated based on the
+structure of the RecordMap. For testing purposes, a file name may be passed in the pStream argument.]]></Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[pStream:%IO.DeviceStream,pObject:%RegisteredObject,pFlush:%Boolean=1,&pPadArray:%String]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Try {
+		Set tStatus = $$$OK
+		If '$IsObject(pStream) {
+			Set tFilename = pStream
+			Set pStream = ##class(%IO.FileStream).%New()
+			Do pStream.Open(tFilename,"WAE",,"UTF-8", .tStatus)
+			If $$$ISERR(tStatus) Quit
+		}
+		Set tHasTopFields = $parameter(pObject,"INCLUDETOPFIELDS")
+		Set pStream.CharEncoding = "UTF-8"
+
+		Set tStatus = ..PutRecord(pStream, pObject, tHasTopFields, .pPadArray)
+		If $$$ISERR(tStatus) Quit
+		If pFlush Do pStream.Flush(.tStatus)
+		If $$$ISERR(tStatus) Quit
+	}
+	Catch ex {
+		Set tStatus = ex.AsStatus()
+	}
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Parameter name="OBJECTNAME">
+<Default>Hm.mars.biologie.RM.Record</Default>
+</Parameter>
+
+<Method name="GetRecord">
+<Description><![CDATA[
+THIS IS GENERATED CODE. DO NOT EDIT.<br/>
+Internal helper method to perform parse of incoming data]]></Description>
+<Internal>1</Internal>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[pStream:%IO.DeviceStream,pObject:%RegisteredObject,pGetTopFields:%Boolean,pTimeout:%Numeric,&pLookAhead:%String="",pLabelFound:%Boolean=0]]></FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tStatus = $$$OK
+	If pLabelFound { Set tRecLabel = "" } 
+	Else { Set tRecLabel = "" } 
+	Set tStatus = ..chunkRecord(pStream, .tRecordData, .tCharCount, "", pTimeout, $char(13,10), tRecLabel, .pLookAhead, "", 0)
+	If $$$ISERR(tStatus) Quit tStatus
+	Set tMaxLocal = $$$MaxLocalLength
+	Set tRecordData("charcount") = +$get(tCharCount)
+	Set tCurrChunk = 1
+	Set tTopPiece = 1
+	Set tCurrSep = 1
+	Set tStrings = 1
+	Set tCurrString = ""
+	Set tSeps = $listbuild($char(59))
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Else {
+		Set tCurrString = tRecordData(tCurrChunk)
+		Set tCurrPiece = 1
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IDTYPACTE = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IDTYPEACTECODE = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IDEMETTEURLIB = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IDEMETTEUR = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IPP = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.DatePrelevement = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IdentifiantAnalyse = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.TypeResultat = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.Analyses = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IDTYPEANALYSE = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IDTYPEANALYSECODE = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.Resultat = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.Unite = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.Normales = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.IndicateurAnormalite = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.NatureNormales = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.StatutResultats = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.DateResultat = tCurrString
+	}
+	If '$data(tRecordData(tCurrChunk, "block")) {
+		Set tCurrString = $piece(tRecordData(tCurrChunk), $char(59), tTopPiece)
+	}
+	Do ..checkMerge(.tCurrChunk, .tRecordData, .tCurrString, $char(59), .tTopPiece)
+	If pGetTopFields {
+		Set pObject.Commentaire = tCurrString
+	}
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="PutRecord">
+<Description><![CDATA[
+THIS IS GENERATED CODE. DO NOT EDIT.<br/>
+Internal helper method to output object to a stream]]></Description>
+<Internal>1</Internal>
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[pStream:%IO.DeviceStream,pObject:%RegisteredObject,pHasTopFields:%Boolean,&pPadArray:%String]]></FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set tStatus = $$$OK
+	Set tmpStream=##class(%Stream.TmpBinary).%New()
+	Do tmpStream.Write($select(pHasTopFields: pObject.IDTYPACTE,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.IDTYPEACTECODE,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.IDEMETTEURLIB,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.IDEMETTEUR,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.IPP,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.DatePrelevement,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.IdentifiantAnalyse,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.TypeResultat,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.Analyses,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.IDTYPEANALYSE,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.IDTYPEANALYSECODE,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.Resultat,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.Unite,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.Normales,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.IndicateurAnormalite,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.NatureNormales,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.StatutResultats,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.DateResultat,1: ""))
+	Do tmpStream.Write($char(59) _ $select(pHasTopFields: pObject.Commentaire,1: ""))
+	Set tStatus = tmpStream.Write($char(13,10))
+	If $$$ISERR(tStatus) Quit tStatus
+	Do pStream.CopyFrom(tmpStream,,0,.tStatus)
+	Quit tStatus
+]]></Implementation>
+</Method>
+
+<Method name="GetGeneratedClasses">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>*pClasses:%String</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Kill pClasses
+	Set pClasses("Hm.mars.biologie.RM.Record")=""
+	Set pClasses($classname())=""
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="getIdentifier">
+<ClassMethod>1</ClassMethod>
+<CodeMode>expression</CodeMode>
+<FormalSpec/>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[""
+]]></Implementation>
+</Method>
+
+<Method name="getType">
+<ClassMethod>1</ClassMethod>
+<CodeMode>expression</CodeMode>
+<FormalSpec/>
+<ReturnType>EnsLib.RecordMap.Model.DataType.RecordType</ReturnType>
+<Implementation><![CDATA["delimited"
+]]></Implementation>
+</Method>
+
+<XData name="RecordMap">
+<XMLNamespace>http://www.intersystems.com/Ensemble/RecordMap</XMLNamespace>
+<Data><![CDATA[
+<Record xmlns="http://www.intersystems.com/Ensemble/RecordMap" name="Hm.mars.biologie.RM" type="delimited" char_encoding="UTF-8" targetClassname="Hm.mars.biologie.RM.Record" recordTerminator="\x0d\x0a">
+  <Separators>
+    <Separator>;</Separator>
+  </Separators>
+  <Field name="IDTYPACTE" required="0" ignored="0" datatype="%String" repeating="0">
+  </Field>
+  <Field name="IDTYPEACTECODE" datatype="%String">
+  </Field>
+  <Field name="IDEMETTEURLIB" datatype="%String">
+  </Field>
+  <Field name="IDEMETTEUR" datatype="%String">
+  </Field>
+  <Field name="IPP" datatype="%String">
+  </Field>
+  <Field name="DatePrelevement" datatype="%String">
+  </Field>
+  <Field name="IdentifiantAnalyse" datatype="%String">
+  </Field>
+  <Field name="TypeResultat" datatype="%String">
+  </Field>
+  <Field name="Analyses" required="0" ignored="0" datatype="%String" params="MAXLEN=&quot;&quot;" repeating="0">
+  </Field>
+  <Field name="IDTYPEANALYSE" datatype="%String">
+  </Field>
+  <Field name="IDTYPEANALYSECODE" datatype="%String">
+  </Field>
+  <Field name="Resultat" required="0" ignored="0" datatype="%String" params="MAXLEN=&quot;&quot;" repeating="0">
+  </Field>
+  <Field name="Unite" datatype="%String">
+  </Field>
+  <Field name="Normales" required="0" ignored="0" datatype="%String" params="MAXLEN=&quot;&quot;" repeating="0">
+  </Field>
+  <Field name="IndicateurAnormalite" datatype="%String">
+  </Field>
+  <Field name="NatureNormales" required="0" ignored="0" datatype="%String" params="MAXLEN=&quot;&quot;" repeating="0">
+  </Field>
+  <Field name="StatutResultats" datatype="%String">
+  </Field>
+  <Field name="DateResultat" datatype="%String">
+  </Field>
+  <Field name="Commentaire" required="0" ignored="0" datatype="%String" params="MAXLEN=&quot;&quot;" repeating="0">
+  </Field>
+</Record>
+]]></Data>
+</XData>
+</Class>
+</Export>

@@ -9,40 +9,40 @@
  set sc = ##class(App.Installer).setup() 
  
  if 'sc {
-    set ^["USER"]TRACE("IRISAPP App.Installer")=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+    set ^["USER"]TRACE($zdt($now(),3,,6),"IRISAPP App.Installer")=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
  } else {
-    set ^["USER"]TRACE("IRISAPP App.Installer")="successful"
+    set ^["USER"]TRACE($zdt($now(),3,,6),"IRISAPP App.Installer")="successful"
  }
  zn "%SYS"
  do ##class(Security.Users).UnExpireUserPasswords("*")
  set tRes = ##class(%SQL.Statement).%ExecDirect(,"update security.events set enabled=1")
  if tRes.%SQLCODE=0 {
-   set ^["USER"]TRACE("%SYS Security.Events")=tRes.%ROWCOUNT_" successfully enabled"
+   set ^["USER"]TRACE($zdt($now(),3,,6),"%SYS Security.Events")=tRes.%ROWCOUNT_" successfully enabled"
  } else {
-   set ^["USER"]TRACE("%SYS Security.Events")=tRes.%Message_" SQLCODE:"_tRes.%SQLCODE
+   set ^["USER"]TRACE($zdt($now(),3,,6),"%SYS Security.Events")=tRes.%Message_" SQLCODE:"_tRes.%SQLCODE
  }
  set username="interop"
  set roles="%EnsRole_Developer,%DB_IRISAPP-CODE,%DB_IRISAPP-DATA"
  set password="SYS"
  set sc = ##class(Security.Users).Create(username,roles,password,,"IRISAPP",,"",0,1,,,,,,1,1)
  if 'sc {
-    set ^["USER"]TRACE("%SYS Create User "_username)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+    set ^["USER"]TRACE($zdt($now(),3,,6),"%SYS Create User "_username)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
  } else {
-    set ^["USER"]TRACE("%SYS Create User "_username)="successful"
+    set ^["USER"]TRACE($zdt($now(),3,,6),"%SYS Create User "_username)="successful"
  }
 
 #;  set ^%SYS("sql","ODBCCONNECTION","DATA")	=	1
-#;  set ^%SYS("sql","ODBCCONNECTION","DATA",1)	=	$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/app/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+#;  set ^%SYS("sql","ODBCCONNECTION","DATA",1)	=	$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
 #;  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MYSQL",1)	=	""
  
  set ^SYS("Security","SSLConfigsD","API")	=	$lb("","","","","ALL:!aNULL:!eNULL:!EXP:!SSLv2","",1,"API","","",2,"",0,9,0,"","",32,16,"TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256",0,"","","",0,2,0,1)
  
  set ^%SYS("sql","ODBCCONNECTION","DATA")=5
- set ^%SYS("sql","ODBCCONNECTION","DATA",1)=$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/app/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",2)=$lb("","","oracle","oracle","bKsQDMYXiMVqAY4YJL5h7Q==",0,1,"jdbc:oracle:thin:@host.docker.internal:1521:orcl","oracle.jdbc.driver.OracleDriver","/app/jdbc/ojdbc11.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",3)=$lb("","","postgres","postgres","6f8eAI5TOg0c3NkS9xnNDA==",0,1,"jdbc:postgresql://postgres:5432/postgres","org.postgresql.Driver","/app/jdbc/postgresql-42.6.0.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",4)=$lb("","","iris","_system","HnBuSSuEERERntcVPGsUMQ==",0,1,"jdbc:IRIS://127.0.0.1:1972/IRISAPP","com.intersystems.jdbc.IRISDriver","/app/jdbc/intersystems-jdbc-3.3.1.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",5)=$lb("","","mssql","sa","sfwsrQYWfOEjZXXC5CIsEPSk695//kJ58ulzTRakyqE=",0,1,"jdbc:sqlserver://mssql:1433;databaseName=master;encrypt=false","com.microsoft.sqlserver.jdbc.SQLServerDriver","/app/jdbc/mssql-jdbc-11.2.1.jre8.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+ set ^%SYS("sql","ODBCCONNECTION","DATA",1)=$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+ set ^%SYS("sql","ODBCCONNECTION","DATA",2)=$lb("","","oracle","oracle","bKsQDMYXiMVqAY4YJL5h7Q==",0,1,"jdbc:oracle:thin:@host.docker.internal:1521:orcl","oracle.jdbc.driver.OracleDriver","/jdbc/ojdbc11.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+ set ^%SYS("sql","ODBCCONNECTION","DATA",3)=$lb("","","postgres","postgres","6f8eAI5TOg0c3NkS9xnNDA==",0,1,"jdbc:postgresql://postgres:5432/postgres","org.postgresql.Driver","/jdbc/postgresql-42.6.0.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+ set ^%SYS("sql","ODBCCONNECTION","DATA",4)=$lb("","","iris","_system","HnBuSSuEERERntcVPGsUMQ==",0,1,"jdbc:IRIS://127.0.0.1:1972/IRISAPP","com.intersystems.jdbc.IRISDriver","/jdbc/intersystems-jdbc-3.3.1.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+ set ^%SYS("sql","ODBCCONNECTION","DATA",5)=$lb("","","mssql","sa","sfwsrQYWfOEjZXXC5CIsEPSk695//kJ58ulzTRakyqE=",0,1,"jdbc:sqlserver://mssql:1433;databaseName=master;encrypt=false","com.microsoft.sqlserver.jdbc.SQLServerDriver","/jdbc/mssql-jdbc-11.2.1.jre8.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
 
  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MYSQL",1)=""
  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," ORACLE",2)=""
@@ -60,9 +60,9 @@
  set webProperties("MatchRoles")=":%All"
  set sc = ##class(Security.Applications).Create(webName, .webProperties)
  if 'sc {
-    set ^["USER"]TRACE("Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+    set ^["USER"]TRACE($zdt($now(),3,,6),"Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
  } else {
-    set ^["USER"]TRACE("Web App "_webName)="successful"
+    set ^["USER"]TRACE$zdt($now(),3,,6),"Web App "_webName)="successful"
  }
  
  set webName = "/crud"
@@ -74,9 +74,9 @@
  set webProperties("MatchRoles")=":%All"
  set sc = ##class(Security.Applications).Create(webName, .webProperties)
  if 'sc {
-    set ^["USER"]TRACE("Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+    set ^["USER"]TRACE($zdt($now(),3,,6),"Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
  } else {
-    set ^["USER"]TRACE("Web App "_webName)="successful"
+    set ^["USER"]TRACE($zdt($now(),3,,6),"Web App "_webName)="successful"
  }
 
  set webName = "/admin"
@@ -88,9 +88,9 @@
  set webProperties("MatchRoles")=":%All"
  set sc = ##class(Security.Applications).Create(webName, .webProperties)
  if 'sc {
-    set ^["USER"]TRACE("Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+    set ^["USER"]TRACE($zdt($now(),3,,6),"Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
  } else {
-    set ^["USER"]TRACE("Web App "_webName)="successful"
+    set ^["USER"]TRACE($zdt($now(),3,,6),"Web App "_webName)="successful"
  }
 
  set prop("AutheEnabled")=32
@@ -98,9 +98,9 @@
  set app="/csp/irisapp"
  set sc = ##class(Security.Applications).Modify(app,.prop)
   if 'sc {
-    set ^["USER"]TRACE("IRISAPP "_app)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
+    set ^["USER"]TRACE($zdt($now(),3,,6),"IRISAPP "_app)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
  } else {
-    set ^["USER"]TRACE("IRISAPP "_app)="successful"
+    set ^["USER"]TRACE($zdt($now(),3,,6),"IRISAPP "_app)="successful"
  }
  zn "IRISAPP" 
  do $system.OBJ.Load("/home/irisowner/dev/src/inc/common.inc")
