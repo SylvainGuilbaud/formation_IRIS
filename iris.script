@@ -111,6 +111,7 @@
  set ^Ens.Config.DefaultSettingsD("formation.prod.personne","to personne SQL","*","DSN") = $lb("mysql","",0)
  zpm "install alwo-enshelper"
  zpm "install dataset-countries"
+ zpm "install analyzethis"
  
 
 halt
