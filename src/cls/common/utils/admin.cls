@@ -1,4 +1,4 @@
-Class common.utils.admin Extends %RegisteredObject
+Class common.utils.admin
 {
 
 ClassMethod export(classname As %VarString) As %Status [ Language = python ]
