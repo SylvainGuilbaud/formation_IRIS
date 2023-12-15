@@ -112,6 +112,7 @@
  zpm "install alwo-enshelper"
  zpm "install dataset-countries"
  zpm "install analyzethis"
+ zpm "install csvgen-ui"
  
 
 halt
