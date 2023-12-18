@@ -1,13 +1,12 @@
 Class common.utils.data
 {
 
+ClassMethod GetSequence(name As %String, item As %String) As %Integer
+{
+	Return $sequence(^Sequence(name,item))
+}
 
-ClassMethod Connect(
-	serverIP = "192.168.0.9",
-	serverPORT = 1972,
-	namespace = "USER",
-	username = "_SYSTEM",
-	password = "SYS") As %Net.DB.Iris
+ClassMethod Connect(serverIP = "192.168.0.9", serverPORT = 1972, namespace = "USER", username = "_SYSTEM", password = "SYS") As %Net.DB.Iris
 {
   try {
     set con=##class(%Net.DB.DataSource).CreateConnection(serverIP
@@ -21,11 +20,7 @@ ClassMethod Connect(
   quit rem
 }
 
-ClassMethod Copy(
-	global As %String = "",
-	fromsubscript As %List = "",
-	tosubscript As %List = "",
-	rename As %String = "")
+ClassMethod Copy(global As %String = "", fromsubscript As %List = "", tosubscript As %List = "", rename As %String = "")
 {
 #dim %rccdb as %Net.DB.Iris
  set subs=..Args(fromsubscript)
