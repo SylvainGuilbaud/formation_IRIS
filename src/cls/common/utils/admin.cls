@@ -1,4 +1,4 @@
-Class common.utils.admin 
+Class common.utils.admin
 {
 
 ClassMethod export(classname As %VarString) As %Status [ Language = python ]
