@@ -1,11 +1,6 @@
 Class common.utils.data
 {
 
-ClassMethod GetSequence(name As %String, item As %String) As %Integer
-{
-	Return $sequence(^Sequence(name,item))
-}
-
 ClassMethod Connect(serverIP = "192.168.0.9", serverPORT = 1972, namespace = "USER", username = "_SYSTEM", password = "SYS") As %Net.DB.Iris
 {
   try {

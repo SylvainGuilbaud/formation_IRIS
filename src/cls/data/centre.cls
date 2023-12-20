@@ -21,6 +21,7 @@ ClassMethod create(APP As %String, DD As %Integer, description As %String) As %S
     set a.APP = APP
     set a.DD = DD
     set a.NNN = $INCREMENT(^data.centreD(APP,DD))
+    set a.description = description
     set sc = a.%Save()
     return sc
 }
@@ -28,7 +29,7 @@ ClassMethod create(APP As %String, DD As %Integer, description As %String) As %S
 ClassMethod test(nb As %Integer = 10) As %Status
 {
     for i=1:1:nb {
-        set sc = ..create("departement",83)
+        set sc = ..create("departement",83,##class(%PopulateUtils).Mission())
     }
     zw ^data.centreD
     return sc
