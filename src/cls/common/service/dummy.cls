@@ -18,7 +18,7 @@ Method OnProcessInput(pInput As %RegisteredObject, Output pOutput As %Registered
 		set tOneTarget=$ZStrip($P(..TargetConfigNames,",",iTarget),"<>W")  Continue:""=tOneTarget
 		$$$TRACE("The target '"_tOneTarget_"' will be called "_$SELECT(..async=1:"asynchronously",..async=0:"synchronously"))
 		if ..async {
-			set tSC1=..SendRequestAsync(tOneTarget,pInput,.pOutput)  Set:$$$ISERR(tSC1) tSC=$$$ADDSC(tSC,tSC1)
+			set tSC1=..SendRequestAsync(tOneTarget,pInput)  Set:$$$ISERR(tSC1) tSC=$$$ADDSC(tSC,tSC1)
 		} else {
 			set tSC1=..SendRequestSync(tOneTarget,pInput,.pOutput)  Set:$$$ISERR(tSC1) tSC=$$$ADDSC(tSC,tSC1)
 		}		

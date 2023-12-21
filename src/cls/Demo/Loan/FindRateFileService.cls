@@ -19,6 +19,7 @@ Method OnProcessInput(pFileStream As %FileCharacterStream, pOutput As %Registere
 	Set tSubject=pFileStream.ReadLine()
 	#;
 	Set tApplication = ##class(Demo.Loan.Msg.Application).%New()
+	$$$TRACE("record number is "_tApplication.RecordNumber())
 	Set tApplication.Amount=$p(tSubject,":",1)
 	Set tApplication.Name=$p(tSubject,":",2)
 	Set tApplication.TaxID=$p(tSubject,":",3)

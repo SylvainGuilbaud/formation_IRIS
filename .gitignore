@@ -10,3 +10,5 @@
 /data/**/out
 **/~$*
 /data/EP
+/data/Demo/loan/inarchive*
+/data/Demo/loan/out
