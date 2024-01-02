@@ -1,0 +1,96 @@
+ROUTINE Fileserver.Broker.1 [Type=INT,Generated]
+ ;Fileserver.Broker.1
+ ;Generated for class Fileserver.Broker.  Do NOT edit. 12/27/2023 09:50:21AM
+ ;;617A2F58;Fileserver.Broker
+ ;
+DispatchMap(url,method,verbsMatched="",args) methodimpl {
+ Set searchMethod=","_method_","
+ Do {
+   Set matcher = ##class(%Regex.Matcher).%New("/getfilelist")
+   If matcher.Match(url) {
+     If ",GET,OPTIONS," [ searchMethod Set route=$lb("R","Fileserver.JSON:FileListToJSON",$classname(),"false"),regex=1 Quit
+     Set verbsMatched=verbsMatched_",GET,OPTIONS"
+   }
+   Set matcher.Pattern="/requestfile/([^/]+)"
+   If matcher.Match(url) {
+     If ",GET,OPTIONS," [ searchMethod Set route=$lb("R","Fileserver.JSON:RequestFile",$classname(),"false"),regex=1 Quit
+     Set verbsMatched=verbsMatched_",GET,OPTIONS"
+   }
+   Set matcher.Pattern="/download/([^/]+)"
+   If matcher.Match(url) {
+     If ",GET,OPTIONS," [ searchMethod Set route=$lb("R","Fileserver.JSON:DownloadFile",$classname(),"false"),regex=1 Quit
+     Set verbsMatched=verbsMatched_",GET,OPTIONS"
+   }
+   Set matcher.Pattern="/upload"
+   If matcher.Match(url) {
+     If ",POST,OPTIONS," [ searchMethod Set route=$lb("R","Fileserver.JSON:UploadFile",$classname(),"false"),regex=1 Quit
+     Set verbsMatched=verbsMatched_",POST,OPTIONS"
+   }
+   Set matcher.Pattern="/files"
+   If matcher.Match(url) {
+     If ",GET,OPTIONS," [ searchMethod Set route=$lb("R","csp.files:OnPage",$classname(),"false"),regex=1 Quit
+     Set verbsMatched=verbsMatched_",GET,OPTIONS"
+   }
+   Set matcher.Pattern="/test"
+   If matcher.Match(url) {
+     If ",GET,OPTIONS," [ searchMethod Set route=$lb("R","Test",$classname(),"false"),regex=1 Quit
+     Set verbsMatched=verbsMatched_",GET,OPTIONS"
+   }
+   Return ""
+ } While 0
+ If regex && matcher.GroupCount {
+   For i=1:1:matcher.GroupCount Set args($i(args))=matcher.Group(i)
+ }
+ If $li(route,1)="R" { 
+   Return route 
+ } Else { 
+   Set continue=1
+   Set sc=$classmethod($list(route,2),"OnPreDispatch", args(args), method, .continue) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+   If 'continue Return route
+   Return $classmethod($list(route,2), "DispatchMap", args($i(args,-1)+1), method, .verbsMatched, .args)
+ } }
+SupportedVerbs(pUrl,pVerbs) methodimpl {
+ If '$isobject($get(pVerbs)) Set pVerbs = {}
+ Set pMatcher = ##class(%Regex.Matcher).%New("/getfilelist")
+ If pMatcher.Match(pUrl) {
+   If 'pVerbs.%IsDefined("GET") Do pVerbs.%Set("GET", 1, "boolean")
+   If 'pVerbs.%IsDefined("OPTIONS") Do pVerbs.%Set("OPTIONS", 1, "boolean")
+ }
+ Set pMatcher.Pattern="/requestfile/([^/]+)"
+ If pMatcher.Match(pUrl) {
+   If 'pVerbs.%IsDefined("GET") Do pVerbs.%Set("GET", 1, "boolean")
+   If 'pVerbs.%IsDefined("OPTIONS") Do pVerbs.%Set("OPTIONS", 1, "boolean")
+ }
+ Set pMatcher.Pattern="/download/([^/]+)"
+ If pMatcher.Match(pUrl) {
+   If 'pVerbs.%IsDefined("GET") Do pVerbs.%Set("GET", 1, "boolean")
+   If 'pVerbs.%IsDefined("OPTIONS") Do pVerbs.%Set("OPTIONS", 1, "boolean")
+ }
+ Set pMatcher.Pattern="/upload"
+ If pMatcher.Match(pUrl) {
+   If 'pVerbs.%IsDefined("POST") Do pVerbs.%Set("POST", 1, "boolean")
+   If 'pVerbs.%IsDefined("OPTIONS") Do pVerbs.%Set("OPTIONS", 1, "boolean")
+ }
+ Set pMatcher.Pattern="/files"
+ If pMatcher.Match(pUrl) {
+   If 'pVerbs.%IsDefined("GET") Do pVerbs.%Set("GET", 1, "boolean")
+   If 'pVerbs.%IsDefined("OPTIONS") Do pVerbs.%Set("OPTIONS", 1, "boolean")
+ }
+ Set pMatcher.Pattern="/test"
+ If pMatcher.Match(pUrl) {
+   If 'pVerbs.%IsDefined("GET") Do pVerbs.%Set("GET", 1, "boolean")
+   If 'pVerbs.%IsDefined("OPTIONS") Do pVerbs.%Set("OPTIONS", 1, "boolean")
+ }
+ Set it=pVerbs.%GetIterator()
+ Set value=""
+ While it.%GetNext(.verb) {
+   Set value=value_verb_","
+ }
+ Set pVerbs = $extract(value,1,*-1)
+ Return 1 }
+Test() methodimpl {
+	Write "<h1>Status: OK!</h1><br>",! 
+	zw %request
+	Write "<br><br>",! 
+	zw %response
+	quit 1 }

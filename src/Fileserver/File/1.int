@@ -1,0 +1,1431 @@
+ROUTINE Fileserver.File.1 [Type=INT,Generated]
+ ;Fileserver.File.1
+ ;Generated for class Fileserver.File.  Do NOT edit. 12/27/2023 09:50:21AM
+ ;;69427065;Fileserver.File
+ ;
+SQLUPPER(v,l) { quit $zu(28,v,7,$g(l,32767)) }
+ALPHAUP(v,r) { quit $zu(28,v,6) }
+STRING(v,l) { quit $zu(28,v,9,$g(l,32767)) }
+SQLSTRING(v,l) { quit $zu(28,v,8,$g(l,32767)) }
+UPPER(v) { quit $zu(28,v,5) }
+MVR(v) { quit $zu(28,v,2) }
+TRUNCATE(v,l) { quit $e(v,1,$g(l,3641144)) }
+%BindExport(dev,Seen,RegisterOref,AllowedDepth,AllowedCapacity) methodimpl {
+   i $d(Seen(+$this)) q 1
+   Set Seen(+$this)=$this
+   s sc = 1
+ s proporef=..Downloads
+   d:RegisterOref InitObjVar^%SYS.BINDSRV($this)
+   i dev'="" s t=$io u dev i $zobjexport($this_"",3)+$zobjexport($this."%%OID",3)+$zobjexport($this,3)!1 u t
+ If AllowedDepth>0 Set AllowedDepth = AllowedDepth - 1
+ If AllowedCapacity>0 Set AllowedCapacity = AllowedCapacity - 1/1
+ s proporef=..Downloads
+       i proporef'="" d
+  . s idx="" i proporef'="" f  s elemoref=proporef.GetNext(.idx) q:idx=""  s sc=1 i AllowedDepth'=0,AllowedCapacity'=0 s sc=elemoref.%BindExport(dev,.Seen,RegisterOref,AllowedDepth,AllowedCapacity) q:('sc)
+  q:('sc) sc
+       i proporef'="",dev'="" s t=$io u dev i $zobjexport(proporef_"",3)+$zobjexport(proporef."%%OID",3)+$zobjexport(proporef,3)!1 u t
+       if proporef'="",dev'="" d
+       . s t=$io u dev i $zobjexport(5_"",3)!1 u t
+       . s t=$io u dev i $zobjexport(proporef.Count()_"",3)!1 u t
+     . for i=1:1:proporef.Count()  s t=$io u dev i $zobjexport(proporef.GetAt(i)_"",3)!1 u t
+   Quit sc }
+%BuildDeferredIndices(lockFlag=0,journalFlag=1) methodimpl {
+	return $$Error^%apiOBJ(5758,"%Storage.Persistent::%BuildDeferredIndices") }
+%BuildIndices(pIndexList="",pAutoPurge=1,pLockFlag=0,pJournalFlag="",pStartID="",pEndID="",pIgnoreIndexList="") methodimpl {
+	if ($listlength(pIndexList)=1)&&($listget(pIndexList,1)="") { RETURN 1 }
+	set class=$classname(),tBuildFlags=1,tBuildFlags(class)=$c(0),tPtr=0,tStatus=1
+	while $listnext(pIndexList,tPtr,tIndex) {
+		continue:tIndex=""
+		if '$d(^oddCOM(class,"i",tIndex)) { set tStatus=$select(+tStatus:$$Error^%apiOBJ(5066,class_"::"_tIndex),1:$$AppendStatus^%occSystem(tStatus,$$Error^%apiOBJ(5066,class_"::"_tIndex))) }
+	}
+	RETURN:('tStatus) tStatus
+	if ((pIndexList="")||($listfind(pIndexList,"DirName"))),'$lf(pIgnoreIndexList,"DirName") { set $e(tBuildFlags(class),1)=$c(1) }
+	RETURN ..%BuildIndexInternal(.pLockFlag,.pAutoPurge,.pStartID,.pEndID,.pIndexList,.tBuildFlags,"^Fileserver.FileD",0,.pJournalFlag,0,) }
+%BuildIndicesSegment(pStartID,pEndID,pIndexHandle=0,pLockFlag=1,pFirstRange=0,pJob="") methodimpl {
+	New %tIndexBuffer
+	Try {
+		set tStatus=1,tLocked=0
+		If pLockFlag'=2,$Ascii(pIndexHandle($classname()),1),$SortBegin(^Fileserver.FileI("DirName")),$increment(^IRIS.TempIndexBuild(pJob,1)) { Do $system.Event.Create($name(^IRIS.TempIndexBuild(pJob,1))) }
+		set tPrefetch=$prefetchon(^Fileserver.FileD)
+		If 'pFirstRange||('$data(^Fileserver.FileD(pStartID))) { Set tID=$order(^Fileserver.FileD(pStartID)) } Else { Set tID=pStartID }
+		While tID'="",(pEndID="")||(tID']]pEndID) {
+			If pLockFlag=2 {
+				Set tSC = ..%LockId(tID,1)
+				If ('tSC) {
+					Set tStatus=$select(+tStatus:tSC,1:$$AppendStatus^%occSystem(tStatus,tSC))
+					Set tID=$order(^Fileserver.FileD(tID))
+					Continue
+				}
+			}
+			If pLockFlag'=2||($data(^Fileserver.FileD(tID))) {
+				Set tSC=..%FileIndices(tID,.pIndexHandle)
+				If ('tSC) { Set tStatus=$select(+tStatus:tSC,1:$$AppendStatus^%occSystem(tStatus,tSC)) }
+			}
+			Do:pLockFlag=2 ..%UnlockId(tID,1,1)
+			set tID=$order(^Fileserver.FileD(tID))
+		}
+	}
+	Catch tException {
+		Set tSC=tException.AsStatus(),tStatus=$select(+tStatus:tSC,1:$$AppendStatus^%occSystem(tStatus,tSC))
+	}
+	If pLockFlag'=2,$Ascii(pIndexHandle($classname()),1) {
+		If $increment(^IRIS.TempIndexBuild(pJob,1),-1)=0 { Do $system.Event.Delete($name(^IRIS.TempIndexBuild(pJob,1))) } Else { Try { Do $system.Event.Wait($name(^IRIS.TempIndexBuild(pJob,1))) } Catch {} }
+		If $SortEnd(^Fileserver.FileI("DirName")) {}
+	}
+	set:$Get(tPrefetch) tPrefetch=$prefetchoff(^Fileserver.FileD)
+	RETURN tStatus }
+%CheckConstraints(pID,pConstraintList="",pCheckDisabled=0,pErrorInfo) [ SQLCODE,pID,tCol1,tCol2 ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,tCol1,tCol2 
+	set tStatus = ..%OnDetermineClass($select(pID="":"",1:$listbuild(pID_"")),.tMSTC) if ('tStatus) { set pErrorInfo = $Listbuild(pID) quit tStatus } if tMSTC '= $classname() { quit $classmethod(tMSTC,"%CheckConstraints",pID,pConstraintList) }
+	set tStatus = 1, pErrorInfo = ""
+	 ;---&sql(select Directory,Name INTO :tCol1,:tCol2 FROM Fileserver.File WHERE %ID = :pID)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, pID, tCol1, tCol2
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E51dRZr9wgyVitpRVnZs3iETAbz","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E51dRZr9wgyVitpRVnZs3iETAbz"))||($ze["<ZSQLU>") { d %0dsqlA } else { throw } }
+	if 'SQLCODE {
+		if ((pConstraintList="")||($lf(pConstraintList,"DirName"))) && ('..DirNameCheckUnique(pID,tCol1,tCol2)) { set tStatus = $select(+tStatus:$$Error^%apiOBJ(5808,$classname()_".DirName"),1:$$AppendStatus^%occSystem(tStatus,$$Error^%apiOBJ(5808,$classname()_".DirName"))) }
+		set pErrorInfo = $Listbuild(pID,tCol1,tCol2)
+	} elseif SQLCODE < 0 { set tStatus = $$Error^%apiOBJ(5540,SQLCODE,$Get(%msg)) }
+	quit tStatus }
+ q
+%0dsqlA	n %xxsql
+	s %xxsql("S",1)="SELECT Directory , Name INTO :tCol1 , :tCol2 FROM Fileserver . File WHERE %ID = :pID"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.File.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set tCol1="",tCol2="" } catch {} }
+	return
+%CheckConstraintsForExtent(pConstraintList="",pCheckDisabled=0,pErrorLog) [ SQLCODE,tID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,tID 
+	kill pErrorLog set tStatusAll = 1, pErrorLog = 0 if '$listvalid(pConstraintList) { set pConstraintList = $listfromstring(pConstraintList) }
+	 ;---&sql(declare ext cursor for select %ID into :tID FROM %NOPARALLEL Fileserver.File)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, tID
+	 
+	 ;---&sql(open ext)
+	if $g(%ext0573)'="" { s SQLCODE=-101 } else { try { s %ext0573="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EhVBrLnI7WgC9VFDFQr42cCpqj3",%ext0573=$classmethod(%ext0573,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%ext0573)),$ze'["<ZSQLU>" { throw } } if '$isobject(%ext0573) { s %ext0573=$$%0dsqlC() } }
+	if SQLCODE '< 0 {
+		for {
+			 ;---&sql(fetch ext)
+ 			 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+			if $isobject($g(%ext0573))'=1 { s SQLCODE=-102 } else { do %ext0573.FET() }
+			if SQLCODE { if SQLCODE=100 { quit } elseif SQLCODE<0 { set tStatusAll = $select(+tStatusAll:$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)),1:$$AppendStatus^%occSystem(tStatusAll,$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)))) quit } }
+			set tStatus = ..%CheckConstraints(tID,pConstraintList,pCheckDisabled,.tErrorInfo)
+			if ('tStatus) { set tStatusAll = $select(+tStatusAll:tStatus,1:$$AppendStatus^%occSystem(tStatusAll,tStatus)) set:pErrorLog<1000 pErrorLog = pErrorLog + 1, pErrorLog(pErrorLog) = tErrorInfo _ $Listbuild(tStatus) }
+		}
+		 ;---&sql(close ext)
+		if '$isobject($get(%ext0573)) { set SQLCODE=-102 } else { set SQLCODE=0 kill %ext0573 }
+	}
+	quit tStatusAll }
+ q
+%0dsqlC()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE ext CURSOR FOR SELECT %ID INTO :tID FROM %NOPARALLEL Fileserver . File"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),",0,ext,","Fileserver.File.CLS",1)
+	i $g(SQLCODE) { s tID="" }
+	q %xxoref
+%ComposeOid(id) methodimpl {
+	set tCLASSNAME = $listget($g(^Fileserver.FileD(id)),1)
+	if tCLASSNAME="" { quit $select(id="":"",1:$listbuild(id_"","Fileserver.File")) }
+	set tClass=$piece(tCLASSNAME,$extract(tCLASSNAME),*-1)
+	set:tClass'["." tClass="User."_tClass
+	quit $select(id="":"",1:$listbuild(id_"",tClass)) }
+%Construct(initvalue) methodimpl {
+	Set i%%Concurrency=$zu(115,10),i%Downloads=$listbuild("Fileserver.Download","File",+$this,"many",1,1)
+	Set m%Downloads=0,M%Downloads=0
+	Quit 1 }
+%ConstructCloneInit(object,deep=0,cloned,location) methodimpl {
+	Set i%"%%OID"=""
+	If deep>0 {
+		If $isobject(..Downloads)=1 {
+			If ..Downloads.NotLoaded Do ..Downloads.Load()
+			Set tmprel=r%Downloads,tmpref=tmprel.InverseReference,tmprel.InverseReference=$this
+			Set r%Downloads=r%Downloads.%ConstructClone(1,.cloned),i%Downloads=""
+			Set tmprel.InverseReference=tmpref
+		}
+	} Else {
+		If ..Downloads'="" {
+			If deep=-1 {
+				Set r%Downloads="",i%Downloads=$listbuild("Fileserver.Download","File",+$this,"many",1,1)
+			} Else {
+				If ..Downloads.NotLoaded Do ..Downloads.Load()
+				Set tmprel=r%Downloads,tmpref=tmprel.InverseReference,tmprel.InverseReference=$this
+				Set r%Downloads=r%Downloads.%ConstructClone(0,.cloned),i%Downloads=""
+				Set tmprel.InverseReference=tmpref
+			}
+		}
+	}
+	Quit 1 }
+%Delete(oid="",concurrency=-1) methodimpl {
+	RETURN:oid="" $$Error^%apiOBJ(5813,$classname())
+	set id=$listget(oid) RETURN:id="" $$Error^%apiOBJ(5812,$classname())
+	set traninit=0
+	set $zt="%DeleteERR"
+	if concurrency = -1 { set concurrency=$zu(115,10) }
+	if (concurrency > 4) || (concurrency < 0) || (concurrency '= (concurrency\1)) { RETURN $$Error^%apiOBJ(5828) }
+	set class=$listget(oid,2)
+	if class="" { set sc=..%OnDetermineClass(oid,.class) RETURN:('sc) sc set oid=$select(oid="":"",1:$listbuild($listget(oid),class)_$select($listget(oid,3)'="":$listbuild($list(oid,3)),1:"")) } else { set class=$s(class="":"",class[".":class,$e(class)'="%":"User."_class,1:"%Library."_$e(class,2,*)) }
+	if $classname()'=class { RETURN $classmethod(class,"%Delete",oid,concurrency) }
+	if +$g(%objtxSTATUS)=0 { set traninit=1 k %objtxSTATUS,%objtxLIST,%objtxOIDASSIGNED,%objtxOIDUNASSIGNED,%objtxMODIFIED,%objtxVERSION k:'$TLevel %objtxTID,%objtxID i '$zu(115,9) { s %objtxSTATUS=1 } else { TStart  s %objtxSTATUS=2 } }
+	set sc=##class(Fileserver.Download).FileOnDelete(id,concurrency) goto:('sc) %DeleteEnd
+	set gbl=..#DATALOCATIONGLOBAL If gbl="" { Set oref=$zobjoid("",$listget(oid)),sfn=$zu(40,0,41) } Else { Set oref=$zobjoid("",$listget(oid),@gbl,.sfn) } if $isobject(oref)=1 { do oref.%DeleteOID() }
+	set sc=..%DeleteData(id,concurrency)
+%DeleteEnd if traninit { if (''sc) { i $g(%objtxSTATUS)=1 { k %objtxSTATUS } else { If $Tlevel { TCommit  } k %objtxSTATUS,%objtxLIST,%objtxOIDASSIGNED,%objtxOIDUNASSIGNED,%objtxMODIFIED,%objtxVERSION k:'$TLevel %objtxTID,%objtxID } } else { i $g(%objtxSTATUS)=2 { s sc=$select(+sc:$$%TRollBack^%occTransaction(),1:$$AppendStatus^%occSystem(sc,$$%TRollBack^%occTransaction())) k %objtxTID,%objtxID } else { k %objtxSTATUS } } }
+	RETURN sc
+%DeleteERR	set $zt="",sc=$$Error^%apiOBJ(5002,$ZE)
+	goto %DeleteEnd }
+%DeleteData(id,concurrency) methodimpl {
+	Quit:id="" $$Error^%apiOBJ(5812)
+	set $Ztrap="DeleteDataERR" set lockok=0,sc=""
+	If concurrency {
+		Lock +(^Fileserver.FileD(id)#"E"):$zu(115,4)
+		Set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0))
+		Set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1
+		If 'lockok {
+			Quit $$Error^%apiOBJ(5803,$classname())
+		}
+	}
+	If ($Data(^Fileserver.FileD(id))) {
+		Set bsv0N1=^Fileserver.FileD(id)
+		Set bsv0N2=$zu(28,$listget(bsv0N1,6),7,32768)
+		Set bsv0N3=$zu(28,$listget(bsv0N1,7),7,32768)
+		If concurrency, ('$g(%0CacheLock($classname(),"E"))) && (($listget(bsv0N1,7)'="")&&($listget(bsv0N1,6)'="")) {
+			Lock +^Fileserver.FileI("DirName",bsv0N3,bsv0N2):$zu(115,4)
+			If $test {
+				Lock -^Fileserver.FileI("DirName",bsv0N3,bsv0N2)
+			} Else {
+				Set sc = $$Error^%apiOBJ(5803,$classname())
+				Goto DeleteDataEXIT
+			}
+		}
+		If $data(^oddEXTR($classname())) {
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"DirName","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"DirName","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",$listget(bsv0N1,7),$listget(bsv0N1,6))
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"%1","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"%1","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",id)
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"IDKEY","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"IDKEY","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",id)
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+		}
+		Set bsv0N4=$zu(28,$listget(bsv0N1,6),7,32768)
+		Set bsv0N5=$zu(28,$listget(bsv0N1,7),7,32768)
+		Kill ^Fileserver.FileI("DirName",bsv0N5,bsv0N4,id)
+		Kill ^Fileserver.FileD(id)
+		Set sc=1
+	}
+	Else { Set sc=$$Error^%apiOBJ(5810,$classname(),id) }
+DeleteDataEXIT
+	If concurrency,lockok {
+		Lock -(^Fileserver.FileD(id)#"E")
+	}
+DeleteDataRET	Set $Ztrap = ""
+	QUIT sc
+DeleteDataERR	Set $Ztrap = "DeleteDataRET"
+	Set sc = $$Error^%apiOBJ(5002,$ZE)
+	Goto DeleteDataEXIT }
+%Exists(oid="") methodimpl {
+	Quit ..%ExistsId($listget(oid)) }
+%ExistsId(id) methodimpl {
+	Try { set tExists = $s(id="":0,$d(^Fileserver.FileD(id)):1,1:0) } catch tException { set tExists = 0 if '(tException.%IsA("%Exception.SystemException")) { throw tException } elseif tException.Name'="<SUBSCRIPT>" { ZT $ZE } } quit tExists }
+%FileIndices(id,pIndexHandle=0,pVectorBuffer) methodimpl {
+	try {
+		Set bsv0N2=$Get(^Fileserver.FileD(id))
+		Set bsv0N3=$listget(bsv0N2,1)
+		if bsv0N3'="" {
+			set bsv0N1=$piece(bsv0N3,"~",*-1)
+			set:bsv0N1'["." bsv0N1="User."_bsv0N1
+			if bsv0N1'="" { RETURN $classmethod(bsv0N1,"%FileIndices",id,.pIndexHandle) }
+		}
+		If ('pIndexHandle)||($Ascii($Get(pIndexHandle("Fileserver.File")),1)=1) {
+			Set bsv0N4=$zu(28,$listget(bsv0N2,6),7,32768)
+			Set bsv0N5=$zu(28,$listget(bsv0N2,7),7,32768)
+			Set ^Fileserver.FileI("DirName",bsv0N5,bsv0N4,id)=$listget(bsv0N2,1)
+		}
+	}
+	catch {
+		RETURN $$Error^%apiOBJ(5002,$ze)
+	}
+	RETURN 1
+getbuffered(glo,&vectorbuffer,id)
+	if '$d(vectorbuffer(id)) { set vectorbuffer(id)=$g(@glo) }
+	RETURN vectorbuffer(id) }
+%InsertBatch(objects,concurrency=0,useTransactions=0) methodimpl {
+	try {
+		set numerrs=0,errs="",cnt=0,ptr=0
+		while $listnext(objects,ptr,data) {
+			set cnt=cnt+1
+			set zzc9v1=$listget(data,6)
+			set zzc9v2=$listget(data,7)
+			set lock=0,locku=$c(0)
+			if (useTransactions) tstart
+			set id=$i(^Fileserver.FileD)
+			set zzc14v1=$zu(28,zzc9v1,7,32768)
+			set zzc14v2=$zu(28,zzc9v2,7,32768)
+			try {
+				set tInnerException = ""
+				;
+				if concurrency { lock +(^Fileserver.FileD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if (zzc9v2'="")&&(zzc9v1'="") { if (concurrency)&&('$g(%0CacheLock($classname(),"E"))) { l +^Fileserver.FileI("DirName",zzc14v2,zzc14v1):$zu(115,4) if $Test { Set $Extract(locku,1)=$c(1) } Else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } } If $data(^Fileserver.FileI("DirName",zzc14v2,zzc14v1)) { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5808,$classname()_":DirName:"_$zreference)) }}
+				set ^Fileserver.FileD(id)=data
+				set ^Fileserver.FileI("DirName",zzc14v2,zzc14v1,id)=$listget(data,1)
+				if (useTransactions) { tcommit }
+			}
+			catch tInnerException {
+				set newerr=$lb(cnt,tInnerException.AsStatus())
+				if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+				if (useTransactions) && ($Tlevel) trollback
+			}
+			lock:$Ascii($Extract(locku,1)) -^Fileserver.FileI("DirName",zzc14v2,zzc14v1)#"D"
+			if lock lock -(^Fileserver.FileD(id)#"E")
+		}
+	}
+	catch tException {
+		set newerr=$lb($g(cnt),tException.AsStatus())
+		if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+	}
+	QUIT ($lb(numerrs))_errs }
+%KillExtentData(killstreams=0) methodimpl
+	Set $sequence(^Fileserver.FileD)=""
+	If killstreams Set $sequence(^Fileserver.FileS)="" Kill ^Fileserver.FileS
+	Kill ^Fileserver.FileD
+	Quit 1
+%LoadData(id) methodimpl {
+	New %s1
+	set $ZTrap="CatchError",locked=0,userze=$ze,$ze=""
+	If i%%Concurrency=4 {
+		Lock +(^Fileserver.FileD(id)#"E"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 s:$ze="" $ze=userze return $$Error^%apiOBJ(5803,$classname())
+	} ElseIf i%%Concurrency>1 {
+		Lock +(^Fileserver.FileD(id)#"SE"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 s:$ze="" $ze=userze return $$Error^%apiOBJ(5804,$classname())
+		set locked = 1
+	}
+	If $d(^Fileserver.FileD(id),%s1)#2 {
+		If i%%Concurrency=2 { Lock -(^Fileserver.FileD(id)#"SIE") }
+		S i%Extension=$lg(%s1,2),i%Size=$lg(%s1,3),i%DateCreated=$lg(%s1,4),i%DateModified=$lg(%s1,5),i%Name=$lg(%s1,6),i%Directory=$lg(%s1,7)
+		s:$ze="" $ze=userze
+		Quit 1
+	} Else {
+		If i%%Concurrency=2 { Lock -(^Fileserver.FileD(id)#"SIE") }
+		do init
+		set sc = $$Error^%apiOBJ(5809,$classname(),id) goto CatchError
+	}
+CatchError	set $ZTrap = "" if $ZE'="" { s sc = $$Error^%apiOBJ(5002,$ZE) }
+	If ($get(locked))&&(i%%Concurrency<3) { Lock -(^Fileserver.FileD(id)#"SIE") }
+	if '('sc) { set sc=$$Error^%apiOBJ(5809,$classname(),id) }
+	s:$ze="" $ze=userze
+	return sc
+init	Set i%DateCreated="",i%DateModified="",i%Directory="",i%Extension="",i%Name="",i%Size=""
+	quit }
+%LoadDataFromMemory(id,objstate,obj) methodimpl {
+	New %s1
+	If $d(objstate(id)) {
+		Set %s1=$g(objstate(id))
+		S i%Extension=$lg(%s1,2),i%Size=$lg(%s1,3),i%DateCreated=$lg(%s1,4),i%DateModified=$lg(%s1,5),i%Name=$lg(%s1,6),i%Directory=$lg(%s1,7)
+		Quit 1
+	} Else {
+		set i%DateCreated="",i%DateModified="",i%Directory="",i%Extension="",i%Name="",i%Size=""
+		Quit $$Error^%apiOBJ(5809,$classname(),id)
+	} }
+%LoadInit(oid="",concurrency="",reset=0) methodimpl {
+	Set:concurrency'="" i%%Concurrency=concurrency
+	If reset {
+		Kill i%Downloads
+	}
+	Set i%Downloads=$listbuild("Fileserver.Download","File",+$this,"many",1,1),r%Downloads=""
+	If 'reset { Set gbl=..#DATALOCATIONGLOBAL If gbl="" { Set oref=$zobjoid("",$listget(oid)),sfn=$zu(40,0,41) } Else { Set oref=$zobjoid("",$listget(oid),@gbl,.sfn) } Set $zobjoid("",$listget(oid),,sfn)=$this,i%"%%OID"=oid }
+	Quit 1 }
+%LockExtent(shared=0) methodimpl {
+	If shared {
+		Lock +(^Fileserver.FileD#"S"):$zu(115,4) Quit:$t 1
+		Quit $$Error^%apiOBJ(5799,$classname())
+	}
+	Lock +(^Fileserver.FileD):$zu(115,4) Quit:$t 1
+	Quit $$Error^%apiOBJ(5798,$classname()) }
+%LockId(id,shared=0,timeout) methodimpl { s:'($d(timeout)#2) timeout=$zu(115,4)
+	If id="" { Quit $$Error^%apiOBJ(5812) }
+	Set sc=1
+	If 'shared {
+		Lock +(^Fileserver.FileD(id)#"E"):timeout Quit:$t 1
+		Quit $$Error^%apiOBJ(5803,id_":"_$classname())
+	}
+	Lock +(^Fileserver.FileD(id)#"SE"):timeout Quit:$t 1
+	Quit $$Error^%apiOBJ(5804,id_":"_$classname()) }
+%NormalizeObject() methodimpl {
+	If '$system.CLS.GetModified() Quit 1
+	If m%DateCreated Set:i%DateCreated'="" i%DateCreated=(..DateCreatedNormalize(i%DateCreated))
+	If m%DateModified Set:i%DateModified'="" i%DateModified=(..DateModifiedNormalize(i%DateModified))
+	If m%Directory Set:i%Directory'="" i%Directory=(..DirectoryNormalize(i%Directory))
+	If m%Extension Set:i%Extension'="" i%Extension=(..ExtensionNormalize(i%Extension))
+	If m%Name Set:i%Name'="" i%Name=(..NameNormalize(i%Name))
+	If m%Size Set:i%Size'="" i%Size=(..SizeNormalize(i%Size))
+	Quit 1 }
+%OnDetermineClass(oid,class) methodimpl {
+	Set id=$listget($get(oid))
+	RETURN:id="" $$Error^%apiOBJ(5812)
+	set idclass=$lg($get(^Fileserver.FileD(id)),1)
+	if idclass="" { set class="Fileserver.File" RETURN 1 }
+	set class=$piece(idclass,"~",*-1)
+	set:class'["." class="User."_class
+	RETURN 1 }
+%PhysicalAddress(id,paddr) methodimpl
+	if $Get(id)="" { RETURN $$Error^%apiOBJ(5813,$classname()) }
+	if (id="") { RETURN $$Error^%apiOBJ(5832,$classname(),id) }
+	set paddr(1)=$lb($Name(^Fileserver.FileD(id)),$classname(),"IDKEY","listnode",id)
+	set paddr=1
+	RETURN 1
+%PurgeIndices(idxlist="",lockExtent=0,pIgnoreIndexList="") methodimpl {
+	Set locked=0,sc=1
+	Try {
+		if ($listlength(idxlist)=1)&&($listget(idxlist,1)="") { return 1 }
+		Set tPtr=0
+		While $listnext(idxlist,tPtr,tIndex) {
+			continue:tIndex=""
+			If '($d(^oddCOM($classname(),"i",tIndex))) {
+				Set sc=$select(+sc:$$Error^%apiOBJ(5066,$classname()_"::"_tIndex),1:$$AppendStatus^%occSystem(sc,$$Error^%apiOBJ(5066,$classname()_"::"_tIndex)))
+			}
+		}
+		If ('sc) { Return sc }
+		If lockExtent {
+			Set sc=..%LockExtent(0)
+			If ('sc) { Return sc }
+			Set locked=1
+		}
+		If $system.CLS.IsMthd("%OnBeforePurgeIndices") {
+			Set sc=..%OnBeforePurgeIndices(.idxlist)
+			If (('sc))||(($listlength(idxlist)=1)&&($listget(idxlist,1)="")) {
+				If locked {
+					Do ..%SQLReleaseTableLock(0)
+				}
+				Return sc
+			}
+		}
+		if ((idxlist="")||($listfind(idxlist,"DirName"))),'$listfind(pIgnoreIndexList,"DirName") {
+			kill ^Fileserver.FileI("DirName")
+		}
+		Set sc=1
+		If $system.CLS.IsMthd("%OnAfterPurgeIndices") { Set sc=..%OnAfterPurgeIndices(.idxlist) }
+	} Catch tException {
+		Set sc=tException.AsStatus(),$ZE=""
+	}
+	If locked { Do ..%UnlockExtent(0) }
+	Quit sc }
+%SQLAcquireLock(%rowid,s=0,unlockref=0) methodimpl
+	new %d,gotlock
+	set %d(1)=%rowid set s=$e("E",'unlockref)_$e("S",s)
+	lock +^Fileserver.FileD(%d(1))#s:$zu(115,4) set gotlock=$t
+	if gotlock,'unlockref { set:$case($SYSTEM.Lock.ReturnCode(),2:1,4:1,:0)&&($tlevel) %0CacheLock("Fileserver.File","E")=1 }
+	set:gotlock&&unlockref unlockref=unlockref+1,unlockref(unlockref)=$lb($name(^Fileserver.FileD(%d(1))),"Fileserver.File",s_"D")
+	QUIT gotlock
+%SQLAcquireTableLock(s=0,SQLCODE,to="") methodimpl
+	set s=$e("S",s) set:to="" to=$zu(115,4) lock +^Fileserver.FileD#s:to QUIT:$t 1 set SQLCODE=-110 if s="S" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler35",,"Fileserver"_"."_"File") } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler36",,"Fileserver"_"."_"File") } QUIT 0
+	Return
+%SQLBuildIndices(pIndices="",pLockFlag=0,pStartID="",pEndID="",pIgnoreIndexList="") methodimpl
+	RETURN ..%BuildIndices(pIndices,,pLockFlag,,pStartID,pEndID,pIgnoreIndexList)
+%SQLBuildPurgeIndexForRow(pIndices="",pActions="BP",pLockRow=1,%d,%e,pIgnoreIndexList="") methodimpl
+	// Purge and build index nodes for a single row using given values, return Status Code
+	new sn,tSC,tLock set tSC=1,pActions=$zcvt(pActions,"U")
+	try {
+		if $g(%d(1))="" { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'Fileserver.File'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'Fileserver.File'"))) RETURN tSC }
+		if pLockRow { if '..%SQLAcquireLock(%d(1)) { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'Fileserver.File' with %ID = '"_%d(1)_"'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'Fileserver.File' with %ID = '"_%d(1)_"'"))) RETURN tSC  } else { set tLock=1 }}
+		if ((pIndices="")||($lf(pIndices,"DirName"))),'$listfind(pIgnoreIndexList,"DirName") {
+			if pActions["P" {
+				set sn(1)=$zu(28,%e(4),7) set sn(2)=$zu(28,%e(6),7) set sn(3)=%d(1) k ^Fileserver.FileI("DirName",sn(1),sn(2),sn(3))
+			}
+			if pActions["B" {
+				set sn(1)=$zu(28,%d(4),7) set sn(2)=$zu(28,%d(6),7) set sn(3)=%d(1) set ^Fileserver.FileI("DirName",sn(1),sn(2),sn(3))=%d(8)
+			}
+		}
+		if pLockRow { do ..%SQLReleaseLock(%d(1),0,0) set tLock=0 }
+	}
+	catch {
+		if $g(tLock) { do ..%SQLReleaseLock(%d(1),0,0) }
+		set tSC=$select(+tSC:$$Error^%apiOBJ(5594,$ze),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5594,$ze)))
+	}
+	QUIT tSC
+%SQLCheckUniqueIndices(pIndices,pOK) methodimpl
+	new d,g,n,o set d=0
+	if $lf(pIndices,"DirName") {
+		set g="^Fileserver.FileI(""DirName"")",o="^Fileserver.FileI(""DirName"",5,"
+		for  {
+			set g=$q(@g@("")) quit:g=""||(o'=$e(g,1,$l(o)))
+			if $qs(g,2)'=" ",$qs(g,3)'=" " { set n=$q(@g@("")) quit:n=""  if o=$e(n,1,$l(o)),$lb($qs(g,2),$qs(g,3))=$lb($qs(n,2),$qs(n,3)) { set d=1 quit  }}
+	}
+		if d { set pOK=0,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler42",,"DirName","Fileserver"_"."_"File") QUIT  }
+	}
+	set pOK=1 QUIT
+%SQLCopyIcolIntoName() methodimpl
+	if %oper="DELETE" {
+		set:$d(%d(1)) %f("ID")=%d(1)
+		QUIT
+	}
+	set:$d(%d(1)) %f("ID")=%d(1) set:$a(%e,2)&&$d(%d(2)) %f("DateCreated")=%d(2) set:$a(%e,3)&&$d(%d(3)) %f("DateModified")=%d(3) set:$a(%e,4)&&$d(%d(4)) %f("Directory")=%d(4) set:$a(%e,5)&&$d(%d(5)) %f("Extension")=%d(5) set:$a(%e,6)&&$d(%d(6)) %f("Name")=%d(6) set:$a(%e,7)&&$d(%d(7)) %f("Size")=%d(7) set:$a(%e,8)&&$d(%d(8)) %f("x__classname")=%d(8)
+	QUIT
+%SQLDefineiDjVars(%d,subs,master) methodimpl
+	QUIT
+%SQLDelete(%rowid,%check,%tstart=1,%mv=0,%polymorphic=0,%bufferedColumns=0) methodimpl
+	// SQL DELETE method for table Fileserver.File
+	new bva,ce,%d,dc,%e,%ele,%itm,%key,%l,%nc,omcall,%oper,%pos,%s,sn,sqlcode,subs set %oper="DELETE",sqlcode=0,%ROWID=%rowid,%d(1)=%rowid,%e(1)=%rowid,%l=$c(0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check,2) {
+		new %ls lock +^Fileserver.FileD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("Fileserver.File","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"Fileserver"_"."_"File",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORDelete"
+	do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) if sqlcode { set SQLCODE=-106,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler58",,"Fileserver"_"."_"File",%rowid) do ..%SQLEExit() QUIT  }
+	if %e(8)'="" { set sn=$p(%e(8),$e(%e(8)),$l(%e(8),$e(%e(8)))-1) if "Fileserver.File"'=sn { new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLDelete",%rowid,%check,%tstart,%mv,1) QUIT  }}
+	if '$a(%check),'$zu(115,7) do  if sqlcode set SQLCODE=sqlcode do ..%SQLEExit() QUIT  
+	. new %fk,%k,%p,%st,%t,%z set %k="",%p("%1")="%d(1),",%p("DirName")="%e(4),%e(6),,",%p("IDKEY")="%d(1),"
+	. for  quit:sqlcode<0  set %k=$o(^rINDEXEXT("F","Fileserver.File",%k)) quit:%k=""  set %t="" for  set %t=$o(^rINDEXEXT("F","Fileserver.File",%k,"f",%t)) quit:%t=""  set %st=(%t="Fileserver.File") set %fk="" for  set %fk=$o(^rINDEXEXT("F","Fileserver.File",%k,"f",%t,%fk)) quit:%fk=""  x "set %z=$classmethod(%t,%fk_""SQLFKeyRefAction"",%st,%k,$a(%check,2),"_%p(%k)_")" if %z set sqlcode=-124 quit  
+	if '($a(%check,2)#2),'$g(%0CacheLock("Fileserver.File","E")) {
+		if $g(%e(4))'="",$g(%e(6))'="" { lock +^Fileserver.FileI("DirName",$zu(28,%e(4),7),$zu(28,%e(6),7))#"S":$zu(115,4) if $t { lock -^Fileserver.FileI("DirName",$zu(28,%e(4),7),$zu(28,%e(6),7))#"S" } else { do ..%SQLUnlockError("DirName") set SQLCODE=sqlcode do ..%SQLEExit() QUIT }}
+	}
+	set ce="" for  { set ce=$order(^oddSQL("Fileserver","File","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children
+	if '$a(%check,3) {
+		set sn(1)=$zu(28,%e(4),7) set sn(2)=$zu(28,%e(6),7) set sn(3)=%d(1) k ^Fileserver.FileI("DirName",sn(1),sn(2),sn(3))
+	}
+	k ^Fileserver.FileD(%d(1))
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORDelete	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"Fileserver"_"."_"File",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"Fileserver"_"."_"File") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT
+	Return
+%SQLDeleteTempStreams() methodimpl
+	// Delete all temporary streams
+	QUIT
+%SQLEExit() methodimpl
+	do:%oper'="DELETE" ..%SQLUnlock2() do ..%SQLUnlock() 
+	if %tstart,$zu(115,1)=1,$TLEVEL { set %tstart=0 TROLLBACK 1 } kill:$g(omcall) %0CacheSQLRA QUIT  
+	Return
+%SQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key %1.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"Fileserver"_"."_"File"_":"_"%1") RETURN 0 } }
+	if pLockOnly<1 {
+		new exists set exists=$d(^Fileserver.FileD(%pVal(1))) RETURN:pLockOnly=-1 exists
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN exists
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN 1 }
+	Return
+%SQLGetLock(pRowId,pShared=0,pUnlockRef) methodimpl
+	QUIT ..%SQLAcquireLock(pRowId,pShared,.pUnlockRef)
+%SQLGetOld(%rowid,%d,%e,sqlcode) methodimpl
+	new s set %d(1)=%rowid,s="" if '$d(^Fileserver.FileD(%d(1)),s) { set sqlcode=100 RETURN  }
+	 S %e(8)=$lg(s),%e(6)=$lg(s,6),%e(4)=$lg(s,7)
+	RETURN
+%SQLGetOldAll() methodimpl
+	new s set %d(1)=%rowid,s="" if '$d(^Fileserver.FileD(%d(1)),s) { set sqlcode=100 RETURN  }
+	 S %e(8)=$lg(s),%e(5)=$lg(s,2),%e(7)=$lg(s,3),%e(2)=$lg(s,4),%e(3)=$lg(s,5),%e(6)=$lg(s,6),%e(4)=$lg(s,7)
+	RETURN
+%SQLGetOldIndex(%rowid,%e,pF=0,sqlcode,%buffervector=0,fld="") methodimpl
+	try {
+		new tClass,tF,tOid,tSC
+		set tOid=..%ComposeOid(%rowid)
+		if ''..%OnDetermineClass(tOid,.tClass),tClass'=$classname() {
+			set tF=1 do $classmethod(tClass,"%SQLGetOldIndex",%rowid,,.tF,.sqlcode)
+			set:$d(tF("Directory")) %d(4)=tF("Directory") set:$d(tF("Name")) %d(6)=tF("Name") set:$d(tF("x__classname")) %d(8)=tF("x__classname") 
+			RETURN
+		}
+	}
+	catch { }
+	new s set %d(1)=%rowid,s="" if '$d(^Fileserver.FileD(%d(1)),s) { set sqlcode=100 RETURN  }
+	 S %e(8)=$lg(s),%e(6)=$lg(s,6),%e(4)=$lg(s,7)
+	if pF { set:$d(%d(4)) pF("Directory")=%d(4) set:$d(%d(6)) pF("Name")=%d(6) set:$d(%d(8)) pF("x__classname")=%d(8)  }
+	set sqlcode=0
+	RETURN
+%SQLInsert(%d,%check,%inssel,%vco,%tstart=1,%mv=0,%bufferedColumns=0) methodimpl
+	// SQL INSERT method for table Fileserver.File
+	new bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,sqlcode,sn,subs,icol set %oper="INSERT",sqlcode=0,%l=$c(0,0,0,0)
+	if $a(%check,7) { new %diu merge %diu=%d }
+	if $d(%d(1)),'$zu(115,11) { if %d(1)'="" { set SQLCODE=-111,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler6",,"ID","Fileserver"_"."_"File") RETURN ""  } kill %d(1) } 
+	if '$a(%check),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode RETURN "" }
+	do:'$a(%check,8) ..%SQLNormalizeFields()
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  } set $zt="ERRORInsert"
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+			new %unlockcon
+			if $g(%d(4))'="",$g(%d(6))'="" {	// Constraint DirName
+				if '$a(%check,2) { lock +^Fileserver.FileI("DirName",$zu(28,%d(4),7),$zu(28,%d(6),7)):$zu(115,4) if $t { set %unlockcon(15)=$name(^Fileserver.FileI("DirName",$zu(28,%d(4),7),$zu(28,%d(6),7))),$e(%l,2)=$c(1) } else { do ..%SQLUnlockError("DirName") quit  } }
+				if '$a(%check,7) { if $d(^Fileserver.FileI("DirName",$zu(28,%d(4),7),$zu(28,%d(6),7))) { set sqlcode=-119,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler10",,"Fileserver"_"."_"File","DirName","Directory"_"="_$$quoter^%apiSQL($g(%d(4)))_","_"Name"_"="_$$quoter^%apiSQL($g(%d(6)))) quit  }} // INSERT
+				else { new tID set tID=..DirNameSQLFindRowIDByConstraint($lb(%d(4),%d(6)),1) if tID'="" { kill %d merge %d=%diu kill %diu do ..%SQLUpdate(tID,%check,.%d),..%SQLUnlock2() set $e(%check,7)=$c(2) quit  }} // INSERT OR UPDATE
+			}
+		} while 0
+		QUIT:$a(%check,7)=2 $s('SQLCODE:tID,1:"")				// INSERT became UPDATE
+		if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() RETURN "" }		// A constraint failed
+	}
+	if '$d(%d(1)) { set %d(1)=$i(^Fileserver.FileD) } elseif %d(1)>$g(^Fileserver.FileD) { if $i(^Fileserver.FileD,$zabs(%d(1)-$g(^Fileserver.FileD))) {}} elseif $d(^Fileserver.FileD(%d(1))) { set SQLCODE=-119,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler33",,"ID",%d(1),"Fileserver"_"."_"File"_"."_"ID") do ..%SQLEExit() RETURN "" }
+	set:'($d(%d(8))#2) %d(8)="" set:'($d(%d(4))#2) %d(4)="" set:'($d(%d(6))#2) %d(6)=""
+	if '$a(%check,2) {
+		new %ls lock +^Fileserver.FileD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("Fileserver.File","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"Fileserver"_"."_"File",$g(%d(1))) do ..%SQLEExit() RETURN ""  }
+	}
+	set ^Fileserver.FileD(%d(1))=$lb(%d(8),%d(5),%d(7),%d(2),%d(3),%d(6),%d(4))
+	if '$a(%check,3) {
+		set sn(1)=$zu(28,%d(4),7) set sn(2)=$zu(28,%d(6),7) set sn(3)=%d(1) set ^Fileserver.FileI("DirName",sn(1),sn(2),sn(3))=%d(8)
+	}
+	lock:$a(%l,2) -@(%unlockcon(15)_"#""D""") 
+	lock:$a(%l) -^Fileserver.FileD(%d(1))#"E"
+	TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0
+	QUIT %d(1) 			// %SQLInsert
+ERRORInsert	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"Fileserver"_"."_"File",$ze)
+	if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"Fileserver"_"."_"File") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  }
+	do ..%SQLEExit()
+	RETURN ""
+%SQLInvalid(pIcol,pVal) methodimpl {
+	set:$l($g(pVal))>40 pVal=$e(pVal,1,40)_"..." do:'$d(%n) ..%SQLnBuild() set %msg=$s($g(%msg)'="":%msg_$c(13,10),1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler37",,"Fileserver"_"."_"File"_"."_$lg(%n,pIcol),$s($g(pVal)'="":$s(pVal="":"<NULL>",pVal=$c(0):"<EMPTY STRING>",1:"'"_pVal_"'"),1:"")),sqlcode=$s(%oper="INSERT":-104,1:-105)
+	QUIT sqlcode }
+%SQLMissing(fname) methodimpl
+	set sqlcode=-108,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler47",,fname,"Fileserver"_"."_"File") quit
+%SQLNormalizeFields() methodimpl
+	set:$g(%d(2))'="" %d(2)=$$NormalizeField2(%d(2))
+	set:$g(%d(3))'="" %d(3)=$$NormalizeField3(%d(3))
+	set:$g(%d(7))'="" %d(7)=$$NormalizeField7(%d(7))
+	QUIT
+NormalizeField2(%val) {	Quit $s(%val="":"",$zu(115,13)&&(%val=$c(0)):"",%val=(%val\1):$zdate(%val,3,,,,,-672045,,"error")_" 00:00:00",%val?1.2N1":"2N1":"2N.1(1"."1.N):$zdate($h,3)_" "_$s(+$p(%val,".",2)=0:%val,1:$p(%val,".")_+("."_$e($p(%val,".",2),1,9))),$l(%val)=10:%val_" 00:00:00",$zdatetimeh(%val,3,,,,,,-672045,,"")="":"error",1:$zdatetime($zdatetimeh($p(%val,"."),3,,,,,,-672045,,""),3,,,,,,,-672045)_$s(+$p(%val,".",2)=0:"",1:+("."_$e($p(%val,".",2),1,9))))
+}
+NormalizeField3(%val) {	Quit $s(%val="":"",$zu(115,13)&&(%val=$c(0)):"",%val=(%val\1):$zdate(%val,3,,,,,-672045,,"error")_" 00:00:00",%val?1.2N1":"2N1":"2N.1(1"."1.N):$zdate($h,3)_" "_$s(+$p(%val,".",2)=0:%val,1:$p(%val,".")_+("."_$e($p(%val,".",2),1,9))),$l(%val)=10:%val_" 00:00:00",$zdatetimeh(%val,3,,,,,,-672045,,"")="":"error",1:$zdatetime($zdatetimeh($p(%val,"."),3,,,,,,-672045,,""),3,,,,,,,-672045)_$s(+$p(%val,".",2)=0:"",1:+("."_$e($p(%val,".",2),1,9))))
+}
+NormalizeField7(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+	Return
+%SQLPurgeIndices(pIndices="",pLockExtent=0,pIgnoreIndexList="") methodimpl
+	RETURN ..%PurgeIndices(pIndices,pLockExtent,pIgnoreIndexList)
+%SQLQuickLoad(%rowid,%nolock=0,pkey=0,qq=0) methodimpl
+	// Get fields from row where SQLRowID=%rowid
+	new d,i,il,subs set:%nolock=2 %nolock=1
+	if %nolock=0 { if '..%SQLAcquireLock(%rowid) { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler45",,"Fileserver"_"."_"File",%rowid),%ROWCOUNT=0 QUIT  } set:$zu(115,2) il=$zu(115,2,0) }
+	new s,ul set ul=0,d(1)=%rowid if $zu(115,2)=1 { lock +^Fileserver.FileD(d(1))#"S":$zu(115,4) if $t { set ul=1 } else { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler46",,"Fileserver"_"."_"File",%rowid),%ROWCOUNT=0 quit  } }
+	if '$d(^Fileserver.FileD(d(1)),s) { set SQLCODE=100,%qrc=100 if %nolock=0 { do:$g(il) $zu(115,2,il) }} else { set SQLCODE=0
+	if qq { set d(8)=$lg(s) if d(8)'="" { new sn set sn=$p(d(8),$e(d(8)),$l(d(8),$e(d(8)))-1) if "Fileserver.File"'=sn { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } kill d set:sn'["." sn="User."_sn do $classmethod(sn,"%SQLQuickLoad",%rowid,%nolock,0,1) QUIT  }}}
+	set d(2)=$lg(s,4) set d(3)=$lg(s,5) set d(4)=$lg(s,7) set d(5)=$lg(s,2) set d(6)=$lg(s,6) set d(7)=$lg(s,3) set d(8)=$lg(s)  }
+	do ..%SQLQuickLogicalToOdbc(.d)
+	if SQLCODE set %ROWCOUNT=0 set:SQLCODE<0 SQLCODE=-SQLCODE lock:ul -^Fileserver.FileD(d(1))#"SI" set %qrc=SQLCODE QUIT
+	set:qq d=$zobjexport("Fileserver.File",18),d=8,d=$zobjexport(d,18) set i=-1 for  { set i=$o(d(i)) quit:i=""  set d=$zobjexport(d(i),18) } set %qrc=0,%ROWCOUNT=1 lock:ul -^Fileserver.FileD(d(1))#"SI" if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,0) do:$g(il) $zu(115,2,il) } QUIT
+	Return
+%SQLReleaseLock(%rowid,s=0,i=0,e="") methodimpl
+	new %d
+	set:e="" e=1 set %d(1)=%rowid set s=$e("E",e)_$e("S",s)_$e("D",i)
+	lock -^Fileserver.FileD(%d(1))#s
+	QUIT
+%SQLReleaseTableLock(s=0,i=0) methodimpl
+	set s=$e("S",s)_$e("D",i) lock -^Fileserver.FileD#s QUIT 1
+	Return
+%SQLUnlock() methodimpl
+	lock:$a(%l) -^Fileserver.FileD(%d(1))#"E"
+	QUIT
+%SQLUnlock2() methodimpl
+	lock:$a(%l,2) -@(%unlockcon(15)_"#""D""") QUIT
+%SQLUnlockError(cname) methodimpl
+	set sqlcode=-110 if %oper="DELETE" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler48",,"Fileserver"_"."_"File",cname) } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler49",,"Fileserver"_"."_"File",cname) } quit
+	Return
+%SQLUpdate(%rowid,%check,%d,%vco,%tstart=1,%mv=0,%polymorphic=0,%soid,%bufferedColumns=0,%bufferedColumnsDel=0) methodimpl
+	// SQL UPDATE method for table Fileserver.File
+	new %e,bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,icol,omcall,s,sn,sqlcode,subs,t set %oper="UPDATE",sqlcode=0,%ROWID=%rowid,$e(%e,1)=$c(0),%l=$c(0,0,0,0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check),'$a(%check,7),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT  }
+	do:'$a(%check,8) ..%SQLNormalizeFields()
+	if $d(%d(1)),%d(1)'=%rowid { set SQLCODE=-107,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler16",,"ID","Fileserver"_"."_"File") QUIT  }
+	for icol=2:1:8 { set $e(%e,icol)=$c($d(%d(icol))) }
+	set %d(1)=%rowid,%e(1)=%rowid
+	if '$a(%check,2) {
+		new %ls lock +^Fileserver.FileD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("Fileserver.File","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"Fileserver"_"."_"File",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORUpdate"
+	if $g(%vco)="" { do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) i sqlcode { s SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"Fileserver"_"."_"File",%rowid) do ..%SQLEExit() QUIT  } for icol=8,4,6 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }} else { do ..%SQLGetOldAll() if sqlcode { set SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"Fileserver"_"."_"File",%rowid) do ..%SQLEExit() QUIT  } for icol=2,3,4,5,6,7,8 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }}
+	if %e(8)'="" set sn=$p(%e(8),$e(%e(8)),$l(%e(8),$e(%e(8)))-1) if "Fileserver.File"'=sn new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLUpdate",%rowid,%check,.%d,$g(%vco),%tstart,%mv,1) QUIT
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+			new %unlockcon
+			if ($a(%e,4)||$a(%e,6)),$g(%d(4))'="",$g(%d(6))'="" {	// UNIQUE constraint DirName
+				if '($a(%check,2)#2),'$g(%0CacheLock("Fileserver.File","E")) {
+					lock +^Fileserver.FileI("DirName",$zu(28,%d(4),7),$zu(28,%d(6),7)):$zu(115,4) if $t { set %unlockcon(15)=$name(^Fileserver.FileI("DirName",$zu(28,%d(4),7),$zu(28,%d(6),7))),$e(%l,2)=$c(1) } else { do ..%SQLUnlockError("DirName") quit  } 
+					if %e(4)'="",%e(6)'="" { lock +^Fileserver.FileI("DirName",$zu(28,%e(4),7),$zu(28,%e(6),7)):$zu(115,4) if $t { lock -^Fileserver.FileI("DirName",$zu(28,%e(4),7),$zu(28,%e(6),7)) } else { do ..%SQLUnlockError("DirName") quit  }}
+				}
+				if $d(^Fileserver.FileI("DirName",$zu(28,%d(4),7),$zu(28,%d(6),7))),'$d(^Fileserver.FileI("DirName",$zu(28,%d(4),7),$zu(28,%d(6),7),%d(1))) { set sqlcode=-120,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler10",,"Fileserver"_"."_"File","DirName","Directory"_"="_$$quoter^%apiSQL($g(%d(4)))_","_"Name"_"="_$$quoter^%apiSQL($g(%d(6)))) quit  }
+			}
+			new %fk,%st,%t,%y
+			if ($a(%e,4)||$a(%e,6)),'$zu(115,7) {
+				set %t="" for  { set %t=$o(^rINDEXEXT("F","Fileserver.File","DirName","f",%t)) quit:%t=""  set %st=(%t="Fileserver.File") s %fk="" for  { set %fk=$o(^rINDEXEXT("F","Fileserver.File","DirName","f",%t,%fk)) quit:%fk=""  x "set %y=$classmethod(%t,%fk_""SQLFKeyRefAction"",%st,""DirName"",$a(%check,2),%e(4),%e(6),%d(4),%d(6))" if %y { set sqlcode=-123 quit  }}}
+			}
+		} while 0
+		if sqlcode { set SQLCODE=sqlcode do ..%SQLEExit() QUIT  }
+	}
+	if $s($a(%e,2):1,$a(%e,3):1,$a(%e,4):1,$a(%e,5):1,$a(%e,6):1,$a(%e,7):1,1:$a(%e,8)) {
+		set ^Fileserver.FileD(%d(1))=$listupdate($g(^Fileserver.FileD(%d(1))),1,$a(%e,8):%d(8),$a(%e,5):%d(5),$a(%e,7):%d(7),$a(%e,2):%d(2),$a(%e,3):%d(3),$a(%e,6):%d(6),$a(%e,4):%d(4))
+	}
+	if '$a(%check,3) { 
+		if $s($a(%e,4):1,$a(%e,6):1,1:$a(%e,8)) {	// DirName index map
+			if $a(%e,4)||$a(%e,6) { set sn(1)=$zu(28,%e(4),7) set sn(2)=$zu(28,%e(6),7) set sn(3)=%d(1) k ^Fileserver.FileI("DirName",sn(1),sn(2),sn(3)) }
+			set sn(1)=$zu(28,%d(4),7) set sn(2)=$zu(28,%d(6),7) set sn(3)=%d(1) set ^Fileserver.FileI("DirName",sn(1),sn(2),sn(3))=%d(8)
+		}
+	}
+	do ..%SQLUnlock2()
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORUpdate	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"Fileserver"_"."_"File",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"Fileserver"_"."_"File") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT  
+	Return
+%SQLValidateCompFields(sqlcode) methodimpl
+	QUIT 'sqlcode
+%SQLValidateFields(sqlcode) methodimpl
+	if $g(%d(7))'="",'($select($isvalidnum(%d(7),0,-9223372036854775808,9223372036854775807):1,'$isvalidnum(%d(7)):$$Error^%apiOBJ(7207,%d(7)),%d(7)<-9223372036854775808:$$Error^%apiOBJ(7204,%d(7),-9223372036854775808),1:$$Error^%apiOBJ(7203,%d(7),9223372036854775807))) { set sqlcode=..%SQLInvalid(7+1,%d(7)) } 
+	if $g(%d(2))'="",'($$ValidateField2(%d(2))) { set sqlcode=..%SQLInvalid(2+1,%d(2)) } 
+	if $g(%d(3))'="",'($$ValidateField3(%d(3))) { set sqlcode=..%SQLInvalid(3+1,%d(3)) } 
+	new %f for %f=4,5,6 { if $g(%d(%f))'="",'(($l(%d(%f))'>50)) set sqlcode=..%SQLInvalid(%f+1,$g(%d(%f))) quit  } 
+	QUIT 'sqlcode
+ValidateField2(%val) {	RETURN:$zu(115,13)&&(%val=$c(0)) 1
+	Set val=%val,%val=$select(%val=(%val\1):$zdate(%val,3,,,,,0,,"error")_" 00:00:00",%val?1.2N1":"2N1":"2N.1(1"."1.N):$zdate($h,3,,,,,0)_" "_%val,$length(%val)=10:%val_" 00:00:00",1:%val)
+	Quit:($length(%val)<19||($zdatetimeh(%val,3,,,,,,0,,"")="")) $$Error^%apiOBJ(7208,val)
+	Quit 1
+}
+ValidateField3(%val) {	RETURN:$zu(115,13)&&(%val=$c(0)) 1
+	Set val=%val,%val=$select(%val=(%val\1):$zdate(%val,3,,,,,0,,"error")_" 00:00:00",%val?1.2N1":"2N1":"2N.1(1"."1.N):$zdate($h,3,,,,,0)_" "_%val,$length(%val)=10:%val_" 00:00:00",1:%val)
+	Quit:($length(%val)<19||($zdatetimeh(%val,3,,,,,,0,,"")="")) $$Error^%apiOBJ(7208,val)
+	Quit 1
+}
+	Return
+%SQLnBuild() methodimpl {
+	set %n=$lb(,"ID","DateCreated","DateModified","Directory","Extension","Name","Size","x__classname")
+	QUIT }
+%Save(related=1) methodimpl {
+	Set $ZTrap="%SaveERR"
+	New %objTX Set sc=1,traninit=0 If '$data(%objTX2) New %objTX2 Set %objTX2=1
+	If +$g(%objtxSTATUS)=0 { Set traninit=1 k %objtxSTATUS,%objtxLIST,%objtxOIDASSIGNED,%objtxOIDUNASSIGNED,%objtxMODIFIED,%objtxVERSION k:'$TLevel %objtxTID,%objtxID i '$zu(115,9) { s %objtxSTATUS=1 } else { TStart  s %objtxSTATUS=2 } }
+	If $get(%objTX2(+$this)) Set sc=..%BuildObjectGraph(1) If ('sc) { ZTrap "SG" } Set intRef=+$this,objValue=$get(%objTX(1,+$g(%objTX(0,intRef)),1)),sc=..%SerializeObject(.objValue,1) If ('sc) { ZTrap "SG" } Set %objTX(1,%objTX(0,intRef),1)=objValue GoTo %SaveCOMMIT
+	Set sc=..%BuildObjectGraph(related+2) If ('sc) ZTrap "SG"
+	If '$data(%objTX(2)) s sc=1 GoTo %SaveCOMMIT
+	Set %objTX(3)=0,i="" For  Set i=$order(%objTX(2,i),1,data) Quit:i=""  Set intRef=$li(data) If '$data(%objTX(1,+$g(%objTX(0,intRef)),2)) Set %objTX(3,$increment(%objTX(3)))=%objTX(1,%objTX(0,intRef)) Kill %objTX(2,i),%objTX(11,intRef)
+	For ptr=1:1 Quit:ptr>%objTX(3)  Set objRef=%objTX(3,ptr),objValue=$get(%objTX(1,+$g(%objTX(0,+objRef)),1)),sc=objRef.%SerializeObject(.objValue) Do  Set %objTX(1,%objTX(0,+objRef),1)=objValue Kill %objTX(1,%objTX(0,+objRef),3) Do $system.CLS.SetModified(objRef,0)
+	. If ('sc) ZTrap "SG"
+	. i $g(%objtxSTATUS)=2 { Set %objtxMODIFIED(+objRef)=$system.CLS.GetModifiedBits(objRef) }
+	. Set intSucc="" For  Set intSucc=$order(%objTX(1,%objTX(0,+objRef),3,intSucc)) Quit:intSucc=""  Kill %objTX(1,%objTX(0,+objRef),3,intSucc),%objTX(1,intSucc,2,%objTX(0,+objRef)) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$increment(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,+%objTX(1,intSucc))) %objTX(2,%objTX(11,+%objTX(1,intSucc))),%objTX(11,+%objTX(1,intSucc))
+	Kill %objTX(3) Set %objTX(3)=0 For  Set pserial=0 Do  Quit:'pserial
+	. Set i="" For  Set i=$order(%objTX(2,i),1,data) Quit:i=""  Set intPred="",intRef=$li(data) For  Set intPred=$order(%objTX(1,%objTX(0,intRef),2,intPred)) Quit:intPred=""  If $get(%objTX(1,intPred,6))=1 Set objValue=$get(%objTX(1,intPred,1)),sc=(%objTX(1,intPred)).%SerializeObject(.objValue,1) If ('sc) { If $d(%objTX(11,+%objTX(1,intPred))) { Set %objTX(2,%objTX(11,+%objTX(1,intPred)),1)=sc } Else { Set %objTX(2,$i(%objTX(2)),1)=sc,%objTX(11,+%objTX(1,intPred))=%objTX(2) } } If (''sc) Set pserial=1,%objTX(1,intPred,1)=objValue Do
+	. . Set intSucc="" For  Set intSucc=$order(%objTX(1,intPred,3,intSucc)) Quit:intSucc=""  Kill %objTX(1,intPred,3,intSucc),%objTX(1,intSucc,2,intPred) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$i(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,+%objTX(1,intSucc))) %objTX(2,%objTX(11,+%objTX(1,intSucc))),%objTX(11,+%objTX(1,intSucc))
+	. . For ptr=1:1 Quit:ptr>%objTX(3)  Set objSerialize=%objTX(3,ptr),objValue=$get(%objTX(1,+$g(%objTX(0,+objSerialize)),1)),sc=objSerialize.%SerializeObject(.objValue) Do  Set %objTX(1,%objTX(0,+objSerialize),1)=objValue Kill %objTX(1,%objTX(0,+objSerialize),3) Do $system.CLS.SetModified(objSerialize,0)
+	. . . If ('sc) ZTrap "SG"
+	. . . i $g(%objtxSTATUS)=2 { Set %objtxMODIFIED(+objSerialize)=$system.CLS.GetModifiedBits(objSerialize) }
+	. . . Set intSucc="" For  Set intSucc=$order(%objTX(1,%objTX(0,+objSerialize),3,intSucc)) Quit:intSucc=""  Kill %objTX(1,%objTX(0,+objSerialize),3,intSucc),%objTX(1,intSucc,2,%objTX(0,+objSerialize)) If '$data(%objTX(1,intSucc,2)) Set %objTX(3,$i(%objTX(3)))=%objTX(1,intSucc) Kill:$d(%objTX(11,+%objTX(1,intSucc))) %objTX(2,%objTX(11,+%objTX(1,intSucc))),%objTX(11,+%objTX(1,intSucc))
+	. . Kill %objTX(3) Set %objTX(3)=0
+	If $data(%objTX(2))>2 {
+		Set sc=$$Error^%apiOBJ(5827,$classname())
+		set i="" for  set i=$order(%objTX(2,i)) quit:i=""  if ('$Get(%objTX(2,i,1),1)) set sc=$$EmbedStatus^%apiOBJ(sc,%objTX(2,i,1))
+	 	ZTrap "SG"
+	}
+	Set cmd="" For  Set cmd=$order(%objTX(9,cmd)) Quit:cmd=""  Xecute cmd
+%SaveCOMMIT	If traninit { i $g(%objtxSTATUS)=1 { k %objtxSTATUS } else { If $Tlevel { TCommit  } k %objtxSTATUS,%objtxLIST,%objtxOIDASSIGNED,%objtxOIDUNASSIGNED,%objtxMODIFIED,%objtxVERSION k:'$TLevel %objtxTID,%objtxID } }
+	Do $system.CLS.SetModified(0) Quit sc
+%SaveERR	Set $ZTrap="" If $extract($zerror,1,5)'="<ZSG>" Set sc=$$Error^%apiOBJ(5002,$ZE)
+	If $get(traninit) { i $g(%objtxSTATUS)=2 { s sc=$select(+sc:$$%TRollBack^%occTransaction(),1:$$AppendStatus^%occSystem(sc,$$%TRollBack^%occTransaction())) k %objtxTID,%objtxID } else { k %objtxSTATUS } }
+	Quit sc }
+%SaveData(id) methodimpl {
+	try {
+		set id=$listget(i%"%%OID") if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,lockok=0,tSharedLock=0,locku=$c(0)
+		if 'idassigned { set id=$i(^Fileserver.FileD) do ..%IdSet(id) set:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this)="" }
+		set zzc10v1=$zu(28,i%Name,7,32768)
+		set zzc10v2=$zu(28,i%Directory,7,32768)
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if (i%%Concurrency<4)&&(i%%Concurrency) { lock +(^Fileserver.FileD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1 if lockok { set lock=1 } else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^Fileserver.FileD(id))) {
+					set insert=1
+					if lock { lock -(^Fileserver.FileD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if ('lockok&&..%Concurrency&&$tlevel)||(i%%Concurrency=4) {  lock +(^Fileserver.FileD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:(lockok=2&&(i%%Concurrency'=4)) %0CacheLock($classname(),"E")=1 set:lockok lock=1 if 'lockok { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if i%%Concurrency=3 { lock +(^Fileserver.FileD(id)#"ES") set tSharedLock=1 }
+				if (i%Directory'="")&&(i%Name'="") { if (i%%Concurrency)&&('$g(%0CacheLock($classname(),"E"))) { l +^Fileserver.FileI("DirName",zzc10v2,zzc10v1):$zu(115,4) if $Test { Set $Extract(locku,1)=$c(1) } Else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } } If $data(^Fileserver.FileI("DirName",zzc10v2,zzc10v1)) { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5808,$classname()_":DirName:"_$zreference)) }}
+				set ^Fileserver.FileD(id)=$lb("",i%Extension,i%Size,i%DateCreated,i%DateModified,i%Name,i%Directory)
+				set ^Fileserver.FileI("DirName",zzc10v2,zzc10v1,id)=""
+			}
+			else {
+				set zzc31v1=^Fileserver.FileD(id)
+				set zzc31v2=$listget(zzc31v1,6)
+				set zzc31v3=$zu(28,zzc31v2,7,32768)
+				set zzc31v4=$listget(zzc31v1,7)
+				set zzc31v5=$zu(28,zzc31v4,7,32768)
+				if (i%Directory'="")&&(i%Name'="") { if (i%Directory'=zzc31v4)||(i%Name'=zzc31v2) { if (i%%Concurrency)&&('$g(%0CacheLock($classname(),"E"))) { lock +^Fileserver.FileI("DirName",zzc10v2,zzc10v1):$zu(115,4) if $Test { Set $Extract(locku,1)=$c(1) } else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } if (zzc31v4'="")&&(zzc31v2'="") { l +^Fileserver.FileI("DirName",zzc31v5,zzc31v3):$zu(115,4) if $t { l -^Fileserver.FileI("DirName",zzc31v5,zzc31v3) } Else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) }}} If ($data(^Fileserver.FileI("DirName",zzc10v2,zzc10v1)))&&('$data(^Fileserver.FileI("DirName",zzc10v2,zzc10v1,id))) { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5808,$classname()_":DirName:"_$zreference)) } } }
+				if (i%Directory'=zzc31v4)||(i%Name'=zzc31v2) {
+					kill ^Fileserver.FileI("DirName",zzc31v5,zzc31v3,id)
+					if (i%Directory'=zzc31v4)||(i%Name'=zzc31v2){ n %fk,%fc s %fc="" f  s %fc=$o(^rINDEXEXT("F",$classname(),"DirName","f",%fc)) q:%fc=""  s %fk="" f  s %fk=$o(^rINDEXEXT("F",$classname(),"DirName","f",%fc,%fk)) q:%fk=""  s tStatus=$classmethod(%fc,%fk_"Update",zzc31v4,zzc31v2,i%Directory,i%Name) i ('tStatus) Throw ##class(%Exception.StatusException).ThrowIfInterrupt(tStatus) }
+					set ^Fileserver.FileI("DirName",zzc10v2,zzc10v1,id)=""
+				}
+				set ^Fileserver.FileD(id)=$lb("",i%Extension,i%Size,i%DateCreated,i%DateModified,i%Name,i%Directory)
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+			if ('idassigned) { Set $zobjoid("",$listget(i%"%%OID"))="",i%"%%OID"="" kill:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this) }
+			if (tSharedLock) {  lock -(^Fileserver.FileD(id)#"ES") } elseif (lockok=1)&&(insert)&&(i%%Concurrency=4) {  lock -(^Fileserver.FileD(id)) }
+		}
+		lock:$Ascii($Extract(locku,1)) -^Fileserver.FileI("DirName",zzc10v2,zzc10v1)#"D"
+		if lock lock -(^Fileserver.FileD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveDirect(id="",idList="",data,concurrency=-1) methodimpl {
+	try {
+		set zzc5v1=$listget(data,6)
+		set zzc5v2=$listget(data,7)
+		set zzc5v3=$listget(data,1)
+		if concurrency=-1 { set concurrency=$zu(115,10) }
+		if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,tSharedLock=0,locku=$c(0)
+		if 'idassigned { set id=$i(^Fileserver.FileD) }
+		set zzc10v1=$zu(28,zzc5v1,7,32768)
+		set zzc10v2=$zu(28,zzc5v2,7,32768)
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if concurrency { lock +(^Fileserver.FileD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^Fileserver.FileD(id))) {
+					set insert=1
+					if lock { lock -(^Fileserver.FileD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if concurrency { lock +(^Fileserver.FileD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if (zzc5v2'="")&&(zzc5v1'="") { if (concurrency)&&('$g(%0CacheLock($classname(),"E"))) { l +^Fileserver.FileI("DirName",zzc10v2,zzc10v1):$zu(115,4) if $Test { Set $Extract(locku,1)=$c(1) } Else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } } If $data(^Fileserver.FileI("DirName",zzc10v2,zzc10v1)) { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5808,$classname()_":DirName:"_$zreference)) }}
+				set ^Fileserver.FileD(id)=data
+				set ^Fileserver.FileI("DirName",zzc10v2,zzc10v1,id)=zzc5v3
+			}
+			else {
+				set zzc31v1=$lg(idList,1)
+				set zzc31v2=^Fileserver.FileD(zzc31v1)
+				set zzc31v3=$listget(zzc31v2,6)
+				set zzc31v4=$zu(28,zzc31v3,7,32768)
+				set zzc31v5=$listget(zzc31v2,7)
+				set zzc31v6=$zu(28,zzc31v5,7,32768)
+				if (zzc5v2'="")&&(zzc5v1'="") { if (zzc5v2'=zzc31v5)||(zzc5v1'=zzc31v3) { if (concurrency)&&('$g(%0CacheLock($classname(),"E"))) { lock +^Fileserver.FileI("DirName",zzc10v2,zzc10v1):$zu(115,4) if $Test { Set $Extract(locku,1)=$c(1) } else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } if (zzc31v5'="")&&(zzc31v3'="") { l +^Fileserver.FileI("DirName",zzc31v6,zzc31v4):$zu(115,4) if $t { l -^Fileserver.FileI("DirName",zzc31v6,zzc31v4) } Else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) }}} If ($data(^Fileserver.FileI("DirName",zzc10v2,zzc10v1)))&&('$data(^Fileserver.FileI("DirName",zzc10v2,zzc10v1,id))) { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5808,$classname()_":DirName:"_$zreference)) } } }
+				if (zzc5v2'=zzc31v5)||(zzc5v1'=zzc31v3) {
+					kill ^Fileserver.FileI("DirName",zzc31v6,zzc31v4,zzc31v1)
+					if (zzc5v2'=zzc31v5)||(zzc5v1'=zzc31v3){ n %fk,%fc s %fc="" f  s %fc=$o(^rINDEXEXT("F",$classname(),"DirName","f",%fc)) q:%fc=""  s %fk="" f  s %fk=$o(^rINDEXEXT("F",$classname(),"DirName","f",%fc,%fk)) q:%fk=""  s tStatus=$classmethod(%fc,%fk_"Update",zzc31v5,zzc31v3,zzc5v2,zzc5v1) i ('tStatus) Throw ##class(%Exception.StatusException).ThrowIfInterrupt(tStatus) }
+					set ^Fileserver.FileI("DirName",zzc10v2,zzc10v1,id)=zzc5v3
+				}
+				set ^Fileserver.FileD(id)=data
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+		}
+		lock:$Ascii($Extract(locku,1)) -^Fileserver.FileI("DirName",zzc10v2,zzc10v1)#"D"
+		if lock lock -(^Fileserver.FileD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveIndices(pStartId="",pEndId="",lockExtent=0) methodimpl {
+	If lockExtent {
+		Set sc=..%LockExtent(0)
+		Quit:('sc) sc
+	}
+	s id=$order(^Fileserver.FileD(pStartId),-1),tEndId=$S(pEndId'="":pEndId,1:pStartId)
+BSLoop	s id=$O(^Fileserver.FileD(id)) g:(id="")||(id]]tEndId) BSLoopDun
+	Set bsv0N1=$Get(^Fileserver.FileD(id))
+	Set bsv0N2=$zu(28,$listget(bsv0N1,6),7,32768)
+	Set bsv0N3=$zu(28,$listget(bsv0N1,7),7,32768)
+	Set ^Fileserver.FileI("DirName",bsv0N3,bsv0N2,id)=$listget(bsv0N1,1)
+	g BSLoop
+BSLoopDun
+	If lockExtent { Do ..%UnlockExtent(0) }
+	Quit 1
+CatchError	Set $ZTrap=""
+	If $ZE'="" {
+		Set sc = $$Error^%apiOBJ(5002,$ZE)
+	}
+	If lockExtent { Do ..%UnlockExtent(0) }
+	Quit sc }
+%SerializeObject(serial,partial=0) methodimpl {
+	try {
+		If $get(%objTX2(+$this)) { Set partial = 1 } ElseIf ('partial) { Set %objTX2(+$this) = 1 }
+		Set sc=..%ValidateObject(,0) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		Set sc=..%NormalizeObject() Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		If r%Downloads'="" { Set:'$data(%objTX(0,+r%Downloads)) %objTX(0,+r%Downloads)=$i(%objTX(1)),%objTX(1,%objTX(0,+r%Downloads))=r%Downloads,%objTX(1,%objTX(0,+r%Downloads),1)=..DownloadsGetObject(1),%objTX(1,%objTX(0,+r%Downloads),6)=2 Set M%Downloads=1,i%Downloads=$listget(%objTX(1,%objTX(0,+r%Downloads),1)) }
+		s:$g(%objtxSTATUS)=2 %objtxLIST(+$this)=$this
+		Set id=$listget(serial),sc=..%SaveData(.id) If ('sc) { Throw ##class(%Exception.StatusException).ThrowIfInterrupt(sc) }
+		Set serial=(..%Oid())
+		if 'partial {
+			Set %objTX2(+$this) = 0
+		}
+		set sc=1
+	}
+	catch tException {
+		If 'partial { Set %objTX2(+$this) = 0 }
+		set sc = tException.AsStatus()
+	}
+	Quit sc }
+%AddToSaveSet(depth=3,refresh=0) methodimpl {
+	Set sc=1,intOref=+$this
+	If $data(%objTX(0,intOref),index) {
+		If 'refresh RETURN 1
+		Set intPoref="" For  Set intPoref=$order(%objTX(1,index,2,intPoref)) Quit:intPoref=""  Kill %objTX(1,%objTX(0,intPoref),3,index),%objTX(1,index,2,%objTX(0,intPoref))
+	}
+	Set:'$d(index) (index,%objTX(0,intOref))=$i(%objTX(1)),%objTX(1,index)=$this Set %objTX(1,index,1)=i%"%%OID",%objTX(1,index,6)=1 If (i%"%%OID" '= "") && (depth<2) { Quit 1 } Else { Set %objTX(7,index)=$lb(intOref,1) }
+	Set Poref=r%Downloads If Poref'="",'$data(%objTX(0,+Poref)) Set %objTX(6,$i(%objTX(6)))=Poref
+exit	Quit sc }
+%SortBegin(idxlist="",excludeunique=0) methodimpl
+	if 'excludeunique,$select(idxlist="":1,$listfind(idxlist,"DirName"):1,1:0) If $SortBegin(^Fileserver.FileI("DirName"))
+	RETURN 1
+%SortEnd(idxlist="",commit=1,excludeunique=0) methodimpl {
+	if 'excludeunique,$select(idxlist="":1,$listfind(idxlist,"DirName"):1,1:0) If $SortEnd(^Fileserver.FileI("DirName"),commit)
+	RETURN 1 }
+%UnlockExtent(shared=0,immediate=0) methodimpl {
+	If 'shared {
+		If 'immediate {
+			Lock -^Fileserver.FileD
+			 Quit 1
+		}
+		Lock -^Fileserver.FileD#"I"
+		Quit 1
+	}
+	If 'immediate {
+		Lock -^Fileserver.FileD#"S"
+		Quit 1
+	}
+	Lock -^Fileserver.FileD#"SI"
+	Quit 1 }
+%UnlockId(id,shared=0,immediate=0) methodimpl {
+	If 'shared {
+		If 'immediate {
+			Lock -(^Fileserver.FileD(id)#"E")
+			Quit 1
+		}
+		Lock -(^Fileserver.FileD(id)#"IE")
+		Quit 1
+	}
+	If 'immediate {
+		Lock -(^Fileserver.FileD(id)#"SE")
+		Quit 1
+	}
+	Lock -(^Fileserver.FileD(id)#"SIE")
+	Quit 1 }
+%ValidateIndices(idxList="",autoCorrect=0,lockOption=1,multiProcess=1,mapList,verbose=1,errors) methodimpl
+	if '$listvalid(idxList) { QUIT $$Error^%apiOBJ(5591,"##class(Fileserver.File).%ValidateIndices()","idxList",""""" or a $list of index names") }
+	if $case(autoCorrect,1:0,0:0,:1) { QUIT $$Error^%apiOBJ(5591,"##class(Fileserver.File).%ValidateIndices()","autoCorrect","'0' or '1'") }
+	if $case(lockOption,2:0,1:0,0:0,:1) { QUIT $$Error^%apiOBJ(5591,"##class(Fileserver.File).%ValidateIndices()","lockOption","'0', '1' or '2'") }
+	if $case(multiProcess,1:0,0:0,:1) { QUIT $$Error^%apiOBJ(5591,"##class(Fileserver.File).%ValidateIndices()","multiProcess","'0' or '1'") }
+	if $case(verbose,1:0,0:0,:1) { QUIT $$Error^%apiOBJ(5591,"##class(Fileserver.File).%ValidateIndices()","verbose","'0' or '1'") }
+	new mapList QUIT $$ValidateIndices^%SYS.SECURITY("Fileserver.File",idxList,autoCorrect,lockOption,multiProcess,,verbose,.errors)
+%ValidateObject(unused=0,checkserial=1) methodimpl {
+	set sc=1
+	If '$system.CLS.GetModified() Quit sc
+	If m%DateCreated Set iv=..DateCreated If iv'="" Set rc=(..DateCreatedIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"DateCreated",iv)
+	If m%DateModified Set iv=..DateModified If iv'="" Set rc=(..DateModifiedIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"DateModified",iv)
+	If m%Directory Set iv=..Directory If iv'="" Set rc=(..DirectoryIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Directory",iv)
+	If m%Extension Set iv=..Extension If iv'="" Set rc=(..ExtensionIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Extension",iv)
+	If m%Name Set iv=..Name If iv'="" Set rc=(..NameIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Name",iv)
+	If m%Size Set iv=..Size If iv'="" Set rc=(..SizeIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"Size",iv)
+	Quit sc }
+AddDir(dir,rec=0) methodimpl {
+	set st=1
+	if ##class(%Library.File).DirectoryExists(dir)
+	{
+		// Build resultset of all files and subfolders in a directory
+		set rs=##class(%Library.ResultSet).%New("%File.FileSet")
+ 		do rs.Execute(dir,"*",,1) // build result set of all files in dir
+ 		while rs.Next() {
+			if rs.Get("Type")'="D" //check for directories
+			{
+				set file=..%New()
+				set file.Name=rs.Get("ItemName")
+				set file.Directory=##class(%Library.File).GetDirectory(rs.Get("Name"))
+				set file.Extension=$p(file.Name,".",*)
+				set file.Size=rs.Get("Size")
+				set file.DateCreated=rs.Get("DateCreated")				
+				set file.DateModified=rs.Get("DateModified")
+				do file.%Save()
+			} else {
+				if (rec=1) {
+					do ..AddDir(rs.Get("Name"),1)
+				}
+			} 
+		}
+	} else {
+		set st = $$Error^%apiOBJ(5021,dir)
+	}
+	quit st }
+AddFile(filename) methodimpl {
+	set st=1
+	if ##class(%Library.File).Exists(filename)
+	{
+		try {
+			set file=..%New()
+			set file.Name=##class(%Library.File).GetFilename(filename)
+			set file.Directory=##class(%Library.File).GetDirectory(filename)
+			set file.Extension=$p(file.Name,".",*)
+			set file.Size=##class(%Library.File).GetFileSize(filename)
+			set file.DateCreated=$ZDATETIME(##class(%Library.File).GetFileDateCreated(filename),3)	
+			set file.DateModified=$ZDATETIME(##class(%Library.File).GetFileDateModified(filename),3)
+			do file.%Save()
+		} catch ex {		
+			set st=ex.AsStatus()
+		}
+	} else {
+		set st = $$Error^%apiOBJ(5012, filename)	
+	}
+	quit st }
+DelDir(dir,rec=0) [ SQLCODE,dir ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set st=1
+	set dir=##class(%Library.File).NormalizeDirectory(dir)
+	if (rec=0) {
+		 ;---&SQL(DELETE FROM Fileserver."File" WHERE Directory=:dir)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, dir
+		try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"ECgTHffGZi7Zjwf1sumcq18lzMH","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"ECgTHffGZi7Zjwf1sumcq18lzMH"))||($ze["<ZSQLU>") { d %0dsqlF } else { throw } }
+		if (SQLCODE'=0) {
+			set st = $System.Status.Error(5521, SQLCODE, dir)
+		}
+	} else {
+		 ;---&SQL(DELETE FROM Fileserver."File" WHERE Directory %STARTSWITH :dir)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, dir
+		try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EGYQGzI56PjMkU2V4d62bdNlgLF","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EGYQGzI56PjMkU2V4d62bdNlgLF"))||($ze["<ZSQLU>") { d %0dsqlH } else { throw } }
+		if (SQLCODE'=0) {
+			set st = $System.Status.Error(5521, SQLCODE, dir)
+		}
+	}
+	quit st }
+ q
+%0dsqlF	n %xxsql
+	s %xxsql("S",1)="DELETE FROM Fileserver . ""File"" WHERE Directory = :dir"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.File.CLS")
+	return
+%0dsqlH	n %xxsql
+	s %xxsql("S",1)="DELETE FROM Fileserver . ""File"" WHERE Directory %STARTSWITH :dir"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.File.CLS")
+	return
+DelFile(filedir,filename) [ SQLCODE,filedir,filename ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set st=1
+	 ;---&SQL(DELETE FROM Fileserver."File" WHERE Directory=:filedir and Name=:filename)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, filedir, filename
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EAxeP4Q3uIt6OpOgsjamVNizlAg","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EAxeP4Q3uIt6OpOgsjamVNizlAg"))||($ze["<ZSQLU>") { d %0dsqlJ } else { throw } }
+	if (SQLCODE'=0) {
+		set st = $System.Status.Error(5521, SQLCODE, filedir_filename)
+	}
+	quit st }
+ q
+%0dsqlJ	n %xxsql
+	s %xxsql("S",1)="DELETE FROM Fileserver . ""File"" WHERE Directory = :filedir AND Name = :filename"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.File.CLS")
+	return
+DelFileById(fileid) [ SQLCODE,fileid ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set st=1
+	 ;---&SQL(DELETE FROM Fileserver."File" WHERE ID=:fileid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, fileid
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eh2khTgDzaMNdV6G8oEHsSVmvE0","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eh2khTgDzaMNdV6G8oEHsSVmvE0"))||($ze["<ZSQLU>") { d %0dsqlL } else { throw } }
+	if (SQLCODE'=0) {
+		set st = $System.Status.Error(5521, SQLCODE, fileid)
+	}
+	quit st }
+ q
+%0dsqlL	n %xxsql
+	s %xxsql("S",1)="DELETE FROM Fileserver . ""File"" WHERE ID = :fileid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.File.CLS")
+	return
+DiffList(old,new,added,deleted) methodimpl {
+	set st=1
+	if ($LISTVALID(old)=0) quit $$Error^%apiOBJ(977,"old")
+	if ($LISTVALID(new)=0) quit $$Error^%apiOBJ(977,"new")
+    try {
+    	for i=1:1:$LISTLENGTH(old) 
+    	{
+    		set match=$LISTFIND(new,$LIST(old,i))
+    		if match'=0
+    		{
+	    		set $LIST(old,i)=""
+	    		set $LIST(new,match)=""
+    		}
+    	}
+    	set added=new
+    	set deleted=old
+    } catch ex {
+	    set st=ex.AsStatus()
+    }
+    quit st }
+Init(dir="") methodimpl {
+	if dir="" set dir=##class(%SYS.System).TempDirectory()
+	set ^Settings("user_files_dir")=dir
+	write !
+	zwrite ^Settings("user_files_dir")
+	set list("/csp/fileserver/files.csp")=""
+	do $system.OBJ.CompileList(.list)
+	new $namespace
+	set $namespace="%SYS"
+	set Status=##Class(Config.Startup).Get(.Properties)
+	set Url="http://"_$zu(110)_":52773/fileserver/files"
+	if Status set Url="http://"_$zu(110)_":"_$g(Properties("WebServerPort"),52773)_"/fileserver/files" 
+	write !,Url
+	quit 1 }
+ItsAllTheSameShit() methodimpl {
+	Set st=1
+	set st=1
+	set st=1 }
+UpdDir(dir,rec=1) methodimpl {
+	set st=1
+	try {
+		set dir=##class(%Library.File).NormalizeDirectory(dir)
+		if ##class(%Library.File).DirectoryExists(dir)
+		{ 		
+			set rs=##class(%Library.ResultSet).%New("%File.FileSet")
+ 			do rs.Execute(dir,"*",,1) // build result set of all files in dir
+ 			while rs.Next() {
+				if rs.Get("Type")'="D" //check for directories
+				{
+					set $list(dirfiles,*+1)=rs.Get("ItemName") // Build list of files in the folder
+				} else {
+					if (rec=1) {
+						do ..UpdDir(rs.Get("Name"),1)
+					}
+				}
+			}
+			// Build list of files in the database
+ 			set sql = "SELECT Name FROM Fileserver.""File"" WHERE Directory=?"
+  			set tStatement = ##class(%SQL.Statement).%New()	
+			set st = tStatement.%Prepare(sql)
+   			set rset = tStatement.%Execute(dir)
+   			while rset.%Next() {
+	   			set $list(basefiles,*+1)=rset.%Get("Name")
+     		}
+     		// Find differense between lists of files in database and directory
+			do ..DiffList(basefiles,dirfiles,.added,.deleted)
+			set ptr=0,count=0
+   			while $LISTNEXT(added,ptr,value) 
+   			{
+    			set count=count+1
+   				do ..AddFile(dir_value)
+   			}
+   			set ptr=0,count=0
+   			while $LISTNEXT(deleted,ptr,value) 
+   			{
+    			set count=count+1
+   				do ..DelFile(dir,value)
+   			}
+		} else {
+			set st = $$Error^%apiOBJ(5021,dir)
+		} 
+	} catch ex {
+		set st=ex.AsStatus()
+	}
+	quit st }
+DateCreatedGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Fileserver.FileD(id)),4),1:"") }
+DateCreatedIsValid(%val) methodimpl {
+	RETURN:$zu(115,13)&&(%val=$c(0)) 1
+	Set val=%val,%val=$select(%val=(%val\1):$zdate(%val,3,,,,,0,,"error")_" 00:00:00",%val?1.2N1":"2N1":"2N.1(1"."1.N):$zdate($h,3,,,,,0)_" "_%val,$length(%val)=10:%val_" 00:00:00",1:%val)
+	Quit:($length(%val)<19||($zdatetimeh(%val,3,,,,,,0,,"")="")) $$Error^%apiOBJ(7208,val)
+	Quit 1 }
+DateCreatedNormalize(%val) methodimpl {
+	Quit $s(%val="":"",$zu(115,13)&&(%val=$c(0)):"",%val=(%val\1):$zdate(%val,3,,,,,-672045,,"error")_" 00:00:00",%val?1.2N1":"2N1":"2N.1(1"."1.N):$zdate($h,3)_" "_$s(+$p(%val,".",2)=0:%val,1:$p(%val,".")_+("."_$e($p(%val,".",2),1,9))),$l(%val)=10:%val_" 00:00:00",$zdatetimeh(%val,3,,,,,,-672045,,"")="":"error",1:$zdatetime($zdatetimeh($p(%val,"."),3,,,,,,-672045,,""),3,,,,,,,-672045)_$s(+$p(%val,".",2)=0:"",1:+("."_$e($p(%val,".",2),1,9)))) }
+DateCreatedOdbcToLogical(%val) methodimpl {
+	Quit:%val="" ""
+	If $zdatetimeh(%val,3,,,,,,-672045,,"")'="" {
+		Set %val=$zdatetime($zdatetimeh(%val,3,,,,,,-672045),3,,$l($p(%val,".",2)),,,,,-672045)
+	} elseif $zdatetimeh(%val,-1,,,,,,-672045,,"")'="" {
+		Set %val=$zdatetime($zdatetimeh(%val,-1,,,,,,-672045),3,,$l($p(%val,".",2)),,,,,-672045)
+	}
+	Quit $s(%val'[".":%val,1:$zstrip($zstrip(%val,">","0"),">",".")) }
+DateModifiedGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Fileserver.FileD(id)),5),1:"") }
+DirectoryGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Fileserver.FileD(id)),7),1:"") }
+DownloadsGetObject(force=0) methodimpl {
+	Quit $select(r%Downloads=""&&($data(i%Downloads)):$select(i%Downloads="":"",1:$listbuild(i%Downloads_"")),(''..Downloads.%GetSwizzleObject(force,.oid)):oid,1:"") }
+DownloadsGetObjectId(force=0) methodimpl {
+	Quit $listget(..DownloadsGetObject(force)) }
+DownloadsGetSwizzled(noswizzle=0) methodimpl {
+	If r%Downloads'="" Quit r%Downloads
+	If i%Downloads'="" {
+		Set oid=$select(i%Downloads="":"",1:$listbuild(i%Downloads_""))
+		Set oref=##class("%Library.RelationshipObject").%Open(oid,,.sc) If ('sc)||(oref="") Do:$get(^%SYS("ThrowSwizzleError"),0) $zutil(96,3,19,1) Quit ""
+	} Else { Set oref=##class("%Library.RelationshipObject").%New($listbuild("Fileserver.Download","File",+$this,"many",1,1)) If oref="" Quit "" }
+	Set modstate=$system.CLS.GetModifiedBits() Set r%Downloads=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="Fileserver.Download"
+	Do oref.%SetModified(0)
+	Quit oref }
+DownloadsIsEmpty() methodimpl {
+	Quit $listget(..DownloadsGetObject(1))="" }
+DownloadsNewObject() methodimpl {
+	Set newobject=##class("%Library.RelationshipObject").%New($listbuild("Fileserver.Download","File",+$this,"many",1,1)) If newobject="" Quit ""
+	Set ..Downloads=newobject
+	Quit newobject }
+DownloadsRFetch(%qHandle,FetchCount=0,RowSet,ReturnCount,AtEnd) methodimpl {
+ Set ReturnCount=0,AtEnd=1,RowSet="" Quit 1 }
+DownloadsRelate(oref) methodimpl {
+	Quit ..Downloads.Relate(oref) }
+DownloadsSet(newvalue) methodimpl {
+	If newvalue="" {
+		If r%Downloads="",i%Downloads="" Quit 1
+	} Else {
+		If '$isobject(newvalue) Quit $$Error^%apiOBJ(5807,newvalue)
+		If r%Downloads=newvalue Quit 1
+		If r%Downloads="",i%Downloads'="",i%Downloads=$listget(newvalue."%%OID") Set modstate=$system.CLS.GetModifiedBits() Set r%Downloads=newvalue Do newvalue.FileRelate($this),$system.CLS.SetModifiedBits(modstate) Quit 1
+	}
+	Set r%Downloads=newvalue,i%Downloads=0,i%Downloads=""
+	Quit 1 }
+DownloadsUnRelate(oref) methodimpl {
+	Quit ..Downloads.UnRelate(oref) }
+ExtensionGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Fileserver.FileD(id)),2),1:"") }
+NameGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Fileserver.FileD(id)),6),1:"") }
+SizeDisplayToLogical(%val) methodimpl {
+	Q $select(%val="":"",%val=$c(0)&&$zu(115,13):"",1:$s($in(%val,"","")'="":+$in(%val,"",%val),1:%val)) }
+SizeGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Fileserver.FileD(id)),3),1:"") }
+SizeIsValid(%val) methodimpl {
+	Quit $select($isvalidnum(%val,0,-9223372036854775808,9223372036854775807):1,'$isvalidnum(%val):$$Error^%apiOBJ(7207,%val),%val<-9223372036854775808:$$Error^%apiOBJ(7204,%val,-9223372036854775808),1:$$Error^%apiOBJ(7203,%val,9223372036854775807)) }
+SizeNormalize(%val) methodimpl {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1) }
+ExtentClose(%qHandle) [ SQLCODE ] methodimpl {
+	New SQLCODE Set SQLCODE=0
+	Do:$isobject($get(%qHandle)) %qHandle.%Destruct() Kill %qHandle
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentExecute(%qHandle) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set sc=1
+	 ;---&sql(DECLARE QExtent CURSOR FOR
+ 	 ;---		 SELECT ID FROM %NOPARALLEL Fileserver.File)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	 
+	 ;---&sql(OPEN QExtent)
+	if $g(%qHandle)'="" { s SQLCODE=-101 } else { try { s %qHandle="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EPVFcApRA4gulnKjOpevBUrx0Lg",%qHandle=$classmethod(%qHandle,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%qHandle)),$ze'["<ZSQLU>" { throw } } if '$isobject(%qHandle) { s %qHandle=$$%0dsqlN() } }
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5821,"SQLCODE = "_SQLCODE_" %msg = "_$g(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentFetch(%qHandle,Row,AtEnd=0) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set Row="",AtEnd=0
+	 ;---&sql(FETCH QExtent INTO :c1)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+	If 'SQLCODE { Set Row=$lb(c1) Set sc=1 }
+	ElseIf SQLCODE=100 { Set AtEnd=1,sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) }
+	Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set AtEnd=1,sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	QUIT sc }
+ExtentFetchRows(%qHandle,FetchCount=0,RowSet,ReturnCount,AtEnd) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set RowSet="",ReturnCount=0,AtEnd=0
+	For {
+		 ;---&sql(FETCH QExtent INTO :c1)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+		if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+		If 'SQLCODE { Set RowSet=RowSet_$lb(c1),ReturnCount=ReturnCount+1 Quit:(ReturnCount=FetchCount)||(($l(RowSet)+($l(RowSet)\ReturnCount))>30000) } Else { Set AtEnd=1 Quit }
+	}
+	If 'SQLCODE { Set sc=1 } ElseIf SQLCODE=100 { Set sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) } Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	Quit sc }
+ExtentSendODBC(%qHandle,array,qacn,%qrc,piece,ColumnCount) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set %qrc=0,piece=0
+	for {
+		set rc=..ExtentFetch(.%qHandle,.row,.atend)
+		if ('rc) { set %qrc=-400 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=-400,%sqlcontext.Message=$g(%msg) do ProcessError^%ourProcedure(rc,$get(%sqlcontext),.%qrc,.%msg),Logerr^%SYS.SQLSRV(%qrc,"","SP",.%msg) RETURN  }
+		if row="" { set %qrc=100 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=100 RETURN  }
+		RETURN:$zobjexport(row,60)
+	}
+	RETURN }
+ q
+%0dsqlN()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE QExtent CURSOR FOR SELECT ID "
+	s %xxsql("S",2)="INTO  :i%sqlcol1"
+	s %xxsql("S",3)="FROM %NOPARALLEL Fileserver . File"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Runtime","","","Fileserver",0,"",),",1,QExtent,","Fileserver.File.CLS",1)
+	q %xxoref
+ExtentFunc() methodimpl {
+	try {
+		set tSchemaPath = ##class(%SQL.Statement).%ClassPath($classname())
+			set tStatement = ##class(%SQL.Statement).%New(,tSchemaPath)
+			do tStatement.prepare(" SELECT ID FROM %NOPARALLEL Fileserver . File /*#OPTIONS {""DynamicSQL"":1} */")
+		set tResult = tStatement.%Execute()
+	}
+	catch tException { if '$Isobject($Get(tResult)) { set tResult = ##class(%SQL.StatementResult).%New() } set tResult.%SQLCODE=tException.AsSQLCODE(),tResult.%Message=tException.AsSQLMessage() }
+	Quit tResult }
+ExtentGetInfo(colinfo,parminfo,idinfo,%qHandle,extoption=0,extinfo) methodimpl {
+ s parminfo=""
+	s:'($d(^oddCOM($classname(),"q","Extent",21),clientinfo)#2)&&'$s($d(^(2),clientinfo)#2&&(clientinfo'=$classname()):$d(^oddCOM(clientinfo,"q","Extent",21),clientinfo)#2||($d(^oddDEF(clientinfo,"q","Extent",21),clientinfo)#2),1:$d(^oddDEF($classname(),"q","Extent",21),clientinfo)#2) clientinfo=""
+	Set:extoption extinfo=$s($d(^oddCOM($classname(),"q","Extent",38))#2:^(38),$d(^oddCOM($g(^(2),$classname()),"q","Extent",38))#2:^(38),1:$s($d(^oddDEF($g(^oddCOM($classname(),"q","Extent",2),$classname()),"q","Extent",38))#2:^(38),1:""))
+	If clientinfo'="" Set colinfo=$listget(clientinfo,1),parminfo=$listget(clientinfo,2),idinfo=$listget(clientinfo,3) Quit 1
+	Set colinfo="",parminfo="",idinfo=$listbuild(0)
+	Set sc=$$externaltype^%apiOLE("%Library.Integer",.exttypes,"0")
+	Quit:('sc) sc
+	s:'($d(^oddCOM($classname(),"q","Extent",23),names)#2)&&'$s($d(^(2),names)#2&&(names'=$classname()):$d(^oddCOM(names,"q","Extent",23),names)#2||($d(^oddDEF(names,"q","Extent",23),names)#2),1:$d(^oddDEF($classname(),"q","Extent",23),names)#2) names=""
+	s:'($d(^oddCOM($classname(),"q","Extent",22),captions)#2)&&'$s($d(^(2),captions)#2&&(captions'=$classname()):$d(^oddCOM(captions,"q","Extent",22),captions)#2||($d(^oddDEF(captions,"q","Extent",22),captions)#2),1:$d(^oddDEF($classname(),"q","Extent",22),captions)#2) captions=""
+	For i=1:1:1 Set colinfo=colinfo_$listbuild($listbuild($listget(names,i),$piece(exttypes,",",i),$listget(captions,i)))
+	Set idinfo=$listbuild(1,$classname())
+	s ^oddCOM($classname(),"q","Extent",21)=$listbuild(colinfo,parminfo,idinfo)
+	Quit 1 }
+zExtentGetODBCInfo(colinfo,parminfo,qHandle) methodimpl
+	Set metadata=$lb(1,1,"ID",4,10,0,2,"ID","File","Fileserver","",$c(0,0,0,0,0,0,0,0,0,0,0,1,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	Set colinfo=$li(metadata,2,2+cmdlen)
+	Quit 1
+DirNameCheckUnique(id="",pValue...) [ SQLCODE,id,pValue ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	if ($Get(pValue(1))'="")&&($Get(pValue(2))'="") {
+		 ;---&sql(SELECT 1 as _PassFail FROM Fileserver.File WHERE Directory = :pValue(1) AND Name = :pValue(2) AND %ID <> :id)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, id, pValue
+		try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EtU6fDUQosqQZ91ovIrqgiTJH5t","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EtU6fDUQosqQZ91ovIrqgiTJH5t"))||($ze["<ZSQLU>") { d %0dsqlR } else { throw } }
+		Quit SQLCODE=100
+	} else { quit 1 } }
+ q
+%0dsqlR	n %xxsql
+	s %xxsql("S",1)="SELECT 1 AS _PassFail FROM Fileserver . File WHERE Directory = :pValue(1) AND Name = :pValue(2) AND %ID <> :id"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.File.CLS")
+	return
+DirNameCheck(K1,K2,lockonly=0,concurrency=-1) methodimpl {
+	s exists=..DirNameExists(K1,K2,.id) q:'exists $s('lockonly:$$Error^%apiOBJ(5797,$classname(),"DirName",K1_"||"_K2),1:1) s:concurrency=-1 concurrency=$select(..#DEFAULTCONCURRENCY="$zu(115,10)":$zu(115,10),1:$xecute("q "_..#DEFAULTCONCURRENCY)) if concurrency { s status=..%LockId(id,1) q:('status) status } if 'lockonly { s exists=..DirNameExists(K1,K2,.idcheck) d:concurrency ..%UnlockId(id,1,0) quit $s(('exists)||(id'=idcheck):$$Error^%apiOBJ(5797,$classname(),"DirName",K1_"||"_K2),1:1) } else { d:concurrency ..%UnlockId(id,1,0) q 1 }
+}
+DirNameDelete(K1,K2,concurrency=-1) methodimpl {
+	i ..DirNameExists(K1,K2,.id){ s sc=..%DeleteId(id,concurrency) } Else { s sc=$$Error^%apiOBJ(5771,"DirName",K1_":"_K2) }
+	QUIT sc }
+DirNameExists(K1,K2,id="") [ K1,K2,SQLCODE,id ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	 ;---&sql(SELECT %ID INTO :id FROM Fileserver.File WHERE ((Directory=:K1 OR Directory IS NULL) AND (Directory=:K1 or (:K1 IS NULL AND Directory IS NULL))) AND ((Name=:K2 OR Name IS NULL) AND ((Name=:K2) OR (:K2 IS NULL AND Name IS NULL))))
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, K1, K2, SQLCODE, id
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EPFygsF3A7ACc67hNJ8NgJNgCOg","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EPFygsF3A7ACc67hNJ8NgJNgCOg"))||($ze["<ZSQLU>") { d %0dsqlT } else { throw } }
+	Quit $select('SQLCODE:1,1:0) }
+ q
+%0dsqlT	n %xxsql
+	s %xxsql("S",1)="SELECT %ID INTO :id FROM Fileserver . File WHERE ( ( Directory = :K1 OR Directory IS NULL ) AND ( Directory = :K1 OR ( :K1 IS NULL AND Directory IS NULL ) ) ) AND ( ( Name = :K2 OR Name IS NULL ) AND ( ( Name = :K2 ) OR ( :K2 IS NULL AND Name IS NULL ) ) )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.File.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set id="" } catch {} }
+	return
+DirNameOpen(K1,K2,concurrency=-1,sc) methodimpl { s:'($d(sc)#2) sc=1
+ i ..DirNameExists(K1,K2,.id){ s return=..%OpenId(id,concurrency,.sc) } Else { s sc=$$Error^%apiOBJ(5770,"DirName",K1_":"_K2),return="" }
+ QUIT return }
+zDirNameSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::DirNameSQLCheckUnique")
+zDirNameSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key DirName.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=..DirNameSQLFindRowIDByConstraint($lb(%pVal(1),%pVal(2)),1) RETURN:SQLCODE $s('pLockOnly:0,1:1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"Fileserver"_"."_"File"_":"_"DirName") RETURN 0 } }
+	if pLockOnly<1 {
+		new exists set exists=$d(^Fileserver.FileI("DirName",$zu(28,%pVal(1),7),$zu(28,%pVal(2),7))) RETURN:pLockOnly=-1 exists
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN exists
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN 1 }
+	Return
+zDirNameSQLFindPKeyByConstraint(%con) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::DirNameSQLFindPKeyByConstraint")
+zDirNameSQLFindRowIDByConstrain(%con,pInternal=0) methodimpl
+	// Get ROWID value for UNIQUE Key DirName value given in %con
+	new %d,id,rtm set rtm=$zu(115,5,$s(pInternal:0,1:1)) set %d(4)=$lg(%con,1) set %d(6)=$lg(%con,2)
+	set %ROWCOUNT=0 set:'pInternal %qrc=0
+	 ;---&sql(SELECT %ID INTO :id FROM Fileserver.File WHERE Directory = :%d(4) AND Name = :%d(6))
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %d, %msg, SQLCODE, id
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EQSrh2WCTIRSISSjxH5tjkMn4Cn","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EQSrh2WCTIRSISSjxH5tjkMn4Cn"))||($ze["<ZSQLU>") { d %0dsqlV } else { throw } }
+	do $zu(115,5,rtm)
+	if pInternal { QUIT:'SQLCODE $g(id) RETURN "" }
+	if SQLCODE { set:SQLCODE<0 %qrc=-SQLCODE set:'%ROWCOUNT&&(SQLCODE=100) id="",%qrc=0 } set d=$zobjexport(id,18) QUIT
+	Return
+ q
+%0dsqlV	n %xxsql
+	s %xxsql("S",1)="SELECT %ID INTO :id FROM Fileserver . File WHERE Directory = :%d(4) AND Name = :%d(6)"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%occErrors")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Runtime","","","Fileserver",0,"",),,"Fileserver.File.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set id="" } catch {} }
+	return
+IDKEYCheck(K1,lockonly=0,concurrency=-1) methodimpl {
+	s id=K1,exists=..%ExistsId(id) q:'exists $s('lockonly:$$Error^%apiOBJ(5797,$classname(),"IDKEY",id),1:1) s:concurrency=-1 concurrency=$select(..#DEFAULTCONCURRENCY="$zu(115,10)":$zu(115,10),1:$xecute("q "_..#DEFAULTCONCURRENCY)) if concurrency { s status=..%LockId(id,1) q:('status) status } if 'lockonly { s exists=..%ExistsId(id) d:concurrency ..%UnlockId(id,1,0) quit $s('exists:$$Error^%apiOBJ(5797,$classname(),"IDKEY",id),1:1) } else { d:concurrency ..%UnlockId(id,1,0) q 1 }
+}
+IDKEYDelete(K1,concurrency=-1) methodimpl {
+	Quit ..%DeleteId(.K1,concurrency) }
+IDKEYExists(K1,id="") methodimpl {
+	s id=K1 q ..%ExistsId(K1) }
+IDKEYOpen(K1,concurrency=-1,sc) methodimpl { s:'($d(sc)#2) sc=1
+	Quit ..%OpenId(.K1,concurrency,.sc) }
+zIDKEYSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLCheckUnique")
+zIDKEYSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key IDKEY.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"Fileserver"_"."_"File"_":"_"IDKEY") RETURN 0 } }
+	if pLockOnly<1 {
+		new exists set exists=$d(^Fileserver.FileD(%pVal(1))) RETURN:pLockOnly=-1 exists
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN exists
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN 1 }
+	Return
+zIDKEYSQLFindPKeyByConstraint(%con) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLFindPKeyByConstraint")
+zIDKEYSQLFindRowIDByConstraint(%con,pInternal=0) methodimpl
+ QUIT $$Error^%apiOBJ(5758,"%Persistent::IDKEYSQLFindRowIDByConstraint")
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlC")="",t("%0dsqlF")="",t("%0dsqlH")="",t("%0dsqlJ")="",t("%0dsqlL")="",t("%0dsqlN")="",t("%0dsqlR")=""
+	s t("%0dsqlT")="",t("%0dsqlV")=""
+}

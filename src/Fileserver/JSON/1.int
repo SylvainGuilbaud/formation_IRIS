@@ -1,0 +1,115 @@
+ROUTINE Fileserver.JSON.1 [Type=INT,Generated]
+ ;Fileserver.JSON.1
+ ;Generated for class Fileserver.JSON.  Do NOT edit. 12/27/2023 09:50:21AM
+ ;;32315370;Fileserver.JSON
+ ;
+DownloadFile(DownloadId) [ DownloadId,SQLCODE,dateactive,dcount,fdir,fname,fsize,ip ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,dateactive,dcount,fdir,fname,fsize,ip 
+	try {
+		 ;---&SQL(SELECT "File"->"Name","File"->"Directory","File"->"Size","IP","DownloadCount","DateActiveUntil" INTO :fname, :fdir, :fsize, :ip,:dcount,:dateactive FROM Fileserver.Download WHERE DownloadID=:DownloadId)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, DownloadId, SQLCODE, dateactive, dcount, fdir, fname, fsize, ip
+		try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EMFNxdUUeiGPPAyT0nAf2777ToZ","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EMFNxdUUeiGPPAyT0nAf2777ToZ"))||($ze["<ZSQLU>") { d %0dsqlA } else { throw } }
+		if (SQLCODE=0)
+		{
+			if ((ip=%request.GetCgiEnv("REMOTE_ADDR")) && ($ZDATETIMEH(dateactive,3,1)>$HOROLOG))
+			{
+				//w $ZDATETIMEH(dateactive,3,1)," ",$HOROLOG
+				set dcount=dcount+1
+				 ;---&SQL(UPDATE Fileserver.Download SET "DownloadCount"=:dcount WHERE DownloadID=:DownloadId)
+ 				 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, DownloadId, SQLCODE, dcount
+				try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EBI7Rz0P9ToSZXSKgd8o1TqMCrW","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EBI7Rz0P9ToSZXSKgd8o1TqMCrW"))||($ze["<ZSQLU>") { d %0dsqlC } else { throw } }
+				//set %response.ContentLength=fsize
+				set %response.ContentType="application/octet-stream"
+				do %response.SetHeader("Content-Disposition","attachment; filename="""_fname_"""")
+				set stream=##class(%Library.FileBinaryStream).%New()
+				set stream.Filename=fdir_fname
+				while 'stream.AtEnd {
+				set line=stream.Read()
+					write line
+				}
+			}
+			else {
+				set st=$System.Status.Error(5001,"Download time limit exceeded, or another IP")
+			}
+		} else {
+			set st = $System.Status.Error(5521, SQLCODE, "DownloadID not found")
+		}
+	}catch ex {
+		set st=$select(+$System.Status.Error(5001,ex.AsSystemError()): st,1:$$AppendStatus^%occSystem($System.Status.Error(5001,ex.AsSystemError()), st))
+	}
+	quit st }
+ q
+%0dsqlA	n %xxsql
+	s %xxsql("S",1)="SELECT ""File"" -> ""Name"" , ""File"" -> ""Directory"" , ""File"" -> ""Size"" , ""IP"" , ""DownloadCount"" , ""DateActiveUntil"" INTO :fname , :fdir , :fsize , :ip , :dcount , :dateactive FROM Fileserver . Download WHERE DownloadID = :DownloadId"
+	s %xxsql("I","%occErrors")="",%xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.JSON.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set fname="",fdir="",fsize="",ip="",dcount="",dateactive="" } catch {} }
+	return
+%0dsqlC	n %xxsql
+	s %xxsql("S",1)="UPDATE Fileserver . Download SET ""DownloadCount"" = :dcount WHERE DownloadID = :DownloadId"
+	s %xxsql("I","%occErrors")="",%xxsql("I","%systemInclude")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","Fileserver",0,"",),,"Fileserver.JSON.CLS")
+	return
+FileListToJSON() methodimpl {
+		set st=1
+		try{
+			do ##class(%ZEN.Auxiliary.jsonSQLProvider).%WriteJSONFromSQL(,"SELECT ID, Name, Size, Extension FROM Fileserver.File")
+		} catch ex{
+			set st=ex.AsStatus()
+		}
+    	quit st }
+GenerateDownload(FileID) methodimpl {
+	set download=##class(Fileserver.Download).%New()
+	set download.DateCreated=$ZDATETIME($NOW(),3)
+	set download.DateActiveUntil=$ZDATETIME(($PIECE($NOW(),",",1)+1)_","_$PIECE($NOW(),",",2),3) // Active for 24 hours
+	set download.IP=%request.GetCgiEnv("REMOTE_ADDR")
+	set download.File=##class(Fileserver.File).%OpenId(FileID)
+	do download.DownloadIDGenerate()
+	set DownloadID = download.DownloadID
+	do download.%Save()
+	kill download
+	quit DownloadID }
+RequestFile(FileID) methodimpl {
+	set FileID=$ZSTRIP(FileID,"*E'N")
+	if (..CheckPermission(FileID))
+	{
+		set DownloadId=..GenerateDownload(FileID)
+		set DownloadLink="/fileserver/download/"_DownloadId
+		Write "",!
+	Write "		<html>",!
+	Write "		<body style=""text-align: center;"">",!
+	Write "		<button onclick=""history.back()"">Go Back</button>",!
+	Write "			<h2>Your download is ready</h2>",!
+	Write "			<h3>Active only for your IP for the next 24 hours</h3>",!
+	Write "			<a href="""_(DownloadLink)_""">Click to start your download</a>",!
+	Write "		</body>",!
+	Write "		</html>			",!
+	Write "		",! 
+	}
+	quit 1 }
+UploadFile() methodimpl {
+	Set st=1
+	try {	
+ 		set Location=$g(^Settings("user_files_dir"),"C:\UserFiles\")
+		set Stream =%request.GetMimeData("fotofile0",1)
+		set Name=$p(Stream.FileName,".",0,*-1)
+		set Extension=$p(Stream.FileName,".",*)
+		set FileName=Location_Name_"."_Extension
+		set counter = 1
+		while ##class(%Library.File).Exists(FileName) 
+		{
+			set FileName=Location_Name_"_("_counter_")."_Extension
+			set counter=counter+1
+		}
+		set file=##class(%Stream.FileBinary).%New()
+		set file.Filename=FileName
+		do file.CopyFromAndSave(Stream)
+		do ##class(Fileserver.File).AddFile(FileName)
+		kill file
+	}catch ex {
+		set st=$select(+$System.Status.Error(5001,ex.AsSystemError()): st,1:$$AppendStatus^%occSystem($System.Status.Error(5001,ex.AsSystemError()), st))
+	}
+	quit st }
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlC")=""
+}
