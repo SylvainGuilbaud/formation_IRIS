@@ -9,7 +9,8 @@ Property quantity As %Integer(MAXVAL = 100, MINVAL = 1);
 
 Property ts As %TimeStamp [ InitialExpression = {$zdt($now(),3,,6)} ];
 
-/// Description
+/// init
+/// w ##class(pagination.sample).init()
 ClassMethod init(nb As %Integer = 1000000, reset As %Boolean = 1) As %Status
 {
    
@@ -22,28 +23,45 @@ ClassMethod init(nb As %Integer = 1000000, reset As %Boolean = 1) As %Status
     Return sc
 }
 
-/// Description
+/// get
 Query get(min As %Integer, max As %Integer) As %SQLQuery [ SqlProc ]
 {
-        select %ID,code,name,quantity,ts
-        from pagination.sample 
-        where %ID in (
-            SELECT * FROM (
-                SELECT %ID FROM pagination.sample
-                WHERE code='C1' 
-                AND name='P2'
-                AND quantity between 80 and 100
-                ) 
-            WHERE %VID BETWEEN :min AND :max)
+    select TOP 10 %ID,code,name,quantity,ts
+    from pagination.sample 
+    where %ID in (
+        SELECT * FROM (
+            SELECT %ID FROM pagination.sample
+            WHERE code='C1' 
+            AND name='P2'
+            AND quantity between 80 and 100
+            ) 
+        WHERE %VID BETWEEN :min AND :max)
 }
 
 /// Description
+Query top(min As %Integer = 1, max As %Integer = 5) As %SQLQuery [ SqlProc ]
+{
+  SELECT *
+   FROM (SELECT TOP 10 *
+         FROM pagination.sample
+        WHERE code='C1' 
+        AND name='P2'
+        AND quantity between 80 and 100
+        ORDER BY ts)
+   WHERE %VID BETWEEN :min AND :max
+}
+
+/// test
+/// w ##class(pagination.sample).test()
+/// w ##class(pagination.sample).test(1,5)
+/// w ##class(pagination.sample).test(6,10)
+/// w ##class(pagination.sample).test(11,15)
 ClassMethod test(min As %Integer = 1, max As %Integer = 5) As %Status
 {
     Try {
         set sc = $$$OK,start=$zh
         set tStatement = ##class(%SQL.Statement).%New()
-        set sc=tStatement.%PrepareClassQuery("pagination.sample","get")
+        set sc=tStatement.%PrepareClassQuery("pagination.sample","top")
         if 'sc {
             do $System.Status.DisplayError(sc)
             quit
@@ -52,7 +70,6 @@ ClassMethod test(min As %Integer = 1, max As %Integer = 5) As %Status
             do rset.%Display()  
             set elapse = $zh-start
             write !,"rows ",min," and ",max," retrieved in ",elapse," seconds",!
-            write !,$zv,!
         }
     }
     Catch ex {
@@ -60,6 +77,21 @@ ClassMethod test(min As %Integer = 1, max As %Integer = 5) As %Status
         do $System.Status.DisplayError(sc)
     }
 
+    Return sc
+}
+
+/// run
+/// w ##class(pagination.sample).run()
+/// w ##class(pagination.sample).run(10)
+/// w ##class(pagination.sample).run(50)
+ClassMethod run(nb As %Integer = 10, pagesize As %Integer = 10) As %Status
+{
+    set sc = $$$OK
+    for i=1:1:nb {
+        set min = i-1+pagesize,max = min-1+pagesize
+        do ..test(min,max)
+    }
+    write !,$zv,!
     Return sc
 }
 

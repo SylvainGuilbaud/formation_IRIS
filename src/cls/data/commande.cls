@@ -1,6 +1,12 @@
 Class data.commande Extends (%Persistent, %Populate, %JSON.Adaptor, %XML.Adaptor)
 {
 
+/// Description
+ClassMethod getRandom(n As %Integer) As %Integer [ SqlProc ]
+{
+    Return $random(n)+3
+}
+
 // Index uniqueID On orderStatus [ Unique ];
 
 Index orderCurrencyIndex On orderCurrency [ Type = bitmap ];
@@ -8,7 +14,7 @@ Index orderCurrencyIndex On orderCurrency [ Type = bitmap ];
 // Index orderCurrencyIndex On orderCurrency;
 
 /// order status
-Property orderStatus As %String(MAXLEN = 128);
+Property orderStatus As %String(MAXLEN = 128, VALUELIST = ",annulé,approuvé,en cours");
 
 Property requestedShipDate As %TimeStamp [ InitialExpression = {$zdt($h+$r(21)+5,3)} ];
 
@@ -17,7 +23,7 @@ Property requestedShipDate As %TimeStamp [ InitialExpression = {$zdt($h+$r(21)+5
 Property requestedDeliveryDate As %TimeStamp [ InitialExpression = {$zdt($h+$r(21)+15,3)} ];
 
 /// order placed date
-Property orderPlacedDate As %TimeStamp [ InitialExpression = {$zdt($h+$r(21)+1,3)} ];
+Property orderPlacedDate As %TimeStamp [ InitialExpression = {$zdt($h-$r(100)-10,3)} ];
 
 /// order value
 Property orderValue As %Numeric;
