@@ -62,7 +62,7 @@
  if 'sc {
     set ^["USER"]TRACE($zdt($now(),3,,6),"Web App "_webName)=$lb($system.Status.GetErrorCodes(sc),$system.Status.GetErrorText(sc))
  } else {
-    set ^["USER"]TRACE$zdt($now(),3,,6),"Web App "_webName)="successful"
+    set ^["USER"]TRACE($zdt($now(),3,,6),"Web App "_webName)="successful"
  }
  
  set webName = "/crud"
