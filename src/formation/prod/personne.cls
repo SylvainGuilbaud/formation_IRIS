@@ -73,8 +73,6 @@ XData ProductionDefinition
     <Setting Target="Host" Name="ArchiveIO">1</Setting>
     <Setting Target="Adapter" Name="Credentials">email</Setting>
   </Item>
-  <Item Name="EP.operation.replication" Category="" ClassName="EP.operation.replication" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
-  </Item>
   <Item Name="traitementsXML" Category="" ClassName="EnsLib.MsgRouter.VDocRoutingEngine" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">MT.rules.traitementsXML</Setting>
   </Item>
