@@ -3,7 +3,7 @@ info:
   description: ''
   version: ''
   x-ISC_Namespace: IRISAPP
-host: localhost:12773
+host: localhost:52773
 securityDefinitions:
   basicAuth:
     type: basic

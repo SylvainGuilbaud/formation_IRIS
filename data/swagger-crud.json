@@ -6,7 +6,7 @@
     "x-ISC_Namespace": "IRISAPP"
   },
   "basePath": "/crud",
-  "host": "localhost:12773",
+  "host": "localhost:52773",
   "schemes": [
     "http",
     "https"

@@ -13,7 +13,7 @@ ClassMethod post(filename As %String = "/data/143.xml", classname As %String = "
         #; set httpRequest.Server = "172.30.0.200"
         set httpRequest.Server = "host.docker.internal"
         set httpRequest.Port = 80
-        #;  set httpRequest.Port = 12773
+        #;  set httpRequest.Port = 52773
         set httpRequest.Username = "_system"
         set httpRequest.Password = "SYS"
         set httpRequest.Timeout = 5
@@ -27,7 +27,7 @@ ClassMethod post(filename As %String = "/data/143.xml", classname As %String = "
 
         set ^post($i(post),"size") = httpRequest.EntityBody.Size
 
-        #; set sc=httpRequest.Post("http://host.docker.internal:12773/common/import/" _ classname)
+        #; set sc=httpRequest.Post("http://host.docker.internal:52773/common/import/" _ classname)
 
 
         #; set sc = httpRequest.Get("http://" _ httpRequest.Server _ ":" _ httpRequest.Port _ "/api/atelier/")

@@ -819,7 +819,7 @@ ClassMethod spec() As %Status
   Set swagger.basePath = "/common"
   Set swagger.info.title = "InterSystems IRIS COMMON"
   Set swagger.info.version = "0.1"
-  Set swagger.host = "localhost:12773"
+  Set swagger.host = "localhost:52773"
   Return ..%ProcessResult($$$OK, swagger)
 }
 

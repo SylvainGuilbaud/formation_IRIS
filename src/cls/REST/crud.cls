@@ -9,7 +9,6 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
 <Route Url="/" Method="GET" Call="version"/>
-<Route Url="/ipc" Method="GET" Call="version"/>
 <Route Url="/api/:classname" Method="GET" Call="readAll"/>
 <Route Url="/api/:classname" Method="POST" Call="create"/>
 <Route Url="/api/:classname/:id" Method="GET" Call="read"/>
@@ -278,7 +277,7 @@ ClassMethod spec() As %Status
   Set swagger.basePath = "/crud"
   Set swagger.info.title = "InterSystems IRIS CRUD demo"
   Set swagger.info.version = "0.1"
-  Set swagger.host = "localhost:12773"
+  Set swagger.host = "localhost:52773"
   Return ..%ProcessResult($$$OK, swagger)
 }
 
