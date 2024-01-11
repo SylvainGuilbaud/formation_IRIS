@@ -24,6 +24,7 @@ services:
     volumes:
       - ./data:/data
       - ./jdbc:/jdbc
+      - ./:/home/irisowner/dev
       # - ./src:/app/src
       # - ./:/home/irisowner/dev
       # - ./volumes/irisdata:/irisdata
