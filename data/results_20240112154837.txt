@@ -3,24 +3,24 @@
 Directory: /data/unittests/Test3/
 ===============================================================================
   Test3 begins ...
-Load of directory started on 01/12/2024 15:43:28 '*.xml;*.XML;*.cls;*.mac;*.int;*.inc;*.CLS;*.MAC;*.INT;*.INC'
+Load of directory started on 01/12/2024 15:48:37 '*.xml;*.XML;*.cls;*.mac;*.int;*.inc;*.CLS;*.MAC;*.INT;*.INC'
 
 Loading file /data/unittests/Test3/BasicTests.cls as udl
-Loading file /data/unittests/Test3/PaymentTests.cls as udl
 Loading file /data/unittests/Test3/Utilities.cls as udl
 Loading file /data/unittests/Test3/TestCase.cls as udl
+Loading file /data/unittests/Test3/PaymentTests.cls as udl
 
-Compilation started on 01/12/2024 15:43:28
+Compilation started on 01/12/2024 15:48:37
 Compiling 4 classes
 Compiling class FCE.Tests.Utilities
 Compiling class FCE.Tests.TestCase
 Compiling class FCE.Tests.PaymentTests
 Compiling class FCE.Tests.BasicTests
-Compiling routine FCE.Tests.Utilities.1
 Compiling routine FCE.Tests.TestCase.1
+Compiling routine FCE.Tests.Utilities.1
 Compiling routine FCE.Tests.PaymentTests.1
 Compiling routine FCE.Tests.BasicTests.1
-Compilation finished successfully in 0.058s.
+Compilation finished successfully in 0.059s.
 
 Load finished successfully.
 
@@ -35,7 +35,7 @@ Load finished successfully.
         AssertStatusNotOK:Balance must be >= 0 (passed)
         AssertStatusOK:New account holder saved (passed)
         AssertStatusOK:New account holder deleted (passed)
-        LogMessage:Duration of execution: .012784 sec.
+        LogMessage:Duration of execution: .016417 sec.
       TestAccountHolder passed
       TestAccountHolderSQL() begins ...
         AssertEquals:Email is required (passed)
@@ -45,7 +45,7 @@ Load finished successfully.
         AssertEquals:Balance must be >= 0 (passed)
         AssertEquals:New account holder saved: (passed)
         AssertEquals:New account holder deleted (passed)
-        LogMessage:Duration of execution: .011096 sec.
+        LogMessage:Duration of execution: .008878 sec.
       TestAccountHolderSQL passed
       TestBranch() begins ...
         AssertTrue:Created New Branch (passed)
@@ -59,7 +59,7 @@ Load finished successfully.
         AssertStatusOK:Branch saved (passed)
         AssertNotEquals:ID assigned (passed)
         AssertStatusOK:Branch deleted (passed)
-        LogMessage:Duration of execution: .072239 sec.
+        LogMessage:Duration of execution: .105235 sec.
       TestBranch passed
       TestBranchSQL() begins ...
         AssertEquals:Phone is required (passed)
@@ -71,7 +71,7 @@ Load finished successfully.
         AssertEquals:Branch saved (passed)
         AssertNotEquals:ID assigned (passed)
         AssertEquals:Branch deleted (passed)
-        LogMessage:Duration of execution: .010897 sec.
+        LogMessage:Duration of execution: .04857 sec.
       TestBranchSQL passed
       TestCurrenciesATMs() begins ...
         AssertStatusNotOK:Currency Balance must be <= 1000000 (passed)
@@ -84,7 +84,7 @@ Load finished successfully.
         AssertEquals:Branch's original 2nd ATM deleted (passed)
         AssertEquals:Branch's original 3rd ATM now in position 2 (passed)
         AssertStatusOK:Branch deleted (passed)
-        LogMessage:Duration of execution: .012637 sec.
+        LogMessage:Duration of execution: .015644 sec.
       TestCurrenciesATMs passed
       TestCurrenciesSQL() begins ...
         AssertEquals:Currency Balance must be <= 1000000 (passed)
@@ -93,7 +93,7 @@ Load finished successfully.
         AssertEquals:Branch has one Currency Balance (passed)
         AssertEquals:Currency Balance removed (passed)
         AssertEquals:Branch deleted (passed)
-        LogMessage:Duration of execution: .007397 sec.
+        LogMessage:Duration of execution: .012171 sec.
       TestCurrenciesSQL passed
       TestCurrencyOrder() begins ...
         AssertStatusOK:Branch saved (passed)
@@ -116,7 +116,7 @@ Load finished successfully.
         AssertStatusOK:Order 1 deleted (passed)
         AssertStatusOK:Order 2 deleted (passed)
         AssertStatusOK:Branch deleted (passed)
-        LogMessage:Duration of execution: .028406 sec.
+        LogMessage:Duration of execution: .029939 sec.
       TestCurrencyOrder passed
       TestCurrencyOrderSQL() begins ...
         AssertEquals:Branch saved (passed)
@@ -127,7 +127,7 @@ Load finished successfully.
         AssertEquals:Branch can't be deleted while it has orders (passed)
         AssertEquals:Order 1 deleted (passed)
         AssertEquals:Branch deleted (passed)
-        LogMessage:Duration of execution: .008438 sec.
+        LogMessage:Duration of execution: .011202 sec.
       TestCurrencyOrderSQL passed
       TestRealEstate() begins ...
         AssertStatusNotOK:Real Estate requires all 4 properties (passed)
@@ -145,7 +145,7 @@ Load finished successfully.
         AssertStatusOK:Real Estate deleted (passed)
         AssertEquals:Branch not linked to Real Estate (passed)
         AssertStatusOK:Branch deleted (passed)
-        LogMessage:Duration of execution: .028023 sec.
+        LogMessage:Duration of execution: .027458 sec.
       TestRealEstate passed
       TestRealEstateSQL() begins ...
         AssertEquals:Real Estate requires all 4 properties (passed)
@@ -163,7 +163,7 @@ Load finished successfully.
         AssertEquals:Real Estate ID retrieved (passed)
         AssertEquals:Branch not linked to Real Estate (passed)
         AssertEquals:Branch deleted (passed)
-        LogMessage:Duration of execution: .019639 sec.
+        LogMessage:Duration of execution: .01861 sec.
       TestRealEstateSQL passed
       TestUpdateBranch() begins ...
         AssertStatusNotOK:ERROR #5001: Not enough stock in branch for EUR (passed)
@@ -184,5 +184,53 @@ Load finished successfully.
         AssertStatusNotOK:Invalid incoming currency (passed)
         AssertEquals:Outgoing currency remains the same (passed)
         AssertEquals:Incoming currency remains the same (passed)
-        LogMessage:Duration of execution: .092342 sec.
+        LogMessage:Duration of execution: .079416 sec.
       TestUpdateBranch passed
+    FCE.Tests.BasicTests passed
+    FCE.Tests.PaymentTests begins ...
+Error code(s): 100 100
+      TestAccountPayment() begins ...
+        AssertTrue:Create new account payment (passed)
+        AssertNotEquals:New account payment saved by Process() method (passed)
+        AssertNotEquals:Message Generated: "Re: your request of: 95 EUR, at an exchange rate of: 0 EUR per 1 USD (Verification ID: V339)...
+Thank you, John Smith, for your account payment of 100 USD." (passed)
+        AssertStatusOK:Order saved (passed)
+        AssertStatusNotOK:Foreign key constraint prevents account payment deletion (passed)
+        AssertStatusOK:Payment removed from order (passed)
+        AssertStatusOK:New account payment deleted (passed)
+        LogMessage:Duration of execution: .008543 sec.
+      TestAccountPayment passed
+      TestCCPayment() begins ...
+        AssertTrue:Create new credit card payment (passed)
+        AssertStatusNotOK:Type must be Visa,MC,etc. (passed)
+        AssertStatusNotOK:Number must match pattern (passed)
+        AssertStatusOK:New credit card payment valid (passed)
+        AssertNotEquals:New credit card payment saved by Process() method (passed)
+        AssertNotEquals:Message Generated: "Re: your request of: 95 EUR, at an exchange rate of: 0 EUR per 1 USD (Verification ID: K2574)...
+Visa transaction for 100 USD completed (card ending in 1234)." (passed)
+        AssertStatusOK:Order saved (passed)
+        AssertStatusNotOK:Foreign key constraint prevents credit card payment deletion (passed)
+        AssertStatusOK:Payment removed from order (passed)
+        AssertStatusOK:New credit card payment deleted (passed)
+        LogMessage:Duration of execution: .010339 sec.
+      TestCCPayment passed
+      TestCashPayment() begins ...
+        AssertTrue:Create new cash payment (passed)
+        AssertNotEquals:New cash payment saved by Process() method (passed)
+        AssertNotEquals:Message Generated: "Re: your request of: 95 EUR, at an exchange rate of: 0 EUR per 1 USD (Verification ID: J7925)...
+Cash payment of 100 USD verified." (passed)
+        AssertStatusOK:Order saved (passed)
+        AssertStatusNotOK:Foreign key constraint prevents cash payment deletion (passed)
+        AssertStatusOK:Payment removed from order (passed)
+        AssertStatusOK:New cash payment deleted (passed)
+        LogMessage:Duration of execution: .007959 sec.
+      TestCashPayment passed
+    FCE.Tests.PaymentTests passed
+    FCE.Tests.TestCase begins ...
+    FCE.Tests.TestCase passed
+  Test3 passed
+
+Use the following URL to view the result:
+http://172.0.0.10:52773/csp/sys/%25UnitTest.Portal.Indices.cls?Index=22&$NAMESPACE=IRISAPP
+All PASSED
+END RESULTS 2024-01-12 15:48:38
