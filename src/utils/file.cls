@@ -11,7 +11,7 @@ Parameter EXTENSION = ".txt";
 ClassMethod results() As %Status
 {
         set sc = $$$OK
-        SET file=..#DIRECTORY _ ..#FILENAME _ "_" _ $tr($zdt($h,3),"- :")_..#EXTENSION
+        SET file=..#DIRECTORY _ ..#FILENAME _ "_" _ $tr($zdt($h,8)," :")_..#EXTENSION
         OPEN file:("NRW"):5
             USE file
             WRITE !,"BEGIN RESULTS ",$zdt($h,3),!
