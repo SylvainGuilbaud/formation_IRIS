@@ -34,7 +34,11 @@ services:
         ipv4_address: 172.0.0.10
   jupyter:
     # image: jupyter/datascience-notebook
-    image: jupyter/base-notebook
+    # image: jupyter/base-notebook
+    build: 
+      context: ./jupyter
+      dockerfile: Dockerfile
+    restart: always
     pull_policy: always
     hostname: jupyter
     container_name: ${iris_container_name}-jupyter
@@ -50,7 +54,7 @@ services:
     - "14200:8888" # where Jupyter will be listening
     - "14201:6006"
     volumes:
-      - ./data:/data
+      - ./jupyter:/data
   mysql: 
     # image: mysql:8.0.30
     image: mysql
@@ -110,24 +114,6 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.100
-  # webgateway:
-  #   hostname: ${web_container_name}
-  #   container_name: ${web_container_name}
-  #   depends_on:
-  #     - iris
-  #   image: localhost/intersystems/webgateway-arm64:2023.1.0.235.1
-  #   ports:
-  #   - ${web_port_https}:443
-  #   - ${web_port_http}:80
-  #   environment:
-  #     - ISC_DATA_DIRECTORY=/webgateway
-  #     - IRIS_USER=CSPsystem
-  #     - IRIS_PASSWORD=SYS
-  #   networks:
-  #     irisnetwork:
-  #       ipv4_address: 172.0.0.200
-  #   volumes:
-  #     - "./webgateway:/webgateway"
 
 
 

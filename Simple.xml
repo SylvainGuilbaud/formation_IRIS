@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="IRIS" version="26" zv="IRIS for UNIX (Ubuntu Server LTS for x86-64 Containers) 2020.4 (Build 547U)" ts="2021-05-13 17:05:45">
+<Class name="Simple.Address">
+<Super>%SerialObject,%Library.Populate</Super>
+<TimeChanged>65877,56127.068884</TimeChanged>
+<TimeCreated>65877,56126.948236</TimeCreated>
+
+<Property name="Street">
+<Type>%String</Type>
+</Property>
+
+<Property name="City">
+<Type>%String</Type>
+</Property>
+
+<Property name="State">
+<Type>%String</Type>
+</Property>
+
+<Property name="Zip">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Storage.Serial</Type>
+<State>AddressState</State>
+<StreamLocation>^Simple.AddressS</StreamLocation>
+<Data name="AddressState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>Street</Value>
+</Value>
+<Value name="2">
+<Value>City</Value>
+</Value>
+<Value name="3">
+<Value>State</Value>
+</Value>
+<Value name="4">
+<Value>Zip</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Simple.Demo">
+<TimeChanged>65877,56599.426558</TimeChanged>
+<TimeCreated>65877,56599.426558</TimeCreated>
+
+<Method name="Hello">
+<Description>
+First method in my first class </Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>name:%String,*nameReversed:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	
+	set affirmation = ""
+	try {
+ 	    for i=1:1:$length(name) {write !, "Hello World!"}
+ 	    set nameReversed = $reverse(name)
+ 	    set affirmation = name _ " is your friend." 
+	}
+	catch ex {
+	    write !, ex.Name, " error. Affirmation requires name argument."
+	}
+	return affirmation
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Simple.Human">
+<DdlAllowed>1</DdlAllowed>
+<Super>%Persistent,%Library.Populate</Super>
+<TimeChanged>65877,59297.477446</TimeChanged>
+<TimeCreated>65877,56131.820458</TimeCreated>
+
+<Parameter name="VERSIONPROPERTY">
+<Default>Version</Default>
+</Parameter>
+
+<Property name="Version">
+<Type>%Integer</Type>
+<InitialExpression>1</InitialExpression>
+</Property>
+
+<Parameter name="SPECIES">
+<Default>homo sapiens</Default>
+</Parameter>
+
+<Property name="Name">
+<Description>
+the human's name</Description>
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="Phone">
+<Type>%String</Type>
+</Property>
+
+<Property name="Home">
+<Type>Simple.Address</Type>
+</Property>
+
+<Property name="Work">
+<Type>Simple.Address</Type>
+</Property>
+
+<Property name="Company">
+<Type>%Library.String</Type>
+<SqlColumnNumber>2</SqlColumnNumber>
+<Parameter name="MAXLEN" value="50"/>
+</Property>
+
+<Index name="PhoneIndex">
+<Description>
+enforce uniqueness for Phone</Description>
+<Properties>Phone</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Index name="HStateIndex">
+<Description>
+index on Home_State column</Description>
+<Properties>Home.State</Properties>
+</Index>
+
+<Index name="WStateIndex">
+<Description>
+index on Work_State column</Description>
+<Properties>Work.State</Properties>
+</Index>
+
+<Method name="Print">
+<Description>
+this method prints info about the human</Description>
+<FormalSpec>state:%String="MA"</FormalSpec>
+<Implementation><![CDATA[
+    write !, "I'm ", ..Name, ". "
+    write "I live in ", ..Home.State, ", and I'm a ", ..#SPECIES, ". "
+    write "My phone is: ", ..Phone, "."
+    if (..Home.State = state) {
+        write !, "I'm from ", state, " too!"
+    }
+    else {
+        write !, "I hope to visit ", state, " one day!"
+    }
+]]></Implementation>
+</Method>
+
+<Method name="%OnNew">
+<Description>
+OVERRIDE: constructor</Description>
+<FormalSpec>*valid:%Status,name:%String="",phone:%String="",hstate:%String="",wstate:%String=""</FormalSpec>
+<Private>1</Private>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+    // $$$OK is a MACRO that compiles into a 1 (good status)
+    set st = $$$OK
+    set ..Name = name
+    set ..Phone = phone
+    set ..Home.State = hstate
+    set ..Work.State = wstate
+    set valid = ..%ValidateObject() // validate the new object
+    return st
+]]></Implementation>
+</Method>
+
+<Method name="ByPhone">
+<Description>
+Method using dynamic SQL</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>state:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	set select = "SELECT phone, name, home_city, home_state, work_city, work_state FROM simple.human"
+	if (state '= "") {
+		set where = "WHERE (home_state = ?) OR (work_state = ?)"
+	}
+	else {
+		set where = ""
+	}
+	set orderby = "ORDER BY phone"
+	set sql = select _ " " _ where _ " " _ orderby
+
+	// call %ExecDirect() without a first argument
+	if (state '= "") {
+		set rs = ##class(%SQL.Statement).%ExecDirect( , sql, state, state)
+	}
+	else {
+		set rs = ##class(%SQL.Statement).%ExecDirect( , sql)
+	}
+	if (rs.%SQLCODE = 0) { do rs.%Display() }
+	else { write !, "SQLCODE: ", rs.%SQLCODE, " ", rs.%Message }
+]]></Implementation>
+</Method>
+
+<Method name="Insert">
+<Description>
+Insert method using embedded SQL</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>nm:%String="",ph:%String="",sta:%String=""</FormalSpec>
+<Implementation><![CDATA[
+	set ^IRIS.Temp.DIOS($increment(^IRIS.Temp.DIOS)) = "entering Insert: " _ $zts
+    // allEmpty is a boolean (1 or 0)
+    set allEmpty = ((nm = "") && (ph = "") && (sta = ""))
+    quit:(allEmpty)  // if all data is empty just quit
+    set success = 0
+    &sql(INSERT INTO simple.human (name, phone, home_state)
+         VALUES (:nm, :ph, :sta))
+    if (SQLCODE = 0) {
+        &sql(SELECT COUNT(*) INTO :count FROM simple.human)
+        if (SQLCODE = 0) {
+            write !, count, " records"
+            set success = 1
+        }
+    }
+    if ('success) {
+        write !, "SQLCODE: ", SQLCODE, !, %msg
+    }
+    set ^IRIS.Temp.DIOS($increment(^IRIS.Temp.DIOS)) = "leaving Insert: " _ $zts
+]]></Implementation>
+</Method>
+
+<Query name="NamePhoneList">
+<Description>
+list humans by name</Description>
+<Type>%SQLQuery</Type>
+<FormalSpec>start:%String</FormalSpec>
+<SqlProc>1</SqlProc>
+<SqlQuery>	SELECT ID, Name, Phone
+	FROM Simple.Human
+	WHERE (Name %STARTSWITH :start)
+	ORDER BY Name</SqlQuery>
+</Query>
+
+<Method name="ByName">
+<Description>
+method that uses NamePhoneList class query</Description>
+<FormalSpec>start:%String=""</FormalSpec>
+<Implementation><![CDATA[
+    set stmt = ##class(%SQL.Statement).%New()
+    set st = stmt.%PrepareClassQuery("Simple.Human", "NamePhoneList")
+    if $$$ISOK(st) {
+        set rs = stmt.%Execute(start)
+        if (rs.%SQLCODE = 0) { do rs.%Display() }
+	    else { write !, "SQLCODE: ", rs.%SQLCODE, " ", rs.%Message }
+    }
+    else { do $system.Status.DisplayError(st) }
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Storage.Persistent</Type>
+<DataLocation>^Simple.HumanD</DataLocation>
+<DefaultData>HumanDefaultData</DefaultData>
+<IdLocation>^Simple.HumanD</IdLocation>
+<IndexLocation>^Simple.HumanI</IndexLocation>
+<StreamLocation>^Simple.HumanS</StreamLocation>
+<Data name="HumanDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Phone</Value>
+</Value>
+<Value name="4">
+<Value>Home</Value>
+</Value>
+<Value name="5">
+<Value>Work</Value>
+</Value>
+<Value name="6">
+<Value>Version</Value>
+</Value>
+<Value name="7">
+<Value>Company</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+</Export>

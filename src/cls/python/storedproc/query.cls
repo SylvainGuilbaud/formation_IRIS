@@ -1,4 +1,4 @@
-Class cls.python.storedproc.query Extends %RegisteredObject
+Class python.storedproc.query Extends %RegisteredObject
 {
 
 /// Ref: Defining and Using Class Queries
@@ -105,5 +105,6 @@ ClassMethod GetNotesClose(ByRef qHandle As %Binary) As %Status
   Quit $$$OK
 }
 }
+
 
 }

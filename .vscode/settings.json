@@ -21,8 +21,6 @@
     "ns": "IRISAPP",
     "username": "_system",
     "active": true,
-    "server": "122.33.33.44",
-    "port": 52773,
     "docker-compose": {
       "service": "iris",
       "internalPort": 52773

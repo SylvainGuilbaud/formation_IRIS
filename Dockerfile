@@ -5,18 +5,6 @@ ARG IMAGE=intersystemsdc/iris-community:latest
 
 FROM $IMAGE as builder
 
-# USER root
-# WORKDIR /app
-# RUN chown ${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} /app
-# USER ${ISC_PACKAGE_MGRUSER}
-
-# COPY App.Installer.cls .
-# COPY src src
-# COPY iris.script /tmp/iris.script
-# COPY pdf /tmp/.
-# COPY requirements.txt .
-# COPY jdbc jdbc
-
 WORKDIR /home/irisowner/dev
 
 ARG TESTS=0

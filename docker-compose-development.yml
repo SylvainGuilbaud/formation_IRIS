@@ -88,24 +88,6 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.100
-  # webgateway:
-  #   hostname: ${web_container_name}
-  #   container_name: ${web_container_name}
-  #   depends_on:
-  #     - iris
-  #   image: localhost/intersystems/webgateway-arm64:2022.2.0.372.0
-  #   ports:
-  #   - ${web_port_https}:443
-  #   - ${web_port_http}:80
-  #   environment:
-  #     - ISC_DATA_DIRECTORY=/webgateway
-  #     - IRIS_USER=CSPsystem
-  #     - IRIS_PASSWORD=SYS
-  #   networks:
-  #     irisnetwork:
-  #       ipv4_address: 172.0.0.200
-  #   volumes:
-  #     - "./webgateway:/webgateway"
 
 
 

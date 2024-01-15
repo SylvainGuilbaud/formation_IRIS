@@ -335,7 +335,6 @@ Time branch closes</Description>
 <Description>
 Currency used by this branch's nation</Description>
 <Type>FCE.CurrencyName</Type>
-<InitialExpression>"USD"</InitialExpression>
 </Property>
 
 <Property name="DurationOpen">
@@ -461,7 +460,7 @@ OVERRIDE: validate the keys (currency abbreviations) for the CurrencyBalances ar
     while (key '= "") && ($listfind(validKeys, key))
 
     if (key = "") { return $$$OK }
-    else { return $$$ERROR($$$GeneralError, "Invalid key: " _ key) }
+    else { return $$$ERROR($$$DTValueList, key, abbreviations) }
 ]]></Implementation>
 </Method>
 
@@ -511,7 +510,9 @@ This method can be called with:<br>
 	}
 	catch ex {
 		#dim ex, exCustom as %Exception.StatusException
-		// return custom error status and also write it to Application Error Log
+		// to return the current exception as a status: set status = ex.AsStatus
+		// to write the current exception to the Application Error Log: do ex.Log()
+		// instead, return custom error status and also write that to Application Error Log
 		if (ex.Code = $$$ERRORCODE($$$DTMinVal)) {
 			set custom = "Not enough stock in branch for " _ currencyOut
 			set status = $$$ERROR($$$GeneralError, custom)
@@ -547,6 +548,7 @@ This method can be called with:<br>
 Return unique list of city/state combinations with branches, 
 along with a count of branches with currencies, and the list of cities with branches</Description>
 <ClassMethod>1</ClassMethod>
+<FormalSpec>*status:%Status</FormalSpec>
 <ReturnType>%SQL.StatementResult</ReturnType>
 <SqlProc>1</SqlProc>
 <ReturnResultsets>1</ReturnResultsets>
@@ -595,7 +597,7 @@ along with a count of branches with currencies, and the list of cities with bran
 <Description>
 Show ATM serial numbers and addresses for branches in a given state that have at least one currency</Description>
 <ClassMethod>1</ClassMethod>
-<FormalSpec>state:%String</FormalSpec>
+<FormalSpec>state:%String,*status:%Status</FormalSpec>
 <ReturnType>%SQL.StatementResult</ReturnType>
 <SqlProc>1</SqlProc>
 <ReturnResultsets>1</ReturnResultsets>
@@ -980,7 +982,7 @@ compute exchange rate between two currencies based on the USD rate</Description>
 		return (outRate / inRate)
 	}
 	else {
-		write !, "Error code(s): ", sqlcode1, " ", sqlcode2
+		write !, "ComputeRate() method error code(s): ", sqlcode1, " ", sqlcode2
 		return 0
 	}
 ]]></Implementation>
@@ -994,6 +996,7 @@ Note: filenames MUST correspond to VALUELIST from FCE.CurrencyName class</Descri
 <FormalSpec>directory:%String</FormalSpec>
 <Implementation><![CDATA[
 	set currencies = ..ConvertCurrenciestoListString(..#ABBREVIATIONS)
+	kill %objlasterror
 	
 	for image = 1: 1 : $listlength(currencies)
 	{
@@ -1005,10 +1008,15 @@ Note: filenames MUST correspond to VALUELIST from FCE.CurrencyName class</Descri
 		set file = ##class(%Stream.FileBinary).%New()
 		set file.Filename = directory _ currencyName _ ".jpg"
 		
-		// does file exist?
+		// if there was a file error, display it and stop importing
+		if $data(%objlasterror) {
+			do $system.Status.DisplayError(%objlasterror)
+			quit  // exit for loop
+		}
+
+		// does each file exist?
 		if (file.Size = 0) {
 			write !, "Couldn't import ", file.Filename, !
-			do $system.Status.DisplayError(%objlasterror)
 			continue
 		}
 		
@@ -1197,7 +1205,7 @@ Unique reference to FCE.Payment</Description>
 <Method name="%OnNew">
 <Description>
 OVERRIDE: custom constructor</Description>
-<FormalSpec>branch:FCE.Branch="",requestor:%String="",requestorEmail:%String="",currencyOut:FCE.CurrencyName="",currencyIn:FCE.CurrencyName="",amountIn:%Numeric=0,*valid:%Status</FormalSpec>
+<FormalSpec>*valid:%Status,branch:FCE.Branch="",requestor:%String="",requestorEmail:%String="",currencyOut:FCE.CurrencyName="",currencyIn:FCE.CurrencyName="",amountIn:%Numeric=0</FormalSpec>
 <Private>1</Private>
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
@@ -1215,6 +1223,7 @@ OVERRIDE: custom constructor</Description>
 		set ..AmountOut = (amountIn - ..Fee) * ..ExchangeRate
 	}
 	// check available stock
+	set valid = $$$OK
 	if $isobject(branch) {
 		set stockAmountOut = branch.CurrencyBalances.GetAt(currencyOut)
 		if (..AmountOut > stockAmountOut) {
@@ -2302,7 +2311,6 @@ SQL tests for FCE.Branch CurrencyBalances collection</Description>
 		quit
 	}
 
-	#sqlcompile mode=deferred
 	&sql(INSERT INTO FCE.Branch (Phone) VALUES ('999-999-0000'))
 	set branchID = %ROWID
 	&sql(INSERT INTO FCE.Branch_Balance (Branch, element_key, Balance)
@@ -2395,7 +2403,6 @@ SQL tests for 1->M relationship between FCE.Branch and FCE.CurrencyOrder tables]
 		quit
 	}
 	
-	#sqlcompile mode=deferred
 	&sql(INSERT INTO FCE.Branch (Phone) VALUES ('999-999-0000'))
 	do $$$AssertEquals(SQLCODE, 0, "Branch saved")
 	set branchID = %ROWID
@@ -3048,7 +3055,7 @@ helper method for tests</Description>
 	do branch.CurrencyBalances.SetAt(250, "EUR")
 	do branch.CurrencyBalances.SetAt(50, "USD")
 	#dim order as FCE.CurrencyOrder
-	set order = ##class(FCE.CurrencyOrder).%New(branch,
+	set order = ##class(FCE.CurrencyOrder).%New( , branch,
 												"Smith,John",
 												"Smith@abcd.com",
 												"EUR", "USD", 100)
