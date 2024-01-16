@@ -32,29 +32,29 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.10
-  jupyter:
-    # image: jupyter/datascience-notebook
-    # image: jupyter/base-notebook
-    build: 
-      context: ./jupyter
-      dockerfile: Dockerfile
-    restart: always
-    pull_policy: always
-    hostname: jupyter
-    container_name: ${iris_container_name}-jupyter
-    entrypoint: jupyter lab --ip 0.0.0.0 --port 8888 --allow-root --no-browser --notebook-dir=/data/Notebooks --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True 
-    user: root
-    environment:
-        NB_USER: docker_worker
-        NB_UID: 1008
-        NB_GID: 1011
-        CHOWN_HOME: 'yes'
-        CHOWN_HOME_OPTS: -R
-    ports:
-    - "14200:8888" # where Jupyter will be listening
-    - "14201:6006"
-    volumes:
-      - ./jupyter:/data
+  # jupyter:
+  #   # image: jupyter/datascience-notebook
+  #   # image: jupyter/base-notebook
+  #   build: 
+  #     context: ./jupyter
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   pull_policy: always
+  #   hostname: jupyter
+  #   container_name: ${iris_container_name}-jupyter
+  #   entrypoint: jupyter lab --ip 0.0.0.0 --port 8888 --allow-root --no-browser --notebook-dir=/data/Notebooks --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True 
+  #   user: root
+  #   environment:
+  #       NB_USER: docker_worker
+  #       NB_UID: 1008
+  #       NB_GID: 1011
+  #       CHOWN_HOME: 'yes'
+  #       CHOWN_HOME_OPTS: -R
+  #   ports:
+  #   - "14200:8888" # where Jupyter will be listening
+  #   - "14201:6006"
+  #   volumes:
+  #     - ./jupyter:/data
   mysql: 
     # image: mysql:8.0.30
     image: mysql

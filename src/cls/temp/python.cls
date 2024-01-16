@@ -1,4 +1,4 @@
-Class temp.python
+Class temp.python 
 {
 
 /// This method doesn't return ByRef/Output parameters
