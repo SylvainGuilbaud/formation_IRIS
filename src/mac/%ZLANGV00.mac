@@ -1,9 +1,0 @@
-ROUTINE %ZLANGV00
- ; implementation of ^%ZLANGV00
- ; custom special variables for ObjectScript
-  QUIT
-/// w $zvernum
-ZVERNUM        ; tag becomes name of a special variable
-/// w $zve
-ZVE
-  QUIT $PIECE($ZVERSION,"(Build")

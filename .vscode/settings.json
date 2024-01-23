@@ -4,7 +4,6 @@
       "iris.script": "objectscript"
     },
   "objectscript.export": {
-    "folder": "src",
     "addCategory": false,
     "map": {},
     "atelier": true,

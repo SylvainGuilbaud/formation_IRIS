@@ -2,6 +2,8 @@
 **/.DS_Store
 **/*.tar
 **/*.gz
+**/IRIS.DAT
+**/iris.lck
 /docs
 /volumes
 /data/db
