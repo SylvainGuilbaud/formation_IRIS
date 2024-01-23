@@ -1,7 +1,7 @@
 
--- DROP TABLE  ClinicomSQL.patient
+-- DROP TABLE  data.patient
 
--- CREATE TABLE ClinicomSQL.patient (
+-- CREATE TABLE data.patient (
 --     patient_no VARCHAR(50)
 --     ,Nom_de_Nais VARCHAR(50)
 --     ,prenoms VARCHAR(50)
@@ -13,19 +13,19 @@
 --     ,patient INT
 -- )
 
--- DROP TABLE ClinicomSQL.episode
--- CREATE TABLE ClinicomSQL.episode (
+-- DROP TABLE data.episode
+-- CREATE TABLE data.episode (
 --     patient INT
 --     ,Admission_No VARCHAR(50)
 -- )
 
--- delete from ClinicomSQL.patient
--- INSERT INTO ClinicomSQL.patient VALUES ('123','HENDRIX','Jimi','19421127','rue des Lilas','12345','Seattle','USA',1)
--- INSERT INTO ClinicomSQL.episode VALUES (1,'123456789')
+-- delete from data.patient
+-- INSERT INTO data.patient VALUES ('123','HENDRIX','Jimi','19421127','rue des Lilas','12345','Seattle','USA',1)
+-- INSERT INTO data.episode VALUES (1,'123456789')
 
--- SELECT * from ClinicomSQL.patient
+-- SELECT * from data.patient
 
--- SELECT * from ClinicomSQL.episode
+-- SELECT * from data.episode
 
 -- SELECT p.patient_no IPP 
 --               , Admission_No IEP 
@@ -37,7 +37,7 @@
 --              , localite ADR_NOM_VIL 
 --              , codepaysadr ADR_PAY_COD 
   
---     FROM ClinicomSQL.patient p 
---               , ClinicomSQL.episode e 
+--     FROM data.patient p 
+--               , data.episode e 
 --      WHERE Admission_No = 123456789 
 --      AND p.patient=e.patient
