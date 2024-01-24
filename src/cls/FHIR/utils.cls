@@ -40,6 +40,27 @@ ClassMethod install(NAMESPACE As %String = "FHIRDEMO") As %Status
     return sc
 }
 
+ClassMethod uninstall(NAMESPACE As %String = "FHIRDEMO") As %Status
+{
+    set sc = $$$OK
+    set ns = $NAMESPACE
+    
+    zn "HSLIB"
+    set appKey = "/"_$zcvt(NAMESPACE,"l")_"/fhir/r4"
+
+    //Uninstall a Foundation namespace and change to it
+    /// https://docs.intersystems.com/irisforhealthlatest/csp/documatic/%25CSP.Documatic.cls?LIBRARY=HSSYS&CLASSNAME=HS.Util.Installer.Foundation#UnInstall
+    Do ##class(HS.Util.Installer.Foundation).UnInstall(NAMESPACE)
+
+    zn NAMESPACE
+
+    #; // Uninstall an instance of a FHIR Service into the current namespace
+    Do ##class(HS.FHIRServer.Installer).UninstallInstance(appKey)
+
+    zn ns
+    return sc
+}
+
 /// Delete all resources from the FHIR Server
 ClassMethod purge(pServiceName As %String = "/fhirhl7v2demo/fhir/r4") As %Status
 {
