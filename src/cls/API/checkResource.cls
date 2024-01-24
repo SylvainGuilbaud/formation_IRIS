@@ -1,4 +1,4 @@
-Class API.requireResource Extends %CSP.REST
+Class API.checkResource Extends %CSP.REST
 {
 
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
@@ -10,7 +10,18 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 
 ClassMethod Test() As %Status [ Requires = "myResource:Use" ]
 {
+  do ..info()
   Do ##class(%REST.Impl).%WriteResponse("api method test : OK")
+  Return $$$OK
+}
+
+ClassMethod info() As %Status
+{
+  set json = {
+      "username":($username),
+      "roles":($roles)
+  }
+  write json.%ToJSON()
   Return $$$OK
 }
 
