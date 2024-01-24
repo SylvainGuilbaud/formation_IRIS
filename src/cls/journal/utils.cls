@@ -1,4 +1,4 @@
-Class journal.utils Extends %RegisteredObject
+Class journal.utils
 {
 
 ClassMethod purge(directory As %String, purge As %Boolean = 0) As %Status
