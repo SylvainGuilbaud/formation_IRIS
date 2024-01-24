@@ -20,7 +20,7 @@ ClassMethod install(NAMESPACE As %String = "FHIRDEMO") As %Status
 
     // Install an instance of a FHIR Service into the current namespace
     Do ##class(HS.FHIRServer.Installer).InstallInstance(appKey, strategyClass, metadataConfigKey)
-    do ##class(Ens.Director).StopProduction()
+    #; do ##class(Ens.Director).StopProduction()
 
     #; zw $classmethod("Ens.Director", "SetAutoStart", NAMESPACE_"PKG.FoundationProduction", 0)
 
