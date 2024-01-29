@@ -13,6 +13,9 @@
 -- SELECT TOP 3 JSON_OBJECT('title':'Person from','country':UCASE(Home_State),'table':%TABLENAME,'name':Name,'id':%ID,'age':Age) "JSON data" 
 -- FROM Sample.Person
 
-SELECT TOP 3 JSON_OBJECT('title':'Person from','country':UCASE(Home_State),'table':%TABLENAME,'name':Name,'id':%ID,'age':Age ABSENT ON NULL) "JSON data" 
-FROM Sample.Person
+-- SELECT TOP 3 JSON_OBJECT('title':'Person from','country':UCASE(Home_State),'table':%TABLENAME,'name':Name,'id':%ID,'age':Age ABSENT ON NULL) "JSON data" 
+-- FROM Sample.Person
+
+select name,age,dob from Sample.Person
+
 

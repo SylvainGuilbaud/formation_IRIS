@@ -1,8 +1,0 @@
-ROUTINE FCE.Currency.G1 [Type=INT,Generated]
-	;FCE.Currency.G1
-	;(C)InterSystems, method generator for class FCE.Currency.  Do NOT edit.
-	Quit
-	;
-pABBREVIATIONS(%class,%parameter) public { New %classname Set %classname=%class
- Quit ##class(FCE.CurrencyName).#VALUELIST
-}

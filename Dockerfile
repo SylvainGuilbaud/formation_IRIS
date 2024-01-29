@@ -5,6 +5,8 @@ ARG IMAGE=intersystemsdc/iris-community:latest
 
 FROM $IMAGE as builder
 
+COPY .iris_init /home/irisowner/.iris_init
+
 WORKDIR /home/irisowner/dev
 
 ARG TESTS=0
@@ -25,8 +27,7 @@ RUN --mount=type=bind,src=.,dst=. \
     iris start IRIS && \
 	iris session IRIS < iris.script && \
     iris merge IRIS merge.cpf && \
-	# iris session IRIS < iris.script && \
-    irispython iris_script.py && \
+    # irispython iris_script.py && \
     ([ $TESTS -eq 0 ] || iris session iris -U $NAMESPACE "##class(%ZPM.PackageManager).Shell(\"test $MODULE -v -only\",1,1)") && \
     iris stop IRIS quietly
 
