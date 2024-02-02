@@ -1,0 +1,73 @@
+ROUTINE ZAUTHENTICATE
+ZAUTHENTICATE(ServiceName,Namespace,Username,Password,Credentials,Properties) PUBLIC {
+
+#include %occErrors
+#include %sySecurity
+ Set $ZTRAP="Error"
+ Quit $SYSTEM.Status.OK()
+
+Error //Handle any COS errors here
+  //Reset error trap to avoid infinite loop
+  Set $ZTRAP=""
+  //Return the generalized COS error message #5002
+  Quit $SYSTEM.Status.Error(5002 /*$$$CacheError*/,$ZERROR)
+}
+
+GetCredentials(ServiceName,Namespace,Username,Password,Credentials) Public {
+
+    // For console sessions, authenticate as _SYSTEM.
+    If ServiceName="%Service_Console" {  
+        Quit $SYSTEM.Status.Error($$$GetCredentialsFailed)
+    }
+
+    // For bindings connections, use regular prompting.
+    If ServiceName="%Service_Bindings" { 
+        Quit $SYSTEM.Status.Error($$$GetCredentialsFailed)
+    }
+
+    Set validUser = 0
+    
+    If $ISOBJECT($GET(%request)) { 
+        set Username=$get(%request.Data("IRISUsername",1))
+        set Password=$get(%request.Data("IRISPassword",1))
+
+        if Username '= "" {
+            Set validUser = ##class(%SYSTEM.Security).Login(Username, Password)
+        
+            if validUser = 0 { 
+                set str=##class(%Stream.FileCharacter).%New() 
+                do str.LinkToFile("/usr/irissys/lib/csv")
+            
+                while 'str.AtEnd {
+                    set $listbuild(UserFullName,UserNamespace,
+                                UserPassword,UserUsername,UserPhone) = $listfromstring(str.ReadLine())
+                    if (UserUsername = Username) && (UserPassword = Password)  {
+                        If %request.Application="/csp/sys/" { 
+                            Set validUser = 1
+                            Set status = ##class(Security.Users).Create(
+                                UserUsername,"%All",UserPassword,
+                                UserFullName,UserNamespace,"","",0,1,"",1,UserPhone,"",1,1,1)
+                            if status = 1 {
+                                set validUser = 1
+                            } else {
+                                set validUser = 0
+                            }
+                            break 1
+                        }
+                    }
+                }
+            }
+        } Else {
+            set validUser = 2
+        }
+    }
+    
+    if validUser = 1 {
+        Quit $SYSTEM.Status.OK()
+    } elseif validUser = 2 {
+        Quit $SYSTEM.Status.Error($$$GeneralError,"Provide your username and password")
+    } else {
+        Quit $SYSTEM.Status.Error($$$AccessDenied)
+    }
+
+}

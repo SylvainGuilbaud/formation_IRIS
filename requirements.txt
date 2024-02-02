@@ -16,3 +16,4 @@ matplotlib==3.8.2
 random-address==1.1.1
 phone-gen==2.3.15
 sqlalchemy-iris
+json

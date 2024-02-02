@@ -1,0 +1,30 @@
+ROUTINE ZAUTHORIZE
+ZAUTHORIZE(ServiceName, Namespace, Username, Password, 
+        Credentials, Properties) PUBLIC {
+
+#include %occErrors
+ set $ZTrap="Error"
+ set ^[USERS]delegated($i(^[USERS]delegated))=$lb(ServiceName, Namespace, Username, Password)
+ //set Name=$ZConvert(Username,"U")
+ set Name=$ZCONVERT($piece(Username,"@",1),"U")
+ set UserRecord=$get(^MYUSERS(Name))
+ if (UserRecord="")
+ { 
+  quit $SYSTEM.Status.Error($$$UserDoesNotExist,Username)
+ }
+ if ($SYSTEM.Encryption.SHA1Hash(Password)'= $List(UserRecord,1))
+ { 
+  quit $SYSTEM.Status.Error($$$UserInvalidPassword)
+ }
+ set Properties("FullName")=$List(UserRecord,2)
+ set Properties("Comment")=""
+ set Properties("Roles")="%All"
+ set Properties("NameSpace")=""
+ set Properties("Routine")=""
+ set Properties("Password")=Password
+ set Properties("Username")=Name
+ quit $SYSTEM.Status.OK()
+Error
+ set $ZTrap=""
+ quit $SYSTEM.Status.Error(5002 /*$$$CacheError*/,$ZError)
+}
