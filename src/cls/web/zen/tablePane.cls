@@ -25,18 +25,11 @@ XData Contents [ XMLNamespace = "http://www.intersystems.com/zen" ]
 
 ClientMethod changeParams() [ Language = javascript ]
 {
-     // find the tablePane component
-     var table = zenPage.getComponentById('table');
-     var pName = zenPage.getComponentById("pName");
-     var pAgeMin = zenPage.getComponentById("pAgeMin");
-     var pAgeMax = zenPage.getComponentById("pAgeMax");
+     zenPage.getComponentById("pName").value=zenPage.getComponentById('inputName').value;
+     zenPage.getComponentById("pAgeMin").value=zenPage.getComponentById('inputAgeMin').value;
+     zenPage.getComponentById("pAgeMax").value=zenPage.getComponentById('inputAgeMax').value;
 
-
-     pName.value=zenPage.getComponentById('inputName').value;
-     pAgeMin.value=zenPage.getComponentById('inputAgeMin').value;
-     pAgeMax.value=zenPage.getComponentById('inputAgeMax').value;
-
-     table.executeQuery();
+     zenPage.getComponentById('table').executeQuery();
 }
 
 }
