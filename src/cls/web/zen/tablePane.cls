@@ -1,4 +1,4 @@
-Class web.zen Extends %ZEN.Component.page
+Class web.zen.tablePane Extends %ZEN.Component.page
 {
 
 XData Contents [ XMLNamespace = "http://www.intersystems.com/zen" ]

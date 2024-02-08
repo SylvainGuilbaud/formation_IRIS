@@ -16,6 +16,7 @@
 -- SELECT TOP 3 JSON_OBJECT('title':'Person from','country':UCASE(Home_State),'table':%TABLENAME,'name':Name,'id':%ID,'age':Age ABSENT ON NULL) "JSON data" 
 -- FROM Sample.Person
 
-select name,age,dob from Sample.Person
+-- select name,age,dob from Sample.Person
 
+select JSON_ARRAYAGG(JSON_OBJECT('Id':Id,'Name':Name,'age':Age,'dob':dob)) As JSON from Sample.Person
 
