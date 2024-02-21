@@ -3,6 +3,7 @@
       "Dockerfile*": "dockerfile",
       "iris.script": "objectscript"
     },
+  "objectscript.export.folder": "src",
   "objectscript.conn" :{
     "ns": "IRISAPP",
     "username": "_system",
