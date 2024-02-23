@@ -9,7 +9,7 @@
       <Packaging>module</Packaging>
       <CSPApplication CookiePath="/admin/" DefaultTimeout="900" DispatchClass="admin.REST" MatchRoles=":%All" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/admin" UseSessionCookie="2"/>
       <CSPApplication CookiePath="/common/" DefaultTimeout="900" DispatchClass="common.REST" MatchRoles=":%All" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/common" UseSessionCookie="2"/>
-      <CSPApplication CookiePath="/crud/" DefaultTimeout="900" DispatchClass="REST.crud" MatchRoles=":%All" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/crud" UseSessionCookie="2"/>
+      <CSPApplication CookiePath="/formation/crud/" DefaultTimeout="900" DispatchClass="REST.crud" MatchRoles=":%All" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="1" Url="/formation/crud" UseSessionCookie="2"/>
       <CSPApplication CookiePath="/csp/irisapp/" DefaultTimeout="900" DeployPath="${cspdir}irisapp" Description="Interoperability Management Portal" PasswordAuthEnabled="1" Recurse="1" Resource="%Ens_Portal" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="0" Url="/csp/irisapp" UseSessionCookie="2"/>
       <CSPApplication CookiePath="/temp/" DefaultTimeout="900" DispatchClass="temp.rest" MatchRoles=":%All" PasswordAuthEnabled="1" Recurse="1" ServeFiles="1" ServeFilesTimeout="3600" UnauthenticatedEnabled="0" Url="/temp" UseSessionCookie="2"/>
       <SourcesRoot>src</SourcesRoot>

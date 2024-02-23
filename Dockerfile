@@ -2,6 +2,7 @@
 # ARG IMAGE=containers.intersystems.com/intersystems/iris-community-arm64:latest-cd
 # ARG IMAGE=intersystemsdc/irishealth-community:latest
 ARG IMAGE=intersystemsdc/iris-community:latest
+ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:2024.1-preview-linux-arm64
 
 FROM $IMAGE as builder
 
@@ -29,7 +30,8 @@ RUN --mount=type=bind,src=.,dst=. \
     iris merge IRIS merge.cpf && \
     # irispython iris_script.py && \
     ([ $TESTS -eq 0 ] || iris session iris -U $NAMESPACE "##class(%ZPM.PackageManager).Shell(\"test $MODULE -v -only\",1,1)") && \
-    iris stop IRIS quietly
+    iris stop IRIS quietly \
+    cp ./swagger-ui/index.html /usr/irissys/csp/swagger-ui/index.html
 
 FROM $IMAGE as final
 ADD --chown=${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py

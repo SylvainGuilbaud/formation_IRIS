@@ -5,7 +5,7 @@
         "version": "1.0",
         "x-ISC_Namespace": "IRISAPP"
     },
-    "basePath": "/crud",
+    "basePath": "/formation/crud",
     "host":"172.20.10.13:8000",
     "paths": {
         "/": {

@@ -274,7 +274,7 @@ ClassMethod spec() As %Status
 {
   Set tSC = ##class(%REST.API).GetWebRESTApplication($NAMESPACE, %request.Application, .swagger)
   Do swagger.info.%Remove("x-ISC_Namespace")
-  Set swagger.basePath = "/crud"
+  Set swagger.basePath = "/formation/crud"
   Set swagger.info.title = "InterSystems IRIS CRUD demo"
   Set swagger.info.version = "0.1"
   Set swagger.host = "localhost:52773"

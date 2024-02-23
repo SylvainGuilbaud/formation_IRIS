@@ -5,7 +5,7 @@
         "version": "",
         "x-ISC_Namespace": "IRISAPP"
     },
-    "basePath": "/crud/api",
+    "basePath": "/formation/crud/api",
     "paths": {
         "/": {
             "get": {

@@ -2,6 +2,7 @@
  zpm "install webterminal"
  zpm "install objectscript-json-trace-viewer"
  zpm "install swagger-ui" 
+ zpm "install iris-apipub" 
  zpm "install classexplorer" 
  zpm "install openapi-client-gen"
  write "INSTALLING IRISAPP"
@@ -65,7 +66,7 @@
     set ^["USER"]TRACE($zdt($now(),3,,6),"Web App "_webName)="successful"
  }
  
- set webName = "/crud"
+ set webName = "/formation/crud"
  write "Create web application ...",webName
  set webProperties("DispatchClass") = "REST.crud"
  set webProperties("NameSpace") = "IRISAPP"
