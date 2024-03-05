@@ -8,7 +8,7 @@ Parameter HandleCorsRequest = 1;
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
-<Route Url="/" Method="GET" Call="version"/>
+<Route Url="/version" Method="GET" Call="version"/>
 <Route Url="/api/:classname" Method="GET" Call="readAll"/>
 <Route Url="/api/:classname" Method="POST" Call="create"/>
 <Route Url="/api/:classname/:id" Method="GET" Call="read"/>
