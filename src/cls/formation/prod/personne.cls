@@ -72,6 +72,12 @@ XData ProductionDefinition
     <Setting Target="Host" Name="ArchiveIO">1</Setting>
     <Setting Target="Adapter" Name="Credentials">email</Setting>
   </Item>
+  <Item Name="from personnes SQL" Category="" ClassName="EnsLib.SQL.Service.GenericService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="TargetConfigNames">personnes</Setting>
+    <Setting Target="Adapter" Name="DSN">postgres</Setting>
+    <Setting Target="Adapter" Name="Query">select id,lastname, firstname, dob , sex  from app.personne</Setting>
+    <Setting Target="Adapter" Name="JGService">JG</Setting>
+  </Item>
 </Production>
 }
 

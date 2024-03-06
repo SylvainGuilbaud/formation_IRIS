@@ -25,3 +25,15 @@ CREATE TABLE IF NOT EXISTS app.customer (
     lastUpdate timestamp NULL,
 	CONSTRAINT customer_pkey PRIMARY KEY (id)
 );
+
+CREATE TABLE IF NOT EXISTS app.personne (
+  id int NOT NULL,
+  LastName varchar(255) DEFAULT NULL,
+  FirstName varchar(255) DEFAULT NULL,
+  DOB date DEFAULT NULL,
+  Sex varchar(10) DEFAULT NULL,
+  PRIMARY KEY (id)
+);
+
+insert into app.personne values (1,'Hendrix','Jimi','1942-11-27','M');
+insert into app.personne values (2,'Verdurin','Olivia','1954-09-15','F');
