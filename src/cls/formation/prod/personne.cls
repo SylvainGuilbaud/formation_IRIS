@@ -65,7 +65,7 @@ XData ProductionDefinition
   <Item Name="from personnes REST" Category="" ClassName="REST.service" PoolSize="0" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="TargetConfigNames">process personne</Setting>
   </Item>
-  <Item Name="from personne EMAIL" Category="" ClassName="formation.service.personne" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
+  <Item Name="from personne EMAIL" Category="" ClassName="formation.service.personne" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="true" Schedule="">
     <Setting Target="Host" Name="TargetConfigNames">personnes</Setting>
     <Setting Target="Adapter" Name="POP3Port">110</Setting>
     <Setting Target="Adapter" Name="POP3Server">pop.free.fr</Setting>
@@ -77,6 +77,7 @@ XData ProductionDefinition
     <Setting Target="Adapter" Name="DSN">postgres</Setting>
     <Setting Target="Adapter" Name="Query">select id,lastname, firstname, dob , sex  from app.personne</Setting>
     <Setting Target="Adapter" Name="JGService">JG</Setting>
+    <Setting Target="Host" Name="MessageClass">formation.postgres.app.personne</Setting>
   </Item>
 </Production>
 }
