@@ -6,7 +6,7 @@ ClassMethod init() As %Status
    kill ^data
    set ^data("PSA",$INCREMENT(^data("PSA")))="Homer\SIMPSON\45139\M\inspecteur de la sécurité à la centrale nucléaire de Springfield"
    set ^data("PSA",$INCREMENT(^data("PSA")))="Olivia\VERDURIN\56379\F\artist"
-   set ^data("PSA",$INCREMENT(^data("PSA")))="Jimi\Hendrix\37220\M\guitarist"
+   set ^data("PSA",$INCREMENT(^data("PSA")))="Jimi\HENDRIX\37220\M\guitarist"
    zw ^data
    return $$$OK
 }
