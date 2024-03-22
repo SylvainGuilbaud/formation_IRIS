@@ -9,13 +9,14 @@ ClassMethod init() As %Status
    set ^data("PSA",$INCREMENT(^data("PSA")))="Jimi\HENDRIX\37220\M\guitarist"
    zw ^data
    write !,"SQL INSERT",!
+   set id = $INCREMENT(^data("PSA"))
    &sql(insert into mapping.data1
          (Key2, dob, firstname, lastname, gender, title)
          values 
-         (4,to_date('14/03/1879','DD/MM/YYYY'),'Albert','EINSTEIN','M','theoretical physicist'))
+         (:id,to_date('14/03/1879','DD/MM/YYYY'),'Albert','EINSTEIN','M','theoretical physicist'))
    zw ^data   
    write !,"OBJECT INSERT",!
-   write ..Populate(5)
+   write ..Populate(6)
    zw ^data
    return $$$OK
 }
