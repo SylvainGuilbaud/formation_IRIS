@@ -14,7 +14,15 @@ ClassMethod init() As %Status
          (Key2, dob, firstname, lastname, gender, title)
          values 
          (:id,to_date('14/03/1879','DD/MM/YYYY'),'Albert','EINSTEIN','M','theoretical physicist'))
-   zw ^data   
+   zw ^data  
+   write !,"SQL UPDATE",!
+   &sql(update mapping.data1 
+         set title = title || ' as of '|| sysdate)
+   zw ^data    
+   write !,"SQL DELETE",!
+   &sql(delete mapping.data1 
+         where gender = 'M')
+   zw ^data 
    write !,"OBJECT INSERT",!
    write ..Populate(6)
    zw ^data
