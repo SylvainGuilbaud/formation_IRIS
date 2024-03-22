@@ -1,4 +1,4 @@
-Class Mapping.data1 Extends %Persistent [ StorageStrategy = SQL ]
+Class Mapping.data1 Extends (%Persistent, %Populate) [ StorageStrategy = SQL ]
 {
 
 ClassMethod init() As %Status
@@ -11,19 +11,19 @@ ClassMethod init() As %Status
    return $$$OK
 }
 
-Property firstname As %String;
+Property firstname As %String(POPSPEC = "FirstName()");
 
-Property lastname As %String;
+Property lastname As %String(POPSPEC = "LastName()");
 
 Property dob As %Date(FORMAT = 4);
 
-Property gender As %String(MAXLEN = 1);
+Property gender As %String(MAXLEN = 1, VALUELIST = ",M,F");
 
 Property title As %String(MAXLEN = "");
 
 // Property Key1 As %Integer;
 
-Property Key2 As %Integer;
+Property Key2 As %Integer [ InitialExpression = {$INCREMENT(^data("PSA"))} ];
 
 // Property Key3 As %String;
 
