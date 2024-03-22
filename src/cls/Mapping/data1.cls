@@ -8,6 +8,15 @@ ClassMethod init() As %Status
    set ^data("PSA",$INCREMENT(^data("PSA")))="Olivia\VERDURIN\56379\F\artist"
    set ^data("PSA",$INCREMENT(^data("PSA")))="Jimi\HENDRIX\37220\M\guitarist"
    zw ^data
+   write !,"SQL INSERT",!
+   &sql(insert into mapping.data1
+         (Key2, dob, firstname, lastname, gender, title)
+         values 
+         (4,to_date('14/03/1879','DD/MM/YYYY'),'Albert','EINSTEIN','M','theoretical physicist'))
+   zw ^data   
+   write !,"OBJECT INSERT",!
+   write ..Populate(5)
+   zw ^data
    return $$$OK
 }
 
