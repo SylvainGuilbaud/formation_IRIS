@@ -1,0 +1,12 @@
+MSH|^~\&|RAMSAY|GDSCLIN785|CHRU-LILLE|XYZCH|20160427103000||ADT^A08|||2.5
+EVN|||||SS^Sweetheart^Susie
+PID|||1234567^^^BGH^MR~123-45-6789^^^USSS^SSN~GB1625111^^^UKNH^NH~DL123465^^^UKDL^DL||Pybus^Philip John||19501130|M|||144/89 Moo 10^^Pattaya^Chonburi^20260^TH||+66 038 251663|+66 081 8643831|||||||||||||||||||200708041123|BPH
+PV1||O|||2007424||PC00002^Collins^Phil^^^^^^GCS|MJ11^Jackson^Michael^^^^^^GCS|MJ2^Jagger^Mick^^^^^^GCS|BRN||||3|||||2007004|||||||||||||||||||||||||20070804|20070804
+PV2|||RefGP^Referral by GP^GCS|||||||||From Dr Jackson
+OBX|||BSL^Severe Burn^GCS||3|||||||||200708041800
+AL1|||WCH^W.Chocolate|Sev^Severe - Danger of Choking|Sneeze|20020101
+AL1||D^Drug^GCS|Pen^Penicilin^GCS|S^Severe^GCS|Coma|20000101
+DG1|||1001.2^Acute Sunburn to Lower Legs||20070804|F||||||||||JP^Plan^John
+DG1|||13266-2^Mumps virus Ab.IgG^LOINC||19950101|F||||||||||PTR^Ragon^PT
+IN1||EPGold^ExpatGold|PrPaPl|PrivatePatientsPlan|||||||||20191231|||||||||||||||||||||||6662151
+IN1||EPG^^BIN||Private Patients Plan^^^^^GCS|||||||||20091231||||E^Employee^Bin|||||||||||||||||||98761235

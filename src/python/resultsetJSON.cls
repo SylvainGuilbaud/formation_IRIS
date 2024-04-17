@@ -1,7 +1,8 @@
 Class python.resultsetJSON
 {
+
 /// Description
-ClassMethod run() As %Status [Language = python]
+ClassMethod run() As %Status [ Language = python ]
 {
 import iris
 import json

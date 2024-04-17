@@ -108,4 +108,5 @@ ClassMethod GetNotesClose(ByRef qHandle As %Binary) As %Status
 
 
 
+
 }

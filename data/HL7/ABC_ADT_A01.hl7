@@ -1,0 +1,5 @@
+MSH|^~\&|MIHIN PATIENT GEN|1.2.3.4.5.9.99.999.9999.1004||2.16.840.1.113883.3.1481|20200103000000+0000||ADT^A01^ADT_A01|1092|P|2.6|1091|||||||||Windward General Hospital
+EVN||20200110000000+0000|||||1.2.3.4.5.9.99.999.9999.1004PID|1|3170|44c8a6bba5c743538e476a813256959b^^^^CKS~000003170^^^^SS||Santana^Pearl||19900609|F||2054-5^Black or African American^HL70005|364 NE Oak Circle^^Trenton^MI^48183||||||||000003170|||N^Not Hispanic or Latino^HL70189|||||||20200110000000+0000|N
+PD1|||Windward General Hospital^^^^^^^^^1.2.3.4.5.9.99.999.9999.1004|9999992221^Johnston^Karl^^^^^^^^^^NPI^^^^^^^^MD
+PV1|1|I|^^67^1.2.3.4.5.9.99.999.9999.1004||||9999992221^Johnston^Karl^^^^^^^^^^NPI||||||||||||17a5e3aa59a34ad5af017998278a5eb5||||||||||||||||||&HOME^20200110000000+0000|||||||20200103000000DG1|1||Z34.90^Normal pregnancy^I10||20200103000000+0000|F|^Become_Pregnant
+IN1|1|1772^STATE HEALTH PLAN|1027|MEDICAID||||||||||||Santana^Pearl^Gladys|||364 NE Oak Circle^^Trenton^MI^48183

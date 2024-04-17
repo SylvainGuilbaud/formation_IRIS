@@ -1,0 +1,38 @@
+MSH|^~\&||BGH||GUERBET|20180731104517-0600||ORM^O01||P|2.5
+NTE|0|||
+PID||16284718^^^^HL7DEMO|Z1907||TARTANO^BETH^A^^^||19490518|F|||123 POTATO DRIVE^^BOISE^ID^83702^US^^^||(208)963-2278||||||222-33-4545||||
+PV1||O|3N^200^1|R|2007452||EB^Black^Enid~AC^Cane^Alice|JL^Loew^Joanna|OW^Watson^Oprah~LA^Arnold^Louis|REC||||1|||HR^Rogers^Helen||20071008||||||||||||||||||StMary|||||||20070809|20070809
+PV2|||Obs^Observation|||||||||Monitor heart|||||||||||||||||||||||||||||||||DNR^Do not resusitate
+IN1||PB2^PattayaSSC2|PSCC|Pattaya Sports and Social Club|The Club House^Soi 3^Pattaya^Bang^12345^Thai^^^^^^^20000101^20101231|Grossen^George^Light^III^der^^^^^^^^^Dr|038-221-3213|E112233|Expat2|||20050606|20191231||OP|Pybus^Philip^John^sr^Sir^^^^^^^^^SE|S^Self||Pybus House^144/89 Soi 6^Phattaya^Chinbiru^88221^TG^^^^^^^20010101^20101010|||||||||||||||||P00000022
+IN1||NoCo|NoCo||
+IN1|||ALI|AETNA Life Insurance Co|0 No Street^(beach)^Jomtien^nr Pattaya^66666^Thail^^^^^^^20000101^20101111|Drifter^A^G^IV^the^^^^^^^^^MSc|081-000-0000^BPN|000|NoGroup|||19000101|21001231||None|Pybus^John^Stephen^III^Sir^^^^^^^^^Dr|F^Father||Surgery^30 Mt Pleasant Rd^St Leonards^WSussex^442213^Britian^^^^^^^19530201^20070921|||||||||||||||||N66611124AGGT1||333-33-3333^^^SS^SSN|Pybus^John^Steven^PhD^Mr^^^^^^^^^MRCVS||~~~The Surgery^30 Mt Pleasant Rd^Hastings^Sussex^HA1111^UK^^^^^^^19530101^20070901|+44-1823-420648|+44-1823-420648|||Family|F^Father|444-44-4444|19501128|20991231
+GT1||333-33-3333^^^SS^SSN|Pybus^John^Steven^PhD^Mr^^^^^^^^^MRCVS||~~~The Surgery^30 Mt Pleasant Rd^Hastings^Sussex^HA1111^UK^^^^^^^19530101^20070901|+44-1823-420648|+44-1823-420648|||Family|F^Father|444-44-4444|19501128|20991231
+AL1|||CHOC^Chocolate|VSev^Very Severe - Danger of Choking|Sneeze|20070809
+AL1||O^Oral|N^Nuts|Sev^Severe|Rash|20070807
+ORC||P66221|F555511||IP||1^^S^200708091405^200708091420^Routine^Weak^Double-check||200708091200|~N4441^FourFour^Nurse|~OK^Kay^Oh|~NS^Sure^Not|3N|~x221~x222|||Bld3||||Bangkok General^^B001|~BKH^200-300 Main^Korat^KK^33111^Thailand|~048-222-1111|~13 Moo 8^Pasalan^Korat^KK^33112^Thai||||V^VIP|
+OBR||x0005|X0005|LAB65212955^METABOLIC2|Normal|200708091111|200708091313|||||||200708091445|Lab|GSR^Swinger^Golfing|081-864-3831|||||200708092200|||F||2^^2^200708091414^200708091515^Rtn^Stable^Recheck
+NTE|||No OrderType
+ORC||P77221|F00044||X||^^^200708091403||200708091810|NH^Helen^Nurse|BB^Boss^Brian|~JH^Hook^Jason|N101|~x1221~081-234-3214^BPN~^^^hook@bnh.com|||SUR||||BNH^^BNH~BKKNH|~Bangkok Nursing Home^1 Sukhumvit^Bangkok^BKK^11111^Thailand|02-212-2211|~The Surgery^1 Doctor Street^Korat^NRatch^22222^Thailand||||P^Politician|MED
+RXO|Act^Actrapid|3||ml^mLs|||~IM^Injection||||||4|~Inj01^Needle^Sharp|||hr|100|IU^Int Units|Pain|200|ml^mLs|||1|ml^mLs
+NTE|||Injection: 3ml IM x 100 IU/ml @ 200 ml/hr (max 4 refills)
+ORC||P77222|F00045||Cancelled||1^^3^200708091403^200708091800^Stat^Faint^Until better||||||||||||||||||||||MED
+RXO|Peth^Pethidine||||||IV^IntraV||||||2|DD^Drop^Drip||||50|IU^Int Units||||||6|ml^mLs
+NTE|||IV: Pethedine 50 IU/6ml (max 2 refills)
+ORC||P77223|F00044||Admin||3^^2^200708091403^200708111200^Stat^Pain^3 tabs twice a day~7^^1^200708111200^200708181200^Norm^Recovery^1 tab BID one week||||||||||||||||||||||MED
+RXO|Pan^Panedine|20|160|mg^mgm|T^Tablet||~~O^Oral||||||8|SW^Swallow^One
+NTE|||Tablet: Panedine 20mg  (max 160mg) (max 8 refills)
+ORC||P66222|F555512||CM||1^^S^200708091410^200708091420^Routine^Weak^Double-check||200708091200|~N4441^FourFour^Nurse|~OK^Kay^Oh|~NS^Sure^Not|3N|~x221~x222|||Bld3||||~Bangkok General^^B001|~BKH^200-300 Main^Korat^KK^33111^Thailand|~048-222-1111|~13 Moo 8^Pasalan^Korat^KK^33112^Thai||||V^VIP|LAB
+OBR||P0005|F0005|LAB65201535^SPUTUM CULTURE|NormPri|200708091111|200708091211|||||||200708091200|SP^SPUTUM|AS^SAMA ANDREW|038-251-666|||||200708091423|||OK||1^^1^200708091410^200708091415^Rt^Hyper^Daily~2^^2^200708101410^200708101415^Low^Better^Last one
+NTE|||Call me when result known
+ORC||P77224|F00046||Disp||^^^200708091403||||||||||||||||||||||MED
+RXO|Para^Paracetamol|2|10|mg^mgm|T^Tabs||O^Oral||||||4|~RX001^Jones^John|||hr|1|gm^grams|Head-ache|3|kg^Kgm|||100|cc^Cc
+NTE|||Continue taking until next visit
+ORC||P66223|F555513||R||1^^S^200708091410^200708091420^Routine^Weak^Double-check||200708091200|~N4441^FourFour^Nurse|~OK^Kay^Oh|~NS^Sure^Not|3N|~x221~x222|||Bld3||||~Bangkok General^^B001|~BKH^200-300 Main^Korat^KK^33111^Thailand|~048-222-1111|~13 Moo 8^Pasalan^Korat^KK^33112^Thai||||V^VIP|RAD
+OBR||P0004|F0004|CX^Chest Xray|Statc|200708091501|200708091502|||||||200708091510|none|GS^Swing^Golf|038-251-666|||||200708091423|||OK||1^^1^200708091410^200708091415^Rt^Hyper^Daily~2^^2^200708101410^200708101415^Low^Better^Last one
+ORC||P77225|F01002||Disp||^^^200708091413||||||||||||||||||||||MED
+RXO||3|30|gm^grams|L^Lozenge|~Asp^Aspirin|~Fiz^Fizzy Drink||||||5|RX002^Grant^Hugh|||day|2|gm^grams|Dizzy|4|P^Pack|||25|FO^Fluid Ounce
+NTE|||Patient cannot swallow easily, so
+NTE||| I prescribed soluble lozenges
+NTE|||       to make it easier
+DG1|||1001.1^Migraine||20070804|A||||||||||GS^Swing^Golf
+DG1||||HeadAche - unspecified|20070805|F||||||||||AC^Cain^Abel
