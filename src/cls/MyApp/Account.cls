@@ -105,11 +105,24 @@ ClassMethod TestAccount() As %Status
         Quit $$$ERROR($$$GeneralError, "Withdrawal of more than available balance unexpectedly succeeded")
     }
     
-    // Check balance invariant
+    // Check balance invariant (should succeed)
     Set tSC = account.CheckBalanceInvariant()
     If $$$ISERR(tSC) {
         Write "Balance invariant violated: ", $system.Status.GetErrorText(tSC), !
         Quit tSC
+    }
+    Write "Balance invariant holds true", !
+    
+    // Intentionally set balance to negative value to trigger balance invariant failure
+    Set account.Balance = -10
+    
+    // Check balance invariant (should fail)
+    Set tSC = account.CheckBalanceInvariant()
+    If $$$ISERR(tSC) {
+        Write "Balance invariant violated as expected: ", $system.Status.GetErrorText(tSC), !
+    } Else {
+        Write "Balance invariant unexpectedly held true", !
+        Quit $$$ERROR($$$GeneralError, "Balance invariant unexpectedly held true")
     }
     
     Write "Account operations completed successfully", !
