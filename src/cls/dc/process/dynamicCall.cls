@@ -24,21 +24,6 @@ XData BPL [ XMLNamespace = "http://www.intersystems.com/bpl" ]
 </process>
 }
 
-Storage Default
-{
-<Data name="dynamicCallDefaultData">
-<Subscript>"dynamicCall"</Subscript>
-<Value name="1">
-<Value>TargetConfigName</Value>
-</Value>
-<Value name="2">
-<Value>TargetConfigNames</Value>
-</Value>
-</Data>
-<DefaultData>dynamicCallDefaultData</DefaultData>
-<Type>%Storage.Persistent</Type>
-}
-
 /// Return an array of connections for drawing lines on the config diagram
 ClassMethod OnGetConnections(Output pArray As %String, pItem As Ens.Config.Item)
 {
@@ -46,6 +31,18 @@ ClassMethod OnGetConnections(Output pArray As %String, pItem As Ens.Config.Item)
 	If pItem.GetModifiedSetting("TargetConfigNames",.tValue) {
 		For i=1:1:$L(tValue,",") { Set tOne=$ZStrip($P(tValue,",",i),"<>W")  Continue:""=tOne  Set pArray(tOne)="" }
 	}
+}
+
+Storage Default
+{
+<Data name="dynamicCallDefaultData">
+<Subscript>"dynamicCall"</Subscript>
+<Value name="1">
+<Value>TargetConfigNames</Value>
+</Value>
+</Data>
+<DefaultData>dynamicCallDefaultData</DefaultData>
+<Type>%Storage.Persistent</Type>
 }
 
 }
