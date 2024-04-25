@@ -764,17 +764,22 @@ ClassMethod service() As %Status
 
         #dim response as formation.msg.mysql.response.personne
         
-        if 'response.status {
-            set retour.status = ($system.Status.GetErrorText(response.status))
+        if $ISOBJECT(response) {
+            if 'response.status {
+                set retour.status = ($system.Status.GetErrorText(response.status))
+            } else {
+                set retour.status = "OK"
+            }
+            if response.inserted {
+                set retour.action = "inserted"
+            } 
+            if response.updated {
+                set retour.action = "updated"
+            } 
         } else {
-            set retour.status = "OK"
+            set retour.action = "processed"
+
         }
-        if response.inserted {
-            set retour.action = "inserted"
-        } 
-        if response.updated {
-            set retour.action = "updated"
-        } 
     }
     set retour.ts=($zdt($h,3))
 	write retour.%ToJSON()

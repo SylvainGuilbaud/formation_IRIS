@@ -1,0 +1,9 @@
+MSH|^~\&|RAMSAY|GDSCLIN785|CHRU-LILLE|XYZHOSPITAL|200801311600||ADT^A08|PS1-20080131160038|P|2.5
+EVN|||||DJ^Jay^Dee
+PID||16284718^^^^HL7DEMO|Z1907||TARTANO^BETH^A^^^||19490518|F|||123 POTATO DRIVE^^BOISE^ID^83702^US^^^||(208)963-2278||||||000-00-0000||||
+PV1||O|||2007500||MJ^Jones^Michael|MJ2^Jacobs^Mickey|PC^Crest^Phil|ER||||2|||||20071005|||||||||||||||||||||||||20070806|20070806
+PV2|||ER^Emergency|||||||||Walk-in ER
+OBX|||NO01^Knife wound||3 inch|||||||||200708061200
+AL1|||CHOC^Chocolate|Sev^Severe - Danger of Asphyxiation|Sneeze|20010101
+DG1|||3211^Knife wound from fight||20070805|A||||||||||TT^Train^Tina
+IN1||AETNA^AETNA Health|AH|AETNA Health|||||||||20091231|||||||||||||||||||||||98761235

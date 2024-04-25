@@ -9,9 +9,7 @@
 /volumes
 /data/db
 /data/SC*
-/data/**/archive
 /data/**/out
+/data/**/*archive
 **/~$*
 /data/EP
-/data/Demo/loan/inarchive*
-/data/Demo/loan/out
