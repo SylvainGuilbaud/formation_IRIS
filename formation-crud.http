@@ -1,0 +1,55 @@
+
+```http
+### version
+GET http://_system:SYS@localhost:52773/formation/crud/version
+
+### get all
+GET http://_system:SYS@localhost:52773/formation/crud/api/data.test
+
+### get one
+GET http://_system:SYS@localhost:52773/formation/crud/api/data.test/12
+
+### create 
+POST http://_system:SYS@localhost:52773/formation/crud/api/data.test HTTP/1.1
+content-type: application/json
+
+{   
+    "MT":"TWELVE",
+    "Boolean":true,
+    "Integer":12,
+    "String":"Twelve",
+    "rawString":"Twelve",
+    "Numeric":12.67,
+    "Double":12.788,
+    "Float":12.567,
+    "Date":"2024-04-25",
+    "Timestamp":"2024-04-26T14:44:56",
+    "CStream":"Hello Twelve",
+    "BStream":"Hello Twelve"
+}
+
+### update 
+PUT http://_system:SYS@localhost:52773/formation/crud/api/data.test/12 HTTP/1.1
+content-type: application/json
+
+{   
+    "MT":"TWELVE",
+    "Boolean":true,
+    "Integer":12,
+    "String":"Twelve",
+    "rawString":"Twelve",
+    "Numeric":12.67,
+    "Double":12.788,
+    "Float":12.567,
+    "Date":"2024-04-25",
+    "Timestamp":"2024-04-26T14:44:56",
+    "CStream":"Hello Twelve",
+    "BStream":"Hello Twelve"
+}
+
+### delete
+DELETE http://_system:SYS@localhost:52773/formation/crud/api/data.test/12 HTTP/1.1
+
+```
+
+
