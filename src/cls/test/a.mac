@@ -1,0 +1,12 @@
+ROUTINE test.1
+    r !,"Enter the hour: ",hr  
+    r !,"Enter the minute: ",min 
+    r !,"Enter the second: ",sec 
+    s Mtime=$$ConvertToMTime(hr,min,sec)
+    w !,"Equivalent M time: ",Mtime," (Time:",$zt(Mtime),")",!
+    for a = 0,3600,43200,45296,86399 {
+        w !,"Equivalent M time: ",a," (Time:",$zt(a),")",!
+    }
+    q
+ConvertToMTime(h,m,s)
+    q (h*3600)+(m*60)+(s)

@@ -1,7 +1,7 @@
 /// RECORDMAP: Generated from RecordMap 'formation.RM.personne'
 /// on 2022-10-25 at 14:27:10.212 [2022-10-25 14:27:10.212 UTC]
 /// by user _SYSTEM
-Class formation.RM.personne.Record Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Base, %JSON.Adaptor) [ Inheritance = right, ProcedureBlock ]
+Class formation.RM.personne.Record Extends (%Persistent, %XML.Adaptor, Ens.Request, EnsLib.RecordMap.Base, %JSON.Adaptor, interop.msg.JSONMessage) [ Inheritance = right, ProcedureBlock ]
 {
 
 Parameter INCLUDETOPFIELDS = 1;

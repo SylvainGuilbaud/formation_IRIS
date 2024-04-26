@@ -6,7 +6,7 @@ Confidential property of InterSystems Corporation.
 
 /// API for InterSystems IRIS supply chain analytics<br/>
 /// Business logic class defined by OpenAPI in scbiAPI.spec<br/>
-/// Updated Jul 10, 2023 08:35:29
+/// Updated Mar 19, 2024 12:24:15
 Class scbiAPI.impl Extends %REST.Impl [ ProcedureBlock ]
 {
 

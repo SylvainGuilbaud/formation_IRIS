@@ -1,4 +1,4 @@
-Class formation.msg.mysql.personne Extends (Ens.Request, %JSON.Adaptor, %XML.Adaptor)
+Class formation.msg.mysql.personne Extends interop.msg.JSONMessage
 {
 
 Property id As %Integer;

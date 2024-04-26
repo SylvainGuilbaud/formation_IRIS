@@ -1,4 +1,4 @@
-Class formation.msg.mysql.batch Extends Ens.Request
+Class formation.msg.mysql.batch Extends interop.msg.JSONMessage
 {
 
 Property list As array Of formation.msg.mysql.personne;

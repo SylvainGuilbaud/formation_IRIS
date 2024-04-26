@@ -14,21 +14,21 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="InactivityTimeout">0</Setting>
     <Setting Target="Host" Name="AckTargetConfigNames"></Setting>
     <Setting Target="Host" Name="Framing">Flexible</Setting>
-    <Setting Target="Host" Name="TargetConfigNames">ABC_Router</Setting>
-    <Setting Target="Host" Name="SearchTableClass">Demo.HL7.MsgRouter.SearchTable</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">ABC_Router,ADT</Setting>
+    <Setting Target="Host" Name="SearchTableClass"></Setting>
     <Setting Target="Host" Name="LocalFacilityApplication"></Setting>
     <Setting Target="Host" Name="AckMode">Never</Setting>
     <Setting Target="Host" Name="UseAckCommitCodes">1</Setting>
     <Setting Target="Host" Name="IgnoreInboundAck">1</Setting>
     <Setting Target="Host" Name="BatchHandling">Batch</Setting>
-    <Setting Target="Host" Name="MessageSchemaCategory">Demo.HL7.MsgRouter.Schema</Setting>
+    <Setting Target="Host" Name="MessageSchemaCategory">2.3.1</Setting>
     <Setting Target="Host" Name="DefCharEncoding">Latin1</Setting>
     <Setting Target="Host" Name="AlertGracePeriod">0</Setting>
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/in</Setting>
+    <Setting Target="Adapter" Name="FilePath">/data/HL7/in/</Setting>
     <Setting Target="Adapter" Name="FileSpec">ABC*</Setting>
-    <Setting Target="Adapter" Name="ArchivePath">/data/HL7/inarchive</Setting>
+    <Setting Target="Adapter" Name="ArchivePath">/data/HL7/inarchive/</Setting>
     <Setting Target="Adapter" Name="WorkPath"></Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="FileAccessTimeout">10</Setting>
@@ -51,9 +51,9 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertGracePeriod">0</Setting>
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/in</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\in</Setting>
     <Setting Target="Adapter" Name="FileSpec">XYZ*</Setting>
-    <Setting Target="Adapter" Name="ArchivePath">/data/HL7/inarchive</Setting>
+    <Setting Target="Adapter" Name="ArchivePath">C:\Practice\inarchive</Setting>
     <Setting Target="Adapter" Name="WorkPath"></Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="FileAccessTimeout">10</Setting>
@@ -108,7 +108,7 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">AsciiLF</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
@@ -124,7 +124,7 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">AsciiLF</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
@@ -140,7 +140,7 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">AsciiLF</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
@@ -156,7 +156,7 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">AsciiLF</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
@@ -172,7 +172,7 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">AsciiLF</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
@@ -188,7 +188,7 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">AsciiLF</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
@@ -204,7 +204,7 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">AsciiLF</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
@@ -220,7 +220,7 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">AsciiLF</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
@@ -238,10 +238,38 @@ To demonstrate alerts, give EMailAlertOperation a valid STMP server and Recipien
     <Setting Target="Host" Name="AlertOnError">1</Setting>
     <Setting Target="Host" Name="ArchiveIO">0</Setting>
     <Setting Target="Host" Name="Framing">Ascii115/101</Setting>
-    <Setting Target="Adapter" Name="FilePath">/data/HL7/out</Setting>
+    <Setting Target="Adapter" Name="FilePath">C:\Practice\out</Setting>
     <Setting Target="Adapter" Name="Overwrite">0</Setting>
     <Setting Target="Adapter" Name="Charset">Default</Setting>
     <Setting Target="Adapter" Name="OpenTimeout">5</Setting>
+  </Item>
+  <Item Name="ADT" Category="" ClassName="EnsLib.HL7.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="BusinessRuleName">HL7router.ADT</Setting>
+  </Item>
+  <Item Name="ADTService" Category="" ClassName="EnsLib.HL7.Service.FileService" PoolSize="1" Enabled="true" Foreground="false" Comment="Test source of HL7 messages." LogTraceEvents="false" Schedule="">
+    <Setting Target="Host" Name="InactivityTimeout">0</Setting>
+    <Setting Target="Host" Name="AckTargetConfigNames"></Setting>
+    <Setting Target="Host" Name="Framing">Flexible</Setting>
+    <Setting Target="Host" Name="TargetConfigNames">ADT</Setting>
+    <Setting Target="Host" Name="SearchTableClass"></Setting>
+    <Setting Target="Host" Name="LocalFacilityApplication"></Setting>
+    <Setting Target="Host" Name="AckMode">Never</Setting>
+    <Setting Target="Host" Name="UseAckCommitCodes">1</Setting>
+    <Setting Target="Host" Name="IgnoreInboundAck">1</Setting>
+    <Setting Target="Host" Name="BatchHandling">Batch</Setting>
+    <Setting Target="Host" Name="MessageSchemaCategory">2.3.1</Setting>
+    <Setting Target="Host" Name="DefCharEncoding">Latin1</Setting>
+    <Setting Target="Host" Name="AlertGracePeriod">0</Setting>
+    <Setting Target="Host" Name="AlertOnError">1</Setting>
+    <Setting Target="Host" Name="ArchiveIO">0</Setting>
+    <Setting Target="Adapter" Name="FilePath">/data/HL7/in/</Setting>
+    <Setting Target="Adapter" Name="FileSpec">ADT*.hl7</Setting>
+    <Setting Target="Adapter" Name="ArchivePath">/data/HL7/inarchive/</Setting>
+    <Setting Target="Adapter" Name="WorkPath"></Setting>
+    <Setting Target="Adapter" Name="Charset">Default</Setting>
+    <Setting Target="Adapter" Name="FileAccessTimeout">10</Setting>
+    <Setting Target="Adapter" Name="AppendTimestamp">1</Setting>
+    <Setting Target="Adapter" Name="CallInterval">5</Setting>
   </Item>
 </Production>
 }

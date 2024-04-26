@@ -1,0 +1,31 @@
+ROUTINE adm.data.utils.1 [Type=INT,Generated]
+ ;adm.data.utils.1
+ ;Generated for class adm.data.utils.  Do NOT edit. 03/19/2024 12:24:34PM
+ ;;73656E43;adm.data.utils
+ ;
+zexport(file,globalName,delimiter=";") methodimpl
+    set s=$zts write !,"Started at ",s
+    set nb=0
+    set file=$g(file) if $l(file) open file:"WNS" use file
+    set key=$order(@globalName@(""),1,x)
+    while key'="" {
+	    set nb=$i(nb)
+	    write $lts(x,delimiter),!
+	    set key=$order(@globalName@(key),1,x)
+	}
+    i $l(file) c file
+    write !,"Exported ",nb," objects in ",$p($zts,",",2)-$p(s,",",2)," seconds"
+    return 1
+zimport(file,globalName,delimiter=";") methodimpl
+	kill ^CacheTempImport($job)
+    set s=$zts write !,"Started at ",s
+    set file=$g(file) if $l(file) open file:"R" use file
+    set $zt="eof"
+    while 1 {
+	    read x 
+	    set @globalName@($i(@globalName))=$lfs(x,delimiter)
+	    set nb=$i(nb)
+	}
+eof i $l(file) c file
+    write !,"Loaded ",nb," objects in ",$p($zts,",",2)-$p(s,",",2)," seconds"
+    return 1

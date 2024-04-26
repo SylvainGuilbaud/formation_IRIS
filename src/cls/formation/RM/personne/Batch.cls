@@ -1,7 +1,7 @@
 /// RECORDMAP: Modified during compilation of RecordMap 'formation.RM.personne'
 /// on 2022-10-25 at 14:27:10.232 [2022-10-25 14:27:10.232 UTC]
 /// by user _SYSTEM
-Class formation.RM.personne.Batch Extends (%Library.Persistent, EnsLib.RecordMap.SimpleBatch) [ Inheritance = right, ProcedureBlock ]
+Class formation.RM.personne.Batch Extends (%Library.Persistent, EnsLib.RecordMap.SimpleBatch, Grongier.JsonTraceViewer.Message) [ Inheritance = right, ProcedureBlock ]
 {
 
 Parameter XMLNAME = "personneBatch";

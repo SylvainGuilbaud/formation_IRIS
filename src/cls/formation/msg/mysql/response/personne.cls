@@ -1,4 +1,4 @@
-Class formation.msg.mysql.response.personne Extends (Ens.Response, %JSON.Adaptor)
+Class formation.msg.mysql.response.personne Extends interop.msg.JSONMessage
 {
 
 Property inserted As %Integer;

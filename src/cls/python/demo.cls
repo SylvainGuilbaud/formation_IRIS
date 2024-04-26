@@ -1,15 +1,7 @@
-Class python.demo [ Language = python ]
+Class python.demo
 {
 
-/// Description
-ClassMethod getCountry(id As %Integer = 1) As dc.data.Country
-{
-import iris
-country = iris.cls("dc.data.Country")._OpenId(id)
-return country
-}
-
-ClassMethod CreateSamplePDF(fileloc As %String) As %Status
+ClassMethod CreateSamplePDF(fileloc As %String) As %Status [ Language = python ]
 {
     import iris
     import canvas

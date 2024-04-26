@@ -256,12 +256,11 @@ Method getAttachment(msg As %Net.MailMessage, ByRef attachment As %Stream.Global
 }
 
 /// Description
-ClassMethod MethodName() As %Status [Language=python]
+ClassMethod MethodName() As %Status [ Language = python ]
 {
 import IRIS
-
-
 }
+
 ClassMethod OnGetConnections(Output pArray As %String, pItem As Ens.Config.Item)
 {
 	Do ##super(.pArray,pItem)

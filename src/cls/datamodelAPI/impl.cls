@@ -1,6 +1,6 @@
 /// API for InterSystems IRIS supply chain data model<br/>
 /// Business logic class defined by OpenAPI in datamodelAPI.spec<br/>
-/// Updated Jul 10, 2023 08:39:35
+/// Updated Mar 19, 2024 12:24:14
 Class datamodelAPI.impl Extends %REST.Impl [ ProcedureBlock ]
 {
 
