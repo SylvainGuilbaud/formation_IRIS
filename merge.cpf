@@ -10,4 +10,4 @@ CreateResource:Name=%DB_TEST_DATA,Description="TEST_DATA database"
 CreateDatabase:Name=TEST_DATA,Directory=/usr/irissys/mgr/TEST_DATA,Resource=%DB_TEST_DATA
 CreateResource:Name=%DB_TEST_CODE,Description="TEST_CODE database"
 CreateDatabase:Name=TEST_CODE,Directory=/usr/irissys/mgr/TEST_CODE,Resource=%DB_TEST_CODE
-CreateNamespace:Name=TEST,Globals=TEST_DATA,Routines=TEST_CODE,Interop=1
+CreateNamespace:Name=TEST,Globals=TEST_DATA,Routines=TEST_CODE,Interop=1    
