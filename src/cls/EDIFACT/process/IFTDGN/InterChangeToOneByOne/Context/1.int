@@ -1,0 +1,1283 @@
+ROUTINE EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.1 [Type=INT,Generated]
+ ;EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.1
+ ;Generated for class EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.  Do NOT edit. 05/31/2024 04:34:35PM
+ ;;79627634;EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context
+ ;
+SQLUPPER(v,l) { quit $zu(28,v,7,$g(l,32767)) }
+ALPHAUP(v,r) { quit $zu(28,v,6) }
+STRING(v,l) { quit $zu(28,v,9,$g(l,32767)) }
+SQLSTRING(v,l) { quit $zu(28,v,8,$g(l,32767)) }
+UPPER(v) { quit $zu(28,v,5) }
+MVR(v) { quit $zu(28,v,2) }
+TRUNCATE(v,l) { quit $e(v,1,$g(l,3641144)) }
+%BindExport(dev,Seen,RegisterOref,AllowedDepth,AllowedCapacity) methodimpl {
+   i $d(Seen(+$this)) q 1
+   Set Seen(+$this)=$this
+   s sc = 1
+ s proporef=..%Process
+ s proporef=..%ResponseHandlers
+ s proporef=..document
+ s proporef=..msg
+   d:RegisterOref InitObjVar^%SYS.BINDSRV($this)
+   i dev'="" s t=$io u dev i $zobjexport($this_"",3)+$zobjexport($this."%%OID",3)+$zobjexport($this,3)!1 u t
+ If AllowedDepth>0 Set AllowedDepth = AllowedDepth - 1
+ If AllowedCapacity>0 Set AllowedCapacity = AllowedCapacity - 1/4
+ s proporef=..%Process
+       i proporef'="" s sc=1 i AllowedDepth'=0,AllowedCapacity'=0 s sc=proporef.%BindExport(dev,.Seen,RegisterOref,AllowedDepth,AllowedCapacity) q:('sc) sc
+ s proporef=..%ResponseHandlers
+       i proporef'="",dev'="" s t=$io u dev i $zobjexport(proporef_"",3)+$zobjexport(proporef."%%OID",3)+$zobjexport(proporef,3)!1 u t
+       if proporef'="",dev'="" d
+       . s t=$io u dev i $zobjexport(2_"",3)!1 u t
+       . s t=$io u dev i $zobjexport(proporef.Count()_"",3)!1 u t
+     . s idx="" f  s value=proporef.GetNext(.idx) q:idx=""  s t=$io u dev i $zobjexport(idx_"",3)!1 u t s t=$io u dev i $zobjexport(value_"",3)!1 u t
+ s proporef=..document
+       i proporef'="" s sc=1 i AllowedDepth'=0,AllowedCapacity'=0 s sc=proporef.%BindExport(dev,.Seen,RegisterOref,AllowedDepth,AllowedCapacity) q:('sc) sc
+ s proporef=..msg
+       i proporef'="" s sc=1 i AllowedDepth'=0,AllowedCapacity'=0 s sc=proporef.%BindExport(dev,.Seen,RegisterOref,AllowedDepth,AllowedCapacity) q:('sc) sc
+   Quit sc }
+%CheckConstraintsForExtent(pConstraintList="",pCheckDisabled=0,pErrorLog) [ SQLCODE,tID ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE,tID 
+	kill pErrorLog set tStatusAll = 1, pErrorLog = 0 if '$listvalid(pConstraintList) { set pConstraintList = $listfromstring(pConstraintList) }
+	 ;---&sql(declare ext cursor for select %ID into :tID FROM %NOPARALLEL EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE, tID
+	 
+	 ;---&sql(open ext)
+	if $g(%ext0752)'="" { s SQLCODE=-101 } else { try { s %ext0752="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eke82UdwiQheTyf6tDVypkm1Opb",%ext0752=$classmethod(%ext0752,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%ext0752)),$ze'["<ZSQLU>" { throw } } if '$isobject(%ext0752) { s %ext0752=$$%0dsqlA() } }
+	if SQLCODE '< 0 {
+		for {
+			 ;---&sql(fetch ext)
+ 			 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+			if $isobject($g(%ext0752))'=1 { s SQLCODE=-102 } else { do %ext0752.FET() }
+			if SQLCODE { if SQLCODE=100 { quit } elseif SQLCODE<0 { set tStatusAll = $select(+tStatusAll:$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)),1:$$AppendStatus^%occSystem(tStatusAll,$$Error^%apiOBJ(5521,SQLCODE,$Get(%msg)))) quit } }
+			set tStatus = ..%CheckConstraints(tID,pConstraintList,pCheckDisabled,.tErrorInfo)
+			if ('tStatus) { set tStatusAll = $select(+tStatusAll:tStatus,1:$$AppendStatus^%occSystem(tStatusAll,tStatus)) set:pErrorLog<1000 pErrorLog = pErrorLog + 1, pErrorLog(pErrorLog) = tErrorInfo _ $Listbuild(tStatus) }
+		}
+		 ;---&sql(close ext)
+		if '$isobject($get(%ext0752)) { set SQLCODE=-102 } else { set SQLCODE=0 kill %ext0752 }
+	}
+	quit tStatusAll }
+ q
+%0dsqlA()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE ext CURSOR FOR SELECT %ID INTO :tID FROM %NOPARALLEL EDIFACT_process_IFTDGN_InterChangeToOneByOne . Context"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("I","EnsCompiler")="",%xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","EDIFACT.process.IFTDGN.InterChangeToOneByOne",0,"",),",0,ext,","EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.CLS",1)
+	i $g(SQLCODE) { s tID="" }
+	q %xxoref
+%ComposeOid(id) methodimpl {
+	set tCLASSNAME = $listget($g(^Ens.BP.ContextD(id)),1)
+	Set tClass=$classname(),tClass=$select(($extract(tClass,1,5)="User.")&&($length(tClass,".")=2):$piece(tClass,".",2),1:tClass)
+	if tCLASSNAME'[($extract(tCLASSNAME)_tClass_$extract(tCLASSNAME)) Quit ""
+	set tClass=$piece(tCLASSNAME,$extract(tCLASSNAME),*-1)
+	set:tClass'["." tClass="User."_tClass
+	quit $select(id="":"",1:$listbuild(id_"",tClass)) }
+%Construct(initvalue) methodimpl {
+	Set i%%Concurrency=$zu(115,10),i%%LastError=1,i%key=0,i%moreDocuments=1
+	Set m%%ResponseHandlers=0,M%%ResponseHandlers=0
+	Try { Set sc=..%OnNew(.initvalue) } Catch newerror {}
+	If $isobject($get(newerror))=1||(('sc)) {
+		Kill %objtxLIST(+$this),%objtxOIDASSIGNED(+$this),%objtxOIDUNASSIGNED(+$this),%objtxMODIFIED(+$this)
+		If $get(i%"%%OID")'="" {
+			If i%%Concurrency=3 { Do ..%ReleaseLock("s") } ElseIf i%%Concurrency=4 { Do ..%ReleaseLock("e") }
+			Set $zobjoid("",$listget(i%"%%OID"))="",i%"%%OID"=""
+		}
+		If $isobject($get(newerror))=1 Throw newerror
+	}
+	Quit sc }
+%ConstructCloneInit(object,deep=0,cloned,location) methodimpl {
+	Set i%%ResponseHandlers="",r%%ResponseHandlers=""
+	Set i%"%%OID"=""
+	If deep>0 {
+		If $isobject(..%Process)=1 Set r%%Process=r%%Process.%ConstructClone(1,.cloned),i%%Process=""
+		If $isobject(..document)=1 Set r%document=r%document.%ConstructClone(1,.cloned),i%document=""
+		If $isobject(..msg)=1 Set r%msg=r%msg.%ConstructClone(1,.cloned),i%msg=""
+	}
+	Quit 1 }
+%DeleteData(id,concurrency) methodimpl {
+	Quit:id="" $$Error^%apiOBJ(5812)
+	set $Ztrap="DeleteDataERR" set lockok=0,sc=""
+	If concurrency {
+		Lock +(^Ens.BP.ContextD(id)#"E"):$zu(115,4)
+		Set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0))
+		Set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1
+		If 'lockok {
+			Quit $$Error^%apiOBJ(5803,$classname())
+		}
+	}
+	If ($Data(^Ens.BP.ContextD(id))) {
+		If $data(^oddEXTR($classname())) {
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"%1","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"%1","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",id)
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+			Set fc=""
+			For {
+				Set fc=$order(^rINDEXEXT("F",$classname(),"IDKEY","f",fc))
+				Quit:fc=""
+				Set fk=""
+				For {
+					Set fk=$order(^rINDEXEXT("F",$classname(),"IDKEY","f",fc,fk))
+					Quit:fk=""
+					Set sc=$classmethod(fc,fk_"Delete",id)
+					If ('sc) { Goto DeleteDataEXIT }
+				}
+			}
+		}
+		Kill ^Ens.BP.ContextD(id,"%ResponseHandlers")
+		Kill ^Ens.BP.ContextD(id)
+		Kill ^Ens.BP.ContextD(id,"Context")
+		Set sc=1
+	}
+	Else { Set sc=$$Error^%apiOBJ(5810,$classname(),id) }
+DeleteDataEXIT
+	If concurrency,lockok {
+		Lock -(^Ens.BP.ContextD(id)#"E")
+	}
+DeleteDataRET	Set $Ztrap = ""
+	QUIT sc
+DeleteDataERR	Set $Ztrap = "DeleteDataRET"
+	Set sc = $$Error^%apiOBJ(5002,$ZE)
+	Goto DeleteDataEXIT }
+%ExistsId(id) methodimpl {
+	Try { set tExists = $s(id="":0,$d(^Ens.BP.ContextD(id))&&(''..%OnDetermineClass($select(id="":"",1:$listbuild(id_"")))):1,1:0) } catch tException { set tExists = 0 if '(tException.%IsA("%Exception.SystemException")) { throw tException } elseif tException.Name'="<SUBSCRIPT>" { ZT $ZE } } quit tExists }
+%InsertBatch(objects,concurrency=0,useTransactions=0) methodimpl {
+	try {
+		set numerrs=0,errs="",cnt=0,ptr=0
+		while $listnext(objects,ptr,data) {
+			set cnt=cnt+1
+			set lock=0
+			if (useTransactions) tstart
+			set id=$i(^Ens.BP.ContextD)
+			try {
+				set tInnerException = ""
+				;
+				if concurrency { lock +(^Ens.BP.ContextD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				merge ^Ens.BP.ContextD(id,"%ResponseHandlers")=data("%ResponseHandlers")
+				set ^Ens.BP.ContextD(id)=data
+				set ^Ens.BP.ContextD(id,"Context")=data("Context")
+				if (useTransactions) { tcommit }
+			}
+			catch tInnerException {
+				set newerr=$lb(cnt,tInnerException.AsStatus())
+				if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+				if (useTransactions) && ($Tlevel) trollback
+			}
+			if lock lock -(^Ens.BP.ContextD(id)#"E")
+		}
+	}
+	catch tException {
+		set newerr=$lb($g(cnt),tException.AsStatus())
+		if '($length(errs)+$length(newerr)>32767) { set numerrs=numerrs+1, errs=errs_newerr }
+	}
+	QUIT ($lb(numerrs))_errs }
+%KillExtentData(killstreams=0) methodimpl
+	Quit 1
+%LoadData(id) methodimpl {
+	New %s2,%s3
+	set $ZTrap="CatchError",locked=0,userze=$ze,$ze=""
+	If i%%Concurrency=4 {
+		Lock +(^Ens.BP.ContextD(id)#"E"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 s:$ze="" $ze=userze return $$Error^%apiOBJ(5803,$classname())
+	} ElseIf i%%Concurrency>0 {
+		Lock +(^Ens.BP.ContextD(id)#"SE"):$zu(115,4)
+		if '$t do init s i%%Concurrency=0 s:$ze="" $ze=userze return $$Error^%apiOBJ(5804,$classname())
+		set locked = 1
+	}
+	Set sc=""
+	if $d(^Ens.BP.ContextD(id)) {
+		Set sc=1
+		Kill i%%ResponseHandlers Merge i%%ResponseHandlers=^Ens.BP.ContextD(id,"%ResponseHandlers")
+		Set %s2=$g(^Ens.BP.ContextD(id))
+		S i%%Process=$lg(%s2,2),i%%LastError=$lg(%s2,3),i%%LastFault=$lg(%s2,4)
+		Set %s3=$g(^Ens.BP.ContextD(id,"Context"))
+		S i%UNBS0002=$lg(%s3),i%document=$lg(%s3,2),i%key=$lg(%s3,3),i%moreDocuments=$lg(%s3,4),i%msg=$lg(%s3,5)
+	} Else {
+		do init
+	}
+	If i%%Concurrency=2||(i%%Concurrency=1) {
+		Lock -(^Ens.BP.ContextD(id)#"SIE")
+	}
+	s:$ze="" $ze=userze
+	RETURN $s((''sc):1,1:$$Error^%apiOBJ(5809,$classname(),id))
+CatchError	set $ZTrap = "" if $ZE'="" { s sc = $$Error^%apiOBJ(5002,$ZE) }
+	If ($get(locked))&&(i%%Concurrency<3) { Lock -(^Ens.BP.ContextD(id)#"SIE") }
+	if '('sc) { set sc=$$Error^%apiOBJ(5809,$classname(),id) }
+	s:$ze="" $ze=userze
+	return sc
+init	Set i%%LastError="",i%%LastFault="",i%%Process="",i%%ResponseHandlers="",i%UNBS0002="",i%document="",i%key="",i%moreDocuments="",i%msg=""
+	quit }
+%LoadDataFromMemory(id,objstate,obj) methodimpl {
+	New %s2,%s3
+	Set sc=""
+	If $d(objstate(id)) {
+		Set sc=1
+		Kill i%%ResponseHandlers Merge i%%ResponseHandlers=objstate(id,"%ResponseHandlers")
+		Set %s2=$g(objstate(id))
+		S i%%Process=$lg(%s2,2),i%%LastError=$lg(%s2,3),i%%LastFault=$lg(%s2,4)
+		Set %s3=$g(objstate(id,"Context"))
+		S i%UNBS0002=$lg(%s3),i%document=$lg(%s3,2),i%key=$lg(%s3,3),i%moreDocuments=$lg(%s3,4),i%msg=$lg(%s3,5)
+	} Else {
+		set i%%LastError="",i%%LastFault="",i%%Process="",i%%ResponseHandlers="",i%UNBS0002="",i%document="",i%key="",i%moreDocuments="",i%msg=""
+	}
+	Quit:sc'="" sc
+	Quit $$Error^%apiOBJ(5809,$classname(),id) }
+%LoadInit(oid="",concurrency="",reset=0) methodimpl {
+	Set:concurrency'="" i%%Concurrency=concurrency
+	If reset {
+		Kill i%%Process,r%%ResponseHandlers,i%%ResponseHandlers,i%document,i%msg
+	}
+	Set r%%Process="",i%%ResponseHandlers="",r%%ResponseHandlers="",r%document="",r%msg=""
+	If 'reset { Set gbl=..#DATALOCATIONGLOBAL If gbl="" { Set oref=$zobjoid("",$listget(oid)),sfn=$zu(40,0,41) } Else { Set oref=$zobjoid("",$listget(oid),@gbl,.sfn) } Set $zobjoid("",$listget(oid),,sfn)=$this,i%"%%OID"=oid }
+	Quit 1 }
+%NormalizeObject() methodimpl {
+	If '$system.CLS.GetModified() Quit 1
+	If m%%LastFault Set:i%%LastFault'="" i%%LastFault=(..%LastFaultNormalize(i%%LastFault))
+	If m%%ResponseHandlers Set key="" For  Set key=$order(i%%ResponseHandlers(key),1,data) Quit:key=""  Set:data'="" i%%ResponseHandlers(key)=..%ResponseHandlersNormalize(data)
+	If m%UNBS0002 Set:i%UNBS0002'="" i%UNBS0002=(..UNBS0002Normalize(i%UNBS0002))
+	If m%key Set:i%key'="" i%key=(..keyNormalize(i%key))
+	If m%moreDocuments Set:i%moreDocuments'="" i%moreDocuments=(..moreDocumentsNormalize(i%moreDocuments))
+	Quit 1 }
+%OnDetermineClass(oid,class) methodimpl {
+	Set id=$listget($get(oid))
+	RETURN:id="" $$Error^%apiOBJ(5812)
+	set idclass=$lg($get(^Ens.BP.ContextD(id)),1)
+	set id=$classname(),id=$select(($extract(id,1,5)="User.")&&($length(id,".")=2):$piece(id,".",2),1:id)
+	if idclass'[("~"_id_"~") { RETURN $$Error^%apiOBJ(5825,$classname()) }
+	set class=$piece(idclass,"~",*-1)
+	set:class'["." class="User."_class
+	RETURN 1 }
+%PhysicalAddress(id,paddr) methodimpl
+	if $Get(id)="" { RETURN $$Error^%apiOBJ(5813,$classname()) }
+	if (id="") { RETURN $$Error^%apiOBJ(5832,$classname(),id) }
+	set paddr(1)=$lb($Name(^Ens.BP.ContextD(id,"%ResponseHandlers")),$classname(),"IDKEY","subnode",id)
+	set paddr(2)=$lb($Name(^Ens.BP.ContextD(id)),$classname(),"IDKEY","listnode",id)
+	set paddr(3)=$lb($Name(^Ens.BP.ContextD(id,"Context")),$classname(),"IDKEY","listnode",id)
+	set paddr=3
+	RETURN 1
+%SQLAcquireLock(%rowid,s=0,unlockref=0) methodimpl
+	new %d,gotlock
+	set %d(1)=%rowid set s=$e("E",'unlockref)_$e("S",s)
+	lock +^Ens.BP.ContextD(%d(1))#s:$zu(115,4) set gotlock=$t
+	if gotlock,'unlockref { set:$case($SYSTEM.Lock.ReturnCode(),2:1,4:1,:0)&&($tlevel) %0CacheLock("EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context","E")=1 }
+	set:gotlock&&unlockref unlockref=unlockref+1,unlockref(unlockref)=$lb($name(^Ens.BP.ContextD(%d(1))),"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context",s_"D")
+	QUIT gotlock
+%SQLAcquireTableLock(s=0,SQLCODE,to="") methodimpl
+	set s=$e("S",s) set:to="" to=$zu(115,4) lock +^Ens.BP.ContextD#s:to QUIT:$t 1 set SQLCODE=-110 if s="S" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler35",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context") } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler36",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context") } QUIT 0
+	Return
+%SQLBuildIndices(pIndices="",pLockFlag=0,pStartID="",pEndID="",pIgnoreIndexList="",pKeepSelectability=0) methodimpl
+	RETURN ..%BuildIndices(pIndices,,pLockFlag,,pStartID,pEndID,pIgnoreIndexList,pKeepSelectability)
+%SQLBuildPurgeIndexForRow(pIndices="",pActions="BP",pLockRow=1,%d,%e,pIgnoreIndexList="") methodimpl
+	// Purge and build index nodes for a single row using given values, return Status Code
+	new sn,tSC,tLock set tSC=1,pActions=$zcvt(pActions,"U")
+	try {
+		if $g(%d(1))="" { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-108,"RowID value must be specified in %d(1) when calling %SQLBuildPurgeIndexForRow for table 'EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context'"))) RETURN tSC }
+		if pLockRow { if '..%SQLAcquireLock(%d(1)) { set tSC=$select(+tSC:$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context' with %ID = '"_%d(1)_"'"),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5521,-114,"Unable to lock row in table 'EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context' with %ID = '"_%d(1)_"'"))) RETURN tSC  } else { set tLock=1 }}
+		if pLockRow { do ..%SQLReleaseLock(%d(1),0,0) set tLock=0 }
+	}
+	catch {
+		if $g(tLock) { do ..%SQLReleaseLock(%d(1),0,0) }
+		set tSC=$select(+tSC:$$Error^%apiOBJ(5594,$ze),1:$$AppendStatus^%occSystem(tSC,$$Error^%apiOBJ(5594,$ze)))
+	}
+	QUIT tSC
+%SQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+	 ;---&sql(SELECT ID FROM EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %pID, %pVals, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E1a6OtYkeK2PMnLh8U89G5PuSrq","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E1a6OtYkeK2PMnLh8U89G5PuSrq"))||($ze["<ZSQLU>") { d %0dsqlD } else { throw } } QUIT SQLCODE=100
+ q
+%0dsqlD	n %xxsql
+	s %xxsql("S",1)="SELECT ID FROM EDIFACT_process_IFTDGN_InterChangeToOneByOne . Context WHERE ID = :%pVals(1) AND ( %ID <> :%pID OR :%pID IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("I","EnsCompiler")="",%xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","EDIFACT.process.IFTDGN.InterChangeToOneByOne",0,"",),,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.CLS")
+	return
+%SQLCheckUniqueIndices(pIndices,pOK) methodimpl
+	new d,g,n,o set d=0
+	set pOK=1 QUIT
+%SQLCopyIcolIntoName() methodimpl
+	if %oper="DELETE" {
+		set:$d(%d(1)) %f("ID")=%d(1)
+		QUIT
+	}
+	set:$d(%d(1)) %f("ID")=%d(1) set:$a(%e,2)&&$d(%d(2)) %f("%LastError")=%d(2) set:$a(%e,3)&&$d(%d(3)) %f("%LastFault")=%d(3) set:$a(%e,4)&&$d(%d(4)) %f("%Process")=%d(4) set:$a(%e,5)&&$d(%d(5)) %f("UNBS0002")=%d(5) set:$a(%e,6)&&$d(%d(6)) %f("document")=%d(6) set:$a(%e,7)&&$d(%d(7)) %f("key")=%d(7) set:$a(%e,8)&&$d(%d(8)) %f("moreDocuments")=%d(8) set:$a(%e,9)&&$d(%d(9)) %f("msg")=%d(9) set:$a(%e,10)&&$d(%d(10)) %f("x__classname")=%d(10)
+	QUIT
+%SQLCopyNameIntoIcol() methodimpl
+	k %d,%e set:$d(%f("ID"))#2 %d(1)=%f("ID") set:$d(%f("%LastError"))#2 %d(2)=%f("%LastError") set:$d(%f("%LastFault"))#2 %d(3)=%f("%LastFault") set:$d(%f("%Process"))#2 %d(4)=%f("%Process") set:$d(%f("UNBS0002"))#2 %d(5)=%f("UNBS0002") set:$d(%f("document"))#2 %d(6)=%f("document") set:$d(%f("key"))#2 %d(7)=%f("key") set:$d(%f("moreDocuments"))#2 %d(8)=%f("moreDocuments") set:$d(%f("msg"))#2 %d(9)=%f("msg") set:$d(%f("x__classname"))#2 %d(10)=%f("x__classname")  kill %f QUIT
+%SQLDefineiDjVars(%d,subs,master) methodimpl
+	QUIT
+%SQLDelete(%rowid,%check,%tstart=1,%mv=0,%polymorphic=0,%bufferedColumns=0) methodimpl
+	// SQL DELETE method for table EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context
+	if %polymorphic { do ..%SQLCopyNameIntoIcol() set %d(1)=%rowid,%e(1)=%rowid  goto %SQLDeletePD }
+	new bva,ce,%d,dc,%e,%ele,%itm,%key,%l,%nc,omcall,%oper,%pos,%s,sn,sqlcode,subs set %oper="DELETE",sqlcode=0,%ROWID=%rowid,%d(1)=%rowid,%e(1)=%rowid,%l=$c(0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BP.ContextD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORDelete"
+%SQLDeletePD	// Entry point for Polymorphic Dispatch from a super-table
+	do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) if sqlcode { set SQLCODE=-106,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler58",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",%rowid) do ..%SQLEExit() QUIT  }
+	if %e(10)'="" { set sn=$p(%e(10),$e(%e(10)),$l(%e(10),$e(%e(10)))-1) if "EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context"'=sn { new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLDelete",%rowid,%check,%tstart,%mv,1) QUIT  }}
+	if '$a(%check),'$zu(115,7) do  if sqlcode set SQLCODE=sqlcode do ..%SQLEExit() QUIT  
+	. new %fk,%k,%p,%st,%t,%z set %k="",%p("%1")="%d(1),",%p("IDKEY")="%d(1),"
+	. for  quit:sqlcode<0  set %k=$o(^rINDEXEXT("F","EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context",%k)) quit:%k=""  set %t="" for  set %t=$o(^rINDEXEXT("F","EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context",%k,"f",%t)) quit:%t=""  set %st=(%t="EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context") set %fk="" for  set %fk=$o(^rINDEXEXT("F","EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context",%k,"f",%t,%fk)) quit:%fk=""  x "set %z=$classmethod(%t,%fk_""SQLFKeyRefAction"",%st,%k,$a(%check,2),"_%p(%k)_")" if %z set sqlcode=-124 quit  
+	set ce="" for  { set ce=$order(^oddSQL("EDIFACT_process_IFTDGN_InterChangeToOneByOne","Context","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children
+	set ce="" for  { set ce=$order(^oddSQL("Ens_BP","Context","DC",ce)) quit:ce=""   do $classmethod(ce,"%SQLDeleteChildren",%d(1),%check,.sqlcode) quit:sqlcode<0  } if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() QUIT } // Delete any children of the root extent
+	if '$a(%check,3) {
+	}
+	kill ^Ens.BP.ContextD(%d(1))
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORDelete	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT
+	Return
+%SQLDeleteTempStreams() methodimpl
+	// Delete all temporary streams
+	QUIT
+%SQLEExit() methodimpl
+	do ..%SQLUnlock() 
+	if %tstart,$zu(115,1)=1,$TLEVEL { set %tstart=0 TROLLBACK 1 } kill:$g(omcall) %0CacheSQLRA QUIT  
+	Return
+%SQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key %1.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context"_":"_"%1") RETURN 0 } }
+	if pLockOnly<1 {
+		new exists set exists='..%SQLCheckUnique(0,,%pVal(1)) RETURN:pLockOnly=-1 exists
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN exists
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN 1 }
+	Return
+%SQLGetLock(pRowId,pShared=0,pUnlockRef) methodimpl
+	QUIT ..%SQLAcquireLock(pRowId,pShared,.pUnlockRef)
+%SQLGetOld(%rowid,%d,%e,sqlcode) methodimpl
+	// Get old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT x__classname INTO :%e() FROM %IGNOREINDEX * EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %e, %msg, %rowid, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EgNuILIjhAoKva7oKy09FvrZZ8l","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EgNuILIjhAoKva7oKy09FvrZZ8l"))||($ze["<ZSQLU>") { d %0dsqlF } else { throw } }
+	set sqlcode=SQLCODE RETURN:sqlcode'=0
+	RETURN
+ q
+%0dsqlF	n %xxsql
+	s %xxsql("S",1)="SELECT x__classname INTO :%e() FROM %IGNOREINDEX * EDIFACT_process_IFTDGN_InterChangeToOneByOne . Context WHERE ID = :%rowid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("I","EnsCompiler")="",%xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","EDIFACT.process.IFTDGN.InterChangeToOneByOne",0,"",),,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.CLS")
+	return
+%SQLGetOldAll() methodimpl
+	// Get all old data values
+	new SQLCODE,%ROWCOUNT
+	 ;---&sql(SELECT %LastError,%LastFault,%Process,UNBS0002,document,key,moreDocuments,msg,x__classname INTO :%e() FROM %IGNOREINDEX * EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context WHERE ID=:%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %e, %msg, %rowid, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EWzOeqv5Erc90NiqnMXmyD5LGaa","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EWzOeqv5Erc90NiqnMXmyD5LGaa"))||($ze["<ZSQLU>") { d %0dsqlH } else { throw } }
+	set sqlcode=SQLCODE RETURN:sqlcode'=0
+	RETURN
+ q
+%0dsqlH	n %xxsql
+	s %xxsql("S",1)="SELECT %LastError , %LastFault , %Process , UNBS0002 , document , key , moreDocuments , msg , x__classname INTO :%e() FROM %IGNOREINDEX * EDIFACT_process_IFTDGN_InterChangeToOneByOne . Context WHERE ID = :%rowid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("I","EnsCompiler")="",%xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","EDIFACT.process.IFTDGN.InterChangeToOneByOne",0,"",),,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.CLS")
+	return
+%SQLInsert(%d,%check,%inssel,%vco,%tstart=1,%mv=0,%bufferedColumns=0) methodimpl
+	// SQL INSERT method for table EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context
+	new bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,sqlcode,sn,subs,icol set %oper="INSERT",sqlcode=0,%l=$c(0,0,0)
+	if $a(%check,7) { new %diu merge %diu=%d }
+	if $d(%d(1)),'$zu(115,11) { if %d(1)'="" { set SQLCODE=-111,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler6",,"ID","EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context") RETURN ""  } kill %d(1) } 
+	if '$a(%check),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode RETURN "" }
+	do:'$a(%check,8) ..%SQLNormalizeFields()
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  } set $zt="ERRORInsert"
+	set:'$d(%d(2)) %d(2)=1 set:'$d(%d(7)) %d(7)=0 set:'$d(%d(8)) %d(8)=1 set:'$d(%d(10)) %d(10)="~EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context~"
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode<0 { set SQLCODE=sqlcode do ..%SQLEExit() RETURN "" }		// A constraint failed
+	}
+	if '$d(%d(1)) { set %d(1)=$i(^Ens.BP.ContextD) } elseif %d(1)>$g(^Ens.BP.ContextD) { if $i(^Ens.BP.ContextD,$zabs(%d(1)-$g(^Ens.BP.ContextD))) {}} elseif $d(^Ens.BP.ContextD(%d(1))) { set SQLCODE=-119,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler33",,"ID",%d(1),"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context"_"."_"ID") do ..%SQLEExit() RETURN "" }
+	set:'($d(%d(10))#2) %d(10)=""
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BP.ContextD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",$g(%d(1))) do ..%SQLEExit() RETURN ""  }
+	}
+	set ^Ens.BP.ContextD(%d(1))=$lb(%d(10),%d(4),%d(2),%d(3))
+	set:$s(($g(%d(5))'=""):1,($g(%d(6))'=""):1,($g(%d(7))'=""):1,($g(%d(8))'=""):1,1:($g(%d(9))'="")) ^Ens.BP.ContextD(%d(1),"Context")=$lb(%d(5),%d(6),%d(7),%d(8),%d(9))
+	lock:$a(%l) -^Ens.BP.ContextD(%d(1))#"E"
+	TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0
+	QUIT %d(1) 			// %SQLInsert
+ERRORInsert	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",$ze)
+	if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  }
+	do ..%SQLEExit()
+	RETURN ""
+%SQLInvalid(pIcol,pVal) methodimpl {
+	set:$l($g(pVal))>40 pVal=$e(pVal,1,40)_"..." do:'$d(%n) ..%SQLnBuild() set %msg=$s($g(%msg)'="":%msg_$c(13,10),1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler37",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context"_"."_$lg(%n,pIcol),$s($g(pVal)'="":$s(pVal="":"<NULL>",pVal=$c(0):"<EMPTY STRING>",1:"'"_pVal_"'"),1:"")),sqlcode=$s(%oper="INSERT":-104,1:-105)
+	QUIT sqlcode }
+%SQLMissing(fname) methodimpl
+	set sqlcode=-108,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler47",,fname,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context") quit
+%SQLNormalizeFields() methodimpl
+	set:$g(%d(4))'="" %d(4)=$$NormalizeField4(%d(4))
+	set:$g(%d(6))'="" %d(6)=$$NormalizeField6(%d(6))
+	set:$g(%d(9))'="" %d(9)=$$NormalizeField9(%d(9))
+	set:$g(%d(8))'="" %d(8)=$s(%d(8)="":"",1:%d(8)\1)
+	set:$g(%d(7))'="" %d(7)=$select(%d(7)=$c(0)&&$zu(115,13):"",1:%d(7)\1)
+	QUIT
+NormalizeField4(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+NormalizeField6(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+NormalizeField9(%val) {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:$decimal(%val)\1)
+}
+	Return
+%SQLPurgeIndices(pIndices="",pLockExtent=0,pIgnoreIndexList="") methodimpl
+	RETURN ..%PurgeIndices(pIndices,pLockExtent,pIgnoreIndexList)
+%SQLQuickLoad(%rowid,%nolock=0,pkey=0,qq=0) methodimpl
+	// Get fields from row where SQLRowID=%rowid
+	new d,i,il,subs set:%nolock=2 %nolock=1
+	if %nolock=0 { if '..%SQLAcquireLock(%rowid) { set %qrc=114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler45",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",%rowid),%ROWCOUNT=0 QUIT  } set:$zu(115,2) il=$zu(115,2,0) }
+	 ;---&sql(SELECT %INTERNAL(ID),%LastError,%LastFault,%INTERNAL(%Process),UNBS0002,%INTERNAL(document),key,moreDocuments,%INTERNAL(msg),x__classname INTO :d(1),:d(2),:d(3),:d(4),:d(5),:d(6),:d(7),:d(8),:d(9),:d(10) FROM EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context WHERE %ID = :%rowid)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %rowid, SQLCODE, d
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eugq53i2rBTajWEg5OrYq7X75Nr","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"Eugq53i2rBTajWEg5OrYq7X75Nr"))||($ze["<ZSQLU>") { d %0dsqlJ } else { throw } }
+	if SQLCODE { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } set %ROWCOUNT=0 set:SQLCODE<0 SQLCODE=-SQLCODE set %qrc=SQLCODE QUIT  }
+	if qq,d(10)'="" { new sn set sn=$p(d(10),$e(d(10)),$l(d(10),$e(d(10)))-1) if "EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context"'=sn { if %nolock=0 { do ..%SQLReleaseLock(%rowid,0,1) do:$g(il) $zu(115,2,il) } kill d set:sn'["." sn="User."_sn  do $classmethod(sn,"%SQLQuickLoad",%rowid,%nolock,0,1) QUIT  }}
+	if %nolock=0 { if $zu(115,1)=1 { TSTART  } elseIf '$TLEVEL,$zu(115,1)=2 { TSTART  }}
+	set:qq d=$zobjexport("EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context",18),d=10,d=$zobjexport(d,18) set i=-1 for  { set i=$o(d(i)) quit:i=""  set d=$zobjexport(d(i),18) } set %qrc=0,%ROWCOUNT=1 if %nolock=0 { d ..%SQLReleaseLock(%rowid,0,0) do:$g(il) $zu(115,2,il) } quit
+	Return
+ q
+%0dsqlJ	n %xxsql
+	s %xxsql("S",1)="SELECT %INTERNAL ( ID ) , %LastError , %LastFault , %INTERNAL ( %Process ) , UNBS0002 , %INTERNAL ( document ) , key , moreDocuments , %INTERNAL ( msg ) , x__classname INTO :d(1) , :d(2) , :d(3) , :d(4) , :d(5) , :d(6) , :d(7) , :d(8) , :d(9) , :d(10) FROM EDIFACT_process_IFTDGN_InterChangeToOneByOne . Context WHERE %ID = :%rowid"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1)
+	s %xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1),%xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")=""
+	s %xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")="",%xxsql("I","EnsCompiler")="",%xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("ODBC","","","EDIFACT.process.IFTDGN.InterChangeToOneByOne",0,"",),,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.CLS")
+	return:$g(%IRISSQLCachedCompileOnly)
+	if $g(SQLCODE) { try { set d(1)="",d(2)="",d(3)="",d(4)="",d(5)="",d(6)="",d(7)="",d(8)="",d(9)="",d(10)="" } catch {} }
+	return
+%SQLReleaseLock(%rowid,s=0,i=0,e="") methodimpl
+	new %d
+	set:e="" e=1 set %d(1)=%rowid set s=$e("E",e)_$e("S",s)_$e("D",i)
+	lock -^Ens.BP.ContextD(%d(1))#s
+	QUIT
+%SQLReleaseTableLock(s=0,i=0) methodimpl
+	set s=$e("S",s)_$e("D",i) lock -^Ens.BP.ContextD#s QUIT 1
+	Return
+%SQLUnlock() methodimpl
+	lock:$a(%l) -^Ens.BP.ContextD(%d(1))#"E"
+	QUIT
+%SQLUnlockError(cname) methodimpl
+	set sqlcode=-110 if %oper="DELETE" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler48",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",cname) } else { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler49",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",cname) } quit
+	Return
+%SQLUpdate(%rowid,%check,%d,%vco,%tstart=1,%mv=0,%polymorphic=0,%soid,%bufferedColumns=0,%bufferedColumnsDel=0) methodimpl
+	// SQL UPDATE method for table EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context
+	if %polymorphic { do ..%SQLCopyNameIntoIcol() set %d(1)=%rowid,%e(1)=%rowid,$e(%e,1)=$c(0) new icol for icol=2:1:10 { set $e(%e,icol)=$c($d(%d(icol))) }  goto %SQLUpdatePD }
+	new %e,bva,%ele,%itm,%key,%f,%l,%n,%nc,%oper,%pos,%s,icol,omcall,s,sn,sqlcode,subs,t set %oper="UPDATE",sqlcode=0,%ROWID=%rowid,$e(%e,1)=$c(0),%l=$c(0,0,0)
+	if '$d(%0CacheSQLRA) { new %0CacheSQLRA set omcall=1 }
+	if '$a(%check),'$a(%check,7),'..%SQLValidateFields(.sqlcode) { set SQLCODE=sqlcode QUIT  }
+	do:'$a(%check,8) ..%SQLNormalizeFields()
+	if $d(%d(1)),%d(1)'=%rowid { set SQLCODE=-107,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler16",,"ID","EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context") QUIT  }
+	for icol=2:1:10 { set $e(%e,icol)=$c($d(%d(icol))) }
+	set %d(1)=%rowid,%e(1)=%rowid
+	if '$a(%check,2) {
+		new %ls lock +^Ens.BP.ContextD(%d(1))#"E":$zu(115,4) set %ls=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,4:2,2:2,1:3,:""))
+		set:%ls=2 $e(%check,2)=$c(1) set:%ls=2&&($tlevel) %0CacheLock("EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context","E")=1 set:$case(%ls,1:1,2:1,:0) $e(%l)=$c(1)
+		if '%ls||(%ls=3) { set SQLCODE=-110,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer",$s('%ls:"SQLFiler40",1:"SQLFiler55"),,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",$g(%d(1))) RETURN  }
+	}
+	if %tstart { TSTART:($zu(115,1)=1)||('$TLEVEL&&($zu(115,1)=2))  }
+	set $zt="ERRORUpdate"
+%SQLUpdatePD		// Entry point for Polymorphic Dispatch from a super-table
+	if $g(%vco)="" { do ..%SQLGetOld(%rowid,.%d,.%e,.sqlcode) i sqlcode { s SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",%rowid) do ..%SQLEExit() QUIT  } set:'$d(%d(10)) %d(10)=%e(10) set:%d(10)=%e(10) $e(%e,10)=$c(0) } else { do ..%SQLGetOldAll() if sqlcode { set SQLCODE=-109,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler59",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",%rowid) do ..%SQLEExit() QUIT  } for icol=2,3,4,5,6,7,8,9,10 { set:'$d(%d(icol)) %d(icol)=%e(icol) set:%d(icol)=%e(icol) $e(%e,icol)=$c(0) }}
+	if %e(10)'="" set sn=$p(%e(10),$e(%e(10)),$l(%e(10),$e(%e(10)))-1) if "EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context"'=sn new %f do ..%SQLCopyIcolIntoName() do $classmethod(sn,"%SQLUpdate",%rowid,%check,.%d,$g(%vco),%tstart,%mv,1) QUIT
+	if '$a(%check) {
+		do {
+			if $g(%vco)'="" { d @%vco quit:sqlcode<0  }
+		} while 0
+		if sqlcode { set SQLCODE=sqlcode do ..%SQLEExit() QUIT  }
+	}
+	if $s($a(%e,2):1,$a(%e,3):1,$a(%e,4):1,1:$a(%e,10)) {
+		set ^Ens.BP.ContextD(%d(1))=$listupdate($g(^Ens.BP.ContextD(%d(1))),1,$a(%e,10):%d(10),$a(%e,4):%d(4),$a(%e,2):%d(2),$a(%e,3):%d(3))
+	}
+	if $s($a(%e,5):1,$a(%e,6):1,$a(%e,7):1,$a(%e,8):1,1:$a(%e,9)) {
+		set ^Ens.BP.ContextD(%d(1),"Context")=$listupdate($g(^Ens.BP.ContextD(%d(1),"Context")),1,$a(%e,5):%d(5),$a(%e,6):%d(6),$a(%e,7):%d(7),$a(%e,8):%d(8),$a(%e,9):%d(9))
+	}
+	do ..%SQLUnlock() TCOMMIT:%tstart&&($zu(115,1)=1)
+	set SQLCODE=0 kill:$g(omcall) %0CacheSQLRA
+	QUIT
+ERRORUpdate	set $zt="",SQLCODE=-415,%msg=$s($g(%msg)'="":%msg_" -- ",1:"")_$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler51",,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context",$ze) if $ze["<FRAMESTACK>" { set %msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler52",,$ze,%oper,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context") do ##Class(%SYS.System).WriteToConsoleLog(%msg) if ($zu(67,10,$j)=1)||($zu(67,10,$j)=3) { write !,%msg h 3 } HALT  } do ..%SQLEExit() QUIT  
+	Return
+%SQLValidateCompFields(sqlcode) methodimpl
+	QUIT 'sqlcode
+%SQLValidateFields(sqlcode) methodimpl
+	if $g(%d(8))'="",'($$ValidateField8(%d(8))) { set sqlcode=..%SQLInvalid(8+1,%d(8)) } 
+	if $g(%d(7))'="",'($select(%d(7)=$c(0)&&$zu(115,13):1,$isvalidnum(%d(7),0):1,1:$$Error^%apiOBJ(7207,%d(7)))) { set sqlcode=..%SQLInvalid(7+1,%d(7)) } 
+	if $g(%d(5))'="",'(($l(%d(5))'>50)) { set sqlcode=..%SQLInvalid(5+1,%d(5)) } 
+	QUIT 'sqlcode
+ValidateField8(%val="") {	Quit $case(%val,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,%val))
+}
+	Return
+%SQLnBuild() methodimpl {
+	set %n=$lb(,"ID","%LastError","%LastFault","%Process","UNBS0002","document","key","moreDocuments","msg","x__classname")
+	QUIT }
+%SaveData(id) methodimpl {
+	try {
+		set id=$listget(i%"%%OID") if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,lockok=0,tSharedLock=0
+		if 'idassigned { set id=$i(^Ens.BP.ContextD) do ..%IdSet(id) set:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this)="" }
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if (i%%Concurrency<4)&&(i%%Concurrency) { lock +(^Ens.BP.ContextD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lockok=2&&($tlevel) %0CacheLock($classname(),"E")=1 if lockok { set lock=1 } else { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^Ens.BP.ContextD(id))) {
+					set insert=1
+					if lock { lock -(^Ens.BP.ContextD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if i%%Concurrency&&$tlevel {  lock +(^Ens.BP.ContextD(id)#"E"):$zu(115,4) set lockok=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:(lockok=2&&(i%%Concurrency'=4)) %0CacheLock($classname(),"E")=1 set:lockok lock=1 if 'lockok { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if i%%Concurrency=3 { lock +(^Ens.BP.ContextD(id)#"ES") set tSharedLock=1 }
+				set:i%%Concurrency=4 lock=0
+				set zzc39v1="" For  { Set zzc39v1 = $Order(i%%ResponseHandlers(zzc39v1),1,val) Quit:zzc39v1=""  Set ^Ens.BP.ContextD(id,"%ResponseHandlers",zzc39v1)=val }
+				set ^Ens.BP.ContextD(id)=$lb("~EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context~",i%%Process,i%%LastError,i%%LastFault)
+				set ^Ens.BP.ContextD(id,"Context")=$lb(i%UNBS0002,i%document,i%key,i%moreDocuments,i%msg)
+			}
+			else {
+				kill nodes merge nodes=i%%ResponseHandlers
+				set zzc40v1="" for { set zzc40v1 = $Order(^Ens.BP.ContextD(id,"%ResponseHandlers",zzc40v1),1,data) Quit:zzc40v1=""  if $data(nodes(zzc40v1),val) { if data=val kill nodes(zzc40v1) } else { kill ^Ens.BP.ContextD(id,"%ResponseHandlers",zzc40v1) } }
+				merge ^Ens.BP.ContextD(id,"%ResponseHandlers")=nodes
+				set ^Ens.BP.ContextD(id)=$lb("~EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context~",i%%Process,i%%LastError,i%%LastFault)
+				set ^Ens.BP.ContextD(id,"Context")=$lb(i%UNBS0002,i%document,i%key,i%moreDocuments,i%msg)
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+			if ('idassigned) { Set $zobjoid("",$listget(i%"%%OID"))="",i%"%%OID"="" kill:$g(%objtxSTATUS)=2 %objtxOIDASSIGNED(+$this) }
+			if (tSharedLock) {  lock -(^Ens.BP.ContextD(id)#"ES") } elseif (lockok=1)&&(insert)&&(i%%Concurrency=4) {  lock -(^Ens.BP.ContextD(id)) }
+		}
+		if lock lock -(^Ens.BP.ContextD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SaveDirect(id="",idList="",data,concurrency=-1) methodimpl {
+	try {
+		if concurrency=-1 { set concurrency=$zu(115,10) }
+		if id'="" { set insert=0,idassigned=1 } else { set insert=1,idassigned=0 }
+		set lock=0,tSharedLock=0
+		if 'idassigned { set id=$i(^Ens.BP.ContextD) }
+		try {
+			set tInnerException = ""
+			;
+			if 'insert {
+				if concurrency { lock +(^Ens.BP.ContextD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				if ('$Data(^Ens.BP.ContextD(id))) {
+					set insert=1
+					if lock { lock -(^Ens.BP.ContextD(id)#"E") set (lock,lockok) = 0 }
+				}
+			}
+			if insert {
+				if concurrency { lock +(^Ens.BP.ContextD(id)#"E"):$zu(115,4) set lock=$s('$t:0,1:$case($SYSTEM.Lock.ReturnCode(),0:1,2:2,4:2,:0)) set:lock=2&&($tlevel) %0CacheLock($classname(),"E")=1 if 'lock { Throw ##class(%Exception.StatusException).ThrowIfInterrupt($$Error^%apiOBJ(5803,$classname())) } }
+				merge ^Ens.BP.ContextD(id,"%ResponseHandlers")=data("%ResponseHandlers")
+				set ^Ens.BP.ContextD(id)=data
+				set ^Ens.BP.ContextD(id,"Context")=data("Context")
+			}
+			else {
+				kill ^Ens.BP.ContextD(id,"%ResponseHandlers") merge ^Ens.BP.ContextD(id,"%ResponseHandlers")=data("%ResponseHandlers")
+				set ^Ens.BP.ContextD(id)=data
+				set ^Ens.BP.ContextD(id,"Context")=data("Context")
+			}
+			set tStatus = 1
+		}
+		catch tInnerException {
+		}
+		if lock lock -(^Ens.BP.ContextD(id)#"E")
+		if $Isobject(tInnerException) { throw tInnerException }
+	}
+	catch tException {
+		set tStatus = tException.AsStatus()
+	}
+	quit tStatus }
+%SerializeObject(serial,partial=0) methodimpl {
+	try {
+		If $get(%objTX2(+$this)) { Set partial = 1 } ElseIf ('partial) { Set %objTX2(+$this) = 1 }
+		Set sc=..%ValidateObject(,0) Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		Set sc=..%NormalizeObject() Throw:('sc) ##class(%Exception.StatusException).ThrowIfInterrupt(sc)
+		If r%%Process'="" { Set:'$data(%objTX(0,+r%%Process)) %objTX(0,+r%%Process)=$i(%objTX(1)),%objTX(1,%objTX(0,+r%%Process))=r%%Process,%objTX(1,%objTX(0,+r%%Process),1)=..%ProcessGetObject(1),%objTX(1,%objTX(0,+r%%Process),6)=1 Set M%%Process=1,i%%Process=$listget(%objTX(1,%objTX(0,+r%%Process),1)) }
+		If r%document'="" { Set:'$data(%objTX(0,+r%document)) %objTX(0,+r%document)=$i(%objTX(1)),%objTX(1,%objTX(0,+r%document))=r%document,%objTX(1,%objTX(0,+r%document),1)=..documentGetObject(1),%objTX(1,%objTX(0,+r%document),6)=1 Set M%document=1,i%document=$listget(%objTX(1,%objTX(0,+r%document),1)) }
+		If r%msg'="" { Set:'$data(%objTX(0,+r%msg)) %objTX(0,+r%msg)=$i(%objTX(1)),%objTX(1,%objTX(0,+r%msg))=r%msg,%objTX(1,%objTX(0,+r%msg),1)=..msgGetObject(1),%objTX(1,%objTX(0,+r%msg),6)=1 Set M%msg=1,i%msg=$listget(%objTX(1,%objTX(0,+r%msg),1)) }
+		s:$g(%objtxSTATUS)=2 %objtxLIST(+$this)=$this
+		Set id=$listget(serial),sc=..%SaveData(.id) If ('sc) { Throw ##class(%Exception.StatusException).ThrowIfInterrupt(sc) }
+		Set serial=(..%Oid())
+		if 'partial {
+			Set %objTX2(+$this) = 0
+		}
+		set sc=1
+	}
+	catch tException {
+		If 'partial { Set %objTX2(+$this) = 0 }
+		set sc = tException.AsStatus()
+	}
+	Quit sc }
+%AddToSaveSet(depth=3,refresh=0) methodimpl {
+	Set sc=1,intOref=+$this
+	If $data(%objTX(0,intOref),index) {
+		If 'refresh RETURN 1
+		Set intPoref="" For  Set intPoref=$order(%objTX(1,index,2,intPoref)) Quit:intPoref=""  Kill %objTX(1,%objTX(0,intPoref),3,index),%objTX(1,index,2,%objTX(0,intPoref))
+	}
+	Set:'$d(index) (index,%objTX(0,intOref))=$i(%objTX(1)),%objTX(1,index)=$this Set %objTX(1,index,1)=i%"%%OID",%objTX(1,index,6)=1 If (i%"%%OID" '= "") && (depth<2) { Quit 1 } Else { Set %objTX(7,index)=$lb(intOref,1) }
+	Set Poref=r%%Process If Poref'="" Set:'$data(%objTX(0,+Poref)) %objTX(6,$i(%objTX(6)))=Poref Set %objTX(8,$i(%objTX(8)))=$lb(+Poref,intOref,2)
+	Set Poref=r%document If Poref'="" Set:'$data(%objTX(0,+Poref)) %objTX(6,$i(%objTX(6)))=Poref Set %objTX(8,$i(%objTX(8)))=$lb(+Poref,intOref,2)
+	Set Poref=r%msg If Poref'="" Set:'$data(%objTX(0,+Poref)) %objTX(6,$i(%objTX(6)))=Poref Set %objTX(8,$i(%objTX(8)))=$lb(+Poref,intOref,2)
+exit	Quit sc }
+%ValidateIndices(idxList="",autoCorrect=0,lockOption=1,multiProcess=1,mapList,verbose=1,errors) methodimpl
+	w !,"There are no indices to validate for class 'EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context'"
+	QUIT 1
+%ValidateObject(unused=0,checkserial=1) methodimpl {
+	set sc=1
+	If '$system.CLS.GetModified() Quit sc
+	If m%%LastError Set iv=..%LastError If iv'="" Set rc=(..%LastErrorIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%LastError",iv)
+	If m%%LastFault Set iv=..%LastFault If iv'="" Set rc=(..%LastFaultIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%LastFault",iv)
+	If m%%ResponseHandlers Set key="",rc=1 For  Set key=$order(i%%ResponseHandlers(key),1,val) Quit:key=""  If val'="" Set rc=..%ResponseHandlersIsValid(val) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"%ResponseHandlers"_"("_key_")",val)
+	If m%UNBS0002 Set iv=..UNBS0002 If iv'="" Set rc=(..UNBS0002IsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"UNBS0002",iv)
+	If m%key Set iv=..key If iv'="" Set rc=(..keyIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"key",iv)
+	If m%moreDocuments Set iv=..moreDocuments If iv'="" Set rc=(..moreDocumentsIsValid(iv)) If ('rc) Set sc=$$EmbedErr^%occSystem(sc,rc,5802,"moreDocuments",iv)
+	Quit sc }
+zXMLDTD(top,format,input,dtdlist) methodimpl
+ Quit ##class(%XML.Implementation).XMLDTD("EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context",.top,.format,.input,.dtdlist)
+zXMLExportInternal() methodimpl
+ New tag,summary,attrsVal,savelocal,aval,k,tmpPrefix,prefixDepth,hasNoContent,hasElement,topAttrs,beginprefix,endprefix,savexsiAttrs,initialxsiAttrs,initlist,initialCR,inlineFlag,popAtEnd,saveTopPrefix,saveTypesPrefix,saveAttrsPrefix,saveUsePrefix,initlist
+ Set $ztrap="XMLExportInternalTrap",popAtEnd=0
+ Set summary=summaryArg,initialxsiAttrs=xsiAttrs
+ If group Quit $$Error^%apiOBJ(6386,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context")
+ If indentFlag Set initialCR=($extract(currentIndent,1,2)=$c(13,10))
+ Set id=createId
+ Set temp=""
+ If id'="" {
+   If $piece($get(idlist(+$this)),",",2)'="" Quit 1
+   Set idlist(+$this)=id_",1"
+ }
+ If encoded Set initlist=$lb($get(oreflist),inlineFlagArg),oreflist=1,inlineFlag=inlineFlagArg
+ If 'nocycle,('encoded||inlineFlag) {
+   If $data(oreflist($this)) Quit $$Error^%apiOBJ(6296,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context")
+   Set oreflist($this)=""
+ }
+ Set tag=$get(topArg)
+ Set tmpi=(($get(typeAttr)'="")&&(typeAttr'="EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context"))
+ If $IsObject(namespaces) {
+     Set popAtEnd=1,saveTopPrefix=topPrefix,saveTypesPrefix=typesPrefix,saveAttrsPrefix=attrsPrefix,saveUsePrefix=usePrefix
+     Set sc=namespaces.PushNodeForExport("",$get(local,0),(encoded||tmpi),"",,.topPrefix,.topAttrs,.typesPrefix,.attrsPrefix,.usePrefix)
+     If 'sc Quit sc
+   Set beginprefix=$select(namespaces.ElementQualified&&usePrefix:typesPrefix,1:"")
+   If topAttrs'="" Set temp=temp_" "_topAttrs
+   If tag="" Set tag="Context"
+   Set xsitype=namespaces.OutputTypeAttribute
+ } Else {
+   Set saveTopPrefix=topPrefix,saveTypesPrefix=typesPrefix,saveAttrsPrefix=attrsPrefix,saveUsePrefix=usePrefix
+   Set typesPrefix=namespaces If (typesPrefix'=""),($extract(typesPrefix,*)'=":") Set typesPrefix=typesPrefix_":"
+   If 'encoded Set namespaces=""
+   Set (topPrefix,attrsPrefix,topAttrs,beginprefix)=""
+   If tag="" Set tag=typesPrefix_"Context"
+   Set xsitype=0
+ }
+ Set local=+$get(local),savelocal=local
+ Set endprefix="</"_beginprefix,beginprefix="<"_beginprefix
+ If tmpi Set temp=temp_" "_xsiPrefix_"type="""_typesPrefix_"Context"""_xsiAttrs,xsiAttrs=""
+   If id'="" Set temp=" "_$select($get(soap12):soapPrefix_"id",1:"id")_"=""id"_id_""""_temp
+ If encoded Set temp=temp_xsiAttrs,xsiAttrs=""
+ If indentFlag Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } Set currentIndent=$select(initialCR:"",1:$c(13,10))_currentIndent_indentChars
+ If tag[":" Set topPrefix=$piece(tag,":"),tag=$piece(tag,":",2)  If topPrefix'="" Set topPrefix=topPrefix_":"
+ Set %xmlmsg="<"_topPrefix_tag_temp if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set attrsVal=attrsArg,attrsArg="" Set %xmlmsg=attrsVal if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set %xmlmsg=">" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ Set val=..%LastError
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"_LastError"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"base64Binary""",1:"")_">"_$system.Encryption.Base64Encode(val)_endprefix_"_LastError>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..%LastFault
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"_LastFault"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"_LastFault>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..UNBS0002
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"UNBS0002"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"string""",1:"")_">"_$select(val=$c(0):"",1:$select((val["<")||(val[">")||(val["&"):"<![CDATA["_$replace(val,"]]>","]]]]><![CDATA[>")_"]]>",1:val))_endprefix_"UNBS0002>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..document
+ If $IsObject(val) , deepFlag {
+   Set id=""
+   If encoded,'inlineFlag {
+     Set temp=$select($parameter("EnsLib.EDI.EDIFACT.Document","XMLSUMMARY")'="":-1,1:1)
+     Set id=+$get(idlist(temp*val))
+     If 'soap12 , (id=0) Set id=$increment(idlist),oreflist(temp*id)=val,idlist(temp*val)=id
+   }
+   If +id'=0 {
+     Set %xmlmsg=currentIndent_beginprefix_"document "_$select(soap12:soapPrefix_"ref=""",1:"href=""#")_"id"_id_""" />" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+   } Else { if id=0 Set id=$increment(idlist)
+     Set topArg="document",summaryArg=1,group=0,createId=$get(id),typeAttr=$select(encoded||xsitype:"*",1:"EnsLib.EDI.EDIFACT.Document"),local=1,savexsiAttrs=xsiAttrs
+     Set sc=val.XMLExportInternal() Goto:'sc XMLExportExit Set xsiAttrs=savexsiAttrs
+   }
+ }
+ Set val=..key
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"key"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"long""",1:"")_">"_val_endprefix_"key>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..moreDocuments
+ If val'="" {
+   Set %xmlmsg=currentIndent_beginprefix_"moreDocuments"_$select(xsitype:" "_xsiPrefix_"type="""_schemaPrefix_"boolean""",1:"")_">"_$s(val:"true",1:"false")_endprefix_"moreDocuments>" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+ }
+ Set val=..msg
+ If $IsObject(val) , deepFlag {
+   Set id=""
+   If encoded,'inlineFlag {
+     Set temp=$select($parameter("EDIFACT.msg.transformed","XMLSUMMARY")'="":-1,1:1)
+     Set id=+$get(idlist(temp*val))
+     If 'soap12 , (id=0) Set id=$increment(idlist),oreflist(temp*id)=val,idlist(temp*val)=id
+   }
+   If +id'=0 {
+     Set %xmlmsg=currentIndent_beginprefix_"msg "_$select(soap12:soapPrefix_"ref=""",1:"href=""#")_"id"_id_""" />" if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }
+   } Else { if id=0 Set id=$increment(idlist)
+     Set topArg="msg",summaryArg=1,group=0,createId=$get(id),typeAttr=$select(encoded||xsitype:"*",1:"EDIFACT.msg.transformed"),local=1,savexsiAttrs=xsiAttrs
+     Set sc=val.XMLExportInternal() Goto:'sc XMLExportExit Set xsiAttrs=savexsiAttrs
+   }
+ }
+ If indentFlag { Set currentIndent=$extract(currentIndent,1,*-$length(indentChars)) Set %xmlmsg=currentIndent if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg }}
+ Set %xmlmsg="</"_topPrefix_tag_">"
+ if $data(%xmlBlock) { Do xeWrite^%occXMLInternal } else { write %xmlmsg } If indentFlag,'initialCR if $data(%xmlBlock) { Set %xmlmsg="" Do xeWriteLine^%occXMLInternal } else { write ! } Set $extract(currentIndent,1,2)=""
+ If '$IsObject(namespaces) || (popAtEnd=1) Set topPrefix=saveTopPrefix,typesPrefix=saveTypesPrefix,attrsPrefix=saveAttrsPrefix,usePrefix=saveUsePrefix
+ If popAtEnd Do namespaces.PopNode()
+ If encoded Set oreflist=$list(initlist),inlineFlag=$list(initlist,2)
+ If 'encoded||inlineFlag {
+   If 'nocycle Kill oreflist($this)
+ } ElseIf $get(oreflist)'=1 {
+   Set oreflist=1
+   Set id=$order(oreflist(""))
+   While id'="" {
+     Set val=oreflist(id)
+     Kill oreflist(id)
+     Set group=0,createId=$zabs(id),typeAttr="*",local=savelocal,xsiAttrs=initialxsiAttrs
+     If $classname(val)="EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context" {
+       Set attrsArg=attrsVal
+       Set topArg=tag,summaryArg=0
+       Set sc=val.XMLExportInternal()
+     } Else {
+       Set topArg="",summaryArg=(id<0)
+       Set sc=val.XMLExportInternal()
+     }
+     If 'sc Quit
+     Set id=$order(oreflist(""))
+   }
+   Kill oreflist
+ }
+ Quit sc
+XMLExportInternalTrap Set $ztrap=""
+ If $data(val) , $IsObject(val) , ($piece($ze,">",1)="<METHOD DOES NOT EXIST") {
+   Set sc=$$Error^%apiOBJ(6249,$classname(val))
+ } Else {
+   Set sc=$$Error^%apiOBJ(5002,$ze)
+ }
+XMLExportExit 
+ If '$IsObject(namespaces) || (popAtEnd=1) Set topPrefix=saveTopPrefix,typesPrefix=saveTypesPrefix,attrsPrefix=saveAttrsPrefix,usePrefix=saveUsePrefix
+ If popAtEnd Do namespaces.PopNode()
+ Quit sc
+zXMLGetSchemaImports(imports,classes) methodimpl
+ Quit ##class(%XML.Implementation).XMLGetSchemaImports("EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context",.imports,.classes)
+zXMLImportInternal() methodimpl
+ New child,childlist,node,nodelist,inner,innerlist,data,encodedArray,key,nsIndex,savechild,savechildlist,saveinner,saveinnnerlist,exists
+ Set $ztrap="XMLImportInternalTrap"
+ Set encoded=$case($piece(fmt,",",1),"":0,"literal":0,"encoded":1,"encoded12":1,:"")
+ If encoded="" Quit $$Error^%apiOBJ(6231,fmt)
+ Set nsIndex=$select($get(namespace)="":"",1:$get(@(tree)@("N",namespace)))
+ Set node=nodeArg,nodelist=nodeArgChildlist
+ If tag'=@(tree)@("d",$zlascii(nodelist,9)) Set inner=node Goto XMLImportMalformed
+ If bareProjection Quit $$Error^%apiOBJ(6386,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context")
+ If encoded {
+   Do XMLImportAttrnode() If $data(attributeList("id")) Set idlist(node)=$this
+ }
+ If $zboolean(+($zlascii(nodelist,13)#16),+1,1) Quit 1
+ Set sc=$$XMLImportElements()
+XMLImportExit Quit sc
+XMLImportElements() ;
+XMLLOOP1 Set descriptor=$zlascii(nodelist,$zwascii(nodelist,17)) Set child=($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)_","_$zwascii(nodelist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else { Set child="" }} For { Quit:child=""  Quit:(descriptor#16)'=2  Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(nodelist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else {Set child="" }} } Goto XMLLOOP2
+XMLLOOP For  { Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(nodelist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,node,.nodelist,child,.descriptor) } Else {Set child="" }} Quit:child=""  Quit:(descriptor#16)'=2  }
+XMLLOOP2 If child="" Quit sc
+ If (descriptor#16)'=0 Set inner=child Goto XMLImportMalformedNoTag
+ Set childlist=@(tree)@((descriptor\16))
+ Set tag=@(tree)@("d",$zlascii(childlist,9))
+ If tag="_LastError" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+           Set tmp=$$XMLImportMTOMchild()
+           If tmp'="" {
+             Set data="" Do tmp.Rewind() While 'tmp.AtEnd { Set data=data_tmp.Read(,.sc) If 'sc Goto XMLImportExit }
+           } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             Set data=$zstrip(data,"<>W",$c(13,10)) If data'="" Set data=$system.Encryption.Base64Decode($translate(data,$char(9,10,13,32))) Goto:data="" XMLImportErrchild
+           }
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..%LastError=data
+   Goto XMLLOOP } }
+ If tag="_LastFault" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..%LastFault=data
+   Goto XMLLOOP } }
+ If tag="UNBS0002" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" If '##class(%XML.ImportHandler).SerializeNode(tree,child,0,0,.data,,,childlist) Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             If data="" Set data=$c(0)
+             If data'="" Goto:('$s(($l(data)'>50):1,1:$$Error^%apiOBJ(7201,data,50))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..UNBS0002=data
+   Goto XMLLOOP } }
+ If tag="document" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     Do XMLImportAttrchild()
+     Set class=$select(($zwascii($get(attributeList("type")),9)=1):$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))),1:"")
+     If (class="") || (class="Document") {
+       Set class="EnsLib.EDI.EDIFACT.Document"
+     } Else {
+       If $length(class,":")=2 Set class=$piece(class,":",2)
+       Set class=$get(^oddCOM("EnsLib.EDI.EDIFACT.Document",85,"s",class))_$get(^oddXML("EnsLib.EDI.EDIFACT.Document","s",class)) If class="" Set class=0
+       Set tmp=$get(@(tree)@("n",$zwascii(attributeList("type"),11)))
+       If (class=0)||(($listlength(class)>1)&&(tmp="")) Set class=$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))) Goto XMLImportBadTypechild
+       If $listlength(class)>1 {
+         For tmpi=1:1:$listlength(class) {
+           If tmp=$parameter($list(class,tmpi),"NAMESPACE") Set class=$list(class,tmpi),tmpi=0 Quit
+         }
+         If tmpi Set class=$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))) Goto XMLImportBadTypechild
+       } Else { Set class=$list(class) }
+     }
+     Set data=$classmethod(class,"XMLNew",handler,child,$this)
+     If $isobject(data) Set tag=@(tree)@("d",$zlascii(childlist,9)),nodeArg=child,nodeArgChildlist=childlist,bareProjection=0,summaryArg=1,keynameattr="",sc=data.XMLImportInternal() Goto:('sc) XMLImportExit
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   If data'="" Set ..document=data
+   Goto XMLLOOP } }
+ If tag="key" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             Set data=$zstrip(data,"<>W",$c(13,10)) If data'="" Set data=$s($tr(data,"Ee(),.")'=data:"",1:$number(data,"I")) Goto:data="" XMLImportErrchild Goto:('$select(data=$c(0)&&$zu(115,13):1,$isvalidnum(data,0):1,1:$$Error^%apiOBJ(7207,data))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..key=data
+   Goto XMLLOOP } }
+ If tag="moreDocuments" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     If $zboolean(+($zlascii(childlist,13)#16),+1,1) { Set data=""
+     } Else {
+             If (($length(childlist)-$zwascii(childlist,17)-3)\4)>1 {
+               Set data="" Goto XMLImportErrchild
+             } Else { Set descriptor=$zlascii(childlist,$zwascii(childlist,17)) Set data=($zlascii(@(tree)@($piece(child,",",1)),$piece(child,",",2))\16)_","_$zwascii(childlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set data=##class(%XML.ImportHandler).NextChild(tree,child,.childlist,data,.descriptor) } Else { Set data="" }}
+               If data'="" { Goto:(descriptor#16)=0 XMLImportErrchild Set data=@(tree)@("d",(descriptor\16)) }}
+             Set data=$zstrip(data,"<>W",$c(13,10)) If data'="" Set data=$case(data,"true":1,"false":0,1:1,0:0,:"") Goto:data="" XMLImportErrchild Goto:('$case(data,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,data))) XMLImportErrchild
+     }
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   Set ..moreDocuments=data
+   Goto XMLLOOP } }
+ If tag="msg" {
+   If ($get(namespace)="")||$case($zwascii(childlist,19),0:1,nsIndex:1,:0) {
+   If encoded Set savechild=child,savechildlist=childlist
+   If encoded,$$XMLImportIdChild() {
+     Set data=idlist(child)
+   } Else { Goto:'sc XMLImportExit
+     Do XMLImportAttrchild()
+     Set class=$select(($zwascii($get(attributeList("type")),9)=1):$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))),1:"")
+     If (class="") || (class="transformed") {
+       Set class="EDIFACT.msg.transformed"
+     } Else {
+       If $length(class,":")=2 Set class=$piece(class,":",2)
+       Set class=$get(^oddCOM("EDIFACT.msg.transformed",85,"s",class))_$get(^oddXML("EDIFACT.msg.transformed","s",class)) If class="" Set class=0
+       Set tmp=$get(@(tree)@("n",$zwascii(attributeList("type"),11)))
+       If (class=0)||(($listlength(class)>1)&&(tmp="")) Set class=$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))) Goto XMLImportBadTypechild
+       If $listlength(class)>1 {
+         For tmpi=1:1:$listlength(class) {
+           If tmp=$parameter($list(class,tmpi),"NAMESPACE") Set class=$list(class,tmpi),tmpi=0 Quit
+         }
+         If tmpi Set class=$case($data(@(tree)@("d",$zlascii(attributeList("type"),13))),1:@(tree)@("d",$zlascii(attributeList("type"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("type"))) Goto XMLImportBadTypechild
+       } Else { Set class=$list(class) }
+     }
+     Set data=$classmethod(class,"XMLNew",handler,child,$this)
+     If $isobject(data) Set tag=@(tree)@("d",$zlascii(childlist,9)),nodeArg=child,nodeArgChildlist=childlist,bareProjection=0,summaryArg=1,keynameattr="",sc=data.XMLImportInternal() Goto:('sc) XMLImportExit
+     If encoded Do XMLImportAttrchild() If $data(attributeList("id")) Set idlist(child)=data
+   }
+   If encoded Set child=savechild,childlist=savechildlist
+   If data'="" Set ..msg=data
+   Goto XMLLOOP } }
+ Goto XMLImportBadTagchild
+XMLImportBadTagchild Set inner=child
+XMLImportBadTag Quit $$Error^%apiOBJ(6237,tag_$$XMLImportLocation(inner))
+XMLImportBadTypenode Set inner=node Goto XMLImportBadType
+XMLImportBadTypechild Set inner=child
+XMLImportBadType Quit $$Error^%apiOBJ(6277,class,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)))_$$XMLImportLocation(inner))
+XMLImportErrnode Set inner=node Goto XMLImportErr
+XMLImportErrchild Set inner=child
+XMLImportErr
+ Set data=##class(%XML.ImportHandler).GetNextChild(tree,inner,"")
+ If (data'="") {
+   If ($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))#16)'=0 {
+     Quit $$Error^%apiOBJ(6232,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner),$extract(@(tree)@("d",($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))\16)),1,200))
+   } Else {
+     Quit $$Error^%apiOBJ(6253,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner),@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(data,",",1)),$piece(data,",",2))\16)),9)))
+   }
+ } Else {
+   Quit $$Error^%apiOBJ(6252,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner))
+ }
+XMLImportIdErr Set sc=$$Error^%apiOBJ(6236,id,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner)) Quit sc
+XMLImportMalformed Set sc=$$Error^%apiOBJ(6233,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)))_$$XMLImportLocation(inner)) Quit sc
+XMLImportMalformedNoTag Set node=$select($piece(inner,",",1)<=0:0,1:$zlascii(@(tree)@($piece(inner,",",1)),1)_","_$zlascii(@(tree)@($piece(inner,",",1)),5)),sc=$$Error^%apiOBJ(6254,$select(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16))),$select(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))#16)=0:@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),9)),1:@(tree)@("d",($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)))_$$XMLImportLocation(node)) Quit sc
+XMLImportNSchild Set inner=child
+XMLImportNS Set sc=$$Error^%apiOBJ(6235,@(tree)@("d",$zlascii(@(tree)@(($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)),9))_$$XMLImportLocation(inner)) Quit sc
+XMLImportLocation(node) new msg,loc
+ Set loc=$lb($zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),21),$zlascii(@(tree)@(($zlascii(@(tree)@($piece(node,",",1)),$piece(node,",",2))\16)),25))
+ If loc="" Quit ""
+ Set msg=$get(^%qMsg("%ObjectErrors",$s(""'="":$zcvt("","L"),1:$s($mvv(58)="":"en",1:$mvv(58))),"XMLImportLocation")," (%1,%2)")
+ Quit $$FormatText^%occMessages(msg,$listget(loc,1),$listget(loc,2))
+XMLImportInternalTrap Set $ztrap=""
+ Set loc=$select($ZE["<CLASS DOES NOT EXIST>":" for element "_tag_$$XMLImportLocation(child),1:"")
+ Quit $$Error^%apiOBJ(5002,$ZE_loc)
+XMLImportIdChild() Set inner=child,innerlist=childlist,tmp=$$XMLImportId(),child=inner,childlist=innerlist Quit tmp
+XMLImportId() ;
+ Do XMLImportAttrinner()
+ If $data(attributeList("href")) {
+   Set id=$case($data(@(tree)@("d",$zlascii(attributeList("href"),13))),1:@(tree)@("d",$zlascii(attributeList("href"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("href")))
+   If $extract(id)="#" {
+     Set tmp=$select($get(@(tree)@("i",$extract(id,2,*)))="":"",1:$piece(@(tree)@("i",$extract(id,2,*)),",",1)_","_$piece(@(tree)@("i",$extract(id,2,*)),",",2)) If tmp="" Goto XMLImportIdErr
+     Set inner=tmp
+     Set descriptor=$zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2)) Set innerlist=@(tree)@((descriptor\16))
+   }
+ } ElseIf $data(attributeList("ref")),($get(@(tree)@("n",$zwascii(attributeList("ref"),9)))="http://www.w3.org/2003/05/soap-encoding") {
+   Set id=$case($data(@(tree)@("d",$zlascii(attributeList("ref"),13))),1:@(tree)@("d",$zlascii(attributeList("ref"),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,attributeList("ref")))
+   Set tmp=$select($get(@(tree)@("i",id))="":"",1:$piece(@(tree)@("i",id),",",1)_","_$piece(@(tree)@("i",id),",",2)) If tmp="" Goto XMLImportIdErr
+   Set inner=tmp
+   Set descriptor=$zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2)) Set innerlist=@(tree)@((descriptor\16))
+ } ElseIf '$data(attributeList("id")) {
+   Quit 0
+ }
+ Quit $data(idlist(inner))
+XMLImportMTOMchild() Set inner=child,innerlist=childlist Quit $$XMLImportMTOM()
+XMLImportMTOM() New child,childlist,descriptor,cid Set cid=""
+ Set descriptor=$zlascii(innerlist,$zwascii(innerlist,17)) Set child=($zlascii(@(tree)@($piece(inner,",",1)),$piece(inner,",",2))\16)_","_$zwascii(innerlist,17) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,inner,.innerlist,child,.descriptor) } Else { Set child="" }}
+ While child'="" {
+  If (descriptor#16)'=2 {
+   If cid'="" Set cid="" Quit
+   If (descriptor#16)'=0 Quit
+   Set childlist=@(tree)@((descriptor\16))
+   If @(tree)@("d",$zlascii(childlist,9))'="Include" Quit
+   If $get(@(tree)@("n",$zwascii(childlist,19)))'="http://www.w3.org/2004/08/xop/include" Quit
+   Do XMLImportAttrchild() Set cid=$zcvt($case($data(@(tree)@("d",$zlascii($get(attributeList("href")),13))),1:@(tree)@("d",$zlascii($get(attributeList("href")),13)),0:"",:##class(%XML.ImportHandler).GetAttribute(tree,$get(attributeList("href")))),"I","URL")
+   If $extract(cid,1,4)'="cid:" Set cide="" Quit
+  }
+  Set descriptor=$piece(child,",",2)+4 Set child=$piece(child,",",1)_","_descriptor Set descriptor=$zlascii(innerlist,descriptor) If (descriptor#16)=3 { If (descriptor\16)'=0 { Set child=##class(%XML.ImportHandler).NextChild(tree,inner,.innerlist,child,.descriptor) } Else {Set child="" }}
+ }
+ Quit $select(cid="":"",1:$get(partsById($extract(cid,5,*))))
+XMLImportAttrnode()
+ If $get(attributeList)=node Quit
+ Kill attributeList
+ Set attributeList=node
+ Set offset=29 While offset<$zwascii(nodelist,17) { Set attribute=$extract(nodelist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+XMLImportAttrchild()
+ If $get(attributeList)=child Quit
+ Kill attributeList
+ Set attributeList=child
+ Set offset=29 While offset<$zwascii(childlist,17) { Set attribute=$extract(childlist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+XMLImportAttrinner()
+ If $get(attributeList)=inner Quit
+ Kill attributeList
+ Set attributeList=inner
+ Set offset=29 While offset<$zwascii(innerlist,17) { Set attribute=$extract(innerlist,offset,offset+15)
+    Set attrname=@(tree)@("d",$zlascii(attribute,1))
+    Set attributeList(attrname)=attribute
+ Set offset=offset+16 }
+ Quit
+zXMLIsObjectEmpty(ignoreNull) methodimpl
+ If ..%LastError'="" Quit 0
+ If ..%LastFault'="" Quit 0
+ If ..UNBS0002'="" Quit 0
+ If $IsObject(..document) Quit 0
+ If ..key'="" Quit 0
+ If ..moreDocuments'="" Quit 0
+ If $IsObject(..msg) Quit 0
+ Quit 1
+zXMLNew(document,node,containerOref="") methodimpl
+	Quit (##class(EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context).%New())
+zXMLSchema(top="",format="",namespacePrefix="",input=0,refOnly=0,schema) methodimpl
+ Quit ##class(%XML.Implementation).XMLSchema("EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context",top,format,namespacePrefix,input,refOnly,.schema)
+%ResponseHandlersGetSwizzled(noswizzle=0) methodimpl {
+	If noswizzle { RETURN r%%ResponseHandlers }
+	Set oref=##class(%Collection.ArrayOfDT).%New() If oref="" Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%%ResponseHandlers=oref Do $system.CLS.SetModifiedBits(modstate)
+	Set oref.ElementType="EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context:%ResponseHandlers",oref.ElementClassType="datatype",oref.Owner=+$this,oref.Storage=$this."%ResponseHandlers%i"(),oref.OrefStorage=oref.Storage+1
+	Do $system.CLS.SetModified(oref,0)
+	Quit oref }
+UNBS0002GetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Ens.BP.ContextD(id,"Context")),1),1:"") }
+documentGetObject(force=0) methodimpl {
+	Quit $select(r%document=""||(i%document'=""):$select(i%document="":"",1:$listbuild(i%document_"")),(''..document.%GetSwizzleObject(force,.oid)):oid,1:"") }
+documentGetObjectId(force=0) methodimpl {
+	Quit $listget(..documentGetObject(force)) }
+documentGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Ens.BP.ContextD(id,"Context")),2),1:"") }
+documentGetSwizzled(noswizzle=0) methodimpl {
+	If noswizzle Quit r%document
+	If i%document="" Quit ""
+	Set oref=##class(EnsLib.EDI.EDIFACT.Document).%Open($select(i%document="":"",1:$listbuild(i%document_"")),,.sc) If ('sc) Do:$get(^%SYS("ThrowSwizzleError"),0) $zutil(96,3,19,1) Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%document=oref Do $system.CLS.SetModifiedBits(modstate)
+	Quit oref }
+documentNewObject() methodimpl {
+	Set newobject=##class(EnsLib.EDI.EDIFACT.Document).%New() If newobject="" Quit ""
+	Set ..document=newobject
+	Quit newobject }
+documentSetObject(newvalue) methodimpl {
+	If newvalue'="",$data(i%document,tmp),tmp=$listget(newvalue) Quit 1
+	Set i%document=$listget(newvalue),r%document=0,r%document=""
+	Quit 1 }
+documentSetObjectId(newid) methodimpl {
+	Quit ..documentSetObject($select(newid="":"",1:$listbuild(newid_""))) }
+documentUnSwizzle(force=0) methodimpl {
+	If r%document="" Quit 1
+	Set sc=..document.%GetSwizzleObject(force,.newvalue) Quit:('sc) sc
+	Set modstate=$system.CLS.GetModifiedBits() Set r%document="" Do $system.CLS.SetModifiedBits(modstate)
+	Set i%document=$listget(newvalue)
+	Quit 1 }
+keyDisplayToLogical(%val) methodimpl {
+	Q $select(%val="":"",%val=$c(0)&&$zu(115,13):"",1:$s($in(%val,"","")'="":+$in(%val,"",%val),1:%val)) }
+keyGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Ens.BP.ContextD(id,"Context")),3),1:"") }
+keyIsValid(%val) methodimpl {
+	Quit $select(%val=$c(0)&&$zu(115,13):1,$isvalidnum(%val,0):1,1:$$Error^%apiOBJ(7207,%val)) }
+keyNormalize(%val) methodimpl {
+	Quit $select(%val=$c(0)&&$zu(115,13):"",1:%val\1) }
+keyXSDToLogical(%val) methodimpl {
+	Q $s($tr(%val,"Ee(),.")'=%val:"",1:$number(%val,"I")) }
+moreDocumentsDisplayToLogical(%val) methodimpl {
+	Quit $s(%val="":"",1:''%val) }
+moreDocumentsGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Ens.BP.ContextD(id,"Context")),4),1:"") }
+moreDocumentsIsValid(%val="") methodimpl {
+	Quit $case(%val,"":1,1:1,0:1,:$$Error^%apiOBJ(7206,%val)) }
+moreDocumentsLogicalToXSD(%val) methodimpl {
+	Q $s(%val:"true",1:"false") }
+moreDocumentsNormalize(%val) methodimpl {
+	Quit $s(%val="":"",1:%val\1) }
+moreDocumentsXSDToLogical(%val) methodimpl {
+	Q $case(%val,"true":1,"false":0,1:1,0:0,:"") }
+msgGetObject(force=0) methodimpl {
+	Quit $select(r%msg=""||(i%msg'=""):$select(i%msg="":"",1:$listbuild(i%msg_"")),(''..msg.%GetSwizzleObject(force,.oid)):oid,1:"") }
+msgGetObjectId(force=0) methodimpl {
+	Quit $listget(..msgGetObject(force)) }
+msgGetStored(id) methodimpl {
+	Quit $Select(id'="":$listget($g(^Ens.BP.ContextD(id,"Context")),5),1:"") }
+msgGetSwizzled(noswizzle=0) methodimpl {
+	If noswizzle Quit r%msg
+	If i%msg="" Quit ""
+	Set oref=##class(EDIFACT.msg.transformed).%Open($select(i%msg="":"",1:$listbuild(i%msg_"")),,.sc) If ('sc) Do:$get(^%SYS("ThrowSwizzleError"),0) $zutil(96,3,19,1) Quit ""
+	Set modstate=$system.CLS.GetModifiedBits() Set r%msg=oref Do $system.CLS.SetModifiedBits(modstate)
+	Quit oref }
+msgNewObject() methodimpl {
+	Set newobject=##class(EDIFACT.msg.transformed).%New() If newobject="" Quit ""
+	Set ..msg=newobject
+	Quit newobject }
+msgSetObject(newvalue) methodimpl {
+	If newvalue'="",$data(i%msg,tmp),tmp=$listget(newvalue) Quit 1
+	Set i%msg=$listget(newvalue),r%msg=0,r%msg=""
+	Quit 1 }
+msgSetObjectId(newid) methodimpl {
+	Quit ..msgSetObject($select(newid="":"",1:$listbuild(newid_""))) }
+msgUnSwizzle(force=0) methodimpl {
+	If r%msg="" Quit 1
+	Set sc=..msg.%GetSwizzleObject(force,.newvalue) Quit:('sc) sc
+	Set modstate=$system.CLS.GetModifiedBits() Set r%msg="" Do $system.CLS.SetModifiedBits(modstate)
+	Set i%msg=$listget(newvalue)
+	Quit 1 }
+ExtentExecute(%qHandle) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set sc=1
+	 ;---&sql(DECLARE QExtent CURSOR FOR
+ 	 ;---		 SELECT ID FROM %NOPARALLEL EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	 
+	 ;---&sql(OPEN QExtent)
+	if $g(%qHandle)'="" { s SQLCODE=-101 } else { try { s %qHandle="%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EWrjn2FnBXYVAW8L4zt3je57hXV",%qHandle=$classmethod(%qHandle,"%New") } catch { if ($ze'["<CLASS DOES NOT EXIST>"&&($ze'["<NOROUTINE>")||($ze'[%qHandle)),$ze'["<ZSQLU>" { throw } } if '$isobject(%qHandle) { s %qHandle=$$%0dsqlL() } }
+	If SQLCODE { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%Message=$g(%msg) Set sc=$$Error^%apiOBJ(5821,"SQLCODE = "_SQLCODE_" %msg = "_$g(%msg)) } Else { Set sc=1 }
+	Quit sc }
+ExtentFetch(%qHandle,Row,AtEnd=0) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set Row="",AtEnd=0
+	 ;---&sql(FETCH QExtent INTO :c1)
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+	if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+	If 'SQLCODE { Set Row=$lb(c1) Set sc=1 }
+	ElseIf SQLCODE=100 { Set AtEnd=1,sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) }
+	Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set AtEnd=1,sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	QUIT sc }
+ExtentFetchRows(%qHandle,FetchCount=0,RowSet,ReturnCount,AtEnd) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	Set RowSet="",ReturnCount=0,AtEnd=0
+	For {
+		 ;---&sql(FETCH QExtent INTO :c1)
+ 		 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, SQLCODE
+		if $isobject($g(%qHandle))'=1 { s SQLCODE=-102 } else { do %qHandle.FET() i SQLCODE=0 { s c1=%qHandle.sqlcol1 } }
+		If 'SQLCODE { Set RowSet=RowSet_$lb(c1),ReturnCount=ReturnCount+1 Quit:(ReturnCount=FetchCount)||(($l(RowSet)+($l(RowSet)\ReturnCount))>30000) } Else { Set AtEnd=1 Quit }
+	}
+	If 'SQLCODE { Set sc=1 } ElseIf SQLCODE=100 { Set sc=1 Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.%ROWCOUNT=$g(%ROWCOUNT) } Else { Set:$isobject($g(%sqlcontext)) %sqlcontext.%SQLCODE=SQLCODE,%sqlcontext.Message=$g(%msg) Set sc=$$Error^%apiOBJ(5540,SQLCODE,$get(%msg)) }
+	Quit sc }
+ExtentSendODBC(%qHandle,array,qacn,%qrc,piece,ColumnCount) [ SQLCODE ] methodimpl { New %ROWCOUNT,%ROWID,%msg,SQLCODE 
+	set %qrc=0,piece=0
+	for {
+		set rc=..ExtentFetch(.%qHandle,.row,.atend)
+		if ('rc) { set %qrc=-400 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=-400,%sqlcontext.Message=$g(%msg) do ProcessError^%ourProcedure(rc,$get(%sqlcontext),.%qrc,.%msg),Logerr^%SYS.SQLSRV(%qrc,"","SP",.%msg) RETURN  }
+		if row="" { set %qrc=100 set:$isobject($get(%sqlcontext)) %sqlcontext.SQLCode=100 RETURN  }
+		RETURN:$zobjexport(row,60)
+	}
+	RETURN }
+ q
+%0dsqlL()	n %xxsql,%xxoref
+	s %xxsql("S",1)="DECLARE QExtent CURSOR FOR SELECT ID "
+	s %xxsql("S",2)="INTO  :i%sqlcol1"
+	s %xxsql("S",3)="FROM %NOPARALLEL EDIFACT_process_IFTDGN_InterChangeToOneByOne . Context"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","SOAP12ENCns")="0"_$c(1,1)_"0"_$c(1)_"""http://www.w3.org/2003/05/soap-encoding"""
+	s %xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1),%xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1)
+	s %xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")=""
+	s %xxsql("I","EnsCompiler")="",%xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	s %xxoref=$$BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Runtime","","","EDIFACT.process.IFTDGN.InterChangeToOneByOne",0,"",),",1,QExtent,","EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.CLS",1)
+	q %xxoref
+ExtentFunc() methodimpl {
+	try {
+		set tSchemaPath = ##class(%SQL.Statement).%ClassPath($classname())
+			set tStatement = ##class(%SQL.Statement).%New(,tSchemaPath)
+			do tStatement.prepare(" SELECT ID FROM %NOPARALLEL EDIFACT_process_IFTDGN_InterChangeToOneByOne . Context /*#OPTIONS {""DynamicSQL"":1} */")
+		set tResult = tStatement.%Execute()
+	}
+	catch tException { if '$Isobject($Get(tResult)) { set tResult = ##class(%SQL.StatementResult).%New() } set tResult.%SQLCODE=tException.AsSQLCODE(),tResult.%Message=tException.AsSQLMessage() }
+	Quit tResult }
+zExtentGetODBCInfo(colinfo,parminfo,qHandle) methodimpl
+	Set metadata=$lb(1,1,"ID",4,10,0,2,"ID","Context","EDIFACT_process_IFTDGN_InterChangeToOneByOne","",$c(0,0,0,0,0,0,0,0,0,0,0,1,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	Set colinfo=$li(metadata,2,2+cmdlen)
+	Quit 1
+zIDKEYSQLCheckUnique(pFromOrig=0,%pID,%pVals...) methodimpl
+	 ;---if pFromOrig &sql(SELECT ID FROM Ens_BP.Context WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %pID, %pVals, SQLCODE
+	if pFromOrig try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EHDOnyiYGd0a1NREWlGYgPvzBuO","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"EHDOnyiYGd0a1NREWlGYgPvzBuO"))||($ze["<ZSQLU>") { d %0dsqlP } else { throw } } QUIT SQLCODE=100
+	 ;---&sql(SELECT ID FROM EDIFACT_process_IFTDGN_InterChangeToOneByOne.Context WHERE  ID=:%pVals(1) AND (%ID <> :%pID OR :%pID IS NULL)) QUIT SQLCODE=100
+ 	 ;--- ** SQL PUBLIC Variables: %ROWCOUNT, %ROWID, %msg, %pID, %pVals, SQLCODE
+	try { d $classmethod("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E1a6OtYkeK2PMnLh8U89G5PuSrq","%New") } catch { if ($ze["<CLASS DOES NOT EXIST>"||($ze["<NOROUTINE>"))&&($ze[("%sqlcq."_$tr($namespace,"%_-$@:/\[]^ .","pudssssssssss")_$case($zu(115,2),0:".u",1:".x",3:".v",:"."_$zu(115,2))_"E1a6OtYkeK2PMnLh8U89G5PuSrq"))||($ze["<ZSQLU>") { d %0dsqlR } else { throw } } QUIT SQLCODE=100
+ q
+%0dsqlP	n %xxsql
+	s %xxsql("S",1)="SELECT ID FROM Ens_BP . Context WHERE ID = :%pVals(1) AND ( %ID <> :%pID OR :%pID IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","SOAP12ENCns")="0"_$c(1,1)_"0"_$c(1)_"""http://www.w3.org/2003/05/soap-encoding"""
+	s %xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1),%xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1)
+	s %xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")=""
+	s %xxsql("I","EnsCompiler")="",%xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","EDIFACT.process.IFTDGN.InterChangeToOneByOne",0,"",),,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.CLS")
+	return
+%0dsqlR	n %xxsql
+	s %xxsql("S",1)="SELECT ID FROM EDIFACT_process_IFTDGN_InterChangeToOneByOne . Context WHERE ID = :%pVals(1) AND ( %ID <> :%pID OR :%pID IS NULL )"
+	s %xxsql("M","%occSqlfuncinc")=$c(1),%xxsql("M","ALLOCGVEC")=$c(1),%xxsql("M","CACHENAMES")="",%xxsql("M","DEBUG")=$c(1),%xxsql("M","FORKNETDMN")=$c(1)
+	s %xxsql("M","HASHLOCK")=$c(1),%xxsql("M","NETNEWHASH")=$c(1),%xxsql("M","SOAP12ENCns")="0"_$c(1,1)_"0"_$c(1)_"""http://www.w3.org/2003/05/soap-encoding"""
+	s %xxsql("M","USEDIRCACHE")=$c(1),%xxsql("M","USEGCNT")=2,%xxsql("M","USEGOFF")=$c(1),%xxsql("M","USELOST")=$c(1),%xxsql("M","ZVERSION")=$c(1)
+	s %xxsql("I","%callout")="",%xxsql("I","%occSqlfunc")="",%xxsql("I","%sySystem")="",%xxsql("I","%systemInclude")="",%xxsql("I","%xmlMap")=""
+	s %xxsql("I","EnsCompiler")="",%xxsql("I","Ensemble")="",%xxsql("NS")="IRISAPP",%xxsql("PToolsCTI")=$LB(,"-1:0:0::0:1")
+	do BuildQuery^%SYS.SQLSRV(.%xxsql,$lb("Logical","","","EDIFACT.process.IFTDGN.InterChangeToOneByOne",0,"",),,"EDIFACT.process.IFTDGN.InterChangeToOneByOne.Context.CLS")
+	return
+zIDKEYSQLExists(pLockOnly=0,pUnlockRef,%pVal...) methodimpl
+	// SQL Foreign Key validation entry point for Key IDKEY.  Called by FKeys that reference this Key to see if the row is defined
+	if pLockOnly>=0 { new id set id=%pVal(1) }
+	if pLockOnly>=0 { if '..%SQLGetLock(id,1,.pUnlockRef) { set sqlcode=-114,%msg=$$FormatMessage^%occMessages(,"%SQL.Filer","SQLFiler39",,"EDIFACT_process_IFTDGN_InterChangeToOneByOne"_"."_"Context"_":"_"IDKEY") RETURN 0 } }
+	if pLockOnly<1 {
+		new exists set exists='..IDKEYSQLCheckUnique(0,,%pVal(1)) RETURN:pLockOnly=-1 exists
+		do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN exists
+	}
+	else { do:'$g(pUnlockRef) ..%SQLReleaseLock(id,1) RETURN 1 }
+	Return
+%sqllistUCQ(t) public	{
+	s t("%0dsqlA")="",t("%0dsqlD")="",t("%0dsqlF")="",t("%0dsqlH")="",t("%0dsqlJ")="",t("%0dsqlL")="",t("%0dsqlP")="",t("%0dsqlR")=""
+}

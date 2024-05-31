@@ -1,0 +1,35 @@
+ROUTINE EDIFACT.prod.production.1 [Type=INT,Generated]
+ ;EDIFACT.prod.production.1
+ ;Generated for class EDIFACT.prod.production.  Do NOT edit. 05/31/2024 04:34:34PM
+ ;;5A556B32;EDIFACT.prod.production
+ ;
+GetSettingRow(pSettingName="",pSourceClass="") methodimpl {
+	Set tRow = ""
+	// Check if the class has been compiled with the new generator
+	If (pSourceClass = "EDIFACT.prod.production") {
+		Set tRow = $case(pSettingName,
+			"AlertActionWindow": $LB("AlertActionWindow","The default number of minutes within which a Managed Alert should be acted upon.","%Library.Integer",##class(Ens.Alerting.Utils).#DEFAULTACTIONWINDOW,"","","","","",0,"Alert Action Window","Alerting","Alerting Control",""),
+			"AlertNotificationManager": $LB("AlertNotificationManager","The default Alert Notification Manager for use by the Managed Alert framework.","Ens.DataType.ConfigName","",128,"","","","",0,"Alert Notification Manager","Alerting","Alerting Control","selector?context={Ens.ContextSearch/ProductionItems?targets=1&productionName=@productionId}"),
+			"AlertNotificationOperation": $LB("AlertNotificationOperation","The default Alert Notification Operation for use by the Managed Alert framework."_$char(13,10)_"The Notification Manager can be configured to send notifications to other hosts within the production,"_$char(13,10)_"but this setting provides a fallback for situations which are not captured by the logic in the Notification Manager.","Ens.DataType.ConfigName","",128,"","","","",0,"Alert Notification Operation","Alerting","Alerting Control","selector?context={Ens.ContextSearch/ProductionItems?targets=1&productionName=@productionId}"),
+			"AlertNotificationRecipients": $LB("AlertNotificationRecipients","A comma-separated list of recipients that should be used for alert notifications"_$char(13,10)_"when no other recipients have been specified by the notification framework.","%Library.String","",2048,"","","","",0,"Alert Notification Recipients","Alerting","Alerting Control",""),
+			"ShutdownTimeout": $LB("ShutdownTimeout","Amount of time to wait for a click on Stop Production to succeed","%Library.Numeric",120,"",0,3600,"","",0,"Shutdown Timeout","Additional","Additional Settings",""),
+			"UpdateTimeout": $LB("UpdateTimeout","Amount of time to wait for Production updates to succeed <br>"_$char(13,10)_"This means both clicking UpdateProduction and clicking Apply for changes to a configuration item in a running production.","%Library.Numeric",10,"",0,3600,"","",0,"Update Timeout","Additional","Additional Settings",""),
+			: "")
+	}
+	Else { // Fall back on getting the data dynamically 
+		Set tRow = ..GetDynamicSettingRow(pSettingName,pSourceClass)
+	}
+	Quit tRow }
+EnumerateSettingsGetInfo(colinfo,parminfo,idinfo,qHandle,extoption=0,extinfo) methodimpl {
+	Set colinfo=$lb($lb("Name",10,"Name"),$lb("Description",10,"Description"),$lb("Type",10,"Type"),$lb("Default",10,"Default"),$lb("MAXLEN",10,"MAXLEN"),$lb("MINVAL",10,"MINVAL"),$lb("MAXVAL",10,"MAXVAL"),$lb("VALUELIST",10,"VALUELIST"),$lb("DISPLAYLIST",10,"DISPLAYLIST"),$lb("IsRequired",10,"IsRequired"),$lb("LocalizedName",10,"LocalizedName"),$lb("Category",10,"Category"),$lb("LocalizedCategory",10,"LocalizedCategory"),$lb("EditorContext",10,"EditorContext"))
+	Set parminfo=""
+	Set idinfo=$lb(0,"")
+	If extoption {
+		Set extinfo=$lb("",$lb($lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("",""),$lb("","")))
+	}
+	Quit 1 }
+EnumerateSettingsGetODBCInfo(colinfo,parminfo,qHandle) methodimpl {
+	Set metadata=$lb(1,14,"Name",12,50,0,2,"Name","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"Description",12,50,0,2,"Description","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"Type",12,50,0,2,"Type","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"Default",12,50,0,2,"Default","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"MAXLEN",12,50,0,2,"MAXLEN","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"MINVAL",12,50,0,2,"MINVAL","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"MAXVAL",12,50,0,2,"MAXVAL","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"VALUELIST",12,50,0,2,"VALUELIST","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"DISPLAYLIST",12,50,0,2,"DISPLAYLIST","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"IsRequired",12,50,0,2,"IsRequired","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedName",12,50,0,2,"LocalizedName","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"Category",12,50,0,2,"Category","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"LocalizedCategory",12,50,0,2,"LocalizedCategory","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),"EditorContext",12,50,0,2,"EditorContext","production","EDIFACT_prod","",$c(0,0,0,0,0,0,0,0,0,0,0,0,0),0)
+	Set colcount=$li(metadata,2),cmdlen=colcount*10,parmcount=$li(metadata,3+cmdlen),pmdlen=parmcount*6,parminfo=$li(metadata,cmdlen+3,cmdlen+pmdlen+3)
+	Set colinfo=$li(metadata,2,2+cmdlen)
+	Quit 1 }

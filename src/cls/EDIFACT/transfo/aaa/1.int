@@ -1,0 +1,33 @@
+ROUTINE EDIFACT.transfo.aaa.1 [Type=INT,Generated]
+ ;EDIFACT.transfo.aaa.1
+ ;Generated for class EDIFACT.transfo.aaa.  Do NOT edit. 05/31/2024 04:34:34PM
+ ;;316D7462;EDIFACT.transfo.aaa
+ ;
+GetSourceDocType() methodimpl {
+ Quit "IFTDGN_D98B:IFTDGN" }
+GetSourceType() methodimpl {
+ Quit "EnsLib.EDI.EDIFACT.Document" }
+GetTargetType(pCreate) methodimpl {
+ Set pCreate="new"
+ Quit "Ens.StringContainer" }
+Transform(source,target,aux="") [ process,context ] methodimpl {
+	Set (tSC,tSCTrans,tSCGet)=1
+	Try {
+		Set:""=source.DocType tBlankSrc=1, source.DocType="IFTDGN_D98B:IFTDGN"
+		Set target = ##class(Ens.StringContainer).%New()
+		If '$IsObject(target) Set tSC=%objlasterror Quit
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("xform",$classname(),"Transform","transform from source "_source_$S(source.%Extends("%Persistent"):"/"_source.%Id(),1:"")_" to target "_target_$S(target.%Extends("%Persistent"):"/"_target.%Id(),1:"")_"")
+		Try { Set target.StringValue=source.GetValueAt("UNH-1",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+	} Catch thrownErr {
+		If $ZE="" {
+			Set tSC=thrownErr.AsStatus()
+			Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSC)
+		} Else {
+			Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"Transform")
+		}
+	}
+	If ('tSCTrans) Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSCTrans)  Quit:(''tSC) tSCTrans
+	Set:$G(tBlankSrc) source.DocType=""
+	Quit tSC }

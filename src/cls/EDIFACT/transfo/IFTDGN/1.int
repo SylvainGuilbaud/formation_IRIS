@@ -1,0 +1,36 @@
+ROUTINE EDIFACT.transfo.IFTDGN.1 [Type=INT,Generated]
+ ;EDIFACT.transfo.IFTDGN.1
+ ;Generated for class EDIFACT.transfo.IFTDGN.  Do NOT edit. 05/31/2024 04:34:34PM
+ ;;4F344B31;EDIFACT.transfo.IFTDGN
+ ;
+GetSourceDocType() methodimpl {
+ Quit "IFTDGN_D98B:IFTDGN" }
+GetSourceType() methodimpl {
+ Quit "EnsLib.EDI.EDIFACT.Document" }
+GetTargetDocType() methodimpl {
+ Quit "IFTDGN_D98B:IFTDGN" }
+GetTargetType(pCreate) methodimpl {
+ Set pCreate="copy"
+ Quit "EnsLib.EDI.EDIFACT.Document" }
+Transform(source,target,aux="") [ process,context ] methodimpl {
+	Set (tSC,tSCTrans,tSCGet)=1
+	Try {
+		If '$IsObject(source) Set tSC=$$Error^%apiOBJ(5001,"No source object") Quit
+		Set:""=source.DocType tBlankSrc=1, source.DocType="IFTDGN_D98B:IFTDGN"
+		Set target = source.%ConstructClone(1)
+		If '$IsObject(target) Set tSC=%objlasterror Quit
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("xform",$classname(),"Transform","transform from source "_source_$S(source.%Extends("%Persistent"):"/"_source.%Id(),1:"")_" to target "_target_$S(target.%Extends("%Persistent"):"/"_target.%Id(),1:"")_"")
+		Set target.DocType = "IFTDGN_D98B:IFTDGN"
+		Try { Set tSC1=target.SetValueAt("GGGGG","UNH-1:0062","set","")   } Catch ex { Set tSC1 = ex.AsStatus() }
+		If $D(tSC1) && ('tSC1) {  If ('..#IGNOREMISSINGSOURCE||(($$GetOneStatusText^%apiOBJ(tSC1)'["No segment found")&&($$GetOneStatusText^%apiOBJ(tSC1)'["is not an element, instead this node")&&($$GetOneStatusText^%apiOBJ(tSC1)'["<INVALID OREF>"))) { Set tSCTrans=$select(+tSC1:tSCTrans,1:$$AppendStatus^%occSystem(tSC1,tSCTrans)) }  Set tSC1 = 1 }
+	} Catch thrownErr {
+		If $ZE="" {
+			Set tSC=thrownErr.AsStatus()
+			Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSC)
+		} Else {
+			Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"Transform")
+		}
+	}
+	If ('tSCTrans) Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSCTrans)  Quit:(''tSC) tSCTrans
+	Set:$G(tBlankSrc) source.DocType=""
+	Quit tSC }

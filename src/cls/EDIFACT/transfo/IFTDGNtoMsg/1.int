@@ -1,0 +1,72 @@
+ROUTINE EDIFACT.transfo.IFTDGNtoMsg.1 [Type=INT,Generated]
+ ;EDIFACT.transfo.IFTDGNtoMsg.1
+ ;Generated for class EDIFACT.transfo.IFTDGNtoMsg.  Do NOT edit. 05/31/2024 04:34:36PM
+ ;;4F326951;EDIFACT.transfo.IFTDGNtoMsg
+ ;
+GetSourceDocType() methodimpl {
+ Quit "IFTDGN_D98B:IFTDGN" }
+GetSourceType() methodimpl {
+ Quit "EnsLib.EDI.EDIFACT.Document" }
+GetTargetType(pCreate) methodimpl {
+ Set pCreate="new"
+ Quit "EDIFACT.msg.transformed" }
+Transform(source,target,aux="") [ process,context ] methodimpl {
+	Set (tSC,tSCTrans,tSCGet)=1
+	Try {
+		Set:""=source.DocType tBlankSrc=1, source.DocType="IFTDGN_D98B:IFTDGN"
+		Set target = ##class(EDIFACT.msg.transformed).%New()
+		If '$IsObject(target) Set tSC=%objlasterror Quit
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("xform",$classname(),"Transform","transform from source "_source_$S(source.%Extends("%Persistent"):"/"_source.%Id(),1:"")_" to target "_target_$S(target.%Extends("%Persistent"):"/"_target.%Id(),1:"")_"")
+		Try { Set target.UNH=source.GetValueAt("UNH-1",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Try { Set target.BGM=source.GetValueAt("BGM-2",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Set k1="",tSC=1
+		For {
+			Set tSC1=1, k1=source.GetNextIndex("FTX-4()",k1,.tSC1)
+			If ('tSC1) { Set:('..#IGNOREMISSINGSOURCE||(($$GetOneStatusText^%apiOBJ(tSC1)'["No segment found")&&($$GetOneStatusText^%apiOBJ(tSC1)'["is not an element, instead this node"))) tSCTrans=$select(+tSCTrans:tSC1,1:$$AppendStatus^%occSystem(tSCTrans,tSC1))  Set tSC1=1 }
+			Quit:k1=""
+			Try { Set tSC=target.FTX.SetAt(source.GetValueAt("FTX-4("_(k1)_")",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL),(k1)) }
+			Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+			If ('tSC) Quit
+		}
+		If ('tSC) Quit
+		Try { Set target.TDT=source.GetValueAt("SG2.TDT-10",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Set k1="",tSC=1
+		For {
+			Set tSC1=1, k1=source.GetNextIndex("SG2.RFF-11()",k1,.tSC1)
+			If ('tSC1) { Set:('..#IGNOREMISSINGSOURCE||(($$GetOneStatusText^%apiOBJ(tSC1)'["No segment found")&&($$GetOneStatusText^%apiOBJ(tSC1)'["is not an element, instead this node"))) tSCTrans=$select(+tSCTrans:tSC1,1:$$AppendStatus^%occSystem(tSCTrans,tSC1))  Set tSC1=1 }
+			Quit:k1=""
+			Try { Set tSC=target.RFF.SetAt(source.GetValueAt("SG2.RFF-11("_(k1)_")",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL),(k1)) }
+			Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+			If ('tSC) Quit
+		}
+		If ('tSC) Quit
+		Set k2="",tSC=1
+		For {
+			Set tSC1=1, k2=source.GetNextIndex("SG2.LOC-12()",k2,.tSC1)
+			If ('tSC1) { Set:('..#IGNOREMISSINGSOURCE||(($$GetOneStatusText^%apiOBJ(tSC1)'["No segment found")&&($$GetOneStatusText^%apiOBJ(tSC1)'["is not an element, instead this node"))) tSCTrans=$select(+tSCTrans:tSC1,1:$$AppendStatus^%occSystem(tSCTrans,tSC1))  Set tSC1=1 }
+			Quit:k2=""
+			Try { Set tSC=target.LOC.SetAt(source.GetValueAt("SG2.LOC-12("_(k2)_")",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL),(k2)) }
+			Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+			If ('tSC) Quit
+			Try { Set target.UNT=source.GetValueAt("UNT-53",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+			Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+			If ('tSC) Quit
+		}
+		If ('tSC) Quit
+	} Catch thrownErr {
+		If $ZE="" {
+			Set tSC=thrownErr.AsStatus()
+			Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSC)
+		} Else {
+			Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"Transform")
+		}
+	}
+	If ('tSCTrans) Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSCTrans)  Quit:(''tSC) tSCTrans
+	Set:$G(tBlankSrc) source.DocType=""
+	Quit tSC }

@@ -1,0 +1,51 @@
+ROUTINE EDIFACT.transfo.IFTDGN.DocumentsToMessages.1 [Type=INT,Generated]
+ ;EDIFACT.transfo.IFTDGN.DocumentsToMessages.1
+ ;Generated for class EDIFACT.transfo.IFTDGN.DocumentsToMessages.  Do NOT edit. 05/31/2024 04:34:36PM
+ ;;55726F64;EDIFACT.transfo.IFTDGN.DocumentsToMessages
+ ;
+GetSourceDocType() methodimpl {
+ Quit "IFTDGN_D98B:Interchange" }
+GetSourceType() methodimpl {
+ Quit "EnsLib.EDI.EDIFACT.Document" }
+GetTargetDocType() methodimpl {
+ Quit "IFTDGN_D98B:IFTDGN" }
+GetTargetType(pCreate) methodimpl {
+ Set pCreate="new"
+ Quit "EDIFACT.msg.array" }
+Transform(source,target,aux="") [ process,context ] methodimpl {
+	Set (tSC,tSCTrans,tSCGet)=1
+	Try {
+		Set:""=source.DocType tBlankSrc=1, source.DocType="IFTDGN_D98B:Interchange"
+		Set target = ##class(EDIFACT.msg.array).%New()
+		If '$IsObject(target) Set tSC=%objlasterror Quit
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("xform",$classname(),"Transform","transform from source "_source_$S(source.%Extends("%Persistent"):"/"_source.%Id(),1:"")_" to target "_target_$S(target.%Extends("%Persistent"):"/"_target.%Id(),1:"")_"")
+		Try { Set InterChangeStart="UNB" }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Try { Set InterChangeStop="UNZ" }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Try { Set DocumentHeader="UNH+" }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Try { Set RawContent=$piece($piece(source.RawContent,source.FindSegment(InterChangeStart).OutputToString(),2),InterChangeStop) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+ ; ====== Start Code Block ======
+ for i=2:1:$length(RawContent,DocumentHeader) {
+	 set content=DocumentHeader_$piece(RawContent,DocumentHeader,i)_" "
+	 set document=##class(EnsLib.EDI.EDIFACT.Document).ImportFromString(content)
+	 do target.documents.SetAt(document,$i(key))
+	}
+ ; ======= End Code Block =======
+	} Catch thrownErr {
+		If $ZE="" {
+			Set tSC=thrownErr.AsStatus()
+			Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSC)
+		} Else {
+			Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"Transform")
+		}
+	}
+	If ('tSCTrans) Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSCTrans)  Quit:(''tSC) tSCTrans
+	Set:$G(tBlankSrc) source.DocType=""
+	Quit tSC }

@@ -25,7 +25,20 @@
       "SAP BAPI Configuration RFC": "${serverUrl}/csp/${namespace}/EnsPortal.Dialog.SAPJCO.BaseConfiguration.cls?Namespace=${namespace}${serverAuth}"
     }
   },
-  "objectscript.export.folder": "src/cls",
+  "objectscript.export": {
+    "folder": "src/cls",
+    "addCategory": false,
+    "map": {},
+    "atelier": true,
+    "generated": false,
+    "filter": "",
+    "exactFilter": "",
+    "category": "CLS,CSP,OTH",
+    "noStorage": false,
+    "dontExportIfNoChanges": false,
+    "maxConcurrentConnections": 0,
+    "mapped": true
+  },
   "sqltools.connections": [
     {
       "namespace": "IRISAPP",

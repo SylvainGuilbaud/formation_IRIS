@@ -1,0 +1,58 @@
+ROUTINE EDIFACT.transfo.IFTDGN.InterChangeToDocuments.1 [Type=INT,Generated]
+ ;EDIFACT.transfo.IFTDGN.InterChangeToDocuments.1
+ ;Generated for class EDIFACT.transfo.IFTDGN.InterChangeToDocuments.  Do NOT edit. 05/31/2024 04:34:36PM
+ ;;466C434C;EDIFACT.transfo.IFTDGN.InterChangeToDocuments
+ ;
+GetSourceDocType() methodimpl {
+ Quit "IFTDGN_D98B:Interchange" }
+GetSourceType() methodimpl {
+ Quit "EnsLib.EDI.EDIFACT.Document" }
+GetTargetDocType() methodimpl {
+ Quit "IFTDGN_D98B:IFTDGN" }
+GetTargetType(pCreate) methodimpl {
+ Set pCreate="new"
+ Quit "EDIFACT.msg.array" }
+Transform(source,target,aux="") [ process,context ] methodimpl {
+	Set (tSC,tSCTrans,tSCGet)=1
+	Try {
+		Set:""=source.DocType tBlankSrc=1, source.DocType="IFTDGN_D98B:Interchange"
+		Set target = ##class(EDIFACT.msg.array).%New()
+		If '$IsObject(target) Set tSC=%objlasterror Quit
+		Do:$S($D(%Ensemble("DoTrace")):%Ensemble("DoTrace"),1:##class(Ens.Util.Trace).DoTrace()) ##class(Ens.Util.Trace).WriteTrace("xform",$classname(),"Transform","transform from source "_source_$S(source.%Extends("%Persistent"):"/"_source.%Id(),1:"")_" to target "_target_$S(target.%Extends("%Persistent"):"/"_target.%Id(),1:"")_"")
+		Try { Set InterChangeStart="UNB" }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Try { Set InterChangeStop="UNZ" }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Try { Set DocumentHeader="UNH+" }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		Try { Set RawContent=$piece($piece(source.RawContent,source.FindSegment(InterChangeStart).OutputToString(),2),InterChangeStop) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+		; Disabled 'code'
+		Set k1="",tSC=1
+		For {
+			Set tSC1=1, k1=source.GetNextIndex("UNHDocsRef-2()",k1,.tSC1)
+			If ('tSC1) { Set:('..#IGNOREMISSINGSOURCE||(($$GetOneStatusText^%apiOBJ(tSC1)'["No segment found")&&($$GetOneStatusText^%apiOBJ(tSC1)'["is not an element, instead this node"))) tSCTrans=$select(+tSCTrans:tSC1,1:$$AppendStatus^%occSystem(tSCTrans,tSC1))  Set tSC1=1 }
+			Quit:k1=""
+			Try { Set ^Doc=source.GetValueAt("UNHDocsRef-2("_(k1)_")",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+			Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+			If ('tSC) Quit
+		}
+		If ('tSC) Quit
+		Try { Set ^UNB=source.GetValueAt("UNB-1:S002("_(1)_").0004",,.tSCGet,..#TREATEMPTYREPEATINGFIELDASNULL) }
+		Catch ex { If (..#IGNOREMISSINGSOURCE&&($$GetOneStatusText^%apiOBJ(ex.AsStatus())["<INVALID OREF>")) { Set tSC = 1 } Else { Set tSC=ex.AsStatus() } }
+		If ('tSC) Quit
+	} Catch thrownErr {
+		If $ZE="" {
+			Set tSC=thrownErr.AsStatus()
+			Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSC)
+		} Else {
+			Set tSC=##class(Ens.Util.Error).EnsSystemError($classname(),"Transform")
+		}
+	}
+	If ('tSCTrans) Do ##class(Ens.Util.Log).LogStatus($classname(),"Transform",tSCTrans)  Quit:(''tSC) tSCTrans
+	Set:$G(tBlankSrc) source.DocType=""
+	Quit tSC }

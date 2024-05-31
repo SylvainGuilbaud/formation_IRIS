@@ -1,0 +1,33 @@
+ROUTINE EDIFACT.rules.Documents.1 [Type=INT,Generated]
+ ;EDIFACT.rules.Documents.1
+ ;Generated for class EDIFACT.rules.Documents.  Do NOT edit. 05/31/2024 04:34:34PM
+ ;;66546D32;EDIFACT.rules.Documents
+ ;
+evaluateRuleDefinition(pContext,pRuleSet,pEffectiveBegin,pEffectiveEnd,pReturnValue,pReason,pLogLevel,pDebugId="") methodimpl { s:'($d(pLogLevel)#2) pLogLevel="r"
+    set tSC=1,$ZE=""
+    try {
+        set pReturnValue="",pReason=""
+        ; Initialize temporary variables
+        ; No ruleSet dispatching code generated.
+        set pEffectiveBegin=""
+        set pEffectiveEnd=""
+        set pRuleSet=""
+        ;
+ruleSet1 ; effectiveBegin = (not-specified); effectiveEnd = (not-specified)
+        if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","","Executing ruleSet1: effectiveBegin = (not-specified); effectiveEnd = (not-specified)",0) quit:('tSC)
+        ;
+        ; Evaluating rule: rule#1
+        kill tConstraints
+        set tSC=##class(EnsLib.MsgRouter.RuleAssist).RuntimeConstraintCheck(.tConstraints,pContext,.pPassed) quit:('tSC)
+        if (pLogLevel [ "c") set tSC = ##class(Ens.Rule.DebugLog).Log(pDebugId,"c","rule#1","Constraints for rule 'rule#1' "_$select(pPassed: "passed",1: "failed"),0) quit:('tSC)
+        if pPassed {
+        }
+        quit
+        ;
+    } catch err {
+        if $ZE="" {set tSC=err.AsStatus()} Else {set tSC=##class(Ens.Util.Error).ExceptionStatus()}
+    }
+    set pReason=$e(pReason,2,*)
+    quit tSC
+    ;
+}
