@@ -1,4 +1,4 @@
-Class unittests.codeGolf.ParenthesisHell.ParenthesisHell Extends %UnitTest.TestCase
+Class codeGolf.ParenthesisHell Extends %UnitTest.TestCase
 {
 
 Method TestValid()
