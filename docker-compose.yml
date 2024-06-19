@@ -8,7 +8,6 @@ services:
   iris:
     build:
       context: .
-      dockerfile: Dockerfile
       target: final
     restart: always
     container_name: ${iris_container_name}
@@ -32,6 +31,17 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.10
+  notebook:
+    build:
+      context: ./notebook
+    volumes:
+      - ./notebook/Notebooks:/Notebooks
+    command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' --notebook-dir=/Notebooks"
+    ports:
+      - "58888:8888"
+    environment:
+      - IRISINSTALLDIR='/usr/irissys'
+    
   # jupyter:
   #   # image: jupyter/datascience-notebook
   #   # image: jupyter/base-notebook

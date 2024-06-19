@@ -1,0 +1,7 @@
+pandas
+sqlalchemy
+sqlalchemy-iris
+irissqlcli
+ipython-sql
+ipython-iris-magic
+iris
