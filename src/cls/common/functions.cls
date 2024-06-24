@@ -9,11 +9,6 @@ ClassMethod WeekEnd() As %Boolean
 	return WeekEnd
 }
 
-ClassMethod SamediDimanche() As %Boolean
-{
-	return ..JourSemaine()
-}
-
 ClassMethod JourFérié(jour As %Integer = 0) As %Boolean
 {
 	set férié=0

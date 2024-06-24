@@ -5,3 +5,4 @@ irissqlcli
 ipython-sql
 ipython-iris-magic
 iris
+holidays
