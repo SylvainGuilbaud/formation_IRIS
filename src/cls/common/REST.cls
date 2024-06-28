@@ -15,6 +15,8 @@ Parameter CONTENTTYPEOCTETSTREAM = "application/octet-stream";
 
 Parameter CONTENTTYPESVG = "image/svg+xml";
 
+Parameter CONTENTTYPEPNG = "image/png";
+
 XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
@@ -725,6 +727,10 @@ ClassMethod stream(classname As %String, property As %String, id As %Integer) As
                     if extension = "gif" {
                         set %response.ContentType = ..#CONTENTTYPEGIF 
                     }
+                    if extension = "png" {
+                        set %response.ContentType = ..#CONTENTTYPEPNG 
+                    }
+                    
                 } 
                 if property = "CStream" {
                     set %response.ContentType = ..#CONTENTTYPETEXT

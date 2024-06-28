@@ -25,7 +25,7 @@ Property Timestamp As %TimeStamp;
 
 Property Boolean As %Boolean;
 
-Property extension As %String [ InitialExpression = "svg" ];
+Property extension As %String [ InitialExpression = "png" ];
 
 Property created As %TimeStamp [ InitialExpression = {$zdt($now(),3,,6)} ];
 

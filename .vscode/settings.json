@@ -20,6 +20,8 @@
       "unit test": "http://127.0.0.1:52773/csp/sys/%25UnitTest.Portal.Home.cls?$NAMESPACE=IRISAPP",
       "version": "http://${host}:${port}/common/",
       "atelier-pws": "http://${host}:${port}/api/atelier/",
+      "Get Binary Stream": "http://${host}:${port}/common/stream/data.test/BStream/1",
+      "Get Character Stream": "http://${host}:${port}/common/stream/data.test/CStream/1",
       "XML Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.XMLSchemaWizard.cls?Namespace=${namespace}${serverAuth}",
       "SOAP Wizard": "${serverUrl}/isc/studio/templates/%25ZEN.Template.AddInWizard.SOAPWizard.cls?Namespace=${namespace}${serverAuth}",
       "SAP BAPI Configuration RFC": "${serverUrl}/csp/${namespace}/EnsPortal.Dialog.SAPJCO.BaseConfiguration.cls?Namespace=${namespace}${serverAuth}"
