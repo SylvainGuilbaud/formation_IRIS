@@ -16,7 +16,7 @@
 /// ^mapping contains all the data for this table so that will be the Data Map.
 /// 
 /// ^index is a sorted list of HireDates.  That will be an Index Map in the same storage definition.
-Class Mapping.Example1 Extends (%Persistent, %Populate) [ StorageStrategy = NewStorage1, ClassType =  ]
+Class Mapping.Example1 Extends (%Persistent, %Populate) [ ClassType = "", StorageStrategy = NewStorage1 ]
 {
 
 Property Name As %String;
