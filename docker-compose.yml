@@ -24,6 +24,8 @@ services:
       - ./data:/data
       - ./jdbc:/jdbc
       - ./:/home/irisowner/dev
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
       # - ./src:/app/src
       # - ./:/home/irisowner/dev
       # - ./volumes/irisdata:/irisdata
@@ -34,7 +36,7 @@ services:
   notebook:
     # build:
     #   context: ./notebook
-    image: jupyter-notebook
+    image: jupyter-notebook:1
     volumes:
       - ./notebook/Notebooks:/Notebooks
     command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' --notebook-dir=/Notebooks"
