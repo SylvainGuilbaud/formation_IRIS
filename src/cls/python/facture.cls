@@ -254,14 +254,7 @@ class NumberedCanvas(canvas.Canvas):
 
     def draw_page_number(self, page_count):
         self.setFont("Helvetica", 8)
-        self.drawRightString(200*mm, 10*mm, f"Page {self._pageNumber} sur {page_count}")
-
-def add_page_borders(canvas, doc):
-    canvas.saveState()
-    canvas.setStrokeColor(HexColor("#2C3E50"))
-    canvas.setLineWidth(1)
-    canvas.rect(10*mm, 10*mm, 190*mm, 277*mm)
-    canvas.restoreState()
+        self.drawCentredString(105*mm, 10*mm, f"Page {self._pageNumber} sur {page_count}")
 
 def create_chart(data):
     drawing = Drawing(400, 200)
@@ -386,13 +379,16 @@ def generate_invoice_pdf(invoice_number, date, client, items, total, payment_lin
     elements.append(Paragraph(link_text, link_style))
     elements.append(Spacer(1, 1*cm))
 
-    # Graphique (exemple)
+    # Nouvelle page pour l'historique des ventes
+    elements.append(PageBreak())
+
+    # Historique des ventes
     elements.append(Paragraph("Historique des ventes", styles['Title']))
     chart_data = [[5000, 7000, 6000, 9000, 8000, 10000]]
     elements.append(create_chart(chart_data))
-    elements.append(PageBreak())
 
     # Conditions de paiement et mentions légales
+    elements.append(Spacer(1, 1*cm))
     elements.append(Paragraph("Conditions de paiement", styles['Title']))
     elements.append(Paragraph("Le paiement est dû dans les 30 jours suivant la date de facturation. Tout retard de paiement entraînera des pénalités de retard au taux annuel de 12%.", styles['Normal']))
     elements.append(Spacer(1, 0.5*cm))
@@ -405,7 +401,7 @@ def generate_invoice_pdf(invoice_number, date, client, items, total, payment_lin
     elements.append(Paragraph(footer_text, styles['Center']))
 
     # Génération du PDF
-    doc.build(elements, canvasmaker=NumberedCanvas, onFirstPage=add_page_borders, onLaterPages=add_page_borders)
+    doc.build(elements, canvasmaker=NumberedCanvas)
     print(f"Facture PDF professionnelle générée : {filename}")
 
 # Utilisation de la fonction
