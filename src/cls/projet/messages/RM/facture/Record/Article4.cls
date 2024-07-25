@@ -1,6 +1,6 @@
 /// THIS IS GENERATED CODE. DO NOT EDIT.<br/>
 /// RECORDMAP: Generated from RecordMap 'projet.messages.RM.facture'
-/// on 2024-07-25 at 12:17:17.520 [2024-07-25 11:17:17.520 UTC]
+/// on 2024-07-25 at 17:43:05.875 [2024-07-25 16:43:05.875 UTC]
 /// by user _SYSTEM
 Class projet.messages.RM.facture.Record.Article4 Extends (%SerialObject, %XML.Adaptor) [ Inheritance = right, ProcedureBlock ]
 {

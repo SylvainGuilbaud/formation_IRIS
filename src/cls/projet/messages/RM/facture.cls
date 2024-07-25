@@ -1,5 +1,5 @@
 /// RECORDMAP: Modified during compilation of RecordMap 'projet.messages.RM.facture'
-/// on 2024-07-25 at 12:17:17.643 [2024-07-25 11:17:17.643 UTC]
+/// on 2024-07-25 at 17:43:05.944 [2024-07-25 16:43:05.944 UTC]
 /// by user _SYSTEM
 Class projet.messages.RM.facture Extends EnsLib.RecordMap.RecordMap
 {
