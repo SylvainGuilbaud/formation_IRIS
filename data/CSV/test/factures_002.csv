@@ -1,0 +1,6 @@
+Numéro facture,Date facture,Nom client,Adresse client,Code postal,Ville,Pays,Article1,Article2,Article3,Article4,Article5,Montant total HT,TVA,Montant total TTC
+F006,2024-07-06,Galileo Galilei,35 Rue Saint-Ferréol,13006,Marseille,France,ART026:Écran 24:1:150.00,ART027:Clavier sans fil:1:45.00,ART028:Webcam HD:1:60.00,ART029:Casque audio:1:80.00,ART030:Hub USB:1:30.00,365.00,73.00,438.00
+F007,2024-07-07,Charles Darwin,40 Rue de la Liberté,21000,Dijon,France,ART031:Imprimante laser:1:200.00,ART032:Cartouche toner:2:45.00,ART033:Ramette papier A4:5:6.00,ART034:Étiquettes:1:8.00,ART035:Ruban adhésif:3:3.00,334.00,66.80,400.80
+F008,2024-07-08,Leonardo da Vinci,45 Rue de la Gare,31000,Toulouse,France,ART036:Carnet de croquis:2:12.00,ART037:Crayons de couleur:1:15.00,ART038:Pinceau:5:4.00,ART039:Palette:1:8.00,ART040:Chevalet:1:50.00,113.00,22.60,135.60
+F009,2024-07-09,Thomas Edison,50 Rue de Metz,31000,Toulouse,France,ART041:Ampoule LED:10:5.00,ART042:Multiprise:2:15.00,ART043:Pile AA:20:1.00,ART044:Lampe de bureau:1:35.00,ART045:Rallonge électrique:1:20.00,140.00,28.00,168.00
+F010,2024-07-10,Alexander Graham Bell,55 Rue de la République,69002,Lyon,France,ART046:Téléphone fixe:1:60.00,ART047:Câble Ethernet:2:10.00,ART048:Routeur Wi-Fi:1:80.00,ART049:Adaptateur CPL:2:45.00,ART050:Antenne TV:1:30.00,270.00,54.00,324.00
