@@ -11,5 +11,6 @@
 /data/SC*
 /data/**/out
 /data/**/*archive
+/data/**/*work
 **/~$*
 /data/EP

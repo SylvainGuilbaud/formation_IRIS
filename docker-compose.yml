@@ -36,7 +36,7 @@ services:
   notebook:
     # build:
     #   context: ./notebook
-    image: jupyter-notebook:1
+    image: jupyter-notebook
     volumes:
       - ./notebook/Notebooks:/Notebooks
     command: "start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' --notebook-dir=/Notebooks"
