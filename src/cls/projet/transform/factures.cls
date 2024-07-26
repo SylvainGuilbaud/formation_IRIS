@@ -22,26 +22,17 @@ id into :clientID
 FROM data_CSV.client
 where Nomclient = :source.Nomclient
 ]]></sql>
-<if condition='clientID=0' >
+<if condition='clientID&gt;0 &amp;&amp; ##class(data.CSV.client).%ExistsId(clientID)' >
 <true>
-<assign value='source.Nomclient' property='target.client.Nomclient' action='set' />
-<assign value='source.Adresseclient' property='target.client.Adresseclient' action='set' />
-<assign value='source.Codepostal' property='target.client.Codepostal' action='set' />
-<assign value='source.Ville' property='target.client.Ville' action='set' />
-<assign value='source.Pays' property='target.client.Pays' action='set' />
+<code>
+<![CDATA[ set target.client = ##class(data.CSV.client).%OpenId(clientID) ]]></code>
 </true>
-<false>
-<code>
-<![CDATA[ set target.client = ##class(data.CSV.client).%OpenId(clientID)]]></code>
+</if>
 <assign value='source.Nomclient' property='target.client.Nomclient' action='set' />
 <assign value='source.Adresseclient' property='target.client.Adresseclient' action='set' />
 <assign value='source.Codepostal' property='target.client.Codepostal' action='set' />
 <assign value='source.Ville' property='target.client.Ville' action='set' />
 <assign value='source.Pays' property='target.client.Pays' action='set' />
-<code>
-<![CDATA[ do target.client.%Save()]]></code>
-</false>
-</if>
 <assign value='source.Article1.Code' property='target.Articles.(1).Code' action='set' />
 <assign value='source.Article1.Description' property='target.Articles.(1).Description' action='set' />
 <assign value='source.Article1.Quantite' property='target.Articles.(1).Quantite' action='set' />
