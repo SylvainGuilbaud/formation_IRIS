@@ -22,6 +22,7 @@ services:
     #   - ISC_DATA_DIRECTORY=/irisdata
     volumes:
       - ./data:/data
+      - ./code:/code
       - ./jdbc:/jdbc
       - ./:/home/irisowner/dev
       - "/etc/timezone:/etc/timezone:ro"

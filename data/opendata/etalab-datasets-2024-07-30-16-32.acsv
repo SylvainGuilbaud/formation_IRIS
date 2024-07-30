@@ -1,0 +1,749 @@
+"id";"title";"slug";"acronym";"url";"organization";"organization_id";"owner";"owner_id";"description";"frequency";"license";"temporal_coverage.start";"temporal_coverage.end";"spatial.granularity";"spatial.zones";"featured";"created_at";"last_modified";"tags";"archived";"resources_count";"main_resources_count";"downloads";"harvest.backend";"harvest.domain";"harvest.created_at";"harvest.modified_at";"quality_score";"metric.discussions";"metric.reuses";"metric.followers";"metric.views";"metric.resources_downloads"
+"660ff496b461fb41a053cb0c";"Liste des référents données, algorithmes et codes sources en préfecture de région";"liste-des-referents-donnees-algorithmes-et-codes-sources-en-prefecture-de-region";"";"https://www.data.gouv.fr/fr/datasets/liste-des-referents-donnees-algorithmes-et-codes-sources-en-prefecture-de-region/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de la mise en œuvre de la [circulaire n°6264/SG publiée le 27 avril 2021](https://www.legifrance.gouv.fr/circulaire/id/45162), le Premier ministre a demandé la nomination de référents « données, algorithmes et codes sources », désignés auprès de chaque préfet de région, pour accompagner les services déconcentrés de l'État dans la mise en œuvre des orientations en matière de données, d'algorithmes et de codes sources. Conformément à cette décision, un fichier est initié sur la base du volontariat, pour recenser l'ensemble des référents aussi appelé Administrateurs de données en région. ";"punctual";"Licence Ouverte / Open Licence version 2.0";"2024-04-05";"2024-04-30";"country";"France";True;"2024-04-05T12:54:46.056000";"2024-04-12T13:02:18.753000";"algorithme,codes-sources,donnees,prefecture,prefectures";False;1;1;120;"";"";"";"";"1.00";0;0;0;1389;120
+"63a3186bcedf0e44d205d1fd";"Subventions de la saison 1 de l'Accélérateur d'Initiatives Citoyennes";"subventions-de-la-saison-1-de-laccelerateur-dinitiatives-citoyennes";"";"https://www.data.gouv.fr/fr/datasets/subventions-de-la-saison-1-de-laccelerateur-dinitiatives-citoyennes/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ce jeu de données liste le montant des subventions versées par la DINUM à certains lauréats de la saison 1 du programme Accélérateur d’Initiatives Citoyennes.
+Au-delà des appuis thématiques utiles à chaque projet (mise en relation, accès à des données ou APIs publics, aide à la compréhension du paysage et langage administratifs…), trois grands types de besoins ont été identifiés dans le cadre du programme : 
+- des besoins de consolidation, afin de renforcer la structure porteuse de projet, ainsi que sa gouvernance et ses processus, en vue de solidifier son modèle, de le rendre réplicable et de lui permettre d’absorber une croissance à venir;
+- des besoins liés à l’intégration du projet avec la ou les administrations référentes, notamment à l'échelon national;
+- des besoins liés au passage à l’échelle et au déploiement du projet , visant à l'étendre à davantage de terrains ou territoires.
+
+L’attribution d’un premier ticket interministériel de 80 000 euros en fin de Phase 1 à certains lauréats correspond ainsi à un financement d’amorçage, alloué pour supporter des « dépenses de consolidation ». Cette enveloppe a ainsi permis aux projets de renforcer leurs bases, de franchir des caps critiques pour leur développement et être ainsi en capacité d’absorber une croissance ultérieure. 
+Cet apport leur a permis par exemple : 
+-	de consolider leur gouvernance, recruter un ou plusieurs salariés, 
+-	de développer des briques techniques, sécuriser leurs infrastructures, 
+-	d’investir en contenu et supports de communication,
+-	de financer une expérimentation sur un territoire, démultipliable par la suite… 
+
+En fin de phase 2 une deuxième tranche de 60 000 euros a été débloquée à certains lauréats leur permettant ainsi de renforcer leurs moyens d'action.
+";"punctual";"License Not Specified";"2022-05-02";"2022-12-31";"";"";False;"2022-12-21T15:30:03.262000";"2023-12-14T15:00:26.755000";"aic,dinum,subventions";False;1;1;797;"";"";"";"";"0.78";0;0;1;1852;564
+"6253fb45c2a1f4e46e872907";"Exemples d'exploitation des données de référence du Service Public de la Donnée (SPD)";"exemples-dexploitation-des-donnees-de-reference-du-service-public-de-la-donnee-spd";"";"https://www.data.gouv.fr/fr/datasets/exemples-dexploitation-des-donnees-de-reference-du-service-public-de-la-donnee-spd/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ce jeu de données liste des **exemples d'exploitation [des données de référence du service public de la donnée](https://www.data.gouv.fr/fr/pages/spd/reference/)**.
+
+Ces données proviennent de travaux de recensement de cas d'usage des jeux de données du service public de la donnée, réalisés par Etalab et menés à l'automne 2021.
+
+Le jeu de données classe les exemples d'usage par problématique, thématique sectorielle, type d'impact et type de réutilisateur. La liste d'exemples exposés n'est pas exhaustive et a vocation à être complétée. ";"punctual";"Licence Ouverte / Open Licence";"";"";"";"";False;"2022-04-11T11:56:21.226000";"2022-10-05T15:25:32.249000";"cas-usage,impact,impacts,opendata,reutilisation,reutilisations,service-public-de-la-donnee,spd,usage,usages,use-cases";False;2;1;1008;"";"";"";"";"0.78";0;0;4;5943;1013
+"623044c05e33dc2fe9022981";"Dossiers de candidature à l'Accélérateur d'initiatives citoyennes (promotion 1)";"dossiers-de-candidature-a-laccelerateur-dinitiatives-citoyennes-promotion-1-1";"AIC-1-STATS";"https://www.data.gouv.fr/fr/datasets/dossiers-de-candidature-a-laccelerateur-dinitiatives-citoyennes-promotion-1-1/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ces statistiques concernent les dossiers de candidature à la première promotion de l'[Accélérateur d'initiatives citoyennes](https://citoyens.transformation.gouv.fr/).
+Les données ont été collectées pendant l'appel à projets, ouvert durant un mois du 17 décembre 2021 au 26 janvier 2022. 
+Elles présentent la répartition des initiatives qui se sont portées candidates, par thématique de politique publique (exemples : éducation, numérique, etc.), par type d'entité (exemple : association, individu, etc.) et par besoin exprimé (exemple : coaching, référencement, etc.). ";"irregular";"Licence Ouverte / Open Licence version 2.0";"2021-12-17";"2022-01-26";"";"";False;"2022-03-15T08:48:16.775000";"2022-04-14T18:22:35.580000";"administrations,appel-a-projets,citoyens,communs,innovation-ouverte,interet-general,service-public,utilite-publique";False;3;3;461;"";"";"";"";"0.89";0;0;0;1587;388
+"622b2d4f2ff675d7a1abf77f";"Réponses au questionnaire “Open Data Maturity in Europe” pour la France";"reponses-au-questionnaire-open-data-maturity-in-europe-pour-la-france";"";"https://www.data.gouv.fr/fr/datasets/reponses-au-questionnaire-open-data-maturity-in-europe-pour-la-france/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ce jeu de données présente les réponses au questionnaire apportées par l’Equipe d’Etalab pour évaluer l’[Open Data Maturity](https://data.europa.eu/fr/impact-studies/open-data-maturity) (maturité des données ouvertes) en France.
+
+L’indice de maturité des données ouvertes est une initiative du portail [data.europa.eu](https://data.europa.eu/fr), opéré par l’Office des publications de l’Union européenne.
+
+**Description des données**
+
+Vous trouverez dans les fichiers 
+
+- Un fichier au format xlsx (format de récolte des données) ;
+- Un fichier au format PDF pour faciliter la lecture des longues réponses.
+
+**Qu’est-ce que l’Open Data maturity report ?** 
+
+L'étude sur la maturité des données ouvertes sert de référence pour se faire une idée des avancées dans le domaine des données ouvertes en  Europe. 
+
+L’Open Data Maturity report 2021 évalue les progrès réalisés par les pays européens selon quatre critères :
+
+- maturité des politiques publiques relatives à l’ouverture (*Policy*) ;
+- qualité de la mesure de l’impact de l’open data (*Impact*) ;
+- maturité du portail national d’open data (*Portal*) ;
+- qualité des données ouvertes (*Quality*).
+
+Le rapport regroupe les pays en quatre groupes différents: ceux qui définissent des tendances, ceux qui progressent rapidement, ceux qui suivent et les débutants, du plus mature au moins mature. Des recommandations adaptées au niveau de maturité et aux caractéristiques de chacun de ces groupes sont fournies. [Voir l’étude](https://data.europa.eu/fr/impact-studies/open-data-maturity).
+
+**Quels sont les résultats français ?**
+
+Pour en savoir plus sur le rapport et les résultats français, nous vous invitons consulter les articles suivants : 
+
+- [Retour sur l’Open Data Maturity Index 2021 : Politique & Gouvernance de l’open data en France (1/4)](https://etalab.gouv.fr/retour-sur-lopen-data-maturity-index-2021-politique-gouvernance-de-lopen-data-en-france-1-4)
+- [Retour sur l’Open Data Maturity Index 2021 : mesure de l’impact de l’ouverture des données (2/4)](https://etalab.gouv.fr/retour-sur-lopen-data-maturity-index-2021-mesure-de-limpact-de-louverture-des-donnees-2-4)
+- [Retour sur l’Open Data Maturity Index 2021 : Qualité du portail de données (3/4)](https://etalab.gouv.fr/retour-sur-lopen-data-maturity-index-2021-qualite-du-portail-de-donnees-3-4)
+- [Retour sur l’Open Data Maturity Index 2021 : Qualité des données ouvertes (4/4)](https://etalab.gouv.fr/retour-sur-lopen-data-maturity-index-2021-qualite-des-donnees-ouvertes-4-4)";"annual";"Licence Ouverte / Open Licence version 2.0";"2021-01-01";"2022-01-01";"country";"France";False;"2022-03-11T12:06:55.182000";"2022-03-11T13:58:40.531000";"";False;2;2;298;"";"";"";"";"0.78";0;0;0;2164;277
+"621e35dedfc43f0450b33b25";"Inventaire des modèles pré-entraînés d’apprentissage du Lab IA d'Etalab";"inventaire-des-modeles-pre-entraines-dapprentissage-du-lab-ia-detalab";"";"https://www.data.gouv.fr/fr/datasets/inventaire-des-modeles-pre-entraines-dapprentissage-du-lab-ia-detalab/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"**Inventaire des modèles pré-entraînés d’apprentissage du Lab IA d'Etalab**
+
+La publication de l'inventaire des modèles pré-entraînés d'apprentissage automatique (_machine learning_) fait partie des actions de la feuille de route du Ministère de la Transformation et de la Fonction Publique (voir p.25 du document téléchargeable [ici](https://www.data.gouv.fr/fr/datasets/r/03b43dc4-b92f-4d40-9b7e-598dcd61c420) ). 
+
+Ce jeux de données recense les différents algorithmes entrainés à date par le Lab IA dans le cadre du développement de ses outils mutualisés (plus d'informations sur la [page dédiée du Lab IA](https://www.etalab.gouv.fr/outils-mutualises/)). 
+
+**Détails de ce que contient l'inventaire**
+
+Pour chaque algorithme, la colonne ""lien_model_card"" renseigne un lien qui permet d'accéder à une description de l'algorithme. Nous avons suivi la trame de description des modèles présentée dans le papier ""Model Cards for Model Reporting"" de Margaret Mitchell & al (téléchargeable [ici](https://arxiv.org/abs/1810.03993)). 
+La colonne ""lien_depot_github"" renvoie vers le dépôt GitHub contenant le code qui a permis d'entraîner l'algorithme. La colonne ""modele_entraine_ouvert"" a pour valeur ""non"" si le modèle entrainé n'est pas ouvert et vaut ""oui"" si le modèle entraîné est ouvert. Dans ce dernier cas, le lien vers le modèle entraîné est renseigné dans la colonne ""lien_modele_entraine_si_pertinent"". La colonne ""date_derniere_mise_a_jour"" renseigne la date de dernière mise à jour du modèle. ";"unknown";"Licence Ouverte / Open Licence version 2.0";"2020-02-03";"2022-02-01";"";"";True;"2022-03-01T16:03:58.152000";"2022-03-15T11:02:37.015000";"apprentissage-artificiel,intelligence-artificielle";False;1;1;208;"";"";"";"";"0.56";0;0;3;3227;208
+"6151bd94bf06b42f321cc18a";"Feuilles de route ministérielles sur la politique de la donnée, des algorithmes et des codes sources";"feuilles-de-route-ministerielles-sur-la-politique-de-la-donnee-des-algorithmes-et-des-codes-sources";"";"https://www.data.gouv.fr/fr/datasets/feuilles-de-route-ministerielles-sur-la-politique-de-la-donnee-des-algorithmes-et-des-codes-sources/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Le 27 avril 2021, le Premier ministre a renouvelé son l'ambition du Gouvernement en matière d'exploitation, d'ouverture et de circulation des données, des algorithmes et des codes sources publics en adressant à tous les ministres et préfets de région une circulaire dédiée, sous l'impulsion de la ministre de la Transformation et de la Fonction publiques.
+
+En cinq mois, chaque ministère a ainsi élaboré, en lien avec ses services déconcentrés et ses opérateurs et avec l'appui du département Etalab de la direction interministérielle du numérique (DINUM), sa propre feuille de route sur deux à trois ans. Chacune présente les ambitions et enjeux de politiques publiques liés à la donnée, aux algorithmes et aux codes sources publics, les actions prioritaires concrètes à lancer et la gouvernance mise en place pour en assurer la mise en oeuvre.
+
+Retrouvez ici les 15 feuilles de route ministérielles. 
+**Le jeu de données de l'ensemble des actions est disponible ici** : https://www.data.gouv.fr/fr/datasets/liste-des-actions-prises-par-les-ministeres-dans-le-cadre-des-feuilles-de-routes-ministerielles/
+";"punctual";"Licence Ouverte / Open Licence version 2.0";"";"";"country";"France";True;"2021-09-27T14:48:20.880000";"2022-08-18T15:57:18.203000";"algorithmes,api,codes-sources,data,donnees,feuille-de-route,feuilles-de-route,open-data,opendata,opensource";False;16;16;9569;"";"";"";"";"0.78";2;1;8;13495;9622
+"614dd74fdb21ce63e585a8c3";"Liste des actions prises par les ministères dans le cadre des feuilles de routes ministérielles";"liste-des-actions-prises-par-les-ministeres-dans-le-cadre-des-feuilles-de-routes-ministerielles";"";"https://www.data.gouv.fr/fr/datasets/liste-des-actions-prises-par-les-ministeres-dans-le-cadre-des-feuilles-de-routes-ministerielles/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Le 27 avril 2021, le Premier ministre a renouvelé son l'ambition du Gouvernement en matière d'exploitation, d'ouverture et de circulation des données, des algorithmes et des codes sources publics en adressant à tous les ministres et préfets de région une circulaire dédiée, sous l'impulsion de la ministre de la Transformation et de la Fonction publiques.
+
+En cinq mois, chaque ministère a ainsi élaboré, en lien avec ses services déconcentrés et ses opérateurs et avec l'appui du département Etalab de la direction interministérielle du numérique (DINUM), sa propre feuille de route sur deux à trois ans. Chacune présente les ambitions et enjeux de politiques publiques liés à la donnée, aux algorithmes et aux codes sources publics, les actions prioritaires concrètes à lancer et la gouvernance mise en place pour en assurer la mise en oeuvre.
+
+Ce fichier contient regroupe l'ensemble des actions prises par les ministères dans le cadre des feuilles de routes. Il présente le ministère porteur de l'action, le thème associé, une description de l'action ainsi que l'échéance de sa mise en oeuvre.
+
+Consulter les 15 feuilles de route en PDF : https://www.data.gouv.fr/fr/datasets/politique-publique-de-la-donnee-des-algorithmes-et-des-codes-sources-15-feuilles-de-route-ministerielles/";"punctual";"Licence Ouverte / Open Licence version 2.0";"2021-09-27";"2023-12-31";"country";"France";False;"2021-09-24T15:49:03.266000";"2022-07-19T12:24:27.282000";"algorithme,algorithmes-publics,circulation,code-source,donnees,opendata,ouverture";False;2;2;707;"";"";"";"";"0.89";0;3;5;4779;713
+"60fad4f6535156fca3ee47cf";"Inventaire des bases de données relatives à la santé";"inventaire-des-bases-de-donnees-relatives-a-la-sante";"";"https://www.data.gouv.fr/fr/datasets/inventaire-des-bases-de-donnees-relatives-a-la-sante/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de ses missions, le département Etalab a réalisé un travail de recensement le plus complet possible des bases et jeux de données publiques existantes dans le domaine de la santé, et publie cet inventaire en open data. 172 bases de données de 79 gestionnaires ont été recensés.
+
+Pour faciliter la découverte des données, une sélection des principales bases disponibles en format ouvert sur data.gouv.fr [est également accessible ici](https://www.data.gouv.fr/fr/pages/donnees_sante). La liste n'est pas exhaustive et est ouverte aux contributions.
+
+### Méthodologie
+Le travail de réalisation de l’inventaire a été fait gestionnaire après gestionnaire, en travaillant en priorité sur les gestionnaires principaux, et ceux pour lesquelles le réalisation d’un entretien était possible. Deux méthodologies différentes ont été suivies selon les gestionnaires :
+- Gestionnaires avec entretien : travail de recherche en chambre en amont de l’entretien, afin de lister l’ensemble des bases concernées, ainsi que l’ensemble des informations manquantes et questions à poser. L’entretien permet ensuite de valider la pertinence de chaque base identifiée, et d'obtenir les informations requises.
+- Gestionnaires sans entretiens (ces gestionnaires sont ceux qui produisent un nombre réduit de jeux de données) : Travail de recherche en chambre uniquement.
+
+Des entretiens ont été réalisés avec les gestionnaires suivants :
+- Agence technique de l'information sur l'hospitalisation (ATIH) ;
+- Assistance Publique - Hôpitaux de Paris (AP-HP) ;
+- Agence nationale de sécurité du médicament et des produits de santé (ANSM).
+
+### Limites
+Une première limite réside dans la compréhension de l’origine des données de chaque jeu, ainsi de l’entité ou la/les personne(s) propriétaire des données. Cette information a généralement été obtenue à travers les entretiens réalisés. Les bases gérées par les gestionnaires que n'ont pas été contactés ont donc une probabilité d’erreur plus importante pour la partie « origine des données » et « propriétaire des données ».
+
+Une autre limite rencontrée réside dans la compréhension de la notion de secret statistique rattaché aux enquêtes couvertes par Loi n° 51-711 du 7 juin 1951 sur l'obligation, la coordination et le secret en matière de statistiques. Les enquêtes concernées par cette loi sont des enquêtes avec informations à caractère personnel et identifiant. Par conséquent, aucune des enquêtes concernées ne sont publiables en l’état. En revanche, ces enquêtes servent en règle générale de base pour la construction d’indicateurs synthétiques et de séries chronologiques qui, eux, sont publiables et publiés. Cette distinction concerne plusieurs enquêtes présentes dans le périmètre de recherche.
+
+### Ressources
+Ce jeu de données contient quatre ressources :
+- Une liste des **gestionnaires** des bases recensées ;
+- Un **inventaire** des bases de données ;
+- Un inventaire des **publications** et des études réalisées à partir des bases recensées ;
+- Une liste des **thématiques** groupées par catégorie.
+
+### Détails sur les métadonnées
+
+Nous détaillons ci-dessous les quelques métadonnées notables
+
+- **Thématique** : Nous avons identifié quatre thématiques possibles, afin de réaliser un premier travail de catégorisation au sein même de l’inventaire. 
+  - **Données de santé publique et épidémiologie** : données sur les habitudes de vie, les inégalités de santé, l'épidémiologie, etc.
+  - **Données sur les offres de soins** : informations sur les infrastructures, les services proposés, le personnel, les honoraires, etc.
+  - **Données sur les consommations de soins et dépenses :** données sur les activités des établissements de santé, les consultations, les médicaments et dispositifs, etc.
+  - **Données sur les performances et opérations :** informations sur les performances financières, les performances opérationnelles, etc.
+- **Typologie** : l’inventaire est composé de trois types de données :
+    - Les données provenant de documents administratifs
+    - Les données provenant d’enquêtes
+    - Les données présentant un annuaire
+- **Présence sur data.gouv.fr** : sur ce champ, nous avons notifié si les bases étaient présentes ou non sur data.gouv.fr. Nous avons également notifié une présence partielle lorsque, par exemple, certains millésimes sont manquants sur data.gouv.fr.
+- **Origine des données** : dans ce champ, nous nous efforçons d’expliquer de manière synthétique le processus ayant abouti à la production des données, et de mentionner les acteurs impliqués.";"irregular";"Licence Ouverte / Open Licence version 2.0";"";"";"other";"France";False;"2021-07-23T16:40:54.900000";"2023-09-13T15:29:05.424000";"inventaire,opendata,sante";False;4;4;1689;"";"";"";"";"0.78";0;0;9;6544;1704
+"60e4524ec15135ec9788cca9";" Résultats du questionnaire sur l’imaginaire autour des algorithmes mené par Etalab entre décembre 2020 et janvier 2021.";"resultats-du-questionnaire-sur-limaginaire-autour-des-algorithmes-mene-par-etalab-entre-decembre-2020-et-janvier-2021-1";"";"https://www.data.gouv.fr/fr/datasets/resultats-du-questionnaire-sur-limaginaire-autour-des-algorithmes-mene-par-etalab-entre-decembre-2020-et-janvier-2021-1/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de sa collaboration avec [Design Friction](https://design-friction.com/), Etalab a mené de décembre 2020 à janvier 2021 une enquête à destination des agents publics autour de leur perception des algorithmes publics. Cette enquête pris la forme de questionnaire anonyme non statistiquement représentatif. 
+
+Le questionnaire a reçu 123 réponses.
+
+Le fichier .csv contient les données brutes des répondants et répondantes.
+Le fichier .ods contient trois volets : le premier contient les données brutes des répondants et répondantes. Les deux suivants présentent des représentations visuelles des résultats du sondage.  
+
+Ses résultats ont permis d’alimenter une réflexion de design fiction pour interroger les enjeux actuels et futurs des algorithmes.
+
+Pour en savoir plus sur le produit fini : http://nosalgorithmes.fr/ 
+
+Ces données ne seront pas mises à jour.";"unknown";"Licence Ouverte / Open Licence version 2.0";"2020-12-21";"2021-01-19";"";"";False;"2021-07-06T14:53:34.484000";"2021-07-06T14:54:15.326000";"algorithmes,algorithmes-publics";False;2;2;264;"";"";"";"";"0.56";0;0;0;1384;212
+"60e41e0ea051293cefd4c6cf";"Résultats du questionnaire sur l’imaginaire autour des algorithmes mené par Etalab entre décembre 2020 et janvier 2021";"resultats-du-questionnaire-sur-limaginaire-autour-des-algorithmes-mene-par-etalab-entre-decembre-2020-et-janvier-2021";"";"https://www.data.gouv.fr/fr/datasets/resultats-du-questionnaire-sur-limaginaire-autour-des-algorithmes-mene-par-etalab-entre-decembre-2020-et-janvier-2021/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de sa collaboration avec Design Friction, Etalab a mené de décembre 2020 à janvier 2021 une enquête à destination des agents publics autour de leur perception des algorithmes publics. Cette enquête pris la forme de questionnaire anonyme non statistiquement représentatif. 
+
+Le fichier .csv contient les données brutes des répondants et répondantes.
+Le fichier .ods contient trois volets : le premier contient les données brutes des répondants et répondantes. Les deux suivants présentent des représentations visuelles des résultats du sondage.  
+
+Ses résultats ont permis d’alimenter une réflexion de design fiction pour interroger les enjeux actuels et futurs des algorithmes.
+
+Pour en savoir plus sur le produit fini : http://nosalgorithmes.fr/ 
+
+Ces données ne seront pas mises à jour. ";"unknown";"Licence Ouverte / Open Licence version 2.0";"2020-12-21";"2021-01-19";"";"";False;"2021-07-06T11:10:38.549000";"2021-07-06T11:53:38.286000";"algorithmes,algorithmes-publics,etalab";False;1;1;134;"";"";"";"";"0.56";0;0;0;1331;103
+"60dae09157bde1e29d5a07f7";"Inventaire des bases de données relatives au logement et à l’urbanisme";"inventaire-des-bases-de-donnees-relatives-au-logement-et-a-lurbanisme";"";"https://www.data.gouv.fr/fr/datasets/inventaire-des-bases-de-donnees-relatives-au-logement-et-a-lurbanisme/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de ses missions, le département Etalab a réalisé un travail de recensement le plus complet possible des bases et jeux de données publiques existantes dans le domaine du logement et de l'urbanisme, et publie cet inventaire en open data. 135 bases de données de 43 gestionnaires ont été recensés.
+
+Pour faciliter la découverte des données, une sélection des principales bases disponibles en format ouvert sur data.gouv.fr [est également accessible ici](https://www.data.gouv.fr/fr/pages/donnees_logement-urbanisme). La liste n'est pas exhaustive et est ouverte aux contributions.
+
+### Méthodologie
+Le travail de réalisation de l’inventaire a été fait gestionnaire après gestionnaire, en travaillant en priorité sur les gestionnaires principaux, et ceux pour lesquelles le réalisation d’un entretien était possible. Deux méthodologies différentes ont été suivies selon les gestionnaires :
+- Gestionnaires avec entretien : travail de recherche en chambre en amont de l’entretien, afin de lister l’ensemble des bases concernées, ainsi que l’ensemble des informations manquantes et questions à poser. L’entretien permet ensuite de valider la pertinence de chaque base identifiée, et d'obtenir les informations requises.
+- Gestionnaires sans entretiens (ces gestionnaires sont ceux qui produisent un nombre réduit de jeux de données) : Travail de recherche en chambre uniquement.
+
+Des entretiens ont été réalisés avec les gestionnaires suivants :
+- Direction générale de l'aménagement, du logement et de la nature (DGALN) du Ministère de la transition écologique ;
+- Direction de l'habitat, de l'urbanisme et des paysages (DHUP) du Ministère de la transition écologique ;
+- Service de la donnée et des études statistiques (SDES) du Ministère de la transition écologique ;
+- Centre d'études et d'expertise sur les risques, l'environnement, la mobilité et l'aménagement (CEREMA) ;
+- Agence nationale de l’habitat (ANAH) ;
+- Agence de la transition écologique (ADEME) ;
+- Direction de l'Environnement, de l'Aménagement et du Logement (DEAL) de la Martinique.
+
+### Limites
+Une première limite réside dans la compréhension de l’origine des données de chaque jeu, ainsi de l’entité ou la/les personne(s) propriétaire des données. Cette information a généralement été obtenue à travers les entretiens réalisés. Les bases gérées par les gestionnaires que n'ont pas été contactés ont donc une probabilité d’erreur plus importante pour la partie « origine des données » et « propriétaire des données ».
+
+Une autre limite rencontrée réside dans la compréhension de la notion de secret statistique rattaché aux enquêtes couvertes par Loi n° 51-711 du 7 juin 1951 sur l'obligation, la coordination et le secret en matière de statistiques. Les enquêtes concernées par cette loi sont des enquêtes avec informations à caractère personnel et identifiant. Par conséquent, aucune des enquêtes concernées ne sont publiables en l’état. En revanche, ces enquêtes servent en règle générale de base pour la construction d’indicateurs synthétiques et de séries chronologiques qui, eux, sont publiables et publiés. Cette distinction concerne plusieurs enquêtes présentes dans le périmètre de recherche. C’est par exemple le cas de la totalité des enquêtes de l'INSEE, ainsi que de plusieurs enquêtes de l'ADEME.
+
+### Détails sur les métadonnées
+
+Nous détaillons ci-dessous les quelques métadonnées notables
+
+- **Thématique** : Nous avons identifié quatre thématiques possibles, afin de réaliser un premier travail de catégorisation au sein même de l’inventaire.
+    - **Logements en tant que bâtiments** : localisation, terrain, production, caractéristiques techniques, entretien, état, performance énergétique, confort, équipements…
+    - **Logements en tant que biens économiques** : coûts, valeur, prix (achat, loyer,..), financement, aides publique, l’offre, demande, production de biens et services, vacance…
+    - **Occupants des logements** : profil, ressources, conditions d'habitation, dépenses et aides dont bénéficient les ménages en lien avec le logement, besoins, attentes, parcours…
+    - **Urbanisme** : aménagement du territoire national, gestion de la biodiversité, gestion de l’eau et de l’énergie…
+- **Typologie** : l’inventaire est composé de trois types de données :
+    - Les données provenant de documents administratifs
+    - Les données provenant d’enquêtes
+    - Les données présentant un annuaire
+- **Présence sur data.gouv.fr** : sur ce champ, nous avons notifié si les bases étaient présentes ou non sur data.gouv.fr. Nous avons également notifié une présence partielle lorsque, par exemple, certains millésimes sont manquants sur data.gouv.fr.
+- **Origine des données** : dans ce champ, nous nous efforçons d’expliquer de manière synthétique le processus ayant abouti à la production des données, et de mentionner les acteurs impliqués.";"irregular";"Licence Ouverte / Open Licence version 2.0";"";"";"other";"France";False;"2021-06-29T10:57:53.513000";"2023-09-13T15:30:00.044000";"amenagement-du-territoire,batiments,inventaire,logement,loyers,urbanisme";False;2;2;2509;"";"";"";"";"0.89";0;0;8;13449;2511
+"60d0b1ec79ce9438ee3fad3c";"Inventaire des bases de données relatives à l'emploi";"inventaire-des-bases-de-donnees-relatives-a-lemploi";"";"https://www.data.gouv.fr/fr/datasets/inventaire-des-bases-de-donnees-relatives-a-lemploi/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de ses missions, le département Etalab a réalisé un travail de recensement le plus complet possible des bases et jeux de données publiques existantes dans le domaine de l'emploi, et publie cet inventaire en open data. 161 bases de données de 26 gestionnaires ont été recensés.
+
+Pour faciliter la découverte des données, une sélection des principales bases disponibles en format ouvert sur data.gouv.fr [est également accessible ici](https://www.data.gouv.fr/fr/pages/donnees_emploi). La liste n'est pas exhaustive et est ouverte aux contributions.
+
+### Méthodologie
+Le travail de réalisation de l’inventaire a été fait gestionnaire après gestionnaire, en travaillant en priorité sur les gestionnaires principaux, et ceux pour lesquelles le réalisation d’un entretien était possible. Deux méthodologies différentes ont été suivies selon les gestionnaires :
+- Gestionnaires avec entretien : travail de recherche en chambre en amont de l’entretien, afin de lister l’ensemble des bases concernées, ainsi que l’ensemble des informations manquantes et questions à poser. L’entretien permet ensuite de valider la pertinence de chaque base identifiée, et d'obtenir les informations requises.
+- Gestionnaires sans entretiens (ces gestionnaires sont ceux qui produisent un nombre réduit de jeux de données) : Travail de recherche en chambre uniquement.
+
+Des entretiens ont été réalisés avec les gestionnaires suivants :
+- Agence nationale pour l'amélioration des conditions de travail (ANACT) ;
+- Agence nationale de sécurité sanitaire de l'alimentation, de l'environnement et du travail (ANSES) ;
+- Caisse des Dépôts (CDC).
+
+### Limites
+Une première limite réside dans la compréhension de l’origine des données de chaque jeu, ainsi de l’entité ou la/les personne(s) propriétaire des données. Cette information a généralement été obtenue à travers les entretiens réalisés. Les bases gérées par les gestionnaires que n'ont pas été contactés ont donc une probabilité d’erreur plus importante pour la partie « origine des données » et « propriétaire des données ».
+
+Une autre limite rencontrée réside dans la compréhension de la notion de secret statistique rattaché aux enquêtes couvertes par Loi n° 51-711 du 7 juin 1951 sur l'obligation, la coordination et le secret en matière de statistiques. Les enquêtes concernées par cette loi sont des enquêtes avec informations à caractère personnel et identifiant. Par conséquent, aucune des enquêtes concernées ne sont publiables en l’état. En revanche, ces enquêtes servent en règle générale de base pour la construction d’indicateurs synthétiques et de séries chronologiques qui, eux, sont publiables et publiés. Cette distinction concerne plusieurs enquêtes présentes dans le périmètre de recherche. C’est par exemple le cas de la totalité des enquêtes de l'INSEE, ainsi que de plusieurs enquêtes de la DARES.
+
+### Ressources
+Ce jeu de données contient trois ressources :
+- Une liste des **gestionnaires** des bases recensées ;
+- Un **inventaire** des bases de données ;
+- Un inventaire des **publications** et des études réalisées à partir des bases recensées.
+
+### Détails sur les métadonnées
+
+Nous détaillons ci-dessous les quelques métadonnées notables
+
+- **Thématique** : Nous avons identifié quatre thématiques possibles, afin de réaliser un premier travail de catégorisation au sein même de l’inventaire. 
+  - **Marché du travail** : chômage et demandeurs d’emploi, retraite, offres d’emploi et recrutement, insertion et réorientation professionnelles, niveau d’activité, secteurs d’activité et branches professionnelles…
+  - **Caractéristiques de l’emploi du travailleur** : contrat de travail, régime du travailleur, temps de travail et congés, salaires et indemnisations, postes et compétences…
+  - **Environnement de travail** : conditions de travail, santé et prévention des risques professionnels (NB : cette catégorie n’apparait pas dans la page à publier car aucun jeu de donnée déjà publié sur data.gouv.fr n’a été retenu. Si des jeux intéressants venaient à être publiés, la catégorie pourrait être rajoutée)
+  - **Les droits et les aides liés à l’emploi** : services proposés, formations et certifications, syndicats et associations, politiques publiques
+- **Typologie** : l’inventaire est composé de trois types de données :
+    - Les données provenant de documents administratifs
+    - Les données provenant d’enquêtes
+    - Les données présentant un annuaire
+- **Présence sur data.gouv.fr** : sur ce champ, nous avons notifié si les bases étaient présentes ou non sur data.gouv.fr. Nous avons également notifié une présence partielle lorsque, par exemple, certains millésimes sont manquants sur data.gouv.fr.
+- **Origine des données** : dans ce champ, nous nous efforçons d’expliquer de manière synthétique le processus ayant abouti à la production des données, et de mentionner les acteurs impliqués.";"irregular";"Licence Ouverte / Open Licence version 2.0";"";"";"other";"France";False;"2021-06-21T17:36:12.215000";"2023-09-13T15:29:55.189000";"emploi,inventaire,travail";False;3;3;1017;"";"";"";"";"0.89";0;0;2;4180;1033
+"60a518cbcb47626d4cc74bf9";"Liste des administrateurs ministériels des données, des algorithmes et des codes sources";"liste-des-administrateurs-ministeriels-des-donnees-des-algorithmes-et-des-codes-sources";"AMDAC";"https://www.data.gouv.fr/fr/datasets/liste-des-administrateurs-ministeriels-des-donnees-des-algorithmes-et-des-codes-sources/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de la mise en œuvre de la [circulaire n°6264/SG publiée le 27 avril 2021](https://www.legifrance.gouv.fr/circulaire/id/45162), le Premier ministre a demandé la nomination d'administrateurs ministériels des données, chargés d'élaborer la stratégie des différents ministères en matière de données, d'algorithmes et de codes sources et de coordonner les différentes parties prenantes. 
+Conformément à cette décision, un fichier recensant l'ensemble des administrateurs ministériels des données est disponible en téléchargement sur data.gouv.fr.";"punctual";"Licence Ouverte / Open Licence version 2.0";"2024-01-01";"2024-06-30";"country";"France";True;"2021-05-19T15:55:23.737000";"2024-03-21T14:34:55.305000";"administrations,algorithme,amdac,code-source,donnees,ministeres,politique-donnee";False;1;1;583;"";"";"";"";"1.00";3;2;2;14683;665
+"60240f93c3327fb356fd43aa";"Données relatives aux prêts directs de l'Etat mis en place dans le cadre de l'épidémie de COVID-19";"donnees-relatives-aux-prets-directs-de-letat-mis-en-place-dans-le-cadre-de-lepidemie-de-covid-19";"";"https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-prets-directs-de-letat-mis-en-place-dans-le-cadre-de-lepidemie-de-covid-19/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"## Avances remboursables et prêts à taux bonifiés
+
+Des mesures spécifiques, sous forme de crédits d’intervention directs de l’Etat, ont été prévues afin de soutenir les entreprises pour lesquelles le recours aux autres dispositifs exceptionnels (Fonds de solidarité, PGE, report des échéances fiscales et sociales, activité partielle, etc.) se révèle inopérant ou insuffisant.
+
+Ces prêts visent le sauvetage d’une entreprise présentant un intérêt stratégique en raison notamment de son impact territorial ou de son positionnement industriel.
+
+- Ils s’adressent aux PME de 50 à 250 salariés, ou à titre dérogatoire pour les moins de 50 salariés, qui nécessitent un soutien en trésorerie et une restructuration de leur bilan et opérations, et qui ne sont pas ou plus soutenus par leurs financeurs privés ou bancaires.
+- Ils s'adressent aux PME qui font état de perspectives réelles de redressement ou retour à la rentabilité, démontrées par un plan d’affaires, éventuellement audité.
+- Les aides sont accordées après avoir recherché une contribution équilibrée des différents partenaires financiers de l’entreprise : apurement du passif auprès des créanciers publics (CCSF) et privés, apport des actionnaires.
+
+## Le tableau de bord des aides aux entreprises
+Afin d’offrir de la visibilité à l’ensemble des Français sur l’attribution des aides versées aux entreprises dans le cadre de ce fonds de solidarité, le ministre de l’action et des comptes publics, avec le soutien technique du département Etalab de la Direction Interministérielle du Numérique (DINUM), mettent à disposition un tableau de bord dont le code source est libre qui propose une vision consolidée du soutien apporté par l’État aux entreprises.
+
+## Description des données
+Le présent jeu de données contient les données exposées sur l'onglet ""fonds de solidarité"" du tableau de bord.
+
+Ces données sont issues :
+
+- De la base Sirene des entreprises et de leurs établissements de l'INSEE ;
+- Du code officiel géographique (COG) de l'INSEE ;
+- De la base de données des prêts directs de l'état
+
+Les données informent, à l'échelle régionale, et pour les types de prêts :
+
+- le nombre d'aides accordées ;
+- le montant total des aides accordées en euros ;
+
+Les données sont mises à jour sur une base hebdomadaire et sont disponibles au format CSV.";"weekly";"Licence Ouverte / Open Licence version 2.0";"";"";"other";"France";False;"2021-02-10T17:53:39.983000";"2023-12-14T14:54:05.543000";"coronavirus,covid,covid-19,covid19";False;2;2;782;"";"";"";"";"0.67";1;0;0;1516;641
+"600058d03f3bef5356a0cfbf";"Contributions anonymisées - Appel à idées sur la mise à disposition de données publiques (ouvertes ou en accès restreint)";"contributions-anonymisees-appel-a-idees-sur-la-mise-a-disposition-de-donnees-publiques-ouvertes-ou-en-acces-restreint";"";"https://www.data.gouv.fr/fr/datasets/contributions-anonymisees-appel-a-idees-sur-la-mise-a-disposition-de-donnees-publiques-ouvertes-ou-en-acces-restreint/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre du mois de l'innovation publique, nous avons souhaité recueillir les demandes d'accès aux données publiques (ouvertes ou en accès restreint) et les idées de services à developper à travers ces données.
+
+Porté par l'équipe API d'Etalab de la DINUM, l'appel à idée avait vocation à nous permettre d'identifier des données susceptibles de simplifier des démarches en ligne à destination des usagers ou d'optimiser la mise en œuvre des politiques publiques à travers l'exploitation des données soit sous forme de fichiers bruts ou d'API.
+
+Dans ce contexte, nous rendons l'ensemble des contributions anonymisées disponibles en open data. Venez découvrir l’ensemble des réponses au 10 décembre 2020. 
+
+🔗  [Lien vers la page de l'appel à idées](https://api.gouv.fr/lp/mois-innovation) sur [API.gouv.fr](http://api.gouv.fr)";"punctual";"Licence Ouverte / Open Licence";"";"";"country";"France";False;"2021-01-14T15:44:32.484000";"2021-01-15T14:43:39.130000";"api,appel-a-idee,donnees,donnees-publiques,idee,ouverture";False;1;1;141;"";"";"";"";"0.89";0;0;0;1751;122
+"5ef4cbbb668a465a9a95abe1";"Données relatives aux aides exceptionnelles aux artisans et commerçants dans le cadre de l'épidémie de COVID-19";"donnees-relatives-aux-aides-exceptionnelles-aux-artisans-et-commercants-dans-le-cadre-de-lepidemie-de-covid-19";"";"https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-aides-exceptionnelles-aux-artisans-et-commercants-dans-le-cadre-de-lepidemie-de-covid-19/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"**Le dispositif d'aides exceptionnelles aux artisans et aux commerçants**
+
+Le Conseil de la protection sociale des travailleurs indépendants (CPSTI) met en place une aide financière exceptionnelle à destination de tous les commerçants et les artisans qui :
+- sont en activité au 15 mars 2020
+- ont été immatriculés avant le 1er janvier 2019.
+
+L'aide correspond au montant des cotisations de retraite complémentaire versées par les artisans et les commerçants sur la base de leurs revenus de 2018 et pourra aller jusqu'à 1 250 €.
+
+Cette aide est versée de manière automatique par les Urssaf et ne nécessite aucune démarche des travailleurs indépendants concernés.
+
+Le montant de cette aide est par ailleurs exonéré d'impôt sur le revenu ainsi que de cotisations et de contributions sociales.
+
+Cette aide exceptionnelle s'ajoute à l'ensemble des mesures prises en faveur des travailleurs indépendants par le Gouvernement depuis le début de la crise. Elle complète un dispositif massif de soutien à l'activité économique des artisans et des commerçants afin de maintenir leur activité et permettre une reprise rapide et forte de l'économie.
+
+**Le tableau de bord des aides aux entreprises**
+
+Afin d’offrir de la visibilité à l’ensemble des Français sur l’attribution des aides accordées aux entreprises, le ministre de l’action et des comptes publics, avec le soutien technique du département [Etalab](https://www.data.gouv.fr/fr/organizations/etalab/) de la [Direction Interministérielle du Numérique (DINUM)](https://www.data.gouv.fr/fr/organizations/direction-interministerielle-du-numerique/), mettent à disposition un [tableau de bord](https://aides-entreprises.data.gouv.fr/) dont le [code source est libre](https://github.com/etalab/dashboard-aides-entreprises), qui propose une vision consolidée du soutien apporté aux entreprises.
+
+**Description des données**
+
+Le présent jeu de données contient les données exposées sur l'onglet ""aides artisans / commerçants"" du tableau de bord.
+Les données informent, à la granularité régionale et départementale, les données suivantes:
+- Nombre d'aides accordées ; 
+- Montant total des aides accordées en euros ; 
+- Le secteur d'activité des entreprises bénéficiaires (via une section du code NAF). 
+
+Ces données sont élaborées à partir des [données sur les aides exceptionnelles « CPSTI RCI COVID-19 »](https://www.data.gouv.fr/fr/datasets/aide-exceptionnelle-cpsti-rci-covid-19/) publiées par l'[URSSAF](https://www.data.gouv.fr/fr/organizations/unions-de-recouvrement-des-cotisations-de-securite-sociale-et-dallocations-familiales/).
+";"weekly";"Open Data Commons Open Database License (ODbL)";"";"";"fr:departement";"France";False;"2020-06-25T18:07:23.042000";"2024-01-28T07:44:58.617000";"";False;6;5;2257;"";"";"";"";"0.89";0;1;0;2122;2063
+"5ee355a4e3720820f5deab8a";"Données relatives au dispositif d'activité partielle mis en oeuvre dans le cadre de l'épidémie de COVID-19";"donnees-relatives-au-dispositif-dactivite-partielle-mis-en-oeuvre-dans-le-cadre-de-lepidemie-de-covid-19";"";"https://www.data.gouv.fr/fr/datasets/donnees-relatives-au-dispositif-dactivite-partielle-mis-en-oeuvre-dans-le-cadre-de-lepidemie-de-covid-19/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"**Le dispositif d'activité partielle**
+Face à l’ampleur de la crise sanitaire liée au COVID-19, le Gouvernement a décidé de transformer structurellement le dispositif d’activité partielle, pour doter la France du système le plus protecteur d’Europe.
+
+L’activité partielle est un outil au service de la politique publique de prévention des licenciements économiques qui permet à l’employeur en difficulté de faire prendre en charge tout ou partie du coût de la rémunération de ses salariés.
+
+L’activité partielle s’adresse à tous les salariés qui subissent une baisse de rémunération imputable :
+- soit à une réduction de l’horaire de travail pratiqué dans l’établissement ou partie de l’établissement en deçà de la durée légale de travail ;
+- soit à une fermeture temporaire de tout ou partie de l’établissement.
+
+Pendant la période d’activité partielle :
+- L’employeur reçoit de l’Agence de services et de paiement (ASP) une allocation équivalent à une part de la rémunération horaire du salarié placé en activité partielle ;
+- Le salarié reçoit de son employeur une indemnité d’activité partielle, en lieu et place de son salaire pour la période durant laquelle il est placé en activité partielle.
+
+Plus d'informations sur la prise en charge de l'activité partielle sur la [page des FAQ](https://travail-emploi.gouv.fr/le-ministere-en-action/coronavirus-covid-19/questions-reponses-par-theme/faq-chomage-partiel-activite-partielle) ainsi que sur le [portail officiel](https://activitepartielle.emploi.gouv.fr/apart/) .
+
+**Le tableau de bord des aides aux entreprises**
+
+Afin d’offrir de la visibilité à l’ensemble des Français sur l’attribution des aides accordées aux entreprises, le ministre de l’action et des comptes publics, avec le soutien technique du département [Etalab](https://www.data.gouv.fr/fr/organizations/etalab/) de la [Direction Interministérielle du Numérique (DINUM)](https://www.data.gouv.fr/fr/organizations/direction-interministerielle-du-numerique/), mettent à disposition un [tableau de bord](https://aides-entreprises.data.gouv.fr/) dont le [code source est libre](https://github.com/etalab/dashboard-aides-entreprises), qui propose une vision consolidée du soutien apporté aux entreprises.
+
+**Description des données**
+
+Le présent jeu de données contient les données exposées sur l'onglet ""activité partielle"" du tableau de bord.
+Les données informent, à la granularité régionale et départementale, les données suivantes:
+- nombre d'entreprises concernées par l'activité partielle ventilée par code section NACE17
+- nombre de salariés concernés par l'activité partielle ventilée par code section NACE17
+- Nombre d'heures d'activité partielle demandées ventilées par code section NACE17 (en millions d'heures)
+
+Ces données sont mises à jour de manière hebdomadaire.";"weekly";"Licence Ouverte / Open Licence version 2.0";"";"";"fr:departement";"France";True;"2020-06-12T12:15:00.248000";"2024-01-28T07:44:57.325000";"activite,activite-economique-emploi,activite-partielle,covid19,salaries,travail";False;4;4;1821;"";"";"";"";"0.78";1;1;2;3837;1811
+"5ebc257e4694940a16d181d3";"Données relatives aux reports d'échéances fiscales accordés dans le cadre de l’épidémie de COVID-19";"donnees-relatives-aux-reports-decheances-fiscales-accordes-dans-le-cadre-de-lepidemie-de-covid-19";"";"https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-reports-decheances-fiscales-accordes-dans-le-cadre-de-lepidemie-de-covid-19/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"### Les reports d'échéances fiscales durant la crise du  COVID-19
+
+Le Gouvernement a annoncé le report des principales échéances fiscales des professionnels afin de tenir compte de leurs difficultés liées à la crise sanitaire du coronavirus.
+
+Le report d'échéance fiscale concerne :
+
+- Les entreprises ou les experts-comptables qui interviennent pour des clients, pour qui il est possible de demander au service des impôts des entreprises le report sans pénalité du règlement de leurs prochaines échéances d'impôts directs (acompte d'impôt sur les sociétés, taxe sur les salaires).
+- Les travailleurs indépendants qui peuvent moduler à tout moment le taux et les acomptes de prélèvement à la source. Il est aussi possible de reporter le paiement des acomptes de prélèvement à la source sur les revenus professionnels d’un mois sur l’autre, jusqu’à trois fois si les acomptes sont mensuels, ou d’un trimestre sur l’autre si les acomptes sont trimestriels.
+
+Afin d'apporter une aide financière aux entreprises en difficulté, une procédure accélérée de remboursement des créances d'impôt sur les sociétés restituables en 2020 est mise en œuvre.
+
+Enfin, la Commission des chefs de services financiers (CCSF) peut accorder aux entreprises qui rencontrent des difficultés financières des délais de paiement pour s’acquitter de leurs dettes fiscales et sociales en toute confidentialité. 
+
+### Le tableau de bord des aides aux entreprises 
+
+Afin d’offrir de la visibilité à l’ensemble des Français sur l’attribution des aides accordées aux entreprises, le ministre de l’action et des comptes publics, avec le soutien technique du département [Etalab](https://www.data.gouv.fr/fr/organizations/etalab/) de la [Direction Interministérielle du Numérique (DINUM)](https://www.data.gouv.fr/fr/organizations/direction-interministerielle-du-numerique/), mettent à disposition un [tableau de bord](https://aides-entreprises.data.gouv.fr/) dont [le code source](https://github.com/etalab/dashboard-aides-entreprises) est libre, qui propose une vision consolidée du soutien apporté aux entreprises.
+
+### Description des données 
+
+Le présent jeu de données contient les données exposées sur [l'onglet ""Reports d'échéances fiscales"" du tableau de bord](https://aides-entreprises.data.gouv.fr/). 
+
+Les données informent, à la granularité régionale et départementale, les données suivantes :
+- Nombre de reports d'échéances fiscales accordés ; 
+- Montant total des reports d'échéances fiscales accordés en euros ; 
+- Le secteur d'activité des entreprises bénéficiaires (via une section du code NAF). 
+
+Ces données sont mises à jour de manière hebdomadaire.";"weekly";"License Not Specified";"";"";"";"";True;"2020-05-13T18:51:10.882000";"2020-06-25T18:17:29.506000";"aides-entreprises,coronavius,covid-19,covid19,pge";False;6;5;4223;"";"";"";"";"0.78";3;1;2;3500;4169
+"5ebc1ab7e5d3010d32ca8260";"Données relatives aux prêts garantis par l’Etat dans le cadre de l’épidémie de COVID-19";"donnees-relatives-aux-prets-garantis-par-letat-dans-le-cadre-de-lepidemie-de-covid-19";"";"https://www.data.gouv.fr/fr/datasets/donnees-relatives-aux-prets-garantis-par-letat-dans-le-cadre-de-lepidemie-de-covid-19/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"### Les prêts garantis par l'Etat durant la crise du  COVID-19
+
+Le Gouvernement met en œuvre un dispositif exceptionnel de garanties permettant de soutenir le financement bancaire des entreprises, à hauteur de 300 milliards d’euros.
+
+Jusqu’au 31 décembre prochain, les entreprises de toute taille, quelle que soit la forme juridique de l’entreprise (notamment sociétés, commerçants, artisans, exploitants agricoles, professions libérales, micro-entrepreneurs, associations et fondations ayant une activité économique ), à l’exception des sociétés civiles immobilières, des établissements de crédit et des sociétés de financement, pourront demander à leur banque habituelle un prêt garanti par l’État pour soutenir leur trésorerie.
+
+### Le tableau de bord des aides aux entreprises 
+
+Afin d’offrir de la visibilité à l’ensemble des Français sur l’attribution des aides accordées aux entreprises, le ministre de l’action et des comptes publics, avec le soutien technique du département [Etalab](https://www.data.gouv.fr/fr/organizations/etalab/) de la [Direction Interministérielle du Numérique (DINUM)](https://www.data.gouv.fr/fr/organizations/direction-interministerielle-du-numerique/), mettent à disposition un [tableau de bord](https://aides-entreprises.data.gouv.fr/) dont [le code source](https://github.com/etalab/dashboard-aides-entreprises) est libre, qui propose une vision consolidée du soutien apporté aux entreprises.
+
+### Description des données 
+
+Le présent jeu de données contient les données exposées sur [l'onglet ""Prêts garantis par l'Etat"" du tableau de bord](https://aides-entreprises.data.gouv.fr/). 
+
+Les données informent, à la granularité régionale et départementale, les données suivantes :
+- le nombre de prêts garantis par l'Etat accordés ;
+- le montant total des prêts garantis par l'Etat en euros ;
+- le secteur d'activité des entreprises bénéficiaires (via une section du code NAF). ";"unknown";"Licence Ouverte / Open Licence version 2.0";"";"";"";"";True;"2020-05-13T18:05:11.864000";"2024-01-28T07:44:56.631000";"";False;6;5;4219;"";"";"";"";"0.56";15;1;3;7722;4237
+"5ea2db4e4df5f1871c9229be";"Transferts de patients atteints de COVID-19";"transferts-de-patients-atteints-de-covid-19";"";"https://www.data.gouv.fr/fr/datasets/transferts-de-patients-atteints-de-covid-19/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"### Contexte 
+
+Pour répondre à la crise sanitaire et à la mise en tension du système de santé français, le gouvernement opère depuis le 18 mars 2020 des transferts de patients entre établissements hospitaliers. Ce dispositif a pour objectif de désengorger les établissements les plus touchés par l'épidémie de COVID-19. 
+
+### Mode de publication 
+
+Dans le cadre du développement du [tableau de bord COVID-19 disponible sur le site du gouvernement](https://www.gouvernement.fr/info-coronavirus/carte-et-donnees), le ministère des Solidarités et de la Santé communique à Etalab les données de transferts de patients. Ces données sont intégrées dans le tableau de bord et publiées sur www.data.gouv.fr. 
+
+### Description du jeu de données
+
+Le présent jeu de données renseigne sur **les transferts des patients atteints de COVID-19**. Il contient:
+- la date de début de transfert ;
+- la date de fin de transfert ;
+- le moyen de transport utilisé ;
+- la région de départ ;
+- la région d'arrivée ;
+- le pays d'arrivé si le transfert se fait en dehors du territoire français ;
+- le nombre de patients transportés.
+
+Les données sont mises à jour de manière quotidienne. ";"daily";"Licence Ouverte / Open Licence version 2.0";"";"";"";"";True;"2020-04-24T14:27:58.259000";"2020-05-13T17:58:53.926000";"coronavirus,covid-19,covid19";False;2;2;1976;"";"";"";"";"0.56";1;3;1;4541;1966
+"5e9dbdbe71589194c8f7b42f";"Données relatives au fonds de solidarité mis en place dans le cadre de l'épidémie de COVID-19";"donnees-relatives-au-fonds-de-solidarite-mis-en-place-dans-le-cadre-de-lepidemie-de-covid-19";"";"https://www.data.gouv.fr/fr/datasets/donnees-relatives-au-fonds-de-solidarite-mis-en-place-dans-le-cadre-de-lepidemie-de-covid-19/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"### Le fonds de solidarité 
+
+Dans le contexte de l'épidémie de COVID-19, l’Etat a mis en place, avec les Régions, un fonds de solidarité doté d’1,7 milliard d’euros pour le mois de mars 2020 qui permettra le versement d’une aide défiscalisée allant jusqu’à 1500 euros aux plus petites entreprises, aux indépendants, aux micro-entrepreneurs et aux professions libérales touchés par la crise du coronavirus. Ce fonds sera maintenu autant que durera l’urgence sanitaire.
+
+Pour obtenir d’autres informations relatives au fonds de solidarité, il est possible de consulter la page d’information disponible sur https://www.impots.gouv.fr/portail/.
+
+### Le tableau de bord des aides aux entreprises 
+
+Afin d’offrir de la visibilité à l’ensemble des Français sur l’attribution des aides versées aux entreprises dans le cadre de ce fonds de solidarité, le ministre de l’action et des comptes publics, avec le soutien technique du département [Etalab](https://www.data.gouv.fr/fr/organizations/etalab/) de la [Direction Interministérielle du Numérique (DINUM)](https://www.data.gouv.fr/fr/organizations/direction-interministerielle-du-numerique/), mettent à disposition un [tableau de bord](https://aides-entreprises.data.gouv.fr/) dont [le code source](https://github.com/etalab/dashboard-aides-entreprises) est libre qui propose une vision consolidée du soutien apporté par l’État aux entreprises.
+
+### Description des données 
+
+Le présent jeu de données contient les données exposées sur [l'onglet ""fonds de solidarité"" du tableau de bord](https://aides-entreprises.data.gouv.fr/).
+
+Ces données sont issues :
+- De la [base Sirene des entreprises et de leurs établissements](https://www.data.gouv.fr/fr/datasets/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/) de l'[INSEE](https://www.data.gouv.fr/fr/organizations/institut-national-de-la-statistique-et-des-etudes-economiques-insee/) ;
+- Du [code officiel géographique (COG)](https://www.data.gouv.fr/fr/datasets/code-officiel-geographique-cog/) de l'[INSEE](https://www.data.gouv.fr/fr/organizations/institut-national-de-la-statistique-et-des-etudes-economiques-insee/) ; 
+- De [la nomenclature d'activités française](https://www.data.gouv.fr/fr/datasets/nomenclature-dactivites-francaise-naf/) de l'[INSEE](https://www.data.gouv.fr/fr/organizations/institut-national-de-la-statistique-et-des-etudes-economiques-insee/)
+- De la base de données des aides du fonds de solidarité opérée par la Direction Générale des Finances publiques (DGFIP) pour le volet 1. 
+
+Les données informent, à l'échelle régionale et départementale, et pour les volets successifs d'attribution des aides (volet 1, volet 2 et volet 3 à venir) :
+- le nombre d'aides accordées ;
+- le montant total des aides accordées en euros ;
+- le secteur d'activité des entreprises bénéficiaires (via une section du code NAF). 
+- la catégorie juridique des entreprises bénéficiaires (via le niveau II des critères juridiques fondamentaux du droit)
+- la classe effectif des entreprises bénéficiaires (concerne uniquement les entreprises affiliées au régime général)
+
+**À ce jour, les données du volet 1 du fonds de solidarité sont disponibles.**
+
+Les données sont mises à jour sur une base quotidienne, ce qui correspond à la fréquence de [mise à jour du tableau de bord](https://aides-entreprises.data.gouv.fr/) et sont disponibles au format CSV.
+
+Le jeu de données a vocation à être enrichi dans les semaines à venir. ";"daily";"Licence Ouverte / Open Licence version 2.0";"2020-03-01";"2020-12-31";"fr:departement";"France";True;"2020-04-20T17:20:30.636000";"2020-12-07T17:59:34.038000";"aides-aux-entreprises,coronavirus,covid-19,covid19,entreprise,entreprise-artisanales,entreprises,fond-de-solidarite,pme,tpe";False;23;20;9388;"";"";"";"";"0.89";18;1;4;9532;9460
+"5e83c3ed38f46c1808801fbb";"PIAF - Le dataset francophone de Questions-Réponses";"piaf-le-dataset-francophone-de-questions-reponses";"PIAF - Q&A";"https://www.data.gouv.fr/fr/datasets/piaf-le-dataset-francophone-de-questions-reponses/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"### [PIAF](https://piaf.etalab.studio), construire un jeu de données francophones ouvert pour l’IA
+
+Le recours à l’intelligence artificielle au sein de l’action publique est souvent identifié comme une opportunité pour interroger des textes documentaires et réaliser des outils de questions/réponses (QR) automatiques à destination des usagers. Interroger le code du travail en langage naturel, mettre à disposition un agent conversationnel pour un service donné, développer des moteurs de recherche performants, améliorer la gestion des connaissances, autant d’activités qui nécessitent de disposer de corpus de données d’entraînement de qualité afin de développer des algorithmes de questions/réponses. Le dataset PIAF est un jeu de données d’entraînement francophone public et ouvert qui permet d’entraîner ces algorithmes.
+
+En nous inspirant de [SQuAD](https://rajpurkar.github.io/SQuAD-explorer/), le jeu de données bien connu de QR anglais, nous avons eu l’ambition de construire un jeu de données similaire qui serait ouvert à tous. Le protocole que nous avons suivi est très similaire à celui de la première version de SQuAD (SQuAD v1.1). Néanmoins, quelques modifications ont dû être apportées pour s’adapter aux caractéristiques du Wikipédia français. Une autre grande différence est que nous n’employons pas de micro-travailleurs via des plateformes de crowd-sourcing.
+
+Après plusieurs mois d’annotation, nous avons une [plateforme d’annotation robuste et libre](https://github.com/etalab/piaf), une quantité suffisante d’annotations et une démarche d’animation de communauté et de participation collaborative bien calée et innovante au sein de l’administration française.
+
+### PIAF : un outil mutualisé du Lab IA
+
+En mars 2018, la France a lancé sa stratégie nationale pour l’intelligence artificielle. Pilotée au sein de la Direction interministérielle du numérique, cette stratégie comprend trois volets : la recherche, l’économie et la transformation publique.
+
+La politique de la donnée étant un axe majeur du développement de l’intelligence artificielle, la mission Etalab pilote la mise en place d’un “Lab IA” interministériel, dont la mission est d’accélérer le déploiement de l’IA dans les administrations via 3 activités principales :
+
+1.  Constituer une équipe coeur afin d’internaliser des compétences et de l’expertise autour de l’IA
+2.  Accompagner des projets d’IA dans les administrations, par l’intermédiaire d’appels à manifestations d’intérêt
+3.  Co-construire des outils mutualisés pouvant être utilisés de la manière la plus ouverte possible
+
+Le projet PIAF est l'un des outils mutualisés du Lab IA.
+
+
+### Descriptif des données mises à disposition
+
+Le dataset suive le format de [SQuAD v1.1](https://rajpurkar.github.io/SQuAD-explorer/explore/1.1/dev/). PIAFv1.2 contient 9225 pairs des questions/réponses.  Il s'agit d'un fichier type JSON. Un fichier texte exemplifiant le schéma est inclus ci-dessous. Ce fichier peut être utilisé pour générer et évaluer des modèles de Question-Réponse. Par exemple, en suivant ces [instructions](https://huggingface.co/transformers/examples.html#squad).
+
+### Merci aux 500 contributeurs !
+
+Nous remercions profondément nos contributeurs qui ont fait vivre ce projet bénévolement jusqu’à aujourd’hui.
+
+### Liens 
+
+Des informations sur le protocole suivi, sur les actualités du projet, sur la plateforme d'annotation et le code lié, sont ici :
+
+* https://piaf.etalab.studio/
+* https://piaf.etalab.studio/actualites.html
+* https://github.com/etalab/piaf
+* https://github.com/etalab-ia/piaf-code";"irregular";"License Not Specified";"2019-11-01";"2021-03-25";"";"";True;"2020-04-01T00:27:57.539000";"2022-10-06T17:12:44.659000";"annotation,chatbot,intelligence-artificielle,moteur-de-recherche,nlp,question-answering";False;4;2;3037;"";"";"";"";"0.89";0;1;4;11967;3069
+"5df3887e8b4c412c5b6ae93d";"Appel à manifestation d'intérêt IA n°1";"appel-a-manifestation-dinteret-ia-ndeg1";"AMI IA";"https://www.data.gouv.fr/fr/datasets/appel-a-manifestation-dinteret-ia-ndeg1/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ressources du programme d'accompagnement du premier appel à manifestation d'intérêt pour expérimenter l'intelligence artificielle dans l'administration.";"punctual";"Licence Ouverte / Open Licence version 2.0";"";"";"";"";False;"2019-12-13T13:47:58.355000";"2024-03-07T13:57:59.392000";"";False;0;0;0;"";"";"";"";"0.33";0;0;0;1735;98
+"5d36cdae8b4c411cca351ff8";"Sondage métiers du numérique et service public";"sondage-metiers-du-numerique-et-service-public-1";"";"https://www.data.gouv.fr/fr/datasets/sondage-metiers-du-numerique-et-service-public-1/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Etalab a organisé un sondage du 1er juillet au 22 juillet 2019 dans le but de mieux connaître les motivations de futurs datascientists, designers, développeuses et développeurs à rejoindre le service public. Nous avons posé plusieurs questions : quelles sont les thématiques qui vous intéressent ? Quelles sont vos attentes sur l’environnement de travail ? Où souhaitez-vous travailler ? Quelles sont vos prétentions salariales ?
+
+Ce sondage avait été diffusé par le biais des réseaux sociaux d'Etalab et a récolté 448 réponses. Nous mettons à disposition les données brutes des soumissions reçues. Vous pouvez consulter [l'article de blog de lancement](https://www.etalab.gouv.fr/professionnels-numerique-motivations-rejoindre-service-public).
+
+## Questions posées
+Retrouvez ci-dessous les questions qui étaient posées.
+
+### Intérêts
+- Parmi ces thématiques, dans lesquelles souhaiteriez-vous travailler ?
+- Avez-vous déjà consulté des offres de la fonction publique dans le numérique ?
+- Envisagez-vous de rejoindre la fonction publique ?
+- Pourquoi envisagez-vous de rejoindre la fonction publique ?
+- Je souhaite travailler
+
+### Environnement de travail
+- Quel type de contrat voudriez-vous ?
+- Vous souhaitez travaillez
+- Précisez votre lieu de travail souhaité (optionnel)
+- Quel est le salaire minimal net mensuel en dessous duquel vous refuserez forcément l'offre d'emploi ?
+- Quel est le salaire net mensuel que vous souhaiteriez ?
+- Parmi ces conditions, quelles sont celles qui sont nécessaires à l'acceptation de l'offre
+- Si autre condition importante pour vous, précisez (optionnel)
+
+### Profil
+- Vous vous identifiez comme
+- Votre métier
+- Si autre métier, précisez
+- Nombre d'années d'expérience professionnelle
+";"punctual";"Licence Ouverte / Open Licence version 2.0";"2019-07-01";"2019-07-22";"";"";True;"2019-07-23T11:04:46.396000";"2019-07-23T11:10:43.819000";"fonction-publique,numerique,service-public,sondage";False;2;2;658;"";"";"";"";"0.78";0;0;1;2824;652
+"5cee3d3c8b4c411520eb516a";"Programme Entrepreneurs d'Intérêt Général";"programme-entrepreneurs-dinteret-general";"EIG";"https://www.data.gouv.fr/fr/datasets/programme-entrepreneurs-dinteret-general/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Le programme Entrepreneurs d'Intérêt Général a pour objectif de faire travailler ensemble des personnes extérieures à l'administration aux compétences numériques pointues et des agents publics engagés dans une démarche d'innovation. Les entrepreneurs d'intérêt général sont répartis en binômes ou trinômes pluridisciplinaires. Avec leurs mentors, ils ont 10 mois pour relever un défi numérique autour des données. Le programme, fort de 3 promotions, comporte 37 défis et une communauté de plus de 100 personnes.
+
+Le programme EIG est piloté par la mission Etalab au sein de la DINUM. Vous pouvez [consulter le site web du programme](https://entrepreneur-interet-general.etalab.gouv.fr).
+
+## Données
+Nous mettons à disposition des données :
+
+- sur les défis (nature, administration, mission, réalisations etc.) ;
+- le financement du programme ;
+- le programme d'accompagnement ;
+- le processus de recrutement ;
+- la satisfaction des entrepreneurs et des mentors ;
+- les personnes qui participent aux défis, entrepreneurs ou agents publics.
+
+Les données sont dans une feuille de calcul ou au format YAML et peuvent être transformées automatiquement dans d'autres formats comme le JSON par exemple.";"punctual";"Licence Ouverte / Open Licence version 2.0";"";"";"other";"France";True;"2019-05-29T10:05:16.245000";"2021-08-23T15:12:31.672000";"eig,etalab,numerique,pia";False;8;8;1348;"";"";"";"";"0.89";0;2;2;4232;1337
+"5cc07cb5634f4111ae76dfd7";"Les sources d'informations sur l'aide publique au développement (APD)";"les-sources-dinformations-sur-laide-publique-au-developpement-apd";"";"https://www.data.gouv.fr/fr/datasets/les-sources-dinformations-sur-laide-publique-au-developpement-apd/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Le 9 Avril 2019, a eu lieu le sixième [Forum Open d’Etat](https://www.etalab.gouv.fr/forum-open-detat-6-renforcer-la-transparence-de-laide-publique-au-developpement-par-louverture-des-donnees), en partenariat avec l’Agence Française de Développement. Ce Forum a réuni les administrations et la société civile travaillant sur l’aide publique au développement : Ministère de l’Europe et des Affaires étrangères, OCDE, Oxfam, Action contre la Faim, CCFD.  
+
+Une présentation de l’Agence Française de Développement et du Ministère de l’Europe et des Affaires Étrangères autour du portail d’aide publique au développement a permis d’aborder l’histoire et l’actualité de l’open data de l’aide publique au développement et les données des deux institutions. 
+
+Après les interventions du Ministère de l’Europe et des Affaires Étrangères, d'Oxfam et de l'OCDE, ayant permis de découvrir toutes les manières de traiter les données de l’aide publique au développement, des ateliers ont fait participer le public sur les sources d’information de l’aide publique au développement et les études d’impacts.
+ 
+Les ateliers ont permis de mettre en valeur les demandes des participants concernant les études d’impacts (longueur et harmonisations des fiches projets, etc.) et d’identifier les différentes sources d’informations possibles sur le sujet de l’aide publique au développement : portail open data, journaux, rapports institutionnels etc.
+";"unknown";"License Not Specified";"";"";"";"";True;"2019-04-24T17:11:49.880000";"2019-04-30T09:56:10.431000";"aide-publique-au-developpement";False;1;1;174;"";"";"";"";"0.44";0;0;0;2160;163
+"5ca1bab38b4c41179d661a7a";"data.gouv.fr - édition papier 2019";"data-gouv-fr-edition-papier-2019";"";"https://www.data.gouv.fr/fr/datasets/data-gouv-fr-edition-papier-2019/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"_data.gouv.fr_ est le portail unique interministériel destiné à rassembler et à mettre à disposition librement l’ensemble des informations publiques de l’État, de ses établissements publics administratifs et, si elles le souhaitent, des collectivités territoriales et des personnes de droit public ou de droit privé chargées d’une mission de service public.
+
+**Ce jeu de données est la première édition papier ""Tome 1, Le Best Of"", publiée le 01/04/2019.**
+
+Plus de 900 pages regroupant l'essentiel des jeux de données, sans oublier un index de plus de 40 pages qui sera très apprécié pour retrouver rapidement un jeu de données.
+
+Le processus de création est décrit (avec le code utilisé) sur [github](https://github.com/cquest/datagouv-edition-papier)";"punctual";"Licence Ouverte / Open Licence version 2.0";"2011-02-21";"2019-04-01";"";"";False;"2019-04-01T09:16:03.062000";"2019-04-02T13:03:50.017000";"opendata";False;1;1;169;"";"";"";"";"0.67";0;0;2;2231;158
+"5be5b66a634f4148a8b2e466";"Données du hackathon sur les données essentielles de la commande publiques reformatées et agrégées";"donnees-du-hackathon-sur-les-donnees-essentielles-de-la-commande-publiques-reformatees-et-agregees";"DECP";"https://www.data.gouv.fr/fr/datasets/donnees-du-hackathon-sur-les-donnees-essentielles-de-la-commande-publiques-reformatees-et-agregees/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre du hackathon organisé en marge du Forum de Paris pour la Paix, Etalab porte un défi relatif à l'utilisation des données essentielles de la commande publique comme vecteur d'inclusion pour les entreprises.
+
+Dans ce contexte, et afin de faciliter le développement de services innovants basés sur les données essentielles de la commande publique, nous avons souhaité regrouper les données essentielles des marchés publics attribués depuis le 1er octobre 2018 publiés [via le PES Marché](https://www.data.gouv.fr/fr/datasets/donnees-essentielles-de-la-commande-publique-transmises-via-le-pes-marche/) et [des données issues de l'administration centrale et des opérateurs](https://www.data.gouv.fr/fr/datasets/aife-de-44090956200033/) dans un fichier au format `.csv` que nous avons découpé en 4:
+- un fichier `acheteurs.csv` contenant les variables suivantes: `siretAcheteur`, `nom`, `uid`
+- un fichier `decp-dpa.csv` contenant les variables suivantes: `siretAcheteur`, `urlProfilAcheteur`, `coordonnnées`, `source`
+- un fichier `marche.csv` contenant les variables suivantes: `codeCPV`, `dateNotification`, `datePublicationDonnees`, `dateTransmissionDonneesEtalab`, `dureeMois`, `formePrix`, `id`, `montant`, `nature`, `objet`, `procedure`, `uid`, `url`
+- un fichier `titulaires.csv` contenant les variables suivantes: `denominationSociale`, `identifiant`, `typeIdentifiant`, `uid`
+
+ATTENTION : Ce jeu de données expérimental a été constitué pour l'occasion du hackathon, et Etalab ne garanti aucunement qu'il sera mis à jour par la suite.";"punctual";"Licence Ouverte / Open Licence version 2.0";"2018-10-01";"2018-11-09";"fr:commune";"France";False;"2018-11-09T17:31:38.107000";"2018-11-10T23:54:12.757000";"decp,marche,marche-public,marches,marches-attribues,marches-publics";False;5;5;679;"";"";"";"";"1.00";0;0;1;1964;627
+"5be5b235634f41423eeea5a6";"Données essentielles de la commande publiques reformatées ";"donnees-essentielles-de-la-commande-publiques-reformatees";"DECP";"https://www.data.gouv.fr/fr/datasets/donnees-essentielles-de-la-commande-publiques-reformatees/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre du hackathon du Forum de Paris pour la Paix Etalab porte le challenge ""comment les données essentielles de la commande publique peuvent offrir aux opérateurs économiques un accès facilité aux marchés publics"".
+
+Afin de permettre aux participants du hackathon de développer des services innovants et d'avoir une meilleurs visibilité des données essentielles de la commande publique disponible à ce jour à en open data, nous avons produit :
+- 1 fichier `acheteur.csv` contenant la liste des acheteurs publics avec les variables `siretAcheteur`, `nom`, `uid`
+- 1 fichier `decp-dpa.csv` contenant la liste des acheteurs publics et leurs profils d'acheteurs associés contenant les variables `siretAcheteur`, `urlProfilAcheteur`, `coordonnnées`, `source`
+- 1 fichier `marches.csv` contenant la liste des marchés avec leurs caractéristiques contenant les variables `codeCPV`, `dateNotification`, `datePublicationDonnees`, `dateTransmissionDonneesEtalab`, `dureeMois`, `formePrix`, `id`, `montant`, `nature`, `objet`, `procedure`, `uid`, `url`
+- 1 fichier `titulaires.csv`contenant liste des entreprises titulaires contenant les variables, `denominationSociale`, `identifiant`, `typeIdentifiant`, `uid`
+
+Ces fichiers seront actualisés dimanche prochain pour le lancement du hackathon.
+";"punctual";"Licence Ouverte / Open Licence version 2.0";"2018-10-01";"2018-11-09";"fr:commune";"France";False;"2018-11-09T17:13:41.401000";"2018-11-09T17:13:41.401000";"decp,marche-public,marches,marches-attribues,marches-publics";False;0;0;0;"";"";"";"";"0.67";0;0;0;267;""
+"5bc0d6e5634f4142b4581861";"Inventaire des dépôts de code source des organismes publics ";"inventaire-des-depots-de-code-source-des-organismes-publics";"";"https://www.data.gouv.fr/fr/datasets/inventaire-des-depots-de-code-source-des-organismes-publics/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ce jeu de données propose des informations sur la liste des dépôts de code source accessibles depuis les comptes d'organisation des organismes publics.
+
+Pour parcourir ces données, rendez-vous sur [code.gouv.fr](https://code.gouv.fr).
+
+## Collecte des données
+
+Ce jeu de données n'est pas exhaustif car la liste des comptes d'organisation n'est pas complète. Sont pour l'instant traités les comptes d'organisation présents sur github.com, les groupes présents sur gitlab.com et les groupes des instances GitLab des administrations.
+
+Pour en savoir plus sur ces données et celles affichées sur code.gouv.fr, voir [ces explications](https://code.gouv.fr/#/about).
+
+## Ajouter votre organisation
+
+Pour ajouter le compte d'organisation de votre organisme, envoyez-nous un mail à [logiciels-libres@data.gouv.fr](mailto:logiciels-libres@data.gouv.fr).
+
+## Schémas des données
+
+Une description des différents champs des données ainsi que les schémas des données au format Table Schema sont disponibles [sur ce dépôt](https://git.sr.ht/~etalab/codegouvfr-fetch-data).";"fourTimesAWeek";"Licence Ouverte / Open Licence version 2.0";"";"";"";"";True;"2018-10-12T19:16:21.138000";"2023-09-19T15:44:38.883000";"code-source,france,gouvernement,logiciel,organisme-public";False;4;4;2188;"";"";"";"";"0.67";0;3;4;4429;2179
+"5bbf2bf28b4c4175c716d3b1";"Données du suivi du Service Public de la Donnée";"donnees-du-suivi-du-service-public-de-la-donnee";"SPD";"https://www.data.gouv.fr/fr/datasets/donnees-du-suivi-du-service-public-de-la-donnee/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Le service public de la donnée créé par l’Article 14 de la loi pour une République numérique vise à mettre à disposition, en vue de faciliter leur réutilisation, les jeux de données de référence qui présentent le plus fort impact économique et social. Il s’adresse principalement aux entreprises et aux administrations pour qui la disponibilité d’une donnée de qualité est critique. Les producteurs et les diffuseurs prennent des engagements auprès de ces utilisateurs. La mission Etalab est chargée de la mise en oeuvre et de la gouvernance de ce nouveau service public.
+
+Ce jeu de donnée permet de suivre le respect des engagements des producteurs et diffuseurs pour chaque jeu de données, conformément à [l'arrêté du 14 Juin 2017](https://www.legifrance.gouv.fr/eli/arrete/2017/6/14/PRMJ1713859A/jo/texte)";"punctual";"Licence Ouverte / Open Licence version 2.0";"";"";"other";"France";False;"2018-10-11T12:54:42.316000";"2018-10-11T15:19:11.031000";"donnees,etalab,opendata,service-public,spd";False;2;2;310;"";"";"";"";"0.89";1;0;0;2613;312
+"5b7acf238b4c413846e91709";"Conclusion de l’expérimentation sur la pseudonymisation des décisions de justice menée par l’équipe de l’AGD";"conclusion-de-lexperimentation-sur-la-pseudonymisation-des-decisions-de-justice-menee-par-lequipe-de-lagd";"";"https://www.data.gouv.fr/fr/datasets/conclusion-de-lexperimentation-sur-la-pseudonymisation-des-decisions-de-justice-menee-par-lequipe-de-lagd/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de la convention de partenariat de recherche P-2016-004 signée par la DILA, la Cour de Cassation et l'Administrateur Général des Données (AGD), et dans le contexte plus global de la diffusion des décisions de justice en open data prévue par la loi n°2016-1321 du 7 octobre 2016 pour une République Numérique, l'AGD a réalisé des premiers travaux de ""pseudonymisation automatique"" dont les conclusions sont présentées dans le document téléchargeable.";"punctual";"Licence Ouverte / Open Licence";"";"";"country";"France";False;"2018-08-20T16:24:35.486000";"2018-08-20T16:24:45.156000";"agd,cour-de-cassation,decisisons-de-justice,dila,justice,open-data,pseudonymisation,recherche";False;1;1;139;"";"";"";"";"0.67";0;0;0;1410;120
+"5b7accfb8b4c4134620351a2";"Avis rendu par l'administrateur général des données ";"avis-rendu-par-ladministrateur-general-des-donnees";"";"https://www.data.gouv.fr/fr/datasets/avis-rendu-par-ladministrateur-general-des-donnees/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Avis rendu par l'administrateur ministériel des données.";"punctual";"Licence Ouverte / Open Licence";"";"";"country";"France";False;"2018-08-20T16:15:23.083000";"2018-08-20T16:25:31.564000";"agd,avis,cada";False;1;1;116;"";"";"";"";"0.67";0;0;0;1645;99
+"5b337e17c751df67939724bd";"Structure du fichier de déclaration de profil d'acheteur";"structure-du-fichier-de-declaration-de-profil-dacheteur";"";"https://www.data.gouv.fr/fr/datasets/structure-du-fichier-de-declaration-de-profil-dacheteur/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"La déclaration du profil d’acheteur est effectuée par l’acheteur ou toute personne habilitée par celui-ci sur le portail unique interministériel (data.gouv.fr) destiné à rassembler et à mettre à disposition librement l’ensemble des informations publiques.
+
+L’objectif est d’impliquer les éditeurs de profils d’acheteurs afin de simplifier et rationnaliser la déclaration des profils d’acheteurs initialement confiée aux acheteurs publics.
+
+Les éditeurs de profil d’acheteur sont invités à se créer un compte sur la plateforme data.gouv.fr afin d’y publier au format .CSV un fichier contenant les informations suivantes :
+
+- le SIRET des acheteurs (colonne `siretAcheteur`)
+- l’adresse URL des profils d’acheteurs (colonne `urlProfilAcheteur`)
+- l’adresse URL du catalogue DCAT qui répértorie les données (colonne `urlDCAT`)
+- les coordonnées du ou des acheteurs concernés (colonne `coordonnees`)
+
+Pour chaque fiche publiée il est essentiel d’associer le mot clé (« tag ») suivant : « DECP » (données essentielles de la commande publique) afin de permettre la centralisation de l’ensemble des contributions par Etalab.";"punctual";"Licence Ouverte / Open Licence";"";"";"country";"France";False;"2018-06-27T14:07:51.043000";"2019-02-21T11:44:48.699000";"achat-public,acheteur,commande-publique,declaration,decp,profil-dacheteur";False;1;1;506;"";"";"";"";"0.78";4;0;3;3281;510
+"5b1e37a188ee3849c6b7df9b";"Plan d'action national 2018-2020 de la France pour le Partenariat pour un gouvernement ouvert";"plan-daction-national-2018-2020-de-la-france-pour-le-partenariat-pour-un-gouvernement-ouvert-1";"";"https://www.data.gouv.fr/fr/datasets/plan-daction-national-2018-2020-de-la-france-pour-le-partenariat-pour-un-gouvernement-ouvert-1/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"En tant que membre du Partenariat pour un gouvernement ouvert (PGO), la France construit tous les deux ans un Plan d’action national (PAN) avec la société civile.
+Ces Plans d’action nationaux contiennent des engagements que les gouvernements et les administrations prennent pour promouvoir et mettre en œuvre la transparence, la participation citoyenne, la co-construction de l’action publique et l’innovation démocratique.
+
+Un premier Plan d’action national pour une action publique transparente et collaborative a été élaboré et publié pour la période 2015-2017. Il comportait 26 engagements et 70 actions.
+Le mardi 3 avril 2018, le deuxième Plan d’action de la France pour la période 2018-2020 a été publié à l’issue d’une démarche de co-construction avec la société civile.";"unknown";"Creative Commons CCZero";"";"";"";"";False;"2018-06-11T10:49:37.437000";"2018-06-11T10:58:16.565000";"etalab,gouvernement-ouvert,ogp,open-gov,pgo";False;2;2;450;"";"";"";"";"0.56";0;0;0;1430;379
+"5a2e6517c751df0874ef6bc7";"Statistiques d'usage de l'API de géocodage adresse.data.gouv.fr";"statistiques-dusage-de-lapi-de-geocodage-adresse-data-gouv-fr";"";"https://www.data.gouv.fr/fr/datasets/statistiques-dusage-de-lapi-de-geocodage-adresse-data-gouv-fr/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ces statistiques détaillent l'usage de l'API de géocodage adresse.data.gouv.fr
+[![Visualisation](https://www.data.gouv.fr/s/images/88/6694a43f6c457b8644eefe12c89add.png ""entrez le titre de l'image ici"")](https://adresse.data.gouv.fr/data/stats/stats-api.html)";"daily";"Licence Ouverte / Open Licence";"";"";"other";"";False;"2017-12-11T11:59:35.781000";"2017-12-11T12:03:24.721000";"api,audience,geocodage,statistiques";False;1;1;292;"";"";"";"";"0.67";0;4;1;1688;242
+"595a8c26c751df565555ac60";"Nombre d'embauches par code APE et code ROME";"nombre-dembauches-par-code-ape-et-code-rome";"";"https://www.data.gouv.fr/fr/datasets/nombre-dembauches-par-code-ape-et-code-rome/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ce jeu de données décompte, par code ROME et par code APE, le nombre de déclarations préalables à l'embauches (DPAE).
+
+> Attention : une DPAE n'est pas forcement suivie d'une embauche (par exemple, désistement de l'employé). Certaines embauches ne font pas l'objet d'une DPAE.
+
+> Attention : certaines DPAE peuvent être remplies en retard et ne pas être comptabilisées.
+
+Le code APE pris en compte est le code APE de l'établissement ayant effectuée la DPAE. La NAF 2008 est utilisée.
+
+Le code ROME pris en compte est le code ROME principal déclaré à Pôle emploi. La nomenclature ROMEv3 du 21 septembre 2015 est utilisée.
+
+> Attention : Une embauche concernant un employé ne s'étant pas déclaré à Pôle emploi n'est pas comptabilisée. Cela introduit un biais statistique important.
+
+Les CDI, CDD et missions d'intérim sont décomptés. Seuls les contrats d'une durée supérieure ou égale à un mois sont comptabilisés.
+
+Le nombre d'embauches comprend la période allant du 2 mars 2016 au 31 mars 2017 (environ 13 mois).
+
+Par respect du secret industriel, les codes APE comptant moins de 5 entreprises sont exclus de ce jeu de données. C'est par exemple le cas du code APE 5122Z (Transports spatiaux) qui ne compte que 2 entreprises inscrites dans la base SIRENE de l'INSEE (Arianespace et l'Agence nationale spatiale du Turkmenistan).
+
+L'encodage du fichiers est UTF-8, le format est CSV avec pour headers :
+
+* `ROME` : code ROME primaire des personnes embauchées
+* `ROME_label` : label du code ROME
+* `APE700` : code APE (NAF) de l'établissement ayant embauché
+* `APE700_label`: label du code APE (NAF)
+* `nb_embauches` : nombre d'embauches";"unknown";"Licence Ouverte / Open Licence";"2016-03-02";"2017-03-31";"other";"France";False;"2017-07-03T20:25:42.132000";"2017-07-06T11:24:10.953000";"ape,emploi,naf,pole-emploi,rome";False;2;2;567;"";"";"";"";"0.67";4;0;3;4436;573
+"5908a1ffc751df25f3cf5045";"Contributions à la consultation « Plan d’action gouvernement ouvert 2017-2019 : idéation »";"contributions-a-la-consultation-plan-daction-gouvernement-ouvert-2017-2019-ideation-2";"";"https://www.data.gouv.fr/fr/datasets/contributions-a-la-consultation-plan-daction-gouvernement-ouvert-2017-2019-ideation-2/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"En rejoignant le [Partenariat pour un Gouvernement Ouvert](https://www.etalab.gouv.fr/ogp) (PGO) en avril 2014, la France s’est engagée à élaborer, en concertation avec la société civile, des plans nationaux tous les deux ans, en faveur d'une action publique plus transparente, plus participative, plus collaborative.
+- [Un premier plan d'action a été publié en juillet 2015 pour la période 2015-2017](http://www.opengovpartnership.org/sites/default/files/2015+07+09_Plan+gouvernement+ouvert+FR+Version+Finale.pdf), 
+- [Un suivi de la mise en œuvre de ces engagements est réalisé au fil de l’eau](https://suivi-gouvernement-ouvert.etalab.gouv.fr/fr/)
+
+**La consultation en ligne « [Plan d’action gouvernement ouvert 2017-2019 : idéation](https://gouvernement-ouvert.etalab.gouv.fr/) », menée par la mission Etalab du 15 mars au 21 avril 2017, a initié la mise à jour des engagements français en vue d'un deuxième plan d'action, qui couvrira la période 2017-2019.**
+
+Elle a recueilli des contributions autour de plusieurs axes : 
+- [Rendre des comptes](https://gouvernement-ouvert.etalab.gouv.fr/topic/58b7ef19de66ce9b9dc93e2c) :  Comment approfondir la transparence et la redevabilité au sein de l'action publique ?
+- [Consulter, concerter, co-produire](https://gouvernement-ouvert.etalab.gouv.fr/topic/58b7fad2de66ce9b9dc93e46) : Dans quels domaines de l'action publique instaurer davantage de processus de consultation et de co-production ?
+- [Ouvrir et partager des ressources numériques ](https://gouvernement-ouvert.etalab.gouv.fr/topic/58b7fb5bde66ce9b9dc93e52): Dans quels champs de l'action publique approfondir l'ouverture de données et le partage de ressources numériques (données, API, code source...) ?
+- [Ouvrir et transformer l'administration](https://gouvernement-ouvert.etalab.gouv.fr/topic/58b7fc13de66ce9b9dc93e5d) : Comment ouvrir davantage l'administration aux évolutions, aux innovations et à la diversité de la société, et stimuler l'innovation ouverte ?
+- [Contribution libre](https://gouvernement-ouvert.etalab.gouv.fr/topic/58b7fc51de66ce9b9dc93e68)
+
+
+**Variables :**
+- Débat : axe de la consultation parmi les 5 décrits ci-dessus
+- User-id : identifiant anonymisé du contributeur ou du porte-parole de l’atelier collectif
+- Contenu : contenu de la contribution";"irregular";"Licence Ouverte / Open Licence";"";"";"";"";False;"2017-05-02T17:13:03.313000";"2017-05-31T14:11:00.458000";"consultation,open-gov,participation,transparence";False;1;1;138;"";"";"";"";"0.67";0;0;0;1311;105
+"58f9bfc4c751df756bc6fae2";"Rapport sur les conditions d'ouverture du système Admission Post-Bac";"rapport-sur-les-conditions-douverture-du-systeme-admission-post-bac";"";"https://www.data.gouv.fr/fr/datasets/rapport-sur-les-conditions-douverture-du-systeme-admission-post-bac/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"La mission Etalab a rendu, le 21 avril 2017, au secrétaire d’Etat chargé de l’enseignement supérieur et de la recherche son rapport sur les conditions d'ouverture du système Admission Post-Bac.";"irregular";"Licence Ouverte / Open Licence";"2017-04-21";"2017-04-22";"country";"France";False;"2017-04-21T10:16:04.002000";"2018-10-09T14:26:49.248000";"admission-post-bac,apb,code-source";False;1;1;129;"";"";"";"";"0.78";0;0;0;1686;119
+"57f0b8f088ee3808545ff490";"Réponses à la consultation sur la mise en oeuvre du Service public de la donnée";"reponses-a-la-consultation-sur-la-mise-en-oeuvre-du-service-public-de-la-donnee";"";"https://www.data.gouv.fr/fr/datasets/reponses-a-la-consultation-sur-la-mise-en-oeuvre-du-service-public-de-la-donnee/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"La loi pour une République numérique instaure dans son article 14 un Service public de la donnée autour des données de référence.
+A l'occasion de la préparation des décrets d'application, la mission Etalab met en ligne un [questionnaire](http://www.data.gouv.fr/fr/datasets/reponses-a-la-consultation-sur-la-mise-en-oeuvre-du-service-public-de-la-donnee/) du 29 septembre au 20 octobre 2016.
+La consultation portait sur:
+- le périmètre du service public de la donnée (la liste des données de références),
+- les conditions de mise à disposition des données de référence,
+- les critères de qualité applicables aux données de référence.
+
+Le présent jeu de données comprend l'ensemble des réponses anonymisées. 
+
+Historique du fichier
+- 2 octobre 10h: première publication du fichier (37 contributions)
+- 3 octobre 11h: mise à jour (44 contributions)
+- 4 octobre 16h: mise à jour (58 contributions)
+- 5 octobre 18h: mise à jour (64 contributions)
+- 6 octobre 17h: mise à jour (67 contributions)
+- 8 octobre 12h: mise à jour (70 contributions)
+- 10 octobre 15h: mise à jour (75 contributions)
+- 13 octobre 10h: mise à jour (85 contributions)
+- 17 octobre 10h: mise à jour (91 contributions)
+- 18 octobre 16h: mise à jour (100 contributions)
+- 19 octobre 15h: mise à jour (116 contributions)
+- 21 octobre: fin de la consultation (161 contributions, après suppression de 2 doublons)
+";"punctual";"Licence Ouverte / Open Licence";"";"";"other";"France";True;"2016-10-02T09:36:15.948000";"2016-10-21T18:31:55.561000";"consultation,loi-numerique,service-public-de-la-donnee";False;1;1;213;"";"";"";"";"0.78";1;0;0;2833;205
+"577b8b6b88ee38382d0ddd2c";"Lauréats du concours Dataconnexions";"laureats-du-concours-dataconnexions";"";"https://www.data.gouv.fr/fr/datasets/laureats-du-concours-dataconnexions/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ce jeu de données compile les projets finalistes et lauréats des différentes éditions du concours Dataconnexions, organisé régulièrement par la mission Etalab. 
+
+Le concours Dataconnexions récompense les meilleurs services, applications ou data-visualisations réutilisant au moins un jeu de données publiques disponible sur le portail data.gouv.fr.
+
+Pour en savoir plus : https://www.etalab.gouv.fr/dataconnexions
+
+Structure du jeu de données :
+Année / Édition / Date de la cérémonie / Projet / Résultat / Catégorie / Site du projet / Producteur / SIRET / URL Producteur / Partenaires du projet / Contact / Description du projet
+";"annual";"Licence Ouverte / Open Licence";"";"";"other";"France";True;"2016-07-05T12:26:51.799000";"2016-07-05T14:04:26.839000";"concours,dataconnexions,datavisualisation,etalab,open-data";False;3;3;537;"";"";"";"";"0.67";0;1;3;2509;512
+"5715ef5fc751df11b82015f8";"GeoLogos";"geologos";"";"https://www.data.gouv.fr/fr/datasets/geologos/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Archive contenant les logos libres de droits relatifs aux communes françaises.
+
+Les noms et URL sont issues de l'outil [GeoZones](https://www.data.gouv.fr/fr/reuses/geozones/) et de ses [jeux de données associés](https://www.data.gouv.fr/fr/datasets/geozones/).
+
+Les fichiers sont téléchargés depuis [Wikimedia](https://commons.wikimedia.org/wiki/Main_Page). Il y a 12112 blasons ou logos pour la version 2017.
+
+Ces logos sont ensuite réutilisés sur data.gouv.fr pour les pages de détail des communes (par exemple [Rennes](https://www.data.gouv.fr/fr/town/35238/))
+
+Le code source de récupération des logos est [publié sur Github](https://github.com/etalab/geologos/).
+
+## Historique
+
+- **10/05/2019** : version 2019.0
+- **19/04/2016** : publication de la version 1.0
+- **09/04/2017** : publication de la version 2.0
+- **11/04/2017** : publication de la version 2.1
+- **15/06/2017** : publication de la version 3.0 correspondant à la [publication 2017 de GeoZones](https://www.data.gouv.fr/fr/datasets/geozones/).";"punctual";"Creative Commons Attribution Share-Alike";"";"";"other";"France";False;"2016-04-19T10:42:07.967000";"2019-07-03T12:53:35.671000";"communes,france,logos";False;5;5;810;"";"";"";"";"0.89";0;0;1;2277;799
+"56cc6d6988ee385864fa79d0";"Référentiel de données marchés publics ";"referentiel-de-donnees-marches-publics";"";"https://www.data.gouv.fr/fr/datasets/referentiel-de-donnees-marches-publics/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"# Les schémas des données essentielles de la commande publique
+
+## Description des schémas de données essentielles :
+
+Les schémas de données présentés jusqu’à la **version 1.5** régissent la structure des données publiées par les acheteurs publics sur leur profil d'acheteur, **jusqu’au 31 décembre 2023**. Ces formats sont la traduction technique des textes réglementaires publiés le 14 avril 2017 et mis à jour le 22 mars 2019.
+
+Les schémas de données présentés à partir de la **version 2.0** régissent la structure des données à publier par les acheteurs publics le portail national des données ouvertes à compter du 1er janvier 2024. Ces formats sont la traduction technique des arrêtés relatifs aux données essentielles des marchés publics et des contrats de concession du 22 décembre 2022.
+
+Les acheteurs publics doivent publier leurs données de marchés publics et de contrats de concession dans ce format **à partir du 1er janvier 2024**, sur leur profil d'acheteur.
+
+Ce schéma de données rassemble :
+•	le lien vers le dépôt Github, qui contient des exemples de données et les référentiels des schémas au format PDF ;
+•	les schémas (JSON et XML) permettant de vérifier la validité des données publiées.
+
+
+## Versions :
+
+### Version 2.0 (arrêtés du 22 décembre 2022) :
+
+Le schéma version 2.0 est un nouveau schéma prenant en compte les modifications apportées par les arrêtés du 22 décembre 2022. Ces arrêtés procèdent :
+- à la fusion des données du recensement et des données essentielles des marchés publics au sein d’une même liste intitulée « données essentielles des marchés publics » à partir de 40 000 euros hors taxes ;
+- au maintien de la publication des données essentielles des contrats de concession ;
+- à la publication de ces données essentielles sur le portail national des données ouvertes et non plus sur le profil d’acheteur.
+
+C'est le schéma qui doit être respecté pour la publication de données essentielles pour les marchés notifiés à compter du **1er janvier 2024** et pour les contrats de concession conclus à compter de cette même date.
+
+### Version 1.5 (arrêté du 22 mars 2019) :
+
+Le schéma version 1.5 est un nouveau schéma prenant en compte les modifications apportées par l'arrêté du 22 mars 2019 (changements dans la liste des procédures de marché). C'est le schéma recommandé pour la publication de données essentielles jusqu’au **31 décembre 2023**.
+
+Seules différences avec le schéma version 1.4 : dans la liste des valeurs pour le champ procédure d'un marché.
+
+- les valeurs *« Procédure concurrentielle avec négociation »* et *« Procédure négociée avec mise en concurrence préalable »* de la version 1.4 sont remplacées par la valeur Procédure avec négociation dans la version 1.5
+- la valeur *« Marché négocié sans publicité ni mise en concurrence préalable »* de la version 1.4 est remplacée par la valeur *« Marché passé sans publicité ni mise en concurrence préalable »* dans la version 1.5
+
+### Version 1.4 (arrêté modificatif du 27 juillet 2018) :
+
+Le schéma version 1.4 correspond à la structure de données en vigueur depuis plusieurs mois, qui correspond aux dispositions de l'arrêté modificatif du 27 juillet 2018. Les données publiées dans ce format sont encore valides, car elles peuvent facilement être converties pour être conforme à la version 1.5. Cependant, il est recommandé de se conformer au schéma en version 1.5.
+
+### Vos commentaires
+
+Vos questions et commentaires sont les bienvenus
+- dans la section **Discussion** ci-dessous 
+- [sur le forum d'Etalab](https://forum.etalab.gouv.fr/t/schemas-de-validation-des-donnees-essentielles-des-marches-publics/3141)
+
+### Voir aussi
+
+- [Les fichiers consolidés des données essentielles de la commande publique](https://www.data.gouv.fr/fr/datasets/5cd57bf68b4c4179299eb0e9/)
+- [Arrêté du 14 avril 2017 relatif aux données essentielles dans la commande publique](https://www.legifrance.gouv.fr/loda/id/JORFTEXT000034492587) (modifié par [l'arrêté du 27 juillet 2018](https://www.legifrance.gouv.fr/loda/id/JORFTEXT000037282994))
+- [Arrêté modificatif du 27 juillet 2018 relatif aux données essentielles de la commande publique](https://www.legifrance.gouv.fr/loda/id/JORFTEXT000037282994)
+- [Arrêté du 22 mars 2019 relatif aux données essentielles de la commande publique](https://www.legifrance.gouv.fr/loda/id/JORFTEXT000038318675)
+- [Arrêté du 22 décembre 2022 relatif aux données essentielles des marchés publics](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000046850496) 
+- [Arrêté du 22 décembre 2022 relatif aux données essentielles des contrats de concession](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000046850535) 
+- [Le site Web thématique de la Direction des Affaires Juridiques du Ministère des Finances](https://www.economie.gouv.fr/daj/dematerialisation-de-la-commande-publique) et les [""Guides très pratiques"" de la dématérialisation de la commande publique](https://www.economie.gouv.fr/daj/guide-tres-pratique-pour-accompagner-acheteurs-et-entreprises-sur-dematerialisation-des-marches)
+- [Arrêté du 14 avril 2017 relatif aux fonctionnalités et exigences minimales des profils d'acheteurs](https://www.legifrance.gouv.fr/loda/id/JORFTEXT000034492557)
+";"punctual";"Licence Ouverte / Open Licence";"";"";"other";"France";False;"2016-02-23T15:32:09.199000";"2023-01-26T11:02:48.646000";"formats-pivots,marche,marche-public,marches-publics,referentiel";False;7;7;4980;"";"";"";"";"0.89";10;1;8;17685;5026
+"56b09e02c751df0962c30481";"Tickets de support logiciels libres (interministériel)";"tickets-de-support-logiciels-libres-interministeriel";"";"https://www.data.gouv.fr/fr/datasets/tickets-de-support-logiciels-libres-interministeriel/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"La liste des tickets ouverts dans le cadre du [marché interministériel de support logiciels libres](https://forum.code.gouv2.fr/t/accord-cadre-interministeriel-support-des-logiciels-libres-2011/58) entre fin 2012 et 2015.";"punctual";"Licence Ouverte / Open Licence";"";"";"country";"France";False;"2016-02-02T13:16:02.809000";"2016-02-08T13:27:22.789000";"logiciel,support";False;2;2;493;"";"";"";"";"0.78";0;3;2;1876;438
+"560e91c2c751df29ca756894";"Ouverture des données publiques du logement : rapport et cartographie";"ouverture-des-donnees-publiques-du-logement-rapport-et-cartographie";"";"https://www.data.gouv.fr/fr/datasets/ouverture-des-donnees-publiques-du-logement-rapport-et-cartographie/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Dans le cadre de la politique du gouvernement en faveur de l'ouverture des données publiques, il a été décidé de lancer des débats sur quatre thématiques prioritaires parmi lesquelles figure le logement. Le Conseil national de l'habitat (CNH) s'est vu confier le rôle d'animation des échanges, en lien avec la mission Etalab.
+Le groupe de travail, composé de membres du CNH et d'acteurs de la communauté de l'Open Data, présente dans son rapport les principaux enjeux de l'ouverture des données publiques en matière de logement ainsi que des propositions d'améliorations. La cartographie des données logement est issue des travaux menés par ce groupe.";"punctual";"Licence Ouverte / Open Licence";"";"";"country";"France";True;"2015-10-02T16:16:34.728000";"2016-03-02T21:33:49.942000";"anil,cartographie,cimap,habitat,logement,logements,rapport";False;3;3;575;"";"";"";"";"0.78";1;1;1;3237;569
+"5458f03bc751df46e6225d2e";"Recensement indicatif des données publiques issues des services publics de l'Etat";"recensement-indicatif-des-donnees-publiques-issues-des-services-publics-de-letat";"";"https://www.data.gouv.fr/fr/datasets/recensement-indicatif-des-donnees-publiques-issues-des-services-publics-de-letat/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Ce fichier a été constitué dans le cadre du travail de coordination de la mission Etalab effectué avec les administrations d'Etat pour recenser et mettre à disposition les données publiques sur la plateforme data.gouv.fr depuis 2011.
+
+Cet outil de pilotage interne à Etalab est un recensement non exhaustif à date. Ce document, alimenté depuis juin 2011 par les échanges réguliers avec les administrations, permet à la mission Etalab de suivre l'ouverture des données publiques issues des services publics de l'Etat. Il a été également enrichi de certaines données publiques identifiées par la communauté des réutilisateurs et les citoyens. 
+
+Ce fichier est constitué de 5 champs :
+
+- Bases ou jeux de données identifiés
+- Description
+- Ministère concerné
+- Direction/Service/Établissement public concerné
+- Disponibilité ou non sur data.gouv.fr à date
+
+
+";"punctual";"Licence Ouverte / Open Licence";"2011-06-01";"2014-11-05";"country";"DROM";False;"2014-11-04T16:26:50.539000";"2015-12-02T10:36:37.875000";"administration,administrations,donnees-publiques,etalab,non-exhaustif,recensement";False;2;2;263;"";"";"";"";"1.00";1;0;1;1624;222
+"53699037a3a729239d203949";"Cartographie des bases de données publiques en santé";"cartographie-des-bases-de-donnees-publiques-en-sante";"";"https://www.data.gouv.fr/fr/datasets/cartographie-des-bases-de-donnees-publiques-en-sante/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"**Date de la dernière mise à jour : 6 mai 2014**
+
+Dans le cadre du **débat thématique sur l’ouverture des données publiques de santé **lancé par le Ministère des Affaires Sociales et de la Santé en novembre 2013, la mission Etalab a réalisé un travail de recensement le plus complet possible des bases et jeux de données publiques existants dans le domaine de la santé, et **publie aujourd'hui cette cartographie**. Plus de 260 bases ou jeux de données ont été recensés.
+
+Chaque base de données identifiée a fait l'objet d'une évaluation de son ""niveau d'ouverture"" actuel, au regard de 4 critères: la liberté d'accès (qui a accès aux données ?), le coût d'accès (les données sont-elles disponibles gratuitement ?), le format de mise à disposition (les données sont-elles proposées dans des formats facilitant la réutilisation ?), les conditions juridiques de la réutilisation (la réutilisation des données est-elle explicitement autorisée ?) 
+
+**Deux niveaux de granularité **sont également identifiés pour chaque base ou jeux de données : le niveau granulaire (données au niveau le plus fin qu’il est possible d’obtenir en fonction de l’origine de la donnée et du système de collecte), et le niveau  agrégé (données obtenues en regroupant des données granulaires selon une ou plusieurs caractéristiques communes).
+
+Nous vous encourageons fortement à consulter le **guide de lecture de la cartographie**, publié ci-après en tant que ressource associée au jeu de données. Ce document présente notamment les deux niveaux de typologie utilisés. 
+
+Si vous constatez une erreur ou une omission dans le fichier, nous vous remercions de nous le signaler via l'icône rouge ci-dessous.
+
+";"punctual";"Licence Ouverte / Open Licence";"2014-01-01";"2014-12-31";"country";"France";False;"2014-03-27T12:54:45.954000";"2016-03-16T23:33:17.912000";"sante";False;7;7;3711;"";"";"";"";"1.00";0;1;10;11177;3731
+"53698f23a3a729239d20366d";"Attributions de cartes de presse en 2013";"attributions-de-cartes-de-presse-en-2013";"";"https://www.data.gouv.fr/fr/datasets/attributions-de-cartes-de-presse-en-2013/";"Etalab";"534fff75a3a7292c64a77de4";"";"";"Données publiées par la Commission de la carte d'identité des journalistes professionnels.";"unknown";"License Not Specified";"2013-01-01";"2013-12-31";"other";"France";False;"2013-12-25T21:00:23.587000";"2016-01-01T15:33:32.037000";"femme-homme,presse";False;1;1;237;"";"";"";"";"0.67";0;2;1;1502;212
