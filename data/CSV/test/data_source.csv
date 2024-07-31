@@ -1,5 +1,6 @@
 id_client;nom;prenom;email;id_commande;date_commande;montant;id_produit;nom_produit;prix
 1;Dupont;Jean;jean.dupont@example.com;1001;2024-07-01;150.00;2001;Ordinateur Portable;800.00
 2;Martin;Marie;marie.martin@example.com;1002;2024-07-02;200.00;2002;Smartphone;500.00
-1;Dupont;Jean;jean.dupont@example.com;1003;2024-07-03;300.00;2003;Tablette;300.00
-3;Durand;Pierre;pierre.durand@example.com;1004;2024-07-04;450.00;2004;Écran;150.00
+3;Dupont;Jean;jean.dupont@example.com;1003;2024-07-03;300.00;2003;Tablette;300.00
+4;Durand;Pierre;pierre.durand@example.com;1004;2024-07-04;450.00;2004;Écran;150.00
+5;Durand;Cécile;cecile.durand@example.com;1005;2024-07-31;650.00;2005;Écran;1150.00
