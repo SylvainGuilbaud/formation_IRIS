@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS data_target.Clients (
 CREATE TABLE IF NOT EXISTS data_target.Commandes (
     id_commande INTEGER PRIMARY KEY,
     id_client INTEGER,
-    date_commande TEXT,
+    date_commande date,
     montant REAL,
     FOREIGN KEY (id_client) REFERENCES data_target.Clients(id_client)
 );
