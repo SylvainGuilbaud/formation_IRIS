@@ -2,7 +2,6 @@ import pandas as pd
 from sqlalchemy import create_engine, text,types,engine
 # conn = create_engine('iris+emb:///')
 conn = create_engine('iris://_SYSTEM:SYS@iris:1972/IRISAPP')
-print(conn)
 schema_name = "data_target"
 
 # Lecture du fichier CSV
