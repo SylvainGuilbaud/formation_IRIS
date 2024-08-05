@@ -1,0 +1,11 @@
+{
+    "nom": "Dupont",
+    "age": 30,
+    "adresse": {
+      "rue": "123 Rue de Paris",
+      "ville": "Paris",
+      "codePostal": "75000"
+    },
+    "interets": ["lecture", "voyage", "musique"],
+    "telephone": "0123456789"
+  }
