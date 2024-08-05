@@ -1,0 +1,11 @@
+{
+    "nom": "Duchamps",
+    "age": 30,
+    "adresse": {
+      "rue": "888 route des Lucioles",
+      "ville": "Grasse",
+      "codePostal": "06130"
+    },
+    "interets": ["piano", "dessin","marche","Python"],
+    "telephone": "0623074641"
+  }
