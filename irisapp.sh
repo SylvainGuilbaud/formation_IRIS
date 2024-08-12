@@ -1,0 +1,1 @@
+docker exec -ti formation-IRIS iris session iris -U"IRISAPP"
