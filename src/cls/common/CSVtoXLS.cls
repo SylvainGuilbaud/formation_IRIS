@@ -72,6 +72,32 @@ ClassMethod convertCSVtoXLS(csvFile As %String(MAXLEN="")) As %String [ Language
     return(data)
 }
 
+/// Description
+ClassMethod convert(csv As %String = "/data/CSV/SamplePerson.csv", xls As %String = "/data/CSV/SamplePerson.xlsx") As %Status [ Language = python ]
+{
+import pandas as pd
+data = pd.read_csv(csv)
+
+# Écrire le DataFrame dans un fichier Excel
+data.to_excel(xls, index=False, engine='openpyxl')
+
+print(f'Le fichier Excel a été créé : {xls}')
+}
+
+/// Description
+ClassMethod test(csvFile As %String = "/data/CSV/SamplePerson.csv") As %Status
+{
+    Set sc = $$$OK
+
+    set filename = $PIECE(csvFile,"/",*)
+    set directory = $PIECE(csvFile,filename)
+    set xlsFilename = $PIECE(filename,".") _ ".xls" 
+    set xls = ##class(%File).%New(directory _ xlsFilename)
+    set sc = xls.Open("WSN")
+    do xls.Write(##CLASS(common.CSVtoXLS).convertCSVtoXLS(csvFile))
+    Return sc
+}
+
 ClassMethod Decrypt(Stream As %Stream.GlobalCharacter, key As %String) As %Stream.GlobalCharacter [ Language = python ]
 {
     import iris
