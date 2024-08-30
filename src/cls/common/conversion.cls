@@ -1,14 +1,6 @@
 Class common.conversion
 {
 
-/// Convert an Excel file to a CSV file
-ClassMethod XLStoCSV(source As %String = "/data/sample.xlsx") As %Status [ Language = python ]
-{
-  import pandas as pd
-  read_file = pd.read_excel(source)
-  read_file.to_csv(source+'.csv', index = None, header=True, encoding='utf-8',sep='\\')
-}
-
 ClassMethod test() As %Status
 {
   set source="/data/sample.xlsx"
@@ -52,6 +44,14 @@ data = pd.read_csv(source)
 target = name + '_' + now.strftime("%Y%m%d_%H%M%S") +'.xlsx'
 data.to_excel(target, index=False, engine='openpyxl')
 print(f'Excel: {target}')
+}
+
+/// Convert an Excel file to a CSV file
+ClassMethod XLStoCSV(source As %String = "/data/sample.xlsx") As %Status [ Language = python ]
+{
+  import pandas as pd
+  read_file = pd.read_excel(source)
+  read_file.to_csv(source+'.csv', index = None, header=True, encoding='utf-8',sep='\\')
 }
 
 }
