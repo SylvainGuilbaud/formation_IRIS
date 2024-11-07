@@ -4,7 +4,7 @@ Class adm.utils Extends %Persistent
 /// Rebuild all the indexes for classes
 /// parameters
 ///  namefilter: the filter for the name of classes ("startwith")
-ClassMethod buildAllIndices(namefilter As %String)
+ClassMethod buildAllIndices(namefilter As %String) As %Status
 {
 	set filterlength=$length(namefilter)+1
 	// ResultSets for walking down the classes
@@ -28,6 +28,7 @@ ClassMethod buildAllIndices(namefilter As %String)
 		set duration=$zh-start
 		write " - done "_duration_" seconds",!
 	}
+	return $$$OK
 }
 
 /// test if a class is a system class
