@@ -1,10 +1,17 @@
-# ARG IMAGE=containers.intersystems.com/intersystems/iris-community:latest-cd
-# ARG IMAGE=containers.intersystems.com/intersystems/iris-community-arm64:latest-cd
-ARG IMAGE=intersystemsdc/irishealth-community:latest
+# ARG IMAGE=irepo.intersystems.com/intersystems/iris-community:latest-cd
+# ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:latest-preview
+ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community-arm64:latest-preview
+# ARG IMAGE=intersystemsdc/irishealth-community:latest
 # ARG IMAGE=intersystemsdc/iris-community:latest
 
-FROM $IMAGE as builder
+FROM $IMAGE AS builder
 
+USER root
+# # Update package and install sudo
+RUN apt-get update && apt-get install -y \
+    python3-venv
+
+USER ${ISC_PACKAGE_MGRUSER}
 COPY .iris_init /home/irisowner/.iris_init
 
 WORKDIR /home/irisowner/dev
@@ -23,6 +30,8 @@ ENV JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
 RUN --mount=type=bind,src=.,dst=. \
+    python3 -m venv ~/py_envs && \
+    . ~/py_envs/bin/activate && \
     pip3 install -r requirements.txt && \
     iris start IRIS && \
 	iris session IRIS < iris.script && \
@@ -32,7 +41,7 @@ RUN --mount=type=bind,src=.,dst=. \
     iris stop IRIS quietly \
     cp ./swagger-ui/index.html /usr/irissys/csp/swagger-ui/index.html
 
-FROM $IMAGE as final
+FROM $IMAGE AS final
 ADD --chown=${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py
 #ADD https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py
 
