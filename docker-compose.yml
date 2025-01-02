@@ -72,16 +72,19 @@ services:
   mysql: 
     # image: mysql:8.0.30
     image: mysql
-    command: --default-authentication-plugin=mysql_native_password
+    # command: --default-auth=mysql_native_password
     hostname: mysql
     init: true
     container_name: ${iris_container_name}-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mysqlpass
+      - MYSQL_DATABASE=formation
+      - mysql_native_password=ON
     ports:
       - 3306:3306
     volumes:
       - ./mysql:/docker-entrypoint-initdb.d
+      - ./volumes/mysql:/var/lib/mysql
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.11

@@ -1,5 +1,5 @@
-CREATE DATABASE formation CHARACTER SET = utf8mb4;
-USE formation
+-- CREATE DATABASE formation CHARACTER SET = utf8mb4;
+-- USE formation
 CREATE USER 'formation' IDENTIFIED BY 'formation';
 GRANT ALL ON formation.* TO 'formation';
 CREATE TABLE formation.personne (
