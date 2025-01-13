@@ -9,7 +9,7 @@ Method OnTask() As %Status
 {
     set sc = $$$OK
     Try {
-        do ##class(admin.purgeBackup).purge(..Directory,..DaysToKeep)
+        do ..purge(..Directory,..DaysToKeep)
     }
     Catch ex {
         Set sc=ex.AsStatus()
@@ -23,6 +23,8 @@ import iris
 import os
 import time
 from datetime import datetime, timedelta
+
+event = "[TASK PURGE OLD BACKUP FILES]"
 
 class FileDeletionError(Exception):
     """Custom exception for file deletion errors."""
@@ -38,7 +40,7 @@ def delete_old_files(path, days_limit):
             if creation_date < limit_date:
                 try:
                     os.remove(file_path)
-                    iris.cls("%SYS.System").WriteToConsoleLog(f"Deleted: {str(file_path)}")
+                    iris.cls("%SYS.System").WriteToConsoleLog(f"{event} Deleted: {str(file_path)}")
                 except PermissionError:
                     raise FileDeletionError(f"Permission error: Unable to delete {file}")
                 except FileNotFoundError:
@@ -47,13 +49,13 @@ def delete_old_files(path, days_limit):
                     raise FileDeletionError(f"Unexpected error while deleting {file}: {str(e)}")
 
 try:
-    iris.cls("%SYS.System").WriteToConsoleLog(f"Executing task to delete backup files from directory {path} created more than {str(daysToKeep)} days ago")
+    iris.cls("%SYS.System").WriteToConsoleLog(f"{event} Executing task to delete backup files from directory {path} created more than {str(daysToKeep)} days ago")
     days_limit = daysToKeep
     delete_old_files(path, days_limit)
 except FileDeletionError as e:
-    iris.cls("%SYS.System").WriteToConsoleLog(f"Error during deletion: {str(e)}",0,1)
+    iris.cls("%SYS.System").WriteToConsoleLog(f"{event} Error during deletion: {str(e)}",0,1)
 except Exception as e:
-    iris.cls("%SYS.System").WriteToConsoleLog(f"Unexpected error: {str(e)}",0,1)
+    iris.cls("%SYS.System").WriteToConsoleLog(f"{event} Unexpected error: {str(e)}",0,1)
 }
 
 }
