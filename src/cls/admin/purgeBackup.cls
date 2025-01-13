@@ -17,43 +17,43 @@ Method OnTask() As %Status
     return sc
 }
 
-ClassMethod purge(chemin As %String, daysToKeep As %Integer) As %Status [ Language = python ]
+ClassMethod purge(path As %String, daysToKeep As %Integer) As %Status [ Language = python ]
 {
 import iris
 import os
 import time
 from datetime import datetime, timedelta
 
-class FichierSuppressionError(Exception):
-    """Exception personnalisée pour les erreurs de suppression de fichiers."""
+class FileDeletionError(Exception):
+    """Custom exception for file deletion errors."""
     pass
 
-def supprimer_fichiers_anciens(chemin, jours_limite):
-    date_limite = datetime.now() - timedelta(days=int(jours_limite))
+def delete_old_files(path, days_limit):
+    limit_date = datetime.now() - timedelta(days=int(days_limit))
 
-    for fichier in os.listdir(chemin):
-        chemin_fichier = os.path.join(chemin, fichier)
-        if os.path.isfile(chemin_fichier):
-            date_creation = datetime.fromtimestamp(os.path.getctime(chemin_fichier))
-            if date_creation < date_limite:
+    for file in os.listdir(path):
+        file_path = os.path.join(path, file)
+        if os.path.isfile(file_path):
+            creation_date = datetime.fromtimestamp(os.path.getctime(file_path))
+            if creation_date < limit_date:
                 try:
-                    os.remove(chemin_fichier)
-                    iris.cls("%SYS.System").WriteToConsoleLog(f"suppression de : {str(chemin_fichier)}")
+                    os.remove(file_path)
+                    iris.cls("%SYS.System").WriteToConsoleLog(f"Deleted: {str(file_path)}")
                 except PermissionError:
-                    raise FichierSuppressionError(f"Erreur de permission : Impossible de supprimer {fichier}")
+                    raise FileDeletionError(f"Permission error: Unable to delete {file}")
                 except FileNotFoundError:
-                    raise FichierSuppressionError(f"Fichier non trouvé : {fichier}")
+                    raise FileDeletionError(f"File not found: {file}")
                 except Exception as e:
-                    raise FichierSuppressionError(f"Erreur inattendue lors de la suppression de {fichier}: {str(e)}")
+                    raise FileDeletionError(f"Unexpected error while deleting {file}: {str(e)}")
 
 try:
-    iris.cls("%SYS.System").WriteToConsoleLog(f"exécution de la tâche de suppression des fichiers de sauvegarde du répertoire {chemin} créés il y a plus de {str(daysToKeep)} jours")
-    jours_limite = daysToKeep
-    supprimer_fichiers_anciens(chemin, jours_limite)
-except FichierSuppressionError as e:
-    iris.cls("%SYS.System").WriteToConsoleLog(f"Erreur lors de la suppression : {str(e)}",0,1)
+    iris.cls("%SYS.System").WriteToConsoleLog(f"Executing task to delete backup files from directory {path} created more than {str(daysToKeep)} days ago")
+    days_limit = daysToKeep
+    delete_old_files(path, days_limit)
+except FileDeletionError as e:
+    iris.cls("%SYS.System").WriteToConsoleLog(f"Error during deletion: {str(e)}",0,1)
 except Exception as e:
-    iris.cls("%SYS.System").WriteToConsoleLog(f"Erreur inattendue : {str(e)}",0,1)
+    iris.cls("%SYS.System").WriteToConsoleLog(f"Unexpected error: {str(e)}",0,1)
 }
 
 }
