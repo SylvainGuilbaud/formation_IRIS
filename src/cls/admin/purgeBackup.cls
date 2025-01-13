@@ -1,4 +1,4 @@
-Class admin.purgeBackup Extends %SYS.Task.Definition
+Class admin.purge Extends %SYS.Task.Definition
 {
 
 Property Directory As %String(MAXLEN = 2000) [ InitialExpression = "/usr/irissys/mgr/Backup" ];
