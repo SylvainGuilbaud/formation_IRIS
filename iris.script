@@ -1,4 +1,5 @@
  set r=##class(%Net.HttpRequest).%New(),r.Server="pm.community.intersystems.com",r.SSLConfiguration="ISC.FeatureTracker.SSL.Config" d r.Get("/packages/zpm/latest/installer"),$system.OBJ.LoadStream(r.HttpResponse.Data,"c")
+ zpm "repo -r -n registry -reset-defaults"
  zpm "install webterminal"
  zpm "install objectscript-json-trace-viewer"
  zpm "install swagger-ui" 

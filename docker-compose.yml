@@ -24,6 +24,7 @@ services:
       - ./data:/data
       - ./code:/code
       - ./jdbc:/jdbc
+      - ./iop:/iop
       - ./:/home/irisowner/dev
       - "/etc/timezone:/etc/timezone:ro"
       - "/etc/localtime:/etc/localtime:ro"
