@@ -1,9 +1,11 @@
 Class pagination.scrollable Extends %RegisteredObject
 {
 
-/// Test
+/// Test retrieving 2 first and 2 last pages
 ClassMethod test(age As %Integer = 100, pageSize As %String = 20) As %Status
 {
+    set start = $zh
+
     set sc = $$$OK
     set sc = ..getRS(age,.rs)
     if sc {  
@@ -30,11 +32,17 @@ ClassMethod test(age As %Integer = 100, pageSize As %String = 20) As %Status
     } else {
        write "ERROR:"_$system.Status.GetErrorText(sc) 
     }
+
+    write "elapse:"_ ($NORMALIZE($zh-start,6))
+
     return sc
 }
 
+/// Test retrieving all pages
 ClassMethod test2(age As %Integer = 100, pageSize As %String = 20) As %Status
 {
+    set start = $zh
+
     set sc = $$$OK,page=0
     set sc = ..getRS(age,.rs)
     if sc {  
@@ -47,6 +55,7 @@ ClassMethod test2(age As %Integer = 100, pageSize As %String = 20) As %Status
     } else {
        write "ERROR:"_$system.Status.GetErrorText(sc) 
     }
+    write "elapse:"_ ($NORMALIZE($zh-start,6))
     return sc
 }
 
