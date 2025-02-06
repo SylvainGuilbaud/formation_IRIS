@@ -4,7 +4,7 @@ Class Sample.Person Extends (%Persistent, %Populate, %JSON.Adaptor, %XML.Adaptor
 
 Property Name As %Library.String(MAXLEN = 25) [ SqlColumnNumber = 2 ];
 
-Property Age As %Library.Integer(MAXVAL = 2147483647, MINVAL = -2147483648) [ SqlColumnNumber = 3 ];
+Property Age As %Library.Integer(MAXVAL = 120, MINVAL = 0) [ SqlColumnNumber = 3 ];
 
 Property DOB As %Library.Date [ SqlColumnNumber = 4 ];
 

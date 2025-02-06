@@ -4,7 +4,7 @@
       "iris.script": "objectscript"
     },
   "objectscript.conn" :{
-    "ns": "%SYS",
+    "ns": "IRISAPP",
     "username": "_system",
     "active": true,
     "docker-compose": {
@@ -14,6 +14,7 @@
     "links": {
       "Notebook": "http://localhost:58888",
       "terminal": "http://${host}:${port}/terminal/",
+      "monitor metrics": "http://${host}:${port}/api/monitor/metrics",
       "class explorer": "http://${host}:${port}/classexplorer/",
       "api management": "http://${host}:${port}/api/mgmnt/",
       "swagger-ui": "http://${host}:${port}/swagger-ui/index.html",
