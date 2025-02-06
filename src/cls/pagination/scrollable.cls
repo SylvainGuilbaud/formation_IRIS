@@ -1,4 +1,4 @@
-Class pagination.scrollable Extends %RegisteredObject
+Class pagination.scrollable
 {
 
 /// Test retrieving 2 first and 2 last pages
