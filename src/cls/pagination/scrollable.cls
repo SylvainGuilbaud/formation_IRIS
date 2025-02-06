@@ -39,7 +39,7 @@ ClassMethod getOnePage(age As %Integer, pageSize As %String = 20, pageIndex As %
                     "toIndex":(vFrom+i - 1),
                     "resultSetTotal":(rs.Count()),
                     "pageRecords":(i),
-                    "pages":($NORMALIZE((rs.Count()/pageSize),0)),
+                    "pages":($NORMALIZE((rs.Count()/pageSize),0) _ " pages and " _ $NORMALIZE((rs.Count()#pageSize),0) _ " records"),
                     "resultSet":(onePage)
                     })
     }
