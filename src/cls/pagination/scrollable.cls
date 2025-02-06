@@ -3,6 +3,7 @@ Class pagination.scrollable Extends %RegisteredObject
 
 ClassMethod getOnePage(age As %Integer, pageSize As %String = 20, pageIndex As %String = 1, id As %Integer = 0) As %DynamicObject
 {
+    set start = $zh
     set onePage = []
     set result = []
     set vFrom = ((pageIndex -1 ) * pageSize)+1
@@ -22,6 +23,7 @@ ClassMethod getOnePage(age As %Integer, pageSize As %String = 20, pageIndex As %
         try {
             FOR i=1:1:pageSize{
                 Do onePage.%Push({
+                "id":(id),    
                 "index": (i),
                 "pid": (rs.%Get("ID")),
                 "name" : (rs.%Get("Name")) ,
@@ -43,10 +45,12 @@ ClassMethod getOnePage(age As %Integer, pageSize As %String = 20, pageIndex As %
                     "resultSet":(onePage)
                     })
     }
+    set end = $zh
+    do result.%Push({"elapse":($NORMALIZE(end-start,6))})
     return result
 }
 
-ClassMethod getRS(age As %Integer, id As %Integer, Output rs As %ScrollableResultSet) As %Status
+ClassMethod getRS(age As %Integer, ByRef id As %Integer, Output rs As %ScrollableResultSet) As %Status
 {
     #dim sc As %Status = $$$OK
     if '$d(id) 
