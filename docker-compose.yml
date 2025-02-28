@@ -133,4 +133,12 @@ services:
       irisnetwork:
         ipv4_address: 172.0.0.100
 
-
+  # mongo:
+  #   image: mongo
+  #   restart: always
+  #   ports:
+  #     - 8088:8081
+  #     - 27017:27017
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: example

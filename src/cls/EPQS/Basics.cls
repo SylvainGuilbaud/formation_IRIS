@@ -5,7 +5,7 @@ Class EPQS.Basics Extends %RegisteredObject
 
 // Demonstrates the the [Language=python] syntax and that the body of the class is in python
 
-Method Welcome() As %Numeric [ Language = python ]
+ClassMethod Welcome() As %Numeric [ Language = python ]
 {
 print('welcome!')
 return True
@@ -13,7 +13,7 @@ return True
 
 // Demonstrates how to execute a SQL query from Python
 
-Method RunSQL() As %Numeric [ Language = python ]
+ClassMethod RunSQL() As %Numeric [ Language = python ]
 {
 import iris
 rs = iris.sql.exec("select top 10 Name, Super, $extract(description,1,50) from %Dictionary.ClassDefinition WHERE Name %STARTSWITH '%Net.'")
@@ -26,13 +26,15 @@ return True
 
 // Demonstrates how to execute a SQL query from Python and import it into a pandas dataframe
 
-Method CreateDataframe() As %Numeric [ Language = python ]
+ClassMethod CreateDataframe() As %Numeric [ Language = python ]
 {
 import iris
 import pandas as pd
-rs = iris.sql.exec("select Name, Super, $extract(description,1,50) from %Dictionary.ClassDefinition WHERE Name %STARTSWITH '%Net.'")
+rs = iris.sql.exec("select ID, Abstract, ClassDefinitionError, ClassType, ClientDataType, ClientName, CompileAfter, ConstraintClass, Copyright, DdlAllowed, DependsOn, Deployed, Deprecated, Description, Dynamic, EmbeddedClass, Final, GeneratedBy, Hidden, Import, IncludeCode, IncludeGenerator, IndexClass, Inheritance, _Language, LegacyInstanceContext, MemberSuper, ModificationAuxiliary, ModificationLevel, Modified, Name, NoContext, NoExtent, OdbcType, Owner, ProcedureBlock, ProjectionClass, PropertyClass, QueryClass, ServerOnly, Sharded, SoapBindingStyle, SoapBodyUse, SqlCategory, SqlRoutinePrefix, SqlRowIdName, SqlRowIdPrivate, SqlTableName, StorageStrategy, Super, System, TimeChanged, TimeCreated, TriggerClass, ViewQuery from %Dictionary.ClassDefinition WHERE Name %STARTSWITH '%Net.'")
 
 df = rs.dataframe()
+
+print(df)
 
 print(df.describe())
 

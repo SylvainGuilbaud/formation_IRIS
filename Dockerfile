@@ -1,6 +1,6 @@
 # ARG IMAGE=irepo.intersystems.com/intersystems/iris-community:latest-cd
 # ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:latest-preview
-ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community-arm64:latest-preview
+ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:latest-em
 # ARG IMAGE=intersystemsdc/irishealth-community:latest
 # ARG IMAGE=intersystemsdc/iris-community:latest
 
@@ -21,11 +21,11 @@ ARG MODULE="formation-iris"
 ARG NAMESPACE="IRISAPP"
 
 ## Embedded Python environment
-ENV IRISUSERNAME "_SYSTEM"
-ENV IRISPASSWORD "SYS"
-ENV IRISNAMESPACE $NAMESPACE
+ENV IRISUSERNAME="_SYSTEM"
+ENV IRISPASSWORD="SYS"
+ENV IRISNAMESPACE=$NAMESPACE
 ENV PYTHON_PATH=/usr/irissys/bin/
-ENV PATH "/usr/irissys/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/irisowner/bin"
+ENV PATH="/usr/irissys/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/irisowner/bin"
 ENV JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
 ENV PATH=$PATH:$JAVA_HOME/bin
 
@@ -39,6 +39,7 @@ RUN --mount=type=bind,src=.,dst=. \
     # irispython iris_script.py && \
     ([ $TESTS -eq 0 ] || iris session iris -U $NAMESPACE "##class(%ZPM.PackageManager).Shell(\"test $MODULE -v -only\",1,1)") && \
     iris stop IRIS quietly \
+    python3 -m pip install --target /usr/irissys/mgr/python pymongo \
     cp ./swagger-ui/index.html /usr/irissys/csp/swagger-ui/index.html
 
 FROM $IMAGE AS final

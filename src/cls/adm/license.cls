@@ -20,11 +20,10 @@ ClassMethod diagnoseKey()
 ClassMethod cores()
 {
     import iris
-    cores=iris.cls('%SYSTEM.License').KeyCoresLicensed()
-    print(cores,"cores licensed")
+    print("\ngetting cores details")
+    print(iris.cls('%SYSTEM.License').KeyCoresLicensed(),"cores licensed")
     #; iris.cls('%SYSTEM.CPU').Dump()
-    cpu=iris.cls('%SYSTEM.CPU')._New()
-    print(cpu.nCores,'cores on the server')
+    print(iris.cls('%SYSTEM.CPU')._New().nCores,'cores on the server')
 }
 
 }
