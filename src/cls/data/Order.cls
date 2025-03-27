@@ -14,13 +14,19 @@ Method requestedShipDateSet(value As %String) As %Status
 {
     if value="" {
         set i%requestedShipDate=""
-    } elseif $LENGTH(value)=8 {
+        return $$$OK
+    }
+    if ##class(%TimeStamp).IsValid(value) {
+        set i%requestedShipDate=value
+        return $$$OK
+    }
+    if ($LENGTH(value)=8) 
+    || ($LENGTH(value)=14) {
         set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
         set i%requestedShipDate=DateTime
+        return $$$OK
     }
-    set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
-    set i%requestedShipDate=DateTime
-    quit $$$OK
+    return $$$OK
 }
 
 /// requested delivery date
@@ -28,9 +34,21 @@ Property requestedDeliveryDate As %DateTime;
 
 Method requestedDeliveryDateSet(value As %String) As %Status
 {
-    set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
-    set i%requestedDeliveryDate=DateTime
-    quit $$$OK
+    if value="" {
+        set i%requestedDeliveryDate=""
+        return $$$OK
+    }
+    if ##class(%TimeStamp).IsValid(value) {
+        set i%requestedDeliveryDate=value
+        return $$$OK
+    }
+    if ($LENGTH(value)=8) 
+    || ($LENGTH(value)=14) {
+        set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
+        set i%requestedDeliveryDate=DateTime
+        return $$$OK
+    }
+    return $$$OK
 }
 
 /// committed ship date
@@ -38,9 +56,21 @@ Property committedShipDate As %DateTime;
 
 Method committedShipDateSet(value As %String) As %Status
 {
-    set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
-    set i%committedShipDate=DateTime
-    quit $$$OK
+    if value="" {
+        set i%committedShipDate=""
+        return $$$OK
+    }
+    if ##class(%TimeStamp).IsValid(value) {
+        set i%committedShipDate=value
+        return $$$OK
+    }
+    if ($LENGTH(value)=8) 
+    || ($LENGTH(value)=14) {
+        set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
+        set i%committedShipDate=DateTime
+        return $$$OK
+    }
+    return $$$OK
 }
 
 /// committed delivery date
@@ -48,9 +78,21 @@ Property committedDeliveryDate As %DateTime;
 
 Method committedDeliveryDateSet(value As %String) As %Status
 {
-    set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
-    set i%committedDeliveryDate=DateTime
-    quit $$$OK
+    if value="" {
+        set i%committedDeliveryDate=""
+        return $$$OK
+    }
+    if ##class(%TimeStamp).IsValid(value) {
+        set i%committedDeliveryDate=value
+        return $$$OK
+    }
+    if ($LENGTH(value)=8) 
+    || ($LENGTH(value)=14) {
+        set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
+        set i%committedDeliveryDate=DateTime
+        return $$$OK
+    }
+    return $$$OK
 }
 
 /// order placed date
@@ -58,8 +100,20 @@ Property orderPlacedDate As %Date;
 
 Method orderPlacedDateSet(value As %String) As %Status
 {
-    set i%orderPlacedDate=+##class(common.conversion).YYYYMMDDHHMISStoHorolog(value)
-    quit $$$OK
+    if value="" {
+        set i%orderPlacedDate=""
+        return $$$OK
+    }
+    if ##class(%Date).IsValid(value) {
+        set i%orderPlacedDate=value
+        return $$$OK
+    }
+    if ($LENGTH(value)=8) 
+    || ($LENGTH(value)=14) {
+        set i%orderPlacedDate=+##class(common.conversion).YYYYMMDDHHMISStoHorolog(value)
+        return $$$OK
+    }
+    return $$$OK
 }
 
 /// change order date
