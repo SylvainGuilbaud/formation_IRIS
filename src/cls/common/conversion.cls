@@ -13,9 +13,9 @@ ClassMethod YYYYMMDDHHMISStoHorolog(YYYYMMDDHHMISS As %String = "20250327193900"
 
   set DATETIME=YYYY_MM_DD_"T"_HH_":"_MI_":"_SS
 
-  set HOROLOG=$zdth(DATETIME,8)
+  set HOROLOG=$ZDATETIMEH(DATETIME,8)
 
-  set TimeStamp = $zdatetime(HOROLOG,3)
+  set TimeStamp = $ZDATETIME(HOROLOG,3)
 
   return HOROLOG
 }
