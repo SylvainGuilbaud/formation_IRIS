@@ -4,6 +4,7 @@ Class common.conversion
 /// Convert a string containing YYYYMMDDHHMISS to a $Horolog value
 ClassMethod YYYYMMDDHHMISStoHorolog(YYYYMMDDHHMISS As %String = "20250327193900", ByRef TimeStamp As %TimeStamp) As %Date
 {
+  set TimeStamp=""
   set YYYY = $EXTRACT(YYYYMMDDHHMISS,1,4)
   set MM = $EXTRACT(YYYYMMDDHHMISS,5,6)
   set DD = $EXTRACT(YYYYMMDDHHMISS,7,8)
@@ -12,11 +13,11 @@ ClassMethod YYYYMMDDHHMISStoHorolog(YYYYMMDDHHMISS As %String = "20250327193900"
   set SS = $EXTRACT(YYYYMMDDHHMISS,13,14)
 
   set DATETIME=YYYY_MM_DD_"T"_HH_":"_MI_":"_SS
-
-  set HOROLOG=$ZDATETIMEH(DATETIME,8)
-
-  set TimeStamp = $ZDATETIME(HOROLOG,3)
-
+  set ERRORDATE = "NOT A VALID DATE"
+  set HOROLOG=$ZDATETIMEH(DATETIME,8,,,,,,,,ERRORDATE)
+  set ERRORTS = "NOT A VALID TIMESTAMP"
+  set TimeStamp = $ZDATETIME(HOROLOG,3,,,,,,,,,ERRORTS)
+ 
   return HOROLOG
 }
 
