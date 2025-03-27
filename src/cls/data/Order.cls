@@ -10,6 +10,13 @@ Property orderStatus As %String(MAXLEN = 128);
 /// requested ship date
 Property requestedShipDate As %DateTime;
 
+Method requestedShipDateSet(value As %String) As %Status
+{
+    set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
+    set i%requestedShipDate=DateTime
+    quit $$$OK
+}
+
 /// requested delivery date
 Property requestedDeliveryDate As %DateTime;
 
@@ -23,8 +30,22 @@ Method requestedDeliveryDateSet(value As %String) As %Status
 /// committed ship date
 Property committedShipDate As %DateTime;
 
+Method committedShipDateSet(value As %String) As %Status
+{
+    set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
+    set i%committedShipDate=DateTime
+    quit $$$OK
+}
+
 /// committed delivery date
 Property committedDeliveryDate As %DateTime;
+
+Method committedDeliveryDateSet(value As %String) As %Status
+{
+    set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
+    set i%committedDeliveryDate=DateTime
+    quit $$$OK
+}
 
 /// order placed date
 Property orderPlacedDate As %Date;
