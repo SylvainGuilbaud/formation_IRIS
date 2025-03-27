@@ -20,13 +20,6 @@ ClassMethod YYYYMMDDHHMISStoHorolog(YYYYMMDDHHMISS As %String = "20250327193900"
   return HOROLOG
 }
 
-ClassMethod MethodName() As %Status
-{
-  Set sc = $$$OK
-  // do something
-  Return sc
-}
-
 ClassMethod test() As %Status
 {
   set source="/data/sample.xlsx"
