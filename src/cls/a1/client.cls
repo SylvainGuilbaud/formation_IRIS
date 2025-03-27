@@ -2,7 +2,6 @@
 Class a1.client Extends (%Persistent, %JSON.Adaptor, %XML.Adaptor) [ ClassType = persistent, DdlAllowed, Final, Owner = {_SYSTEM}, ProcedureBlock, SqlRowIdPrivate, SqlTableName = client ]
 {
 
-
 Property name As %Library.String(MAXLEN = 200) [ SqlColumnNumber = 2 ];
 
 Property dstart As %Library.Date [ SqlColumnNumber = 3 ];
