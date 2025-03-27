@@ -12,6 +12,12 @@ Property requestedShipDate As %DateTime;
 
 Method requestedShipDateSet(value As %String) As %Status
 {
+    if value="" {
+        set i%requestedShipDate=""
+    } elseif $LENGTH(value)=8 {
+        set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
+        set i%requestedShipDate=DateTime
+    }
     set HOROLOG=##class(common.conversion).YYYYMMDDHHMISStoHorolog(value,.DateTime)
     set i%requestedShipDate=DateTime
     quit $$$OK

@@ -5,6 +5,26 @@ Class common.conversion
 ClassMethod YYYYMMDDHHMISStoHorolog(YYYYMMDDHHMISS As %String = "20250327193900", ByRef TimeStamp As %TimeStamp) As %Date
 {
   set TimeStamp=""
+  if $LENGTH(YYYYMMDDHHMISS)=8 {
+      if '($EXTRACT(YYYYMMDDHHMISS,1,8)?.N) {
+        return 0
+      }
+    set YYYY = $EXTRACT(YYYYMMDDHHMISS,1,4)
+    set MM = $EXTRACT(YYYYMMDDHHMISS,5,6)
+    set DD = $EXTRACT(YYYYMMDDHHMISS,7,8)
+    set DATE=YYYY_MM_DD
+    set ERRORDATE = "NOT A VALID DATE"
+    set HOROLOG=$ZDATEH(DATE,8,,,,,,,,ERRORDATE)
+    set ERRORTS = "NOT A VALID TIMESTAMP"
+    set TimeStamp = $ZDATE(HOROLOG,3)
+    return HOROLOG
+  }
+  if $LENGTH(YYYYMMDDHHMISS)'=14 {
+    return 0
+  }
+  if '($EXTRACT(YYYYMMDDHHMISS,1,14)?.N) {
+    return 0
+  }
   set YYYY = $EXTRACT(YYYYMMDDHHMISS,1,4)
   set MM = $EXTRACT(YYYYMMDDHHMISS,5,6)
   set DD = $EXTRACT(YYYYMMDDHHMISS,7,8)
