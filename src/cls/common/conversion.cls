@@ -1,6 +1,32 @@
 Class common.conversion
 {
 
+/// Convert a string containing YYYYMMDDHHMISS to a $Horolog value
+ClassMethod YYYYMMDDHHMISStoHorolog(YYYYMMDDHHMISS As %String = "20250327193900", ByRef TimeStamp As %TimeStamp) As %Date
+{
+  set YYYY = $Extract(YYYYMMDDHHMISS,1,4)
+  set MM = $Extract(YYYYMMDDHHMISS,5,6)
+  set DD = $Extract(YYYYMMDDHHMISS,7,8)
+  set HH = $Extract(YYYYMMDDHHMISS,9,10)
+  set MI = $Extract(YYYYMMDDHHMISS,11,12)
+  set SS = $Extract(YYYYMMDDHHMISS,13,14)
+
+  set DATETIME=YYYY_MM_DD_"T"_HH_":"_MI_":"_SS
+
+  set HOROLOG=$zdth(DATETIME,8)
+
+  set TimeStamp = $zdatetime(HOROLOG,3)
+
+  return HOROLOG
+}
+
+ClassMethod MethodName() As %Status
+{
+  Set sc = $$$OK
+  // do something
+  Return sc
+}
+
 ClassMethod test() As %Status
 {
   set source="/data/sample.xlsx"
