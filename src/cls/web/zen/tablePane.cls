@@ -1,6 +1,8 @@
 Class web.zen.tablePane Extends %ZEN.Component.page
 {
 
+Parameter APPLICATION = "web.zen.app";
+
 XData Contents [ XMLNamespace = "http://www.intersystems.com/zen" ]
 {
 <page xmlns="http://www.intersystems.com/zen" title="">
