@@ -14,6 +14,7 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/" Method="GET" Call="version"/>
 <Route Url="/info" Method="GET" Call="GetInfo"/>
 <Route Url="/version" Method="GET" Call="version"/>
+<Route Url="/addwebapp" Method="POST" Call="addWebApp"/>
 <Route Url="/import/:namespace" Method="POST" Call="import"/>
 <Route Url="/namespaces" Method="GET" Call="GetNamespaces"/>
 <Route Url="/namespace/exist/:namespace" Method="GET" Call="namespaceExists"/>
@@ -29,6 +30,61 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/key" Method="POST" Call="newKey" />
 <Route Url="/_spec" Method="GET" Call="SwaggerSpec" />
 </Routes>
+}
+
+/// Description
+ClassMethod addWebApp() As %Status
+{
+    Set sc = $$$OK
+    set %response.ContentType=..#CONTENTTYPEJSON
+    set response = {}
+    Try {
+        set payload={}.%FromJSON(%request.Content)
+        ; raise an error if payload is not valid
+        if '$isobject(payload) {
+            set sc = ##class(%Exception.General).%New("Invalid Payload","4001",,
+                             "Payload must be a valid JSON object")
+            throw sc
+        }
+        set webName = payload.webAppName
+        if webName = "" {
+            ; raise on error telling that webAppName is required
+            set response.error = "webAppName is required"
+            do response.%ToJSON()
+            return sc
+        } else {
+            set response.webAppName = webName
+            set webProperties("DispatchClass") = payload.DispatchClass
+            set webProperties("NameSpace") = payload.NameSpace
+            set webProperties("Enabled") =  payload.Enabled
+            set webProperties("AutheEnabled") = payload.AutheEnabled
+            set webProperties("MatchRoles")= payload.MatchRoles
+            set ns = $NAMESPACE
+            zn "%SYS"
+            if ##class(Security.Applications).Exists(webName) {
+                set sc = ##class(Security.Applications).Modify(webName, .webProperties)
+                if sc {
+                    set response.status = "Web application "_webName_" successfully updated"
+                } 
+            } else {
+                set sc = ##class(Security.Applications).Create(webName, .webProperties)
+                if sc {
+                    set response.status = "Web application "_webName_" successfully created"
+                }
+            }
+            if 'sc {
+                set response.status = $system.Status.GetErrorText(sc)
+            }
+            zn ns
+          }
+    }
+    Catch ex {
+        set sc=ex.AsStatus()
+        set response.error = "Error creating web application: "_$system.Status.GetErrorText(sc)
+    }
+    do response.%ToJSON()
+
+    Return sc
 }
 
 ClassMethod GetInfo() As %Status

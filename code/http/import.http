@@ -1,6 +1,7 @@
 ### call REST API /update/import via curl
-curl -u _system:SYS http://localhost:52773/update/import/USER -X POST \
+curl -u _system:SYS http://localhost:52773/update/import -X POST \
   -H "Content-Type: application/json" \
   -d '{
-    "directory": "/data/src" 
+    "namespace": "USER",
+    "directory": "/data/src"
   }' 

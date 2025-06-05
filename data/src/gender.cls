@@ -1,4 +1,4 @@
-Class data.gender Extends (%Persistent, %XML.Adaptor, %JSON.Adaptor)
+Class data.gender Extends (%Persistents, %XML.Adaptor, %JSON.Adaptor)
 {
 
 Property firstname As %String(MAXLEN = 500);

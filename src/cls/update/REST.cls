@@ -13,34 +13,35 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Routes>
 <Route Url="/" Method="GET" Call="version"/>
 <Route Url="/version" Method="GET" Call="version"/>
-<Route Url="/import/:namespace" Method="POST" Call="import"/>
+<Route Url="/import" Method="POST" Call="import"/>
 </Routes>
 }
 
-ClassMethod import(namespace As %String) As %Status
+ClassMethod import() As %Status
 {
     set %response.ContentType=..#CONTENTTYPEJSON
+    set sc = $$$OK
     set response = {}
 	
     set ns = $NAMESPACE
-    if namespace '= "" {
-        set ns = namespace
-    } else {
-        ; raise on error telling that namespace is required
-        set response.error = "Namespace is required"
-        do response.%ToJSON()
-        return
-    }
-    zn namespace
-
+ 
     set payload={}.%FromJSON(%request.Content)
+    set response.namespace=payload.namespace
+    if response.namespace = "" {
+        ; raise on error telling that namespace is required
+        set response.error = "namespace is required"
+        do response.%ToJSON()
+        return sc
+    }
+    
+    zn response.namespace
     set response.directory=payload.directory
     set directory = payload.directory
     if directory = "" {
         ; raise on error telling that directory is required
         set response.error = "directory is required"
         do response.%ToJSON()
-        return
+        return sc
     }
 
     set sc = ##class(%SYSTEM.OBJ).Import(directory,"ck-d",,.errors,.imported)

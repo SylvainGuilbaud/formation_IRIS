@@ -1,0 +1,11 @@
+### call REST API /admin/addwebapp via curl
+curl -u _system:SYS http://localhost:52773/admin/addwebapp -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "webAppName": "/update",
+    "DispatchClass": "update.REST",
+    "NameSpace": "IRISAPP",
+    "Enabled": 1,
+    "AutheEnabled": 32,
+    "MatchRoles": ":%All"
+  }'

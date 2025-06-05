@@ -26,8 +26,8 @@ services:
       - ./jdbc:/jdbc
       - ./iop:/iop
       - ./:/home/irisowner/dev
-      - "/etc/timezone:/etc/timezone:ro"
-      - "/etc/localtime:/etc/localtime:ro"
+      # - "/etc/timezone:/etc/timezone:ro"
+      # - "/etc/localtime:/etc/localtime:ro"
       # - ./src:/app/src
       # - ./:/home/irisowner/dev
       # - ./volumes/irisdata:/irisdata
@@ -35,6 +35,10 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.10
+    environment:
+      # - ISC_DATA_DIRECTORY=/volumes/IRIS
+      # - ISC_CPF_MERGE_FILE=/IRIS/merge.cpf
+      - TZ=Europe/Paris
   notebook:
     # build:
     #   context: ./notebook

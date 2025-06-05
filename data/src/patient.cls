@@ -1,7 +1,7 @@
 Class data.patient Extends Ens.Request
 {
 
-Property lastname As %String [ InitialExpression = {##class(%PopulateUtils).LastName()} ];
+Property lastname As %StringZ [ InitialExpression = {##class(%PopulateUtils).LastName()} ];
 
 Property firstname As %String [ InitialExpression = {##class(%PopulateUtils).FirstName()} ];
 
