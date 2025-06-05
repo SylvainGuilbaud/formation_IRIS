@@ -1,6 +1,6 @@
 /// Use or operation of this code is subject to acceptance of the license available in the code repository for this code.
 /// This sample persistent class represents an employee.<br>
-Class Sample.Employee Extends Person
+Class Sample.Employee Extends Sample.Person
 {
 
 /// The employee's job title.
@@ -18,19 +18,25 @@ Property Picture As %Stream.GlobalBinary;
 /// The company this employee works for.
 Relationship Company As Company [ Cardinality = one, Inverse = Employees ];
 
-/// Writes a .png file containing the picture, if any, of this employee
-/// the purpose of this method is to prove that Picture really contains an image
 Method WritePicture()
 {
+
 	if (..Picture="") {quit}
+
 	set name=$TR(..Name,".") ; strip off trailing period
+
 	set name=$TR(name,", ","__") ; replace commas and spaces
+
 	set filename=name_".png"
-	
+
 	set file=##class(%Stream.FileBinary).%New()
+
 	set file.Filename=filename
+
 	do file.CopyFrom(..Picture)
+
 	do file.%Save()
+
 	write !, "Generated file: "_filename
 }
 

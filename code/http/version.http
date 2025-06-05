@@ -1,0 +1,5 @@
+### call REST API /update/version with basic auth in http header via curl
+curl -u _SYSTEM:SYS http://localhost:52773/update/version
+
+### Alternative ways to call the same REST API
+curl -u interop:SYS http://localhost:52773/update/

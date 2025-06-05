@@ -1,5 +1,4 @@
-Include COMMONMACROS
-
+/// Include COMMONMACROS
 Class admin.REST Extends %CSP.REST
 {
 
@@ -13,7 +12,9 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 {
 <Routes>
 <Route Url="/" Method="GET" Call="version"/>
-<Route Url="/sage" Method="GET" Call="analytics"/>
+<Route Url="/info" Method="GET" Call="GetInfo"/>
+<Route Url="/version" Method="GET" Call="version"/>
+<Route Url="/import/:namespace" Method="POST" Call="import"/>
 <Route Url="/namespaces" Method="GET" Call="GetNamespaces"/>
 <Route Url="/namespace/exist/:namespace" Method="GET" Call="namespaceExists"/>
 <Route Url="/namespace" Method="POST" Call="createNamespace" />
@@ -28,6 +29,87 @@ XData UrlMap [ XMLNamespace = "http://www.intersystems.com/urlmap" ]
 <Route Url="/key" Method="POST" Call="newKey" />
 <Route Url="/_spec" Method="GET" Call="SwaggerSpec" />
 </Routes>
+}
+
+ClassMethod GetInfo() As %Status
+{
+    Set sc = $$$OK
+    #; set %response.ContentType = ..#CONTENTTYPEJSON
+
+    write "{""status"":""ok""}"
+    #; write ["Hello World!"]
+
+    Return sc
+}
+
+ClassMethod import(namespace As %String) As %Status
+{
+    set %response.ContentType=..#CONTENTTYPEJSON
+    set response = {}
+	
+    set ns = $NAMESPACE
+    if namespace '= "" {
+        set ns = namespace
+    } else {
+        ; raise on error telling that namespace is required
+        set response.error = "Namespace is required"
+        do response.%ToJSON()
+        return
+    }
+    zn namespace
+
+    set payload={}.%FromJSON(%request.Content)
+    set response.filename=payload.filename
+    set filename = payload.filename
+    if filename = "" {
+        ; raise on error telling that filename is required
+        set response.error = "Filename is required"
+        do response.%ToJSON()
+        return
+    }
+
+    set sc = ##class(%SYSTEM.OBJ).Import(filename,"ck",,.errors,.exported)
+    if sc {
+        set response.status = sc
+    } else {
+        set response.status = $system.Status.GetErrorText(sc)
+    }
+
+    set response.errors = []
+    set key = ""
+    do {
+        set key = $order(errors(key),1,nb)
+        quit:key=""
+        #; set data = {}
+        #; set data.element = key
+        #; set data.nb = nb 
+        do response.errors.%Push(key_":"_nb)
+    } while key '= ""
+ 
+    set response.errors = [],key = ""
+    #; For  {
+    #;     Set key = $Order(errors(key))
+    #;     Quit:key=""
+    #;     // Ajout de chaque erreur dans la liste JSON
+    #;     Do response.errors.%Push(errors(key))
+    #; }
+
+    set response.imported = [],key = ""
+    do { 
+        set key=$order(errors(key),1,msg) 
+        do response.imported.%Push(key_":"_msg)
+    } while key'=""
+   
+    set key = ""
+    do { 
+        set key=$order(imported(key),1) 
+        do response.imported.%Push(key)
+    } while key'=""
+  
+    
+	do response.%ToJSON()	
+    zn ns
+	return $$$OK
 }
 
 ClassMethod SecurityExport() As %Status
