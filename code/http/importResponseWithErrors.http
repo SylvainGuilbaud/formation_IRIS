@@ -1,23 +1,24 @@
 HTTP/1.1 200 OK
-Date: Thu, 05 Jun 2025 14:10:15 GMT
+Date: Thu, 05 Jun 2025 15:09:02 GMT
 Server: Apache
 CACHE-CONTROL: no-cache
 EXPIRES: Thu, 29 Oct 1998 17:04:19 GMT
 PRAGMA: no-cache
-CONTENT-LENGTH: 470
+CONTENT-LENGTH: 500
 Connection: close
 Content-Type: application/json; charset=UTF-8
 
 {
+  "namespace": "USER",
   "directory": "/data/src",
   "imported": [
     "data.gender.cls",
     "data.patient.cls"
   ],
   "errors": [
-    "1:ERROR #5373: Class '%Library.StringZ', used by 'data.gender:property:value', does not exist",
-    "2:ERROR #5373: Class 'Ens.RequestZ', used by 'data.patient:superclass', does not exist",
-    "3:ERROR #5373: Class '%Library.StringZ', used by 'data.gender:property:value', does not exist"
+    "1:ERROR #5373: Class '%Library.Persistents', used by 'data.gender:superclass', does not exist",
+    "2:ERROR #5373: Class '%Library.StringZ', used by 'data.patient:property:lastname', does not exist",
+    "3:ERROR #5373: Class '%Library.Persistents', used by 'data.gender:superclass', does not exist"
   ],
-  "status": "ERROR #5373: Class '%Library.StringZ', used by 'data.gender:property:value', does not exist"
+  "status": "ERROR #5373: Class '%Library.Persistents', used by 'data.gender:superclass', does not exist"
 }
