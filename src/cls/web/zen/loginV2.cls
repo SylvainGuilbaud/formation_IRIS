@@ -1,4 +1,4 @@
-Class web.zen.loginIRIS Extends %CSP.Login
+Class web.zen.loginV2 Extends %CSP.Login
 {
 
 ClassMethod OnLoginPage() As %Status

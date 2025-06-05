@@ -1,4 +1,4 @@
-Class web.zen.loginIRIS Extends %CSP.Login
+Class web.zen.loginV1 Extends %CSP.Login
 {
 
 ClassMethod OnLoginPage() As %Status
@@ -14,16 +14,16 @@ ClassMethod OnLoginPage() As %Status
 	Set tLogin = $$$GetSysMessage(tLang,..#DOMAIN,"login","LOGIN")
 	Set OtherAutheEnabled = $$OtherAuthEnabled^%SYS.cspServer(%request)
 	&html<<html>>
-	Do ..DrawHEAD("CONNEXION")
+	Do ..DrawHEAD("BONJOUR LE MONDE")
 
 	&html<
 		<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" onload="pageLoad();">
 		<div id="content">>
  
-	Do ..DrawTitle("CONNEXION IRIS")
+	Do ..DrawTitle("BONJOUR")
 
  	&html<
- 	<div style="background-color:darkblue;">
+ 	<div style="background-color:#FBFBFB;">
  	<table border="0" cellpadding="10" align="center" class="LayoutTable">
  	<tr>
 	<td align="center">
@@ -44,12 +44,12 @@ ClassMethod OnLoginPage() As %Status
 	&html<
 	<table class="login" border="0" cellspacing="10" cellpadding="10" >
 	<tr valign="bottom">
-	<td nowrap class="loginCaption">#("code utilisateur Banque Nationale Alzheimer")#</td>
+	<td nowrap class="loginCaption">#("code utilisateur page personnalisée")#</td>
 	<td><input type="text" size="30" name="IRISUsername" autocomplete="off" value="#($ZCVT($get(%request.Data("IRISUsername",1)),"O","HTML"))#"/>
  	</td>
  	</tr>
 	<tr valign="bottom">
-	<td nowrap class="loginCaption">#("mot de passe")#</td>
+	<td nowrap class="loginCaption">#("mot de passe page personnalisée")#</td>
 	<td><input type="password" size="30" name="IRISPassword" autocomplete="off"/>
 	</td>
 	</tr>
