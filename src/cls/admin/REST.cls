@@ -54,11 +54,26 @@ ClassMethod addWebApp() As %Status
             return sc
         } else {
             set response.webAppName = webName
-            set webProperties("DispatchClass") = payload.DispatchClass
+            if payload.DispatchClass '="" {
+                set webProperties("DispatchClass") = payload.DispatchClass
+            } else {
+                set webProperties("AutoCompile") = payload.AutoCompile
+                set webProperties("CSPZENEnabled") = payload.CSPZENEnabled
+                set webProperties("CSRFToken") = payload.CSRFToken
+                set webProperties("CookiePath") = payload.CookiePath
+                set webProperties("IsNameSpaceDefault") = payload.IsNameSpaceDefault
+                set webProperties("Recurse") = payload.Recurse
+                set webProperties("Type") = payload.Type
+            }
             set webProperties("NameSpace") = payload.NameSpace
             set webProperties("Enabled") =  payload.Enabled
             set webProperties("AutheEnabled") = payload.AutheEnabled
             set webProperties("MatchRoles")= payload.MatchRoles
+            if payload.LoginPage '= "" {
+                set webProperties("LoginPage") = payload.LoginPage
+            }
+            
+
             set ns = $NAMESPACE
             zn "%SYS"
             if ##class(Security.Applications).Exists(webName) {

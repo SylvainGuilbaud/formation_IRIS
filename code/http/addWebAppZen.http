@@ -7,7 +7,7 @@ curl -u _system:SYS http://localhost:52773/admin/addwebapp -X POST \
     "Enabled": 1,
     "AutheEnabled": 32,
     "MatchRoles": ":%All",
-    "LoginPage": "/webapp/web.zen.loginIRIS.cls",
+    "LoginPage": "/webapp/web.zen.login.cls",
     "AutoCompile": 1,
     "CSPZENEnabled": 1,
     "CSRFToken": 1,
