@@ -3,9 +3,4 @@ curl -u _system:SYS http://localhost:52773/update/import/USER -X POST \
   -H "Content-Type: application/json" \
   -d '{
     "directory": "/data/src" 
-  }'
-
-
-
-
-
+  }' 

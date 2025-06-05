@@ -1,0 +1,19 @@
+HTTP/1.1 200 OK
+Date: Thu, 05 Jun 2025 14:12:32 GMT
+Server: Apache
+CACHE-CONTROL: no-cache
+EXPIRES: Thu, 29 Oct 1998 17:04:19 GMT
+PRAGMA: no-cache
+CONTENT-LENGTH: 98
+Connection: close
+Content-Type: application/json; charset=UTF-8
+
+{
+  "directory": "/data/src",
+  "imported": [
+    "data.gender.cls",
+    "data.patient.cls"
+  ],
+  "errors": [],
+  "status": 1
+}

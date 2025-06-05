@@ -3,7 +3,7 @@ Class data.gender Extends (%Persistent, %XML.Adaptor, %JSON.Adaptor)
 
 Property firstname As %String(MAXLEN = 500);
 
-Property value As %StringZ;
+Property value As %String;
 
 Property ts As %TimeStamp [ InitialExpression = {$zdt($h,3)} ];
 
