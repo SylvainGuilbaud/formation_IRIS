@@ -147,6 +147,7 @@ services:
       # - ORACLE_PDB=ORCLPDB1
       - ORACLE_PWD=Oracle_123
       - ENABLE_FORCE_LOGGING=true
+      - ORACLE_CHARACTERSET=AL32UTF8
     ports:
       - 1521:1521
     restart: always
