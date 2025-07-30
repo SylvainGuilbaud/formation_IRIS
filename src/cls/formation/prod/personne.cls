@@ -16,10 +16,10 @@ XData ProductionDefinition
   <Item Name="personnes" Category="" ClassName="EnsLib.MsgRouter.RoutingEngine" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="BusinessRuleName">formation.rules.personnes</Setting>
   </Item>
-  <Item Name="to personne SQL" Category="" ClassName="formation.operation.personne" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="to personne SQL" Category="JDBC" ClassName="formation.operation.personne" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Adapter" Name="JGService">JG</Setting>
   </Item>
-  <Item Name="JG" Category="" ClassName="EnsLib.JavaGateway.Service" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  <Item Name="JG" Category="JDBC" ClassName="EnsLib.JavaGateway.Service" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
   </Item>
   <Item Name="from personnes FTP" Category="" ClassName="EnsLib.RecordMap.Service.FTPService" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
     <Setting Target="Host" Name="RecordMap">formation.RM.personne</Setting>
@@ -93,6 +93,13 @@ XData ProductionDefinition
     <Setting Target="Host" Name="BusinessRuleName">projet.routeur.factures</Setting>
   </Item>
   <Item Name="cibles factures" Category="" ClassName="EnsLib.File.PassthroughOperation" PoolSize="1" Enabled="false" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+  </Item>
+  <Item Name="to personne SQL no DSN" Category="JDBC" ClassName="formation.operation.personne" PoolSize="1" Enabled="true" Foreground="false" Comment="" LogTraceEvents="false" Schedule="">
+    <Setting Target="Adapter" Name="JGService">JG</Setting>
+    <Setting Target="Adapter" Name="Credentials">mysql</Setting>
+    <Setting Target="Adapter" Name="DSN">jdbc:mysql://mysql:3306/formation</Setting>
+    <Setting Target="Adapter" Name="JDBCClasspath">/jdbc/mysql-connector-java-8.0.26.jar</Setting>
+    <Setting Target="Adapter" Name="JDBCDriver">com.mysql.cj.jdbc.Driver</Setting>
   </Item>
 </Production>
 }
