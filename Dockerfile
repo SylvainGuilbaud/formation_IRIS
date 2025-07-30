@@ -4,7 +4,7 @@ ARG IMAGE=containers.intersystems.com/intersystems/irishealth-community:latest-e
 # ARG IMAGE=intersystemsdc/irishealth-community:latest
 # ARG IMAGE=intersystemsdc/iris-community:latest
 
-FROM $IMAGE AS builder
+FROM $IMAGE 
 
 USER root
 # # Update package and install sudo
@@ -27,7 +27,6 @@ ENV IRISNAMESPACE=$NAMESPACE
 ENV PYTHON_PATH=/usr/irissys/bin/
 ENV PATH="/usr/irissys/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/irisowner/bin"
 ENV JAVA_HOME=/usr/lib/jvm/adoptopenjdk-8-hotspot-amd64
-ENV PATH=$PATH:$JAVA_HOME/bin
 
 RUN --mount=type=bind,src=.,dst=. \
     python3 -m venv ~/py_envs && \
@@ -42,10 +41,11 @@ RUN --mount=type=bind,src=.,dst=. \
     python3 -m pip install --target /usr/irissys/mgr/python pymongo \
     cp ./swagger-ui/index.html /usr/irissys/csp/swagger-ui/index.html
 
-FROM $IMAGE AS final
-ADD --chown=${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py
-#ADD https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py
+ENV PATH=/home/irisowner/dev/py_envs/bin:$PATH:$JAVA_HOME/bin
+# FROM $IMAGE AS final
+# ADD --chown=${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP} https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py
+# #ADD https://github.com/grongierisc/iris-docker-multi-stage-script/releases/latest/download/copy-data.py /home/irisowner/dev/copy-data.py
 
-RUN --mount=type=bind,source=/,target=/builder/root,from=builder \
-    cp -f /builder/root/usr/irissys/iris.cpf /usr/irissys/iris.cpf && \
-    python3 /home/irisowner/dev/copy-data.py -c /usr/irissys/iris.cpf -d /builder/root/
+# RUN --mount=type=bind,source=/,target=/builder/root,from=builder \
+#     cp -f /builder/root/usr/irissys/iris.cpf /usr/irissys/iris.cpf && \
+#     python3 /home/irisowner/dev/copy-data.py -c /usr/irissys/iris.cpf -d /builder/root/

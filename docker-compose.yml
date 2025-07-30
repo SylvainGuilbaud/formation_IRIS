@@ -8,7 +8,6 @@ services:
   iris:
     build:
       context: .
-      target: final
     restart: always
     container_name: ${iris_container_name}
     hostname: ${iris_container_name}
