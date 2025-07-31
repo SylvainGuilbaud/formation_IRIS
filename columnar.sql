@@ -15,3 +15,4 @@
 
     -- SELECT city
     -- FROM columnar.Address;
+
