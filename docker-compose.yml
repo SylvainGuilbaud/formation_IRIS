@@ -9,8 +9,8 @@ services:
     build:
       context: .
     restart: always
-    container_name: ${iris_container_name}
-    hostname: ${iris_container_name}
+    container_name: ${CONTAINER_NAME}
+    hostname: ${CONTAINER_NAME}
     ports:
       - 12772:1972
       - 52773:52773
@@ -59,7 +59,7 @@ services:
   #   restart: always
   #   pull_policy: always
   #   hostname: jupyter
-  #   container_name: ${iris_container_name}-jupyter
+  #   container_name: ${CONTAINER_NAME}-jupyter
   #   entrypoint: jupyter lab --ip 0.0.0.0 --port 8888 --allow-root --no-browser --notebook-dir=/data/Notebooks --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.disable_check_xsrf=True 
   #   user: root
   #   environment:
@@ -79,7 +79,7 @@ services:
     # command: --default-auth=mysql_native_password
     hostname: mysql
     init: true
-    container_name: ${iris_container_name}-mysql
+    container_name: ${CONTAINER_NAME}-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mysqlpass
       - MYSQL_DATABASE=formation
@@ -93,7 +93,7 @@ services:
       irisnetwork:
         ipv4_address: 172.0.0.11
   postgres:
-    container_name: ${iris_container_name}-postgres
+    container_name: ${CONTAINER_NAME}-postgres
     image: postgres
     environment:
       POSTGRES_PASSWORD: postgres
@@ -113,7 +113,7 @@ services:
         ipv4_address: 172.0.0.12
   ftp_server:
     image: delfer/alpine-ftp-server:latest
-    container_name: ${iris_container_name}-ftp-server
+    container_name: ${CONTAINER_NAME}-ftp-server
     ports:
       - "21:21"
       - "21000-21010:21000-21010"

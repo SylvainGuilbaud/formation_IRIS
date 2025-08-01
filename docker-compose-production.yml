@@ -10,8 +10,8 @@ services:
       context: .
       dockerfile: Dockerfile-production
     restart: always
-    container_name: ${iris_container_name}
-    hostname: ${iris_container_name}
+    container_name: ${CONTAINER_NAME}
+    hostname: ${CONTAINER_NAME}
     ports:
       - 1972:1972
       - 52773:52773
@@ -87,14 +87,14 @@ services:
       irisnetwork:
         ipv4_address: 172.0.0.100
   # webgateway:
-  #   hostname: ${web_container_name}
-  #   container_name: ${web_container_name}
+  #   hostname: ${WEB_GATEWAY_NAME}
+  #   container_name: ${WEB_GATEWAY_NAME}
   #   depends_on:
   #     - iris
   #   image: localhost/intersystems/webgateway-arm64:2022.2.0.372.0
   #   ports:
-  #   - ${web_port_https}:443
-  #   - ${web_port_http}:80
+  #   - ${WEB_GATEWAY_PORT_HTTPS}:443
+  #   - ${IRIS_WEB_PORT_HTTP}:80
   #   environment:
   #     - ISC_DATA_DIRECTORY=/webgateway
   #     - IRIS_USER=CSPsystem
