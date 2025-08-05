@@ -7,6 +7,8 @@ networks:
 services:
   iris:
     build:
+      args:
+        - IMAGE=containers.intersystems.com/intersystems/iris-community:latest-cd
       context: .
     restart: always
     container_name: ${CONTAINER_NAME}
