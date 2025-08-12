@@ -42,7 +42,7 @@
  
  set ^%SYS("sql","ODBCCONNECTION","DATA")=5
  set ^%SYS("sql","ODBCCONNECTION","DATA",1)=$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",2)=$lb("","","oracle","oracle","bKsQDMYXiMVqAY4YJL5h7Q==",0,1,"jdbc:oracle:thin:@host.docker.internal:1521:orcl","oracle.jdbc.driver.OracleDriver","/jdbc/ojdbc11.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+ set ^%SYS("sql","ODBCCONNECTION","DATA",2)=$lb("","","oracle","C##supply","M5yqS5S8qfSg+gG8rzbCM1jx9nVnygTlPft0b74saS0=",0,1,"jdbc:oracle:thin:@host.docker.internal:1521:orcl","oracle.jdbc.driver.OracleDriver","/jdbc/ojdbc11.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
  set ^%SYS("sql","ODBCCONNECTION","DATA",3)=$lb("","","postgres","postgres","6f8eAI5TOg0c3NkS9xnNDA==",0,1,"jdbc:postgresql://postgres:5432/postgres","org.postgresql.Driver","/jdbc/postgresql-42.6.0.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
  set ^%SYS("sql","ODBCCONNECTION","DATA",4)=$lb("","","iris","_system","HnBuSSuEERERntcVPGsUMQ==",0,1,"jdbc:IRIS://127.0.0.1:1972/IRISAPP","com.intersystems.jdbc.IRISDriver","/jdbc/intersystems-jdbc-3.3.1.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
  set ^%SYS("sql","ODBCCONNECTION","DATA",5)=$lb("","","mssql","sa","sfwsrQYWfOEjZXXC5CIsEPSk695//kJ58ulzTRakyqE=",0,1,"jdbc:sqlserver://mssql:1433;databaseName=master;encrypt=false","com.microsoft.sqlserver.jdbc.SQLServerDriver","/jdbc/mssql-jdbc-11.2.1.jre8.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
