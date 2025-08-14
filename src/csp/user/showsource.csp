@@ -1,0 +1,245 @@
+<!-- Copyright (c) 2001 InterSystems Inc. ALL RIGHTS RESERVED. -->
+<csp:class description="Views the source of a CSP page.">
+
+<html>
+<head>
+
+<!-- style sheet for displaying source code -->
+<STYLE type="text/css">
+        .SourceFile {
+		color: black; background: #EEEEEE; font-size: 12pt;
+	}
+
+        .Comment {
+		color: #($get(%request.Data("CMT",1),"green"))#; background: #($get(%request.Data("CMTBG",1),"#BBCCBB"))#; font-weight: bold;
+	}
+
+        .Text {
+	}
+
+        .Tag {
+		color: purple; font-weight: bold;
+	}
+
+        .Attribute {
+		color: black; font-weight: bold;
+	}
+
+        .Value {
+		color: blue; font-weight: bold;
+	}
+
+        .Script {
+		font-family: "Courier,fixed"; font-size: 12pt;
+	}
+
+</STYLE>
+
+<script language=javaScript>
+function showPage()
+{
+	self.document.location="showsource.csp?PAGE=" + self.document.theForm.PAGE.options[self.document.theForm.PAGE.selectedIndex].text;
+}
+</script>
+
+</head>
+
+<body bgcolor=#CCCCFF>
+
+<!-- display standard sample template using a custom tag -->
+<isc:SAMPLE title="CSP Source Viewer">
+This page displays the original source file for a CSP page.
+</isc:SAMPLE>
+
+<form name=theForm>
+<B>Source file for: </B>
+<select name=PAGE onChange='showPage()'>
+<script language=Cache runat=server>
+	New found
+	Set found=..GetFileList(%request.URL)
+</script>
+</select>
+</form>
+
+<hr>
+
+<csp:if condition=$get(%request.Data("PAGE",1))'="">
+
+<csp:if condition=found=0>
+	<!-- For security reasons, only CSP files in the same directory as showsource.csp are permitted to be viewed -->
+	<B>Access to file '#($get(%request.Data("PAGE",1)))#' is not permitted.</B>
+<csp:else>
+<script language=Cache runat=server>
+	Do ..ShowSource($get(%request.Data("PAGE",1)))
+</script>
+</csp:if>
+
+</csp:if>
+
+</body>
+
+<script language=Cache method=ShowSource arguments="page:%String">
+
+	// display the source file for the specified page as HTML
+	New file,sc,len,i,out,state,quote
+	Set file = $$GetFilename^%apiCSP(page)
+
+	If ((page="")!(file="")) {
+		QUIT
+	}
+
+	&html<<table bgcolor=#EEEEEE><tr><td><div class=SourceFile>>
+
+	; colorize & html-ize text
+	New handle,scriptTAG,type,lnum,text,tag,param,closed,utag
+
+	Set sc = $$InputFile^%cspParser(file,.handle)
+
+	If $$$ISERR(sc) {
+		&html<<p>Unable to open source file: <b>#(file)#</b>>
+		QUIT
+	}
+	&html<<nobr>>
+
+	Set scriptTAG = ""
+	Set tag = ""
+
+	While ($$GetToken^%cspParser(.handle,scriptTAG,.type,.lnum,.text,.tag,.param,.closed)) {
+
+		Set utag=$zcvt(tag,"U")
+		If (scriptTAG'="")&(type'="SCR") {
+			Set scriptTAG = ""
+		}
+		If (type="TAG") {
+			If ((utag="STYLE")!(utag="SCRIPT")!(utag="SERVER")!(utag="CSP:METHOD")) {
+				Set scriptTAG = utag
+			}
+			Write "&lt;<span class=Tag>",tag,"</span>"
+			Set p=$O(param(""))
+			While (p'="") {
+				Write " <span class=Attribute>",p,"</span>"
+				If $D(param(p,"value")) {
+					Set quote=..EscapeHTML(param(p,"quote"))
+					Write "=<span class=Value>",quote
+					Do ..WriteQuotedText(param(p,"value"))
+					Write quote,"</span>"
+				}
+				Set p = $O(param(p))
+			}
+			If closed {
+				Write "<span class=Tag>/</span>"
+			}
+			Write "&gt;"
+		}
+		Elseif (type="CMT") {
+			Write "<span class=Comment>&lt;"
+			Do ..WriteQuotedText($E(text,2,$L(text)-1))
+			Write "&gt;</span>"
+		}
+		Elseif (type="SCR") {
+			Write "<span class=Script>"
+			Do ..WriteQuotedText(text)
+			Write "</span>"
+		}
+		Else {
+			Write "<span class=Text>"
+			Do ..WriteQuotedText(text)
+			Write "</span>"
+		}
+
+		Kill param  // clear param array
+	}
+
+	&html<</nobr></div></td></tr></table><hr>>
+	QUIT
+</script>
+
+<script language=Cache method=WriteQuotedText arguments=text:%String>
+	// write out 'text' as quoted HTML
+	New i,c
+
+	For i=1:1:$L(text) {
+		Set c=$E(text,i,i)
+		If (c=$C(9)) {
+			Write "&nbsp;&nbsp;&nbsp;&nbsp;"
+		}
+		Elseif (c=" ") {
+			Write "&nbsp;"
+		}
+		Elseif (c="&") {
+			Write "&amp;"
+		}
+		Elseif (c=$C(60)) {
+			Write "&lt;"
+		}
+		Elseif (c=$C(62)) {
+			Write "&gt;"
+		}
+		Elseif (c="""") {
+			Write "&quot;"
+		}
+		Elseif (c=$C(13)) {
+			Write "</nobr><br><nobr>",$C(13,10)
+		}
+		Elseif (c=$C(10)) {
+			Write ""
+		}
+		Else {
+			Write c
+		}
+	}
+	QUIT
+</script>
+
+<script language=Cache method=GetFileList arguments="sspath:%String" returntype=%Boolean>
+
+	New dir,dirlen,rs,file,found,page,list,subdir
+
+	Set sspath = $$$NormalizeFilename(sspath)
+	Set dir = $$GetFilename^%apiCSP(sspath)
+	If $$$isWINDOWS Set dir = $translate(dir,"\","/")
+	If $$$isVMS {
+		Set dir = $piece(dir,"]")_"]"
+	} Else {
+		Set dir = $piece(dir,"/",1,$length(dir,"/")-1)
+	}
+	Set dirlen = $length(dir)
+	Set page = $get(%request.Data("PAGE",1))
+	Set page = $$$NormalizeFilename(page)
+
+	Set found = 0
+	Set subdir = $piece(sspath,"/",1,$length(sspath,"/")-1)
+
+	// get list of files via result set
+	Set rs = ##class(%ResultSet).%New("%File.FileSet")
+	Do rs.Execute(dir,"*.cs?")
+
+	While (rs.Next()) {
+		If (rs.GetData(2)'="D") {
+			Set file = rs.GetData(1)
+			Set file = $translate(subdir _ $extract(file,dirlen+1,$length(file)),"\","/")
+			If ($$$NormalizeFilename(file)=page) {
+				Set found = 1
+			}
+			Set list(file) = ($ZConvert(file,"l")=page)
+		}
+	}
+
+	If (found=0) {
+		&html<<option selected></option>>
+	}
+
+	Set file = $o(list("")) // find first file
+	While (file'="") {
+		If (list(file)) {
+			&html<<option selected>#(file)#</option>>
+		} Else {
+			&html<<option>#(file)#</option>>
+		}
+		Set file = $o(list(file)) // find next file
+	}
+
+	Quit found
+</script>
+
+</html>

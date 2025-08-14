@@ -19,8 +19,10 @@ services:
       - 13773:53773
     command: --check-caps false
     # command: --key /key/iris.key
-    # environment:
-    #   - ISC_DATA_DIRECTORY=/irisdata
+    environment:
+      - ISC_DATA_DIRECTORY=/irisdata
+      # - ISC_CPF_MERGE_FILE=/IRIS/merge.cpf
+      - TZ=Europe/Paris
     volumes:
       - ./data:/data
       - ./code:/code
@@ -36,10 +38,7 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.10
-    environment:
-      # - ISC_DATA_DIRECTORY=/volumes/IRIS
-      # - ISC_CPF_MERGE_FILE=/IRIS/merge.cpf
-      - TZ=Europe/Paris
+ 
   notebook:
     # build:
     #   context: ./notebook

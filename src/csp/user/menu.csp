@@ -1,0 +1,109 @@
+<!-- Copyright (c) 2001 InterSystems Inc. ALL RIGHTS RESERVED. -->
+<csp:class description="Provides this menu of available sample pages">
+<html>
+<head>
+</head>
+<body bgcolor="#3e3e9a43">
+
+<!-- display standard sample template using a custom tag -->
+<isc:SAMPLE title="CSP Samples Menu">
+This page displays a list of available CSP pages within the same
+directory.
+</isc:SAMPLE>
+
+<script language="Cache" runat="server">
+	// invoke method to list pages in this directory
+	Do ..ListFiles()
+</script>
+
+</body>
+
+<script language="Cache" method="ListFiles" arguments="">
+ 	// list all the csp files in the directory as a menu
+ 	New file,rs,dir,menupath,subdir,list,page,description,url
+	If $get(%request.CgiEnvs("SERVER_NAME"))'="" {
+		Set url="//"_%request.CgiEnvs("SERVER_NAME")_%request.URL
+	} Else {
+		Set url=%request.URL
+	}
+
+ 	Set dir = $$GetFilename^%apiCSP(url)
+ 	If $$$isWINDOWS Set dir = $translate(dir,"\","/")
+ 	If $$$isVMS {
+ 		Set dir = $piece(dir,"]")_"]"
+ 	} Else {
+ 		Set dir = $piece(dir,"/",1,$length(dir,"/")-1)
+ 	}
+ 	Set menupath = $translate(url,"\","/")
+ 	Set subdir = $piece(menupath,"/",1,$length(menupath,"/")-1)_"/"
+ 
+ 	// misc info
+ 	&html<<P>CSP Samples Directory: <B>#(subdir)#</B>>
+ 	If $extract(subdir,1,2)="//" Set subdir="/"_$piece(subdir,"/",4,32767)
+ 	&html<<hr>>
+ 	&html<<P>Choose a sample page to run from the following list:<BR><BR>>
+ 
+ 	// get list of files via result set
+ 	Set rs=##class(%ResultSet).%New("%File.FileSet")
+ 	Do rs.Execute(dir,"*.csp")
+ 
+ 	// first get list of files into local array to sort
+ 	While (rs.Next()) {
+ 		Set file = rs.GetData(1)
+ 		if $$$isVMS {
+ 			Set page = $zconvert($piece($piece(file,"]",2),";"),"l")
+ 		} else {
+ 			Set file = $TR(file,"\","/")
+ 			Set page = $p(file,"/",$l(file,"/")) ; get page name
+ 		}
+ 
+ 		// get description from the class page is compiled into
+ 		Set description = ..GetCSPDescription($$CSPClassName^%apiCSP(page,url))
+ 		If $E(description,1,8)="PRIVATE:" {
+ 			Set list(page,"Link")=0
+ 			Set list(page)=$E(description,9,32700)
+ 		} else {
+ 			Set list(page) = description
+ 			Set list(page,"Link")=1
+ 		}
+ 	}
+ 
+ 	// now show files in a table with links
+ 	&html<<table cellpadding=5 border=1>>
+ 	&html<<tr><th align=left><B>Page</B></th><th align=left><B>Description</B></th><th align=left>&nbsp;</th></tr>>
+ 
+ 	Set row = 0
+ 	Set file = $O(list(""))
+ 
+ 	While (file '= "") {
+ 		Set row=row+1
+ 		&html<<tr CLASS=#($S(row#2:"DarkRow",1:"LightRow"))#>>
+ 		If list(file,"Link") {
+ 			&html<<td><A HREF='#(..Link(file))#'><b>#(file)#</b></A></td>>
+ 		} else {
+ 			&html<<td>#(file)#</td>>
+ 		}
+ 		&html<<td CLASS=Small>#(list(file))#</td>
+ 			<td CLASS=Small><A HREF='#(..Link("showsource.csp?PAGE="_subdir_file))#'>Source</A></td></tr>>
+ 		Set file=$O(list(file))
+ 	}
+ 
+ 	&html<</table>>
+ 
+ 	QUIT
+</script>
+
+<script language="Cache" method="GetCSPDescription" arguments="name:%String" returntype="%String">
+	New description
+	If name="" Quit ""
+	Set description = $$$defClassKeyGet(name,$$$cCLASSdescription)
+	If description = "" Set description = %response.GetText("","%CSP","NoDescription","Description not available until page compiled")
+	If $zcvt($E(description,1,7),"U")="TEXTID=" {
+		// Special localized comment for sample pages
+		Set description=%response.GetText("","",$P($P(description,"=",2),",",1),$P(description,",",2,$L(description,",")))
+	}
+		
+	Quit description
+</script>
+
+</html>

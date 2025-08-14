@@ -9,6 +9,7 @@
       "internalPort": 52773
     },
     "links": {
+      "menu": "http://${host}:${port}/csp/user/menu.csp",
       "Notebook": "http://localhost:58888",
       "terminal": "http://${host}:${port}/terminal/",
       "monitor metrics": "http://${host}:${port}/api/monitor/metrics",

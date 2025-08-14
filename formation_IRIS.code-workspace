@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"name": "formation_IRIS:IRISAPP",
+			"uri": "isfs://formation_iris:irisapp/csp/irisapp?csp"
+		},
+		{
+			"name": "formation_IRIS:USER",
+			"uri": "isfs://formation_iris:user/csp/user?csp"
+		}
+	],
+	"settings": {
+		"sqltools.connections": [
+			{
+				"namespace": "IRISAPP",
+				"connectionMethod": "Server and Port",
+				"showSystem": false,
+				"previewLimit": 50,
+				"server": "localhost",
+				"port": 52773,
+				"askForPassword": false,
+				"driver": "InterSystems IRIS",
+				"name": "IRISAPP",
+				"username": "_SYSTEM",
+				"password": "SYS"
+			}
+		]
+	}
+}
