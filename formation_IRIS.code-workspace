@@ -1,14 +1,15 @@
 {
 	"folders": [
 		{
+			"name": "formation_IRIS",
 			"path": "."
 		},
 		{
-			"name": "formation_IRIS:IRISAPP",
+			"name": "formation_IRIS:IRISAPP CSP Pages",
 			"uri": "isfs://formation_iris:irisapp/csp/irisapp?csp"
 		},
 		{
-			"name": "formation_IRIS:USER",
+			"name": "formation_IRIS:USER CSP Pages",
 			"uri": "isfs://formation_iris:user/csp/user?csp"
 		}
 	],
@@ -27,6 +28,9 @@
 				"username": "_SYSTEM",
 				"password": "SYS"
 			}
-		]
+		],
+		"objectscript.conn": {
+			"active": true
+		}
 	}
 }

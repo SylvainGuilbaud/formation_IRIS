@@ -7,6 +7,8 @@ Parameter REPORTERRORS = 1;
 
 Parameter TREATEMPTYREPEATINGFIELDASNULL = 0;
 
+Parameter GENERATEEMPTYSEGMENTS = 0;
+
 XData DTL [ XMLNamespace = "http://www.intersystems.com/dtl" ]
 {
 <transform sourceClass='formation.RM.personne.Record' targetClass='formation.RM.personne.Record' create='existing' language='objectscript' >
