@@ -40,18 +40,68 @@
  
  set ^SYS("Security","SSLConfigsD","API")	=	$lb("","","","","ALL:!aNULL:!eNULL:!EXP:!SSLv2","",1,"API","","",2,"",0,9,0,"","",32,16,"TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:TLS_AES_128_GCM_SHA256",0,"","","",0,2,0,1)
  
- set ^%SYS("sql","ODBCCONNECTION","DATA")=5
- set ^%SYS("sql","ODBCCONNECTION","DATA",1)=$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",2)=$lb("","","oracle","C##supply","M5yqS5S8qfSg+gG8rzbCM1jx9nVnygTlPft0b74saS0=",0,1,"jdbc:oracle:thin:@host.docker.internal:1521:orcl","oracle.jdbc.driver.OracleDriver","/jdbc/ojdbc11.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",3)=$lb("","","postgres","postgres","6f8eAI5TOg0c3NkS9xnNDA==",0,1,"jdbc:postgresql://postgres:5432/postgres","org.postgresql.Driver","/jdbc/postgresql-42.6.0.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",4)=$lb("","","iris","_system","HnBuSSuEERERntcVPGsUMQ==",0,1,"jdbc:IRIS://127.0.0.1:1972/IRISAPP","com.intersystems.jdbc.IRISDriver","/jdbc/intersystems-jdbc-3.3.1.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
- set ^%SYS("sql","ODBCCONNECTION","DATA",5)=$lb("","","mssql","sa","sfwsrQYWfOEjZXXC5CIsEPSk695//kJ58ulzTRakyqE=",0,1,"jdbc:sqlserver://mssql:1433;databaseName=master;encrypt=false","com.microsoft.sqlserver.jdbc.SQLServerDriver","/jdbc/mssql-jdbc-11.2.1.jre8.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+   set oracle = ##class(%Library.SQLConnection).%New()   
+   set oracle.Name = "oracle"
+   set oracle.URL = "jdbc:oracle:thin:@//oracle:1521/free"
+   set oracle.classpath = "/jdbc/ojdbc8.jar"
+   set oracle.driver = "oracle.jdbc.OracleDriver"
+   set oracle.Usr = "C##supply"
+   set oracle.pwd = "supply_pwd"
+   set oracle.isJDBC = 1
+   set sc = oracle.%Save()
 
- set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MYSQL",1)=""
- set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," ORACLE",2)=""
- set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," POSTGRES",3)=""
- set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," IRIS",4)=""
- set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MSSQL",5)=""
+   set mysql = ##class(%Library.SQLConnection).%New()   
+   set mysql.Name = "mysql"
+   set mysql.URL = "jdbc:mysql://host.docker.internal:3306/formation"
+   set mysql.classpath = "/jdbc/mysql-connector-java-8.0.26.jar"
+   set mysql.driver = "com.mysql.cj.jdbc.Driver"
+   set mysql.Usr = "formation"
+   set mysql.pwd = "formation"
+   set mysql.isJDBC = 1
+   set sc = mysql.%Save()
+
+   set postgresql = ##class(%Library.SQLConnection).%New()   
+   set postgresql.Name = "postgresql"
+   set postgresql.URL = "jdbc:postgresql://postgres:5432/postgres"
+   set postgresql.classpath = "/jdbc/postgresql-42.6.0.jar"
+   set postgresql.driver = "org.postgresql.Driver"
+   set postgresql.Usr = "postgres"
+   set postgresql.pwd = "postgres"
+   set postgresql.isJDBC = 1
+   set sc = postgresql.%Save()
+
+   set iris = ##class(%Library.SQLConnection).%New()   
+   set iris.Name = "iris"
+   set iris.URL = "jdbc:IRIS://127.0.0.1:1972/IRISAPP"
+   set iris.classpath = "/jdbc/intersystems-jdbc-3.3.1.jar"
+   set iris.driver = "com.intersystems.jdbc.IRISDriver"
+   set iris.Usr = "_system"
+   set iris.pwd = "SYS"
+   set iris.isJDBC = 1
+   set sc = iris.%Save()
+
+   set mssql = ##class(%Library.SQLConnection).%New()   
+   set mssql.Name = "mssql"
+   set mssql.URL = "jdbc:sqlserver://mssql:1433;databaseName=master;encrypt=false"
+   set mssql.classpath = "/jdbc/mssql-jdbc-11.2.1.jre8.jar"
+   set mssql.driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+   set mssql.Usr = "sa"
+   set mssql.pwd = "sa"
+   set mssql.isJDBC = 1
+   set sc = mssql.%Save()
+
+#;  set ^%SYS("sql","ODBCCONNECTION","DATA")=5
+#;  set ^%SYS("sql","ODBCCONNECTION","DATA",1)=$lb("","","mysql","formation","XKVFJaLViXIivSMPXT5kxEXtRKAfc1tGqSZOPNH3Hfw=",0,1,"jdbc:mysql://host.docker.internal:3306/formation","com.mysql.cj.jdbc.Driver","/jdbc/mysql-connector-java-8.0.26.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+#;  set ^%SYS("sql","ODBCCONNECTION","DATA",2)=$lb("","","oracle","C##supply","M5yqS5S8qfSg+gG8rzbCM1jx9nVnygTlPft0b74saS0=",0,1,"jdbc:oracle:thin:@host.docker.internal:1521:orcl","oracle.jdbc.driver.OracleDriver","/jdbc/ojdbc11.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+#;  set ^%SYS("sql","ODBCCONNECTION","DATA",3)=$lb("","","postgres","postgres","6f8eAI5TOg0c3NkS9xnNDA==",0,1,"jdbc:postgresql://postgres:5432/postgres","org.postgresql.Driver","/jdbc/postgresql-42.6.0.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+#;  set ^%SYS("sql","ODBCCONNECTION","DATA",4)=$lb("","","iris","_system","HnBuSSuEERERntcVPGsUMQ==",0,1,"jdbc:IRIS://127.0.0.1:1972/IRISAPP","com.intersystems.jdbc.IRISDriver","/jdbc/intersystems-jdbc-3.3.1.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+#;  set ^%SYS("sql","ODBCCONNECTION","DATA",5)=$lb("","","mssql","sa","sfwsrQYWfOEjZXXC5CIsEPSk695//kJ58ulzTRakyqE=",0,1,"jdbc:sqlserver://mssql:1433;databaseName=master;encrypt=false","com.microsoft.sqlserver.jdbc.SQLServerDriver","/jdbc/mssql-jdbc-11.2.1.jre8.jar","",0,"",0,0,1,0,0,0,"",0,0,"")
+
+#;  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MYSQL",1)=""
+#;  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," ORACLE",2)=""
+#;  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," POSTGRES",3)=""
+#;  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," IRIS",4)=""
+#;  set ^%SYS("sql","ODBCCONNECTION","INDEX","NameIndex"," MSSQL",5)=""
 
  set webName = "/common"
  write "Create web application ...",webName
