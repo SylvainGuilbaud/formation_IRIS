@@ -1,5 +1,4 @@
 {
-
   "objectscript.conn" :{
     "ns": "IRISAPP",
     "active": true,
@@ -41,6 +40,4 @@
       "password": "SYS"
     }
   ]
-  
-
 }
