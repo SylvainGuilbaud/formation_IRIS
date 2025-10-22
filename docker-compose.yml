@@ -93,25 +93,25 @@ services:
     networks:
       irisnetwork:
         ipv4_address: 172.0.0.11
-  postgres:
-    container_name: ${CONTAINER_NAME}-postgres
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - ./src/sql/postgreSQL:/docker-entrypoint-initdb.d/
-      - ./volumes/postgreSQL:/var/lib/postgresql/data
-    ports:
-      - 5432:5432
-    restart: unless-stopped
-    healthcheck:
-        test: ["CMD", "pg_isready", "-U", "postgres"]
-        interval: 30s
-        timeout: 30s
-        retries: 3  
-    networks:
-      irisnetwork:
-        ipv4_address: 172.0.0.12
+  # postgres:
+  #   container_name: ${CONTAINER_NAME}-postgres
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_PASSWORD: postgres
+  #   volumes:
+  #     - ./src/sql/postgreSQL:/docker-entrypoint-initdb.d/
+  #     - ./volumes/postgreSQL:/var/lib/postgresql/data
+  #   ports:
+  #     - 5432:5432
+  #   restart: unless-stopped
+  #   healthcheck:
+  #       test: ["CMD", "pg_isready", "-U", "postgres"]
+  #       interval: 30s
+  #       timeout: 30s
+  #       retries: 3  
+  #   networks:
+  #     irisnetwork:
+  #       ipv4_address: 172.0.0.12
   ftp_server:
     image: delfer/alpine-ftp-server:latest
     container_name: ${CONTAINER_NAME}-ftp-server
